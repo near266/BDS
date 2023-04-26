@@ -1,4 +1,4 @@
-# real_estate
+# Be-AIO
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.eztek.net/eztek/real_estate.git
+git remote add origin https://gitlab.com/ez-landscape/ez-poc/be-aio.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.eztek.net/eztek/real_estate/-/settings/integrations)
+- [ ] [Set up project integrations](https://gitlab.com/ez-landscape/ez-poc/be-aio/-/settings/integrations)
 
 ## Collaborate with your team
 

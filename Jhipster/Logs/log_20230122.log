@@ -1,0 +1,740 @@
+[2023-01-22 01:18:01.022 +07:00] [ ] [DBG] Hosting starting
+[2023-01-22 01:18:01.149 +07:00] [ ] [INF] User profile is available. Using '"/Users/user/.aspnet/DataProtection-Keys"' as key repository; keys will not be encrypted at rest.
+[2023-01-22 01:18:01.183 +07:00] [ ] [DBG] Reading data from file '"/Users/user/.aspnet/DataProtection-Keys/key-4a7725d1-b9da-43c3-af85-4ef94ddf2737.xml"'.
+[2023-01-22 01:18:01.187 +07:00] [ ] [DBG] Reading data from file '"/Users/user/.aspnet/DataProtection-Keys/key-672d2272-f08f-4cc8-aa0b-1f64c37a5961.xml"'.
+[2023-01-22 01:18:01.188 +07:00] [ ] [DBG] Reading data from file '"/Users/user/.aspnet/DataProtection-Keys/key-6d230235-e69e-4c32-b96b-dfc503082842.xml"'.
+[2023-01-22 01:18:01.189 +07:00] [ ] [DBG] Reading data from file '"/Users/user/.aspnet/DataProtection-Keys/key-42b33cd0-3dfd-4f66-af13-4ce98638e64b.xml"'.
+[2023-01-22 01:18:01.195 +07:00] [ ] [DBG] Found key {4a7725d1-b9da-43c3-af85-4ef94ddf2737}.
+[2023-01-22 01:18:01.198 +07:00] [ ] [DBG] Found key {672d2272-f08f-4cc8-aa0b-1f64c37a5961}.
+[2023-01-22 01:18:01.198 +07:00] [ ] [DBG] Found key {6d230235-e69e-4c32-b96b-dfc503082842}.
+[2023-01-22 01:18:01.198 +07:00] [ ] [DBG] Found key {42b33cd0-3dfd-4f66-af13-4ce98638e64b}.
+[2023-01-22 01:18:01.205 +07:00] [ ] [DBG] Considering key {4a7725d1-b9da-43c3-af85-4ef94ddf2737} with expiration date 2023-04-05 04:40:11Z as default key.
+[2023-01-22 01:18:01.207 +07:00] [ ] [DBG] Forwarded activator type request from "Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" to "Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+[2023-01-22 01:18:01.228 +07:00] [ ] [DBG] Using managed symmetric algorithm '"System.Security.Cryptography.Aes"'.
+[2023-01-22 01:18:01.229 +07:00] [ ] [DBG] Using managed keyed hash algorithm '"System.Security.Cryptography.HMACSHA256"'.
+[2023-01-22 01:18:01.236 +07:00] [ ] [DBG] Using key {4a7725d1-b9da-43c3-af85-4ef94ddf2737} as the default key.
+[2023-01-22 01:18:01.236 +07:00] [ ] [DBG] Key ring with default key {4a7725d1-b9da-43c3-af85-4ef94ddf2737} was loaded during application startup.
+[2023-01-22 01:18:01.523 +07:00] [ ] [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+[2023-01-22 01:18:01.708 +07:00] [ ] [DBG] Initializing Razor view compiler with no compiled views.
+[2023-01-22 01:18:01.722 +07:00] [ ] [DBG] Registered model binder providers, in the following order: ["JHipsterNet.Web.Pagination.Binders.PageableBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+[2023-01-22 01:18:02.451 +07:00] [ ] [DBG] The index "{'UserId'}" was not created on entity type '"UserRole"' as the properties are already covered by the index "{'UserId', 'RoleId'}".
+[2023-01-22 01:18:02.451 +07:00] [ ] [DBG] The index "{'UserId'}" was not created on entity type '"IdentityUserToken<string>"' as the properties are already covered by the index "{'UserId', 'LoginProvider', 'Name'}".
+[2023-01-22 01:18:02.541 +07:00] [ ] [WRN] The foreign key property '"UserRole"."UserId1"' was created in shadow state because a conflicting property with the simple name '"UserId"' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+[2023-01-22 01:18:02.751 +07:00] [ ] [INF] Entity Framework Core "6.0.10" initialized '"ApplicationDatabaseContext"' using provider '"Npgsql.EntityFrameworkCore.PostgreSQL":"6.0.7+5b98e4b74de93b590b44aef8dd7967c03acc433c"' with options: "None"
+[2023-01-22 01:18:02.829 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:03.138 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:03.145 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:03.219 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:03.223 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:03.233 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:03.241 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteScalar"'.
+[2023-01-22 01:18:03.249 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteScalar"' (3ms).
+[2023-01-22 01:18:03.258 +07:00] [ ] [DBG] Executing DbCommand [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""
+SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+FROM pg_class AS cls
+JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+WHERE
+        cls.relkind IN ('r', 'v', 'm', 'f', 'p') AND
+        ns.nspname NOT IN ('pg_catalog', 'information_schema') AND
+        -- Exclude tables which are members of PG extensions
+        NOT EXISTS (
+            SELECT 1 FROM pg_depend WHERE
+                classid=(
+                    SELECT cls.oid
+                    FROM pg_class AS cls
+                             JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+                    WHERE relname='pg_class' AND ns.nspname='pg_catalog'
+                ) AND
+                objid=cls.oid AND
+                deptype IN ('e', 'x')
+        )"
+[2023-01-22 01:18:03.355 +07:00] [ ] [INF] Executed DbCommand ("99"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""
+SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+FROM pg_class AS cls
+JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+WHERE
+        cls.relkind IN ('r', 'v', 'm', 'f', 'p') AND
+        ns.nspname NOT IN ('pg_catalog', 'information_schema') AND
+        -- Exclude tables which are members of PG extensions
+        NOT EXISTS (
+            SELECT 1 FROM pg_depend WHERE
+                classid=(
+                    SELECT cls.oid
+                    FROM pg_class AS cls
+                             JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+                    WHERE relname='pg_class' AND ns.nspname='pg_catalog'
+                ) AND
+                objid=cls.oid AND
+                deptype IN ('e', 'x')
+        )"
+[2023-01-22 01:18:03.358 +07:00] [ ] [DBG] '"ApplicationDatabaseContext"' disposed.
+[2023-01-22 01:18:03.426 +07:00] [ ] [INF] Entity Framework Core "6.0.10" initialized '"ApplicationDatabaseContext"' using provider '"Npgsql.EntityFrameworkCore.PostgreSQL":"6.0.7+5b98e4b74de93b590b44aef8dd7967c03acc433c"' with options: "None"
+[2023-01-22 01:18:03.513 +07:00] [ ] [DBG] Compiling query expression: "
+"'"DbSet<Role>()
+    .FirstOrDefault(r => r.NormalizedName == __normalizedName_0)"'
+[2023-01-22 01:18:03.836 +07:00] [ ] [DBG] Generated query execution expression: "
+"'"queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<Role>(
+    asyncEnumerable: new SingleQueryingEnumerable<Role>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.SelectExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: Role.Id (string) Required PK AfterSave:Throw, 0], [Property: Role.ConcurrencyStamp (string) Concurrency, 1], [Property: Role.Name (string) MaxLength(256), 2], [Property: Role.NormalizedName (string) Index MaxLength(256), 3] }
+            SELECT TOP(1) r.Id, r.ConcurrencyStamp, r.Name, r.NormalizedName
+            FROM Roles AS r
+            WHERE r.NormalizedName == @__normalizedName_0), 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, Role>, 
+        Jhipster.Infrastructure.Data.ApplicationDatabaseContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)"'
+[2023-01-22 01:18:03.893 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:03.893 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:03.902 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:03.903 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:03.908 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedName_0
+LIMIT 1"
+[2023-01-22 01:18:03.936 +07:00] [ ] [INF] Executed DbCommand ("32"ms) [Parameters=["@__normalizedName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedName_0
+LIMIT 1"
+[2023-01-22 01:18:03.974 +07:00] [ ] [DBG] Context '"ApplicationDatabaseContext"' started tracking '"Role"' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.001 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.007 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.008 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.014 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.014 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.014 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.014 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.014 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedName_0
+LIMIT 1"
+[2023-01-22 01:18:04.021 +07:00] [ ] [INF] Executed DbCommand ("7"ms) [Parameters=["@__normalizedName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedName_0
+LIMIT 1"
+[2023-01-22 01:18:04.021 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.021 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.021 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.042 +07:00] [ ] [DBG] An entity of type '"Role"' tracked by '"ApplicationDatabaseContext"' changed state from 'Unchanged' to 'Modified'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.047 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.058 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.065 +07:00] [ ] [DBG] SaveChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.065 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.065 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.086 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.086 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.088 +07:00] [ ] [DBG] Beginning transaction with isolation level '"Unspecified"'.
+[2023-01-22 01:18:04.097 +07:00] [ ] [DBG] Began transaction with isolation level '"ReadCommitted"'.
+[2023-01-22 01:18:04.144 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.144 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.145 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@p3='?', @p0='?', @p4='?', @p1='?', @p2='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Roles\" SET \"ConcurrencyStamp\" = @p0, \"Name\" = @p1, \"NormalizedName\" = @p2
+WHERE \"Id\" = @p3 AND \"ConcurrencyStamp\" = @p4;"
+[2023-01-22 01:18:04.151 +07:00] [ ] [INF] Executed DbCommand ("6"ms) [Parameters=["@p3='?', @p0='?', @p4='?', @p1='?', @p2='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Roles\" SET \"ConcurrencyStamp\" = @p0, \"Name\" = @p1, \"NormalizedName\" = @p2
+WHERE \"Id\" = @p3 AND \"ConcurrencyStamp\" = @p4;"
+[2023-01-22 01:18:04.155 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.161 +07:00] [ ] [DBG] Committing transaction.
+[2023-01-22 01:18:04.187 +07:00] [ ] [DBG] Committed transaction.
+[2023-01-22 01:18:04.193 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.193 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.197 +07:00] [ ] [DBG] Disposing transaction.
+[2023-01-22 01:18:04.202 +07:00] [ ] [DBG] An entity of type '"Role"' tracked by '"ApplicationDatabaseContext"' changed state from 'Modified' to 'Unchanged'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.205 +07:00] [ ] [DBG] SaveChanges completed for '"ApplicationDatabaseContext"' with 1 entities written to the database.
+[2023-01-22 01:18:04.207 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.207 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.207 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.207 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.207 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedName_0
+LIMIT 1"
+[2023-01-22 01:18:04.213 +07:00] [ ] [INF] Executed DbCommand ("6"ms) [Parameters=["@__normalizedName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedName_0
+LIMIT 1"
+[2023-01-22 01:18:04.214 +07:00] [ ] [DBG] Context '"ApplicationDatabaseContext"' started tracking '"Role"' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.214 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.214 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.214 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.214 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.214 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.214 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.214 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.214 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedName_0
+LIMIT 1"
+[2023-01-22 01:18:04.219 +07:00] [ ] [INF] Executed DbCommand ("5"ms) [Parameters=["@__normalizedName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedName_0
+LIMIT 1"
+[2023-01-22 01:18:04.219 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.219 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.219 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.219 +07:00] [ ] [DBG] An entity of type '"Role"' tracked by '"ApplicationDatabaseContext"' changed state from 'Unchanged' to 'Modified'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.219 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.223 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.223 +07:00] [ ] [DBG] SaveChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.223 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.223 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.223 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.223 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.223 +07:00] [ ] [DBG] Beginning transaction with isolation level '"Unspecified"'.
+[2023-01-22 01:18:04.223 +07:00] [ ] [DBG] Began transaction with isolation level '"ReadCommitted"'.
+[2023-01-22 01:18:04.224 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.224 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.224 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@p3='?', @p0='?', @p4='?', @p1='?', @p2='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Roles\" SET \"ConcurrencyStamp\" = @p0, \"Name\" = @p1, \"NormalizedName\" = @p2
+WHERE \"Id\" = @p3 AND \"ConcurrencyStamp\" = @p4;"
+[2023-01-22 01:18:04.230 +07:00] [ ] [INF] Executed DbCommand ("6"ms) [Parameters=["@p3='?', @p0='?', @p4='?', @p1='?', @p2='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Roles\" SET \"ConcurrencyStamp\" = @p0, \"Name\" = @p1, \"NormalizedName\" = @p2
+WHERE \"Id\" = @p3 AND \"ConcurrencyStamp\" = @p4;"
+[2023-01-22 01:18:04.230 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.230 +07:00] [ ] [DBG] Committing transaction.
+[2023-01-22 01:18:04.241 +07:00] [ ] [DBG] Committed transaction.
+[2023-01-22 01:18:04.241 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.241 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.241 +07:00] [ ] [DBG] Disposing transaction.
+[2023-01-22 01:18:04.241 +07:00] [ ] [DBG] An entity of type '"Role"' tracked by '"ApplicationDatabaseContext"' changed state from 'Modified' to 'Unchanged'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.241 +07:00] [ ] [DBG] SaveChanges completed for '"ApplicationDatabaseContext"' with 1 entities written to the database.
+[2023-01-22 01:18:04.254 +07:00] [ ] [DBG] Compiling query expression: "
+"'"DbSet<User>()
+    .FirstOrDefault(e => EF.Property<string>(e, \"Id\") == __p_0)"'
+[2023-01-22 01:18:04.271 +07:00] [ ] [DBG] Generated query execution expression: "
+"'"queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<User>(
+    asyncEnumerable: new SingleQueryingEnumerable<User>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.SelectExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: User.Id (string) Required PK AfterSave:Throw, 0], [Property: User.AccessFailedCount (int) Required, 1], [Property: User.Activated (bool) Required, 2], [Property: User.ActivationKey (string) MaxLength(20), 3], [Property: User.ConcurrencyStamp (string) Concurrency, 4], [Property: User.CreatedBy (string), 5], [Property: User.CreatedDate (DateTime) Required, 6], [Property: User.Email (string) MaxLength(256), 7], [Property: User.EmailConfirmed (bool) Required, 8], [Property: User.FirstName (string) MaxLength(30), 9], [Property: User.ImageUrl (string) MaxLength(256), 10], [Property: User.LangKey (string) MaxLength(6), 11], [Property: User.LastModifiedBy (string), 12], [Property: User.LastModifiedDate (DateTime) Required, 13], [Property: User.LastName (string) MaxLength(50), 14], [Property: User.LockoutEnabled (bool) Required, 15], [Property: User.LockoutEnd (DateTimeOffset?), 16], [Property: User.Login (no field, string), 17], [Property: User.NormalizedEmail (string) Index MaxLength(256), 18], [Property: User.NormalizedUserName (string) Index MaxLength(256), 19], [Property: User.PasswordHash (string), 20], [Property: User.PhoneNumber (string), 21], [Property: User.PhoneNumberConfirmed (bool) Required, 22], [Property: User.ReferralCode (string), 23], [Property: User.ResetDate (DateTime?), 24], [Property: User.ResetKey (string) MaxLength(20), 25], [Property: User.SecurityStamp (string), 26], [Property: User.TwoFactorEnabled (bool) Required, 27], [Property: User.UserName (string) MaxLength(256), 28] }
+            SELECT TOP(1) u.Id, u.AccessFailedCount, u.Activated, u.activation_key, u.ConcurrencyStamp, u.CreatedBy, u.CreatedDate, u.Email, u.EmailConfirmed, u.first_name, u.image_url, u.lang_key, u.LastModifiedBy, u.LastModifiedDate, u.last_name, u.LockoutEnabled, u.LockoutEnd, u.Login, u.NormalizedEmail, u.NormalizedUserName, u.PasswordHash, u.PhoneNumber, u.PhoneNumberConfirmed, u.ReferralCode, u.reset_date, u.reset_key, u.SecurityStamp, u.TwoFactorEnabled, u.UserName
+            FROM Users AS u
+            WHERE u.Id == @__p_0), 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, User>, 
+        Jhipster.Infrastructure.Data.ApplicationDatabaseContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)"'
+[2023-01-22 01:18:04.272 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.272 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.272 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.272 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.272 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__p_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"Id\" = @__p_0
+LIMIT 1"
+[2023-01-22 01:18:04.282 +07:00] [ ] [INF] Executed DbCommand ("10"ms) [Parameters=["@__p_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"Id\" = @__p_0
+LIMIT 1"
+[2023-01-22 01:18:04.297 +07:00] [ ] [DBG] Context '"ApplicationDatabaseContext"' started tracking '"User"' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.354 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.354 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.354 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.361 +07:00] [ ] [DBG] Compiling query expression: "
+"'"DbSet<User>()
+    .FirstOrDefault(u => u.NormalizedUserName == __normalizedUserName_0)"'
+[2023-01-22 01:18:04.364 +07:00] [ ] [DBG] Generated query execution expression: "
+"'"queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<User>(
+    asyncEnumerable: new SingleQueryingEnumerable<User>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.SelectExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: User.Id (string) Required PK AfterSave:Throw, 0], [Property: User.AccessFailedCount (int) Required, 1], [Property: User.Activated (bool) Required, 2], [Property: User.ActivationKey (string) MaxLength(20), 3], [Property: User.ConcurrencyStamp (string) Concurrency, 4], [Property: User.CreatedBy (string), 5], [Property: User.CreatedDate (DateTime) Required, 6], [Property: User.Email (string) MaxLength(256), 7], [Property: User.EmailConfirmed (bool) Required, 8], [Property: User.FirstName (string) MaxLength(30), 9], [Property: User.ImageUrl (string) MaxLength(256), 10], [Property: User.LangKey (string) MaxLength(6), 11], [Property: User.LastModifiedBy (string), 12], [Property: User.LastModifiedDate (DateTime) Required, 13], [Property: User.LastName (string) MaxLength(50), 14], [Property: User.LockoutEnabled (bool) Required, 15], [Property: User.LockoutEnd (DateTimeOffset?), 16], [Property: User.Login (no field, string), 17], [Property: User.NormalizedEmail (string) Index MaxLength(256), 18], [Property: User.NormalizedUserName (string) Index MaxLength(256), 19], [Property: User.PasswordHash (string), 20], [Property: User.PhoneNumber (string), 21], [Property: User.PhoneNumberConfirmed (bool) Required, 22], [Property: User.ReferralCode (string), 23], [Property: User.ResetDate (DateTime?), 24], [Property: User.ResetKey (string) MaxLength(20), 25], [Property: User.SecurityStamp (string), 26], [Property: User.TwoFactorEnabled (bool) Required, 27], [Property: User.UserName (string) MaxLength(256), 28] }
+            SELECT TOP(1) u.Id, u.AccessFailedCount, u.Activated, u.activation_key, u.ConcurrencyStamp, u.CreatedBy, u.CreatedDate, u.Email, u.EmailConfirmed, u.first_name, u.image_url, u.lang_key, u.LastModifiedBy, u.LastModifiedDate, u.last_name, u.LockoutEnabled, u.LockoutEnd, u.Login, u.NormalizedEmail, u.NormalizedUserName, u.PasswordHash, u.PhoneNumber, u.PhoneNumberConfirmed, u.ReferralCode, u.reset_date, u.reset_key, u.SecurityStamp, u.TwoFactorEnabled, u.UserName
+            FROM Users AS u
+            WHERE u.NormalizedUserName == @__normalizedUserName_0), 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, User>, 
+        Jhipster.Infrastructure.Data.ApplicationDatabaseContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)"'
+[2023-01-22 01:18:04.364 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.364 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.364 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.364 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.364 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedUserName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"NormalizedUserName\" = @__normalizedUserName_0
+LIMIT 1"
+[2023-01-22 01:18:04.371 +07:00] [ ] [INF] Executed DbCommand ("7"ms) [Parameters=["@__normalizedUserName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"NormalizedUserName\" = @__normalizedUserName_0
+LIMIT 1"
+[2023-01-22 01:18:04.371 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.371 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.371 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.381 +07:00] [ ] [DBG] An entity of type '"User"' tracked by '"ApplicationDatabaseContext"' changed state from 'Unchanged' to 'Modified'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.381 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.383 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.392 +07:00] [ ] [DBG] SaveChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.392 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.392 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.392 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.392 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.392 +07:00] [ ] [DBG] Beginning transaction with isolation level '"Unspecified"'.
+[2023-01-22 01:18:04.392 +07:00] [ ] [DBG] Began transaction with isolation level '"ReadCommitted"'.
+[2023-01-22 01:18:04.401 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.402 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.402 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@p26='?', @p0='?' (DbType = Int32), @p1='?' (DbType = Boolean), @p2='?', @p3='?', @p27='?', @p4='?', @p5='?' (DbType = Boolean), @p6='?', @p7='?', @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?' (DbType = DateTimeOffset), @p14='?', @p15='?', @p16='?', @p17='?', @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?' (DbType = Boolean), @p25='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Users\" SET \"AccessFailedCount\" = @p0, \"Activated\" = @p1, activation_key = @p2, \"ConcurrencyStamp\" = @p3, \"Email\" = @p4, \"EmailConfirmed\" = @p5, first_name = @p6, image_url = @p7, lang_key = @p8, \"LastModifiedBy\" = @p9, \"LastModifiedDate\" = @p10, last_name = @p11, \"LockoutEnabled\" = @p12, \"LockoutEnd\" = @p13, \"Login\" = @p14, \"NormalizedEmail\" = @p15, \"NormalizedUserName\" = @p16, \"PasswordHash\" = @p17, \"PhoneNumber\" = @p18, \"PhoneNumberConfirmed\" = @p19, \"ReferralCode\" = @p20, reset_date = @p21, reset_key = @p22, \"SecurityStamp\" = @p23, \"TwoFactorEnabled\" = @p24, \"UserName\" = @p25
+WHERE \"Id\" = @p26 AND \"ConcurrencyStamp\" = @p27;"
+[2023-01-22 01:18:04.424 +07:00] [ ] [INF] Executed DbCommand ("22"ms) [Parameters=["@p26='?', @p0='?' (DbType = Int32), @p1='?' (DbType = Boolean), @p2='?', @p3='?', @p27='?', @p4='?', @p5='?' (DbType = Boolean), @p6='?', @p7='?', @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?' (DbType = DateTimeOffset), @p14='?', @p15='?', @p16='?', @p17='?', @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?' (DbType = Boolean), @p25='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Users\" SET \"AccessFailedCount\" = @p0, \"Activated\" = @p1, activation_key = @p2, \"ConcurrencyStamp\" = @p3, \"Email\" = @p4, \"EmailConfirmed\" = @p5, first_name = @p6, image_url = @p7, lang_key = @p8, \"LastModifiedBy\" = @p9, \"LastModifiedDate\" = @p10, last_name = @p11, \"LockoutEnabled\" = @p12, \"LockoutEnd\" = @p13, \"Login\" = @p14, \"NormalizedEmail\" = @p15, \"NormalizedUserName\" = @p16, \"PasswordHash\" = @p17, \"PhoneNumber\" = @p18, \"PhoneNumberConfirmed\" = @p19, \"ReferralCode\" = @p20, reset_date = @p21, reset_key = @p22, \"SecurityStamp\" = @p23, \"TwoFactorEnabled\" = @p24, \"UserName\" = @p25
+WHERE \"Id\" = @p26 AND \"ConcurrencyStamp\" = @p27;"
+[2023-01-22 01:18:04.424 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.424 +07:00] [ ] [DBG] Committing transaction.
+[2023-01-22 01:18:04.432 +07:00] [ ] [DBG] Committed transaction.
+[2023-01-22 01:18:04.432 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.432 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.432 +07:00] [ ] [DBG] Disposing transaction.
+[2023-01-22 01:18:04.434 +07:00] [ ] [DBG] An entity of type '"User"' tracked by '"ApplicationDatabaseContext"' changed state from 'Modified' to 'Unchanged'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.434 +07:00] [ ] [DBG] SaveChanges completed for '"ApplicationDatabaseContext"' with 1 entities written to the database.
+[2023-01-22 01:18:04.437 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.437 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.437 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.437 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.437 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__p_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"Id\" = @__p_0
+LIMIT 1"
+[2023-01-22 01:18:04.443 +07:00] [ ] [INF] Executed DbCommand ("6"ms) [Parameters=["@__p_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"Id\" = @__p_0
+LIMIT 1"
+[2023-01-22 01:18:04.443 +07:00] [ ] [DBG] Context '"ApplicationDatabaseContext"' started tracking '"User"' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.444 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.444 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.444 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.444 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.444 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.444 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.444 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.444 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedUserName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"NormalizedUserName\" = @__normalizedUserName_0
+LIMIT 1"
+[2023-01-22 01:18:04.450 +07:00] [ ] [INF] Executed DbCommand ("5"ms) [Parameters=["@__normalizedUserName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"NormalizedUserName\" = @__normalizedUserName_0
+LIMIT 1"
+[2023-01-22 01:18:04.450 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.450 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.450 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.450 +07:00] [ ] [DBG] An entity of type '"User"' tracked by '"ApplicationDatabaseContext"' changed state from 'Unchanged' to 'Modified'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.450 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.453 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.453 +07:00] [ ] [DBG] SaveChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.454 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.454 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.454 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.454 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.454 +07:00] [ ] [DBG] Beginning transaction with isolation level '"Unspecified"'.
+[2023-01-22 01:18:04.454 +07:00] [ ] [DBG] Began transaction with isolation level '"ReadCommitted"'.
+[2023-01-22 01:18:04.454 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.454 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.454 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@p26='?', @p0='?' (DbType = Int32), @p1='?' (DbType = Boolean), @p2='?', @p3='?', @p27='?', @p4='?', @p5='?' (DbType = Boolean), @p6='?', @p7='?', @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?' (DbType = DateTimeOffset), @p14='?', @p15='?', @p16='?', @p17='?', @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?' (DbType = Boolean), @p25='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Users\" SET \"AccessFailedCount\" = @p0, \"Activated\" = @p1, activation_key = @p2, \"ConcurrencyStamp\" = @p3, \"Email\" = @p4, \"EmailConfirmed\" = @p5, first_name = @p6, image_url = @p7, lang_key = @p8, \"LastModifiedBy\" = @p9, \"LastModifiedDate\" = @p10, last_name = @p11, \"LockoutEnabled\" = @p12, \"LockoutEnd\" = @p13, \"Login\" = @p14, \"NormalizedEmail\" = @p15, \"NormalizedUserName\" = @p16, \"PasswordHash\" = @p17, \"PhoneNumber\" = @p18, \"PhoneNumberConfirmed\" = @p19, \"ReferralCode\" = @p20, reset_date = @p21, reset_key = @p22, \"SecurityStamp\" = @p23, \"TwoFactorEnabled\" = @p24, \"UserName\" = @p25
+WHERE \"Id\" = @p26 AND \"ConcurrencyStamp\" = @p27;"
+[2023-01-22 01:18:04.460 +07:00] [ ] [INF] Executed DbCommand ("6"ms) [Parameters=["@p26='?', @p0='?' (DbType = Int32), @p1='?' (DbType = Boolean), @p2='?', @p3='?', @p27='?', @p4='?', @p5='?' (DbType = Boolean), @p6='?', @p7='?', @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?' (DbType = DateTimeOffset), @p14='?', @p15='?', @p16='?', @p17='?', @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?' (DbType = Boolean), @p25='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Users\" SET \"AccessFailedCount\" = @p0, \"Activated\" = @p1, activation_key = @p2, \"ConcurrencyStamp\" = @p3, \"Email\" = @p4, \"EmailConfirmed\" = @p5, first_name = @p6, image_url = @p7, lang_key = @p8, \"LastModifiedBy\" = @p9, \"LastModifiedDate\" = @p10, last_name = @p11, \"LockoutEnabled\" = @p12, \"LockoutEnd\" = @p13, \"Login\" = @p14, \"NormalizedEmail\" = @p15, \"NormalizedUserName\" = @p16, \"PasswordHash\" = @p17, \"PhoneNumber\" = @p18, \"PhoneNumberConfirmed\" = @p19, \"ReferralCode\" = @p20, reset_date = @p21, reset_key = @p22, \"SecurityStamp\" = @p23, \"TwoFactorEnabled\" = @p24, \"UserName\" = @p25
+WHERE \"Id\" = @p26 AND \"ConcurrencyStamp\" = @p27;"
+[2023-01-22 01:18:04.460 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.460 +07:00] [ ] [DBG] Committing transaction.
+[2023-01-22 01:18:04.470 +07:00] [ ] [DBG] Committed transaction.
+[2023-01-22 01:18:04.470 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.470 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.470 +07:00] [ ] [DBG] Disposing transaction.
+[2023-01-22 01:18:04.470 +07:00] [ ] [DBG] An entity of type '"User"' tracked by '"ApplicationDatabaseContext"' changed state from 'Modified' to 'Unchanged'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.470 +07:00] [ ] [DBG] SaveChanges completed for '"ApplicationDatabaseContext"' with 1 entities written to the database.
+[2023-01-22 01:18:04.471 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.471 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.471 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.471 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.471 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__p_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"Id\" = @__p_0
+LIMIT 1"
+[2023-01-22 01:18:04.476 +07:00] [ ] [INF] Executed DbCommand ("5"ms) [Parameters=["@__p_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"Id\" = @__p_0
+LIMIT 1"
+[2023-01-22 01:18:04.476 +07:00] [ ] [DBG] Context '"ApplicationDatabaseContext"' started tracking '"User"' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.477 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.477 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.477 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.477 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.477 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.477 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.477 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.477 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedUserName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"NormalizedUserName\" = @__normalizedUserName_0
+LIMIT 1"
+[2023-01-22 01:18:04.483 +07:00] [ ] [INF] Executed DbCommand ("5"ms) [Parameters=["@__normalizedUserName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"NormalizedUserName\" = @__normalizedUserName_0
+LIMIT 1"
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] An entity of type '"User"' tracked by '"ApplicationDatabaseContext"' changed state from 'Unchanged' to 'Modified'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] SaveChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.483 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.484 +07:00] [ ] [DBG] Beginning transaction with isolation level '"Unspecified"'.
+[2023-01-22 01:18:04.484 +07:00] [ ] [DBG] Began transaction with isolation level '"ReadCommitted"'.
+[2023-01-22 01:18:04.484 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.484 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.484 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@p26='?', @p0='?' (DbType = Int32), @p1='?' (DbType = Boolean), @p2='?', @p3='?', @p27='?', @p4='?', @p5='?' (DbType = Boolean), @p6='?', @p7='?', @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?' (DbType = DateTimeOffset), @p14='?', @p15='?', @p16='?', @p17='?', @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?' (DbType = Boolean), @p25='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Users\" SET \"AccessFailedCount\" = @p0, \"Activated\" = @p1, activation_key = @p2, \"ConcurrencyStamp\" = @p3, \"Email\" = @p4, \"EmailConfirmed\" = @p5, first_name = @p6, image_url = @p7, lang_key = @p8, \"LastModifiedBy\" = @p9, \"LastModifiedDate\" = @p10, last_name = @p11, \"LockoutEnabled\" = @p12, \"LockoutEnd\" = @p13, \"Login\" = @p14, \"NormalizedEmail\" = @p15, \"NormalizedUserName\" = @p16, \"PasswordHash\" = @p17, \"PhoneNumber\" = @p18, \"PhoneNumberConfirmed\" = @p19, \"ReferralCode\" = @p20, reset_date = @p21, reset_key = @p22, \"SecurityStamp\" = @p23, \"TwoFactorEnabled\" = @p24, \"UserName\" = @p25
+WHERE \"Id\" = @p26 AND \"ConcurrencyStamp\" = @p27;"
+[2023-01-22 01:18:04.490 +07:00] [ ] [INF] Executed DbCommand ("6"ms) [Parameters=["@p26='?', @p0='?' (DbType = Int32), @p1='?' (DbType = Boolean), @p2='?', @p3='?', @p27='?', @p4='?', @p5='?' (DbType = Boolean), @p6='?', @p7='?', @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?' (DbType = DateTimeOffset), @p14='?', @p15='?', @p16='?', @p17='?', @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?' (DbType = Boolean), @p25='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Users\" SET \"AccessFailedCount\" = @p0, \"Activated\" = @p1, activation_key = @p2, \"ConcurrencyStamp\" = @p3, \"Email\" = @p4, \"EmailConfirmed\" = @p5, first_name = @p6, image_url = @p7, lang_key = @p8, \"LastModifiedBy\" = @p9, \"LastModifiedDate\" = @p10, last_name = @p11, \"LockoutEnabled\" = @p12, \"LockoutEnd\" = @p13, \"Login\" = @p14, \"NormalizedEmail\" = @p15, \"NormalizedUserName\" = @p16, \"PasswordHash\" = @p17, \"PhoneNumber\" = @p18, \"PhoneNumberConfirmed\" = @p19, \"ReferralCode\" = @p20, reset_date = @p21, reset_key = @p22, \"SecurityStamp\" = @p23, \"TwoFactorEnabled\" = @p24, \"UserName\" = @p25
+WHERE \"Id\" = @p26 AND \"ConcurrencyStamp\" = @p27;"
+[2023-01-22 01:18:04.490 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.490 +07:00] [ ] [DBG] Committing transaction.
+[2023-01-22 01:18:04.495 +07:00] [ ] [DBG] Committed transaction.
+[2023-01-22 01:18:04.496 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.496 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.496 +07:00] [ ] [DBG] Disposing transaction.
+[2023-01-22 01:18:04.496 +07:00] [ ] [DBG] An entity of type '"User"' tracked by '"ApplicationDatabaseContext"' changed state from 'Modified' to 'Unchanged'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.496 +07:00] [ ] [DBG] SaveChanges completed for '"ApplicationDatabaseContext"' with 1 entities written to the database.
+[2023-01-22 01:18:04.497 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.497 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.497 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.497 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.497 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__p_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"Id\" = @__p_0
+LIMIT 1"
+[2023-01-22 01:18:04.503 +07:00] [ ] [INF] Executed DbCommand ("6"ms) [Parameters=["@__p_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"Id\" = @__p_0
+LIMIT 1"
+[2023-01-22 01:18:04.503 +07:00] [ ] [DBG] Context '"ApplicationDatabaseContext"' started tracking '"User"' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.503 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.503 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.503 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.503 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.503 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.503 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.503 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.503 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedUserName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"NormalizedUserName\" = @__normalizedUserName_0
+LIMIT 1"
+[2023-01-22 01:18:04.509 +07:00] [ ] [INF] Executed DbCommand ("5"ms) [Parameters=["@__normalizedUserName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"Id\", u.\"AccessFailedCount\", u.\"Activated\", u.activation_key, u.\"ConcurrencyStamp\", u.\"CreatedBy\", u.\"CreatedDate\", u.\"Email\", u.\"EmailConfirmed\", u.first_name, u.image_url, u.lang_key, u.\"LastModifiedBy\", u.\"LastModifiedDate\", u.last_name, u.\"LockoutEnabled\", u.\"LockoutEnd\", u.\"Login\", u.\"NormalizedEmail\", u.\"NormalizedUserName\", u.\"PasswordHash\", u.\"PhoneNumber\", u.\"PhoneNumberConfirmed\", u.\"ReferralCode\", u.reset_date, u.reset_key, u.\"SecurityStamp\", u.\"TwoFactorEnabled\", u.\"UserName\"
+FROM \"Users\" AS u
+WHERE u.\"NormalizedUserName\" = @__normalizedUserName_0
+LIMIT 1"
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] An entity of type '"User"' tracked by '"ApplicationDatabaseContext"' changed state from 'Unchanged' to 'Modified'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] SaveChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] DetectChanges starting for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] DetectChanges completed for '"ApplicationDatabaseContext"'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] Beginning transaction with isolation level '"Unspecified"'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] Began transaction with isolation level '"ReadCommitted"'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.509 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@p26='?', @p0='?' (DbType = Int32), @p1='?' (DbType = Boolean), @p2='?', @p3='?', @p27='?', @p4='?', @p5='?' (DbType = Boolean), @p6='?', @p7='?', @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?' (DbType = DateTimeOffset), @p14='?', @p15='?', @p16='?', @p17='?', @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?' (DbType = Boolean), @p25='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Users\" SET \"AccessFailedCount\" = @p0, \"Activated\" = @p1, activation_key = @p2, \"ConcurrencyStamp\" = @p3, \"Email\" = @p4, \"EmailConfirmed\" = @p5, first_name = @p6, image_url = @p7, lang_key = @p8, \"LastModifiedBy\" = @p9, \"LastModifiedDate\" = @p10, last_name = @p11, \"LockoutEnabled\" = @p12, \"LockoutEnd\" = @p13, \"Login\" = @p14, \"NormalizedEmail\" = @p15, \"NormalizedUserName\" = @p16, \"PasswordHash\" = @p17, \"PhoneNumber\" = @p18, \"PhoneNumberConfirmed\" = @p19, \"ReferralCode\" = @p20, reset_date = @p21, reset_key = @p22, \"SecurityStamp\" = @p23, \"TwoFactorEnabled\" = @p24, \"UserName\" = @p25
+WHERE \"Id\" = @p26 AND \"ConcurrencyStamp\" = @p27;"
+[2023-01-22 01:18:04.515 +07:00] [ ] [INF] Executed DbCommand ("6"ms) [Parameters=["@p26='?', @p0='?' (DbType = Int32), @p1='?' (DbType = Boolean), @p2='?', @p3='?', @p27='?', @p4='?', @p5='?' (DbType = Boolean), @p6='?', @p7='?', @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?' (DbType = DateTimeOffset), @p14='?', @p15='?', @p16='?', @p17='?', @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?' (DbType = Boolean), @p25='?'"], CommandType='Text', CommandTimeout='30']"
+""UPDATE \"Users\" SET \"AccessFailedCount\" = @p0, \"Activated\" = @p1, activation_key = @p2, \"ConcurrencyStamp\" = @p3, \"Email\" = @p4, \"EmailConfirmed\" = @p5, first_name = @p6, image_url = @p7, lang_key = @p8, \"LastModifiedBy\" = @p9, \"LastModifiedDate\" = @p10, last_name = @p11, \"LockoutEnabled\" = @p12, \"LockoutEnd\" = @p13, \"Login\" = @p14, \"NormalizedEmail\" = @p15, \"NormalizedUserName\" = @p16, \"PasswordHash\" = @p17, \"PhoneNumber\" = @p18, \"PhoneNumberConfirmed\" = @p19, \"ReferralCode\" = @p20, reset_date = @p21, reset_key = @p22, \"SecurityStamp\" = @p23, \"TwoFactorEnabled\" = @p24, \"UserName\" = @p25
+WHERE \"Id\" = @p26 AND \"ConcurrencyStamp\" = @p27;"
+[2023-01-22 01:18:04.515 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.515 +07:00] [ ] [DBG] Committing transaction.
+[2023-01-22 01:18:04.521 +07:00] [ ] [DBG] Committed transaction.
+[2023-01-22 01:18:04.521 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.521 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.521 +07:00] [ ] [DBG] Disposing transaction.
+[2023-01-22 01:18:04.521 +07:00] [ ] [DBG] An entity of type '"User"' tracked by '"ApplicationDatabaseContext"' changed state from 'Modified' to 'Unchanged'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.521 +07:00] [ ] [DBG] SaveChanges completed for '"ApplicationDatabaseContext"' with 1 entities written to the database.
+[2023-01-22 01:18:04.527 +07:00] [ ] [DBG] Compiling query expression: "
+"'"DbSet<Role>()
+    .SingleOrDefault(r => r.NormalizedName == __normalizedRoleName_0)"'
+[2023-01-22 01:18:04.530 +07:00] [ ] [DBG] Generated query execution expression: "
+"'"queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<Role>(
+    asyncEnumerable: new SingleQueryingEnumerable<Role>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.SelectExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: Role.Id (string) Required PK AfterSave:Throw, 0], [Property: Role.ConcurrencyStamp (string) Concurrency, 1], [Property: Role.Name (string) MaxLength(256), 2], [Property: Role.NormalizedName (string) Index MaxLength(256), 3] }
+            SELECT TOP(2) r.Id, r.ConcurrencyStamp, r.Name, r.NormalizedName
+            FROM Roles AS r
+            WHERE r.NormalizedName == @__normalizedRoleName_0), 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, Role>, 
+        Jhipster.Infrastructure.Data.ApplicationDatabaseContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)"'
+[2023-01-22 01:18:04.530 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.530 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.530 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.530 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.530 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedRoleName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedRoleName_0
+LIMIT 2"
+[2023-01-22 01:18:04.535 +07:00] [ ] [INF] Executed DbCommand ("5"ms) [Parameters=["@__normalizedRoleName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedRoleName_0
+LIMIT 2"
+[2023-01-22 01:18:04.535 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.535 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.535 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.538 +07:00] [ ] [DBG] Compiling query expression: "
+"'"DbSet<UserRole>()
+    .FirstOrDefault(e => EF.Property<string>(e, \"UserId\") == __p_0 && EF.Property<string>(e, \"RoleId\") == __p_1)"'
+[2023-01-22 01:18:04.541 +07:00] [ ] [DBG] Generated query execution expression: "
+"'"queryContext => ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync<UserRole>(
+    asyncEnumerable: new SingleQueryingEnumerable<UserRole>(
+        (RelationalQueryContext)queryContext, 
+        RelationalCommandCache.SelectExpression(
+            Projection Mapping:
+                EmptyProjectionMember -> Dictionary<IProperty, int> { [Property: UserRole.UserId (string) Required PK FK AfterSave:Throw, 0], [Property: UserRole.RoleId (string) Required PK FK Index AfterSave:Throw, 1], [Property: UserRole.UserId1 (no field, string) Shadow FK Index, 2] }
+            SELECT TOP(1) u.UserId, u.RoleId, u.UserId1
+            FROM UserRoles AS u
+            WHERE (u.UserId == @__p_0) && (u.RoleId == @__p_1)), 
+        Func<QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator, UserRole>, 
+        Jhipster.Infrastructure.Data.ApplicationDatabaseContext, 
+        False, 
+        False, 
+        True
+    ), 
+    cancellationToken: queryContext.CancellationToken)"'
+[2023-01-22 01:18:04.542 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.542 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.542 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.542 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.542 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__p_0='?', @__p_1='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"UserId\", u.\"RoleId\", u.\"UserId1\"
+FROM \"UserRoles\" AS u
+WHERE (u.\"UserId\" = @__p_0) AND (u.\"RoleId\" = @__p_1)
+LIMIT 1"
+[2023-01-22 01:18:04.551 +07:00] [ ] [INF] Executed DbCommand ("8"ms) [Parameters=["@__p_0='?', @__p_1='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"UserId\", u.\"RoleId\", u.\"UserId1\"
+FROM \"UserRoles\" AS u
+WHERE (u.\"UserId\" = @__p_0) AND (u.\"RoleId\" = @__p_1)
+LIMIT 1"
+[2023-01-22 01:18:04.556 +07:00] [ ] [DBG] Context '"ApplicationDatabaseContext"' started tracking '"UserRole"' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.574 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.574 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.574 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.575 +07:00] [ ] [WRN] User is already in role "ROLE_ADMIN".
+[2023-01-22 01:18:04.576 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.576 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.576 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.576 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.576 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedRoleName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedRoleName_0
+LIMIT 2"
+[2023-01-22 01:18:04.582 +07:00] [ ] [INF] Executed DbCommand ("7"ms) [Parameters=["@__normalizedRoleName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedRoleName_0
+LIMIT 2"
+[2023-01-22 01:18:04.582 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.582 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.582 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.583 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.583 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.583 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.583 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.583 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__p_0='?', @__p_1='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"UserId\", u.\"RoleId\", u.\"UserId1\"
+FROM \"UserRoles\" AS u
+WHERE (u.\"UserId\" = @__p_0) AND (u.\"RoleId\" = @__p_1)
+LIMIT 1"
+[2023-01-22 01:18:04.589 +07:00] [ ] [INF] Executed DbCommand ("5"ms) [Parameters=["@__p_0='?', @__p_1='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"UserId\", u.\"RoleId\", u.\"UserId1\"
+FROM \"UserRoles\" AS u
+WHERE (u.\"UserId\" = @__p_0) AND (u.\"RoleId\" = @__p_1)
+LIMIT 1"
+[2023-01-22 01:18:04.589 +07:00] [ ] [DBG] Context '"ApplicationDatabaseContext"' started tracking '"UserRole"' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.589 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.589 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.589 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.589 +07:00] [ ] [WRN] User is already in role "ROLE_ADMIN".
+[2023-01-22 01:18:04.589 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.589 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.589 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.589 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.589 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__normalizedRoleName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedRoleName_0
+LIMIT 2"
+[2023-01-22 01:18:04.594 +07:00] [ ] [INF] Executed DbCommand ("5"ms) [Parameters=["@__normalizedRoleName_0='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT r.\"Id\", r.\"ConcurrencyStamp\", r.\"Name\", r.\"NormalizedName\"
+FROM \"Roles\" AS r
+WHERE r.\"NormalizedName\" = @__normalizedRoleName_0
+LIMIT 2"
+[2023-01-22 01:18:04.594 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.594 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.594 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.595 +07:00] [ ] [DBG] Creating DbCommand for '"ExecuteReader"'.
+[2023-01-22 01:18:04.595 +07:00] [ ] [DBG] Created DbCommand for '"ExecuteReader"' (0ms).
+[2023-01-22 01:18:04.595 +07:00] [ ] [DBG] Opening connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.595 +07:00] [ ] [DBG] Opened connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.595 +07:00] [ ] [DBG] Executing DbCommand [Parameters=["@__p_0='?', @__p_1='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"UserId\", u.\"RoleId\", u.\"UserId1\"
+FROM \"UserRoles\" AS u
+WHERE (u.\"UserId\" = @__p_0) AND (u.\"RoleId\" = @__p_1)
+LIMIT 1"
+[2023-01-22 01:18:04.600 +07:00] [ ] [INF] Executed DbCommand ("5"ms) [Parameters=["@__p_0='?', @__p_1='?'"], CommandType='Text', CommandTimeout='30']"
+""SELECT u.\"UserId\", u.\"RoleId\", u.\"UserId1\"
+FROM \"UserRoles\" AS u
+WHERE (u.\"UserId\" = @__p_0) AND (u.\"RoleId\" = @__p_1)
+LIMIT 1"
+[2023-01-22 01:18:04.600 +07:00] [ ] [DBG] Context '"ApplicationDatabaseContext"' started tracking '"UserRole"' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+[2023-01-22 01:18:04.600 +07:00] [ ] [DBG] A data reader was disposed.
+[2023-01-22 01:18:04.600 +07:00] [ ] [DBG] Closing connection to database '"ez_Affilate"' on server '"tcp://124.158.4.180:5432"'.
+[2023-01-22 01:18:04.600 +07:00] [ ] [DBG] Closed connection to database '"ez_Affilate"' on server '""'.
+[2023-01-22 01:18:04.600 +07:00] [ ] [WRN] User is already in role "ROLE_USER".
+[2023-01-22 01:18:04.601 +07:00] [ ] [DBG] '"ApplicationDatabaseContext"' disposed.
+[2023-01-22 01:18:04.690 +07:00] [ ] [DBG] Using development certificate: "CN=localhost" (Thumbprint: "9E12766BA1C5E469965C1F08B74F1A3053170FAE")
+[2023-01-22 01:18:04.704 +07:00] [ ] [INF] Now listening on: "https://localhost:44611"
+[2023-01-22 01:18:04.704 +07:00] [ ] [INF] Now listening on: "http://localhost:64615"
+[2023-01-22 01:18:04.704 +07:00] [ ] [DBG] Loaded hosting startup assembly "jhipster"
+[2023-01-22 01:18:04.704 +07:00] [ ] [INF] Application started. Press Ctrl+C to shut down.
+[2023-01-22 01:18:04.704 +07:00] [ ] [INF] Hosting environment: "Development"
+[2023-01-22 01:18:04.704 +07:00] [ ] [INF] Content root path: "/Users/user/Documents/identity-aio/Jhipster"
+[2023-01-22 01:18:04.704 +07:00] [ ] [DBG] Hosting started
+[2023-01-22 01:18:04.761 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPN"" accepted.
+[2023-01-22 01:18:04.762 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPN"" started.
+[2023-01-22 01:18:05.708 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPN"" received FIN.
+[2023-01-22 01:18:05.716 +07:00] [ ] [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException:  Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.<FillHandshakeBufferAsync>g__InternalFillHandshakeBufferAsync|189_0[TIOAdapter](TIOAdapter adap, ValueTask`1 task, Int32 minSize)
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+[2023-01-22 01:18:05.759 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPN"" stopped.
+[2023-01-22 01:18:05.762 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPN"" sending FIN because: ""The Socket transport's send loop completed gracefully.""
+[2023-01-22 01:18:05.837 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPO"" accepted.
+[2023-01-22 01:18:05.837 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPO"" started.
+[2023-01-22 01:18:05.868 +07:00] [ ] [DBG] Connection "0HMNRRFBDQNPO" established using the following protocol: Tls12
+[2023-01-22 01:18:06.016 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request starting HTTP/1.1 GET https://localhost:44611/ - -
+[2023-01-22 01:18:06.026 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Wildcard detected, all requests with hosts will be allowed.
+[2023-01-22 01:18:06.035 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Using a Base64-encoded JWT secret key
+[2023-01-22 01:18:06.112 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] AuthenticationScheme: "Bearer" was not authenticated.
+[2023-01-22 01:18:06.155 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] The request path "" does not match the path filter
+[2023-01-22 01:18:06.155 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] The request path "/" does not match a supported file type
+[2023-01-22 01:18:06.178 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] No candidates found for the request path '"/"'
+[2023-01-22 01:18:06.178 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Request did not match any endpoints
+[2023-01-22 01:18:06.200 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter", "Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter", "Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter", "Microsoft.AspNetCore.Mvc.Formatters.NewtonsoftJsonOutputFormatter"]
+[2023-01-22 01:18:06.202 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] No information found on request to perform content negotiation.
+[2023-01-22 01:18:06.203 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Attempting to select the first output formatter in the output formatters list which supports a content type from the explicitly specified content types '["application/problem+json", "application/problem+xml", "application/problem+json", "application/problem+xml"]'.
+[2023-01-22 01:18:06.203 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Selected output formatter '"Microsoft.AspNetCore.Mvc.Formatters.NewtonsoftJsonOutputFormatter"' and content type '"application/problem+json"' to write the response.
+[2023-01-22 01:18:06.204 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Executing "ObjectResult", writing value of type '"Microsoft.AspNetCore.Mvc.ProblemDetails"'.
+[2023-01-22 01:18:06.340 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Connection id ""0HMNRRFBDQNPO"" completed keep alive response.
+[2023-01-22 01:18:06.342 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] HTTP "GET" "/" responded 404 in 310.5486 ms
+[2023-01-22 01:18:06.344 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request finished HTTP/1.1 GET https://localhost:44611/ - - - 404 156 application/problem+json;+charset=utf-8 331.9049ms
+[2023-01-22 01:18:06.425 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request starting HTTP/1.1 GET https://localhost:44611/favicon.ico - -
+[2023-01-22 01:18:06.426 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Using a Base64-encoded JWT secret key
+[2023-01-22 01:18:06.426 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] AuthenticationScheme: "Bearer" was not authenticated.
+[2023-01-22 01:18:06.426 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] The request path "" does not match the path filter
+[2023-01-22 01:18:06.426 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] The request path "/favicon.ico" does not match an existing file
+[2023-01-22 01:18:06.428 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] No candidates found for the request path '"/favicon.ico"'
+[2023-01-22 01:18:06.428 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Request did not match any endpoints
+[2023-01-22 01:18:06.428 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter", "Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter", "Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter", "Microsoft.AspNetCore.Mvc.Formatters.NewtonsoftJsonOutputFormatter"]
+[2023-01-22 01:18:06.429 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] No information found on request to perform content negotiation.
+[2023-01-22 01:18:06.429 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Attempting to select the first output formatter in the output formatters list which supports a content type from the explicitly specified content types '["application/problem+json", "application/problem+xml", "application/problem+json", "application/problem+xml"]'.
+[2023-01-22 01:18:06.429 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Selected output formatter '"Microsoft.AspNetCore.Mvc.Formatters.NewtonsoftJsonOutputFormatter"' and content type '"application/problem+json"' to write the response.
+[2023-01-22 01:18:06.429 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Executing "ObjectResult", writing value of type '"Microsoft.AspNetCore.Mvc.ProblemDetails"'.
+[2023-01-22 01:18:06.435 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Connection id ""0HMNRRFBDQNPO"" completed keep alive response.
+[2023-01-22 01:18:06.435 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] HTTP "GET" "/favicon.ico" responded 404 in 9.8672 ms
+[2023-01-22 01:18:06.435 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request finished HTTP/1.1 GET https://localhost:44611/favicon.ico - - - 404 156 application/problem+json;+charset=utf-8 10.2098ms
+[2023-01-22 01:18:17.441 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request starting HTTP/1.1 GET https://localhost:44611/swagger/index.html - -
+[2023-01-22 01:18:17.444 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Using a Base64-encoded JWT secret key
+[2023-01-22 01:18:17.444 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] AuthenticationScheme: "Bearer" was not authenticated.
+[2023-01-22 01:18:17.510 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] HTTP "GET" "/swagger/index.html" responded 200 in 68.5302 ms
+[2023-01-22 01:18:17.510 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Connection id ""0HMNRRFBDQNPO"" completed keep alive response.
+[2023-01-22 01:18:17.510 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request finished HTTP/1.1 GET https://localhost:44611/swagger/index.html - - - 200 - text/html;charset=utf-8 68.8227ms
+[2023-01-22 01:18:17.516 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request starting HTTP/1.1 GET https://localhost:44611/swagger/swagger-ui-standalone-preset.js - -
+[2023-01-22 01:18:17.516 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Using a Base64-encoded JWT secret key
+[2023-01-22 01:18:17.516 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] AuthenticationScheme: "Bearer" was not authenticated.
+[2023-01-22 01:18:17.531 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Sending file. Request path: '"/swagger-ui-standalone-preset.js"'. Physical path: '"N/A"'
+[2023-01-22 01:18:17.532 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] HTTP "GET" "/swagger/swagger-ui-standalone-preset.js" responded 200 in 15.1974 ms
+[2023-01-22 01:18:17.532 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Connection id ""0HMNRRFBDQNPO"" completed keep alive response.
+[2023-01-22 01:18:17.532 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request finished HTTP/1.1 GET https://localhost:44611/swagger/swagger-ui-standalone-preset.js - - - 200 339486 application/javascript 15.4293ms
+[2023-01-22 01:18:17.698 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request starting HTTP/1.1 GET https://localhost:44611/v2/api-docs - -
+[2023-01-22 01:18:17.698 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Using a Base64-encoded JWT secret key
+[2023-01-22 01:18:17.698 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] AuthenticationScheme: "Bearer" was not authenticated.
+[2023-01-22 01:18:17.707 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPP"" accepted.
+[2023-01-22 01:18:17.708 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPP"" started.
+[2023-01-22 01:18:17.708 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPQ"" accepted.
+[2023-01-22 01:18:17.708 +07:00] [ ] [DBG] Connection id ""0HMNRRFBDQNPQ"" started.
+[2023-01-22 01:18:17.763 +07:00] [ ] [DBG] Connection "0HMNRRFBDQNPP" established using the following protocol: Tls12
+[2023-01-22 01:18:17.765 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request starting HTTP/1.1 GET https://localhost:44611/swagger/favicon-32x32.png - -
+[2023-01-22 01:18:17.765 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Using a Base64-encoded JWT secret key
+[2023-01-22 01:18:17.765 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] AuthenticationScheme: "Bearer" was not authenticated.
+[2023-01-22 01:18:17.766 +07:00] [ ] [DBG] Connection "0HMNRRFBDQNPQ" established using the following protocol: Tls12
+[2023-01-22 01:18:17.766 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Sending file. Request path: '"/favicon-32x32.png"'. Physical path: '"N/A"'
+[2023-01-22 01:18:17.766 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] HTTP "GET" "/swagger/favicon-32x32.png" responded 200 in 1.0045 ms
+[2023-01-22 01:18:17.767 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Connection id ""0HMNRRFBDQNPP"" completed keep alive response.
+[2023-01-22 01:18:17.767 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request finished HTTP/1.1 GET https://localhost:44611/swagger/favicon-32x32.png - - - 200 628 image/png 1.7552ms
+[2023-01-22 01:18:17.767 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request starting HTTP/1.1 GET https://localhost:44611/swagger/favicon-16x16.png - -
+[2023-01-22 01:18:17.768 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Using a Base64-encoded JWT secret key
+[2023-01-22 01:18:17.768 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] AuthenticationScheme: "Bearer" was not authenticated.
+[2023-01-22 01:18:17.768 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Sending file. Request path: '"/favicon-16x16.png"'. Physical path: '"N/A"'
+[2023-01-22 01:18:17.768 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] HTTP "GET" "/swagger/favicon-16x16.png" responded 200 in 0.2907 ms
+[2023-01-22 01:18:17.768 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Connection id ""0HMNRRFBDQNPQ"" completed keep alive response.
+[2023-01-22 01:18:17.768 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request finished HTTP/1.1 GET https://localhost:44611/swagger/favicon-16x16.png - - - 200 665 image/png 0.8784ms
+[2023-01-22 01:18:17.895 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] HTTP "GET" "/v2/api-docs" responded 200 in 196.7047 ms
+[2023-01-22 01:18:17.895 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [DBG] Connection id ""0HMNRRFBDQNPO"" completed keep alive response.
+[2023-01-22 01:18:17.895 +07:00] [::1 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15] [INF] Request finished HTTP/1.1 GET https://localhost:44611/v2/api-docs - - - 200 - application/json;charset=utf-8 197.0411ms

@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>jhipster</name>
+    </assembly>
+    <members>
+        <member name="M:Jhipster.Controllers.AccountController.RegisterAccount(Jhipster.Dto.ManagedUserDto)">
+            <summary>
+            Đăng ký tài khoản (user)
+            </summary>
+            <param name="managedUserDto"></param>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.InvalidPasswordException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.ActivateAccount(System.String)">
+            <summary>
+            Kích hoạt tài khoản
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.InternalServerErrorException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.DeActivateAccount(System.String)">
+            <summary>
+              Khóa tài khoản
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.InternalServerErrorException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.IsAuthenticated">
+            <summary>
+            Kiểm tra tài khoản được xác thực
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.GetAuthorities">
+            <summary>
+            Lấy tên nhóm quyền (Role)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.ValidateUser(System.String,System.String)">
+            <summary>
+            validate User ? 
+            </summary>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.InternalServerErrorException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.GetAccount">
+            <summary>
+            Lấy thông tin cơ bản của người dùng (account)
+            </summary>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.InternalServerErrorException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.SaveAccount(Jhipster.Dto.ProfileInfo.ChangeInfoDto)">
+            <summary>
+            Cập nhật thông tin cơ bản của người dùng
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.InternalServerErrorException"></exception>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.EmailAlreadyUsedException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.GetUserInformation">
+            <summary>
+            Lấy thông tin cơ bản của người dùng
+            </summary>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.InternalServerErrorException"></exception>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.EmailAlreadyUsedException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.ChangePassword(Jhipster.Dto.PasswordChangeDto)">
+            <summary>
+            Thay đổi mật khẩu
+            </summary>
+            <param name="passwordChangeDto"></param>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.InvalidPasswordException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.RequestPasswordReset">
+            <summary>
+            [Reset Password] Step 1. Gửi yêu cầu đặt lại mật khẩu (user)
+            </summary>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.EmailNotFoundException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.RequestPasswordReset(Jhipster.Dto.KeyAndPasswordDto)">
+            <summary>
+            [Reset Password] Step 2. Hoàn thành đặt lại mật khẩu (user)
+            </summary>
+            <param name="keyAndPasswordDto"></param>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.InvalidPasswordException"></exception>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.InternalServerErrorException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.MethodForgotPassord(System.String)">
+            <summary>
+            [Forgot Password] Step 1. Lấy các phương thức để gửi OTP khi quên mật khẩu
+            </summary>
+            <param name="Login"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.OTPForgotPassword(Jhipster.Dto.Authentication.ForgotPasswordOTPRqDTO)">
+            <summary>
+            [Forgot Password] Step 2. Yêu cầu gửi mã OTP về phương thức được gọi ở Step 1
+            </summary>
+            <param name="forgotPasswordOTPRqDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.ForgotPasswordCheckOTP(Jhipster.Dto.Authentication.ForgotPasswordResetRqDTO)">
+            <summary>
+            [Forgot Password] Step 3. Kiểm tra mã OTP lấy ở Step 2 
+            </summary>
+            <param name="forgotPasswordResetRqDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.CompleteForgotPassword(Jhipster.Dto.Authentication.ForgotPasswordCompleteRpDTO)">
+            <summary>
+            [Forgot Password] Step 4. nhập mật khẩu mới
+            </summary>
+            <param name="forgotPasswordResetRqDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.OTPVerifiedEmail(Jhipster.Dto.Authentication.VerifiedEmailRqDTO)">
+            <summary>
+            [verified Email] Step 1. Yêu cầu gửi mã OTP 
+            </summary>
+            /// <param name="verifiedEmailRqDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.AccountController.CompleteOTPVerifiedEmail(Jhipster.Dto.Authentication.VerifiedEmailDTO)">
+            <summary>
+            [verified Email] Step 2. Kiểm tra mã OTP lấy ở Step 1 và xác minh tài khoản email
+            </summary>
+            <param name="verifiedEmailDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.UserJwtController.Authorize(Jhipster.Dto.LoginDto)">
+            <summary>
+            Đăng nhập với username/password
+            </summary>
+            <param name="loginDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.UsersController.CreateUser(Jhipster.Dto.UserDto)">
+            <summary>
+            Tạo tài khoản (admin)
+            </summary>
+            <param name="userDto"></param>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.BadRequestAlertException"></exception>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.LoginAlreadyUsedException"></exception>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.EmailAlreadyUsedException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.UsersController.UpdateUser(Jhipster.Dto.UserDto)">
+            <summary>
+            Cập nhật thông tin tài khoản của tài khoản admin hiện tại (admin)
+            </summary>
+            <param name="userDto"></param>
+            <returns></returns>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.EmailAlreadyUsedException"></exception>
+            <exception cref="T:Jhipster.Crosscutting.Exceptions.LoginAlreadyUsedException"></exception>
+        </member>
+        <member name="M:Jhipster.Controllers.UsersController.UpdateUser(System.String,Jhipster.Dto.UserDto)">
+            <summary>
+            Cập nhật thông tin tài khoản của user theo id (admin)
+            </summary>
+            <param name="id"></param>
+            <param name="userDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.UsersController.GetAllUsers(System.Int32,System.Int32)">
+            <summary>
+            Lấy tất cả người dùng (admin) page bắt đầu từ 0
+            </summary>
+            <param name="pageable"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.UsersController.GetAuthorities">
+            <summary>
+            Lấy tất cả nhóm quyền hiện tại (admin)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.UsersController.SearchUser(Jhipster.Dto.SearchUserDto,System.Int32,System.Int32)">
+            <summary>
+            Lấy thông tin người dùng theo username (login) (admin)
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.UsersController.GetUser(System.String)">
+            <summary>
+            Lấy thông tin người dùng theo username (login) (admin)
+            </summary>
+            <param name="login"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.UsersController.DeleteUser(System.String)">
+            <summary>
+            Xóa người dùng theo username (login) (admin)
+            </summary>
+            <param name="login"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Controllers.UsersController.ResetPasswordAdmin(Jhipster.Dto.Authentication.ResetPasswordAdminDTO)">
+            <summary>
+            Đặt lại mật khẩu người dùng theo username (login) (admin)
+            </summary>
+            <param name="resetPasswordAdminDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Program.CreateLogger(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Create application logger from configuration.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jhipster.Program.GetAppConfiguration">
+            <summary>
+            Gets the current application configuration
+            from global and specific appsettings.
+            </summary>
+            <returns>Return the application <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/></returns>
+        </member>
+    </members>
+</doc>

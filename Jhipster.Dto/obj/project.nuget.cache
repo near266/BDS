@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "yenAHIq62eYRoq7aMBFEIvTEcmFedK4C9qcAtpb0Lyj6DmMUuLxFMjagNVUjk2LCA7ADr1fbJiIqZOw90VekFw==",
+  "success": true,
+  "projectFilePath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Dto/Jhipster.Dto.csproj",
+  "expectedPackageFiles": [
+    "/Users/user/.nuget/packages/automapper/12.0.0/automapper.12.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.0/automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/6.0.0/microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/microsoft.extensions.options/6.0.0/microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
+    "/Users/user/.nuget/packages/system.componentmodel.annotations/5.0.0/system.componentmodel.annotations.5.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/system.text.encodings.web/6.0.0/system.text.encodings.web.6.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/system.text.json/6.0.6/system.text.json.6.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,418 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain.Services/Jhipster.Domain.Services.csproj": {}
+  },
+  "projects": {
+    "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj",
+        "projectName": "Jhipster.Crosscutting",
+        "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj",
+        "packagesPath": "/Users/user/.nuget/packages/",
+        "outputPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/user/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain.Services/Jhipster.Domain.Services.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain.Services/Jhipster.Domain.Services.csproj",
+        "projectName": "Jhipster.Domain.Services",
+        "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain.Services/Jhipster.Domain.Services.csproj",
+        "packagesPath": "/Users/user/.nuget/packages/",
+        "outputPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain.Services/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/user/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6",
+            "projectReferences": {
+              "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj": {
+                "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj"
+              },
+              "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain/Jhipster.Domain.csproj": {
+                "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain/Jhipster.Domain.csproj"
+              },
+              "/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/Jhipster.Infrastructure.csproj": {
+                "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/Jhipster.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "JHipsterNet.Core": {
+              "target": "Package",
+              "version": "[1.0.9, )"
+            },
+            "LanguageExt.Core": {
+              "target": "Package",
+              "version": "[4.2.9, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[11.0.0, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[11.0.0, )"
+            },
+            "RestClient": {
+              "target": "Package",
+              "version": "[3.1024.23771, )"
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[108.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain/Jhipster.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain/Jhipster.Domain.csproj",
+        "projectName": "Jhipster.Domain",
+        "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain/Jhipster.Domain.csproj",
+        "packagesPath": "/Users/user/.nuget/packages/",
+        "outputPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/user/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6",
+            "projectReferences": {
+              "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj": {
+                "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj"
+              },
+              "/Users/user/Documents/Ez_Real_Estate/Jhipster.Dto/Jhipster.Dto.csproj": {
+                "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Dto/Jhipster.Dto.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6",
+          "dependencies": {
+            "JHipsterNet.Core": {
+              "target": "Package",
+              "version": "[1.0.9, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/user/Documents/Ez_Real_Estate/Jhipster.Dto/Jhipster.Dto.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Dto/Jhipster.Dto.csproj",
+        "projectName": "Jhipster.Dto",
+        "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Dto/Jhipster.Dto.csproj",
+        "packagesPath": "/Users/user/.nuget/packages/",
+        "outputPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Dto/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/user/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6",
+            "projectReferences": {
+              "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj": {
+                "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "System.ComponentModel.Annotations": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[6.0.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/Jhipster.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/Jhipster.Infrastructure.csproj",
+        "projectName": "Jhipster.Infrastructure",
+        "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/Jhipster.Infrastructure.csproj",
+        "packagesPath": "/Users/user/.nuget/packages/",
+        "outputPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/user/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6",
+            "projectReferences": {
+              "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj": {
+                "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Crosscutting/Jhipster.Crosscutting.csproj"
+              },
+              "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain/Jhipster.Domain.csproj": {
+                "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Domain/Jhipster.Domain.csproj"
+              },
+              "/Users/user/Documents/Ez_Real_Estate/Jhipster.Dto/Jhipster.Dto.csproj": {
+                "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Dto/Jhipster.Dto.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[3.4.2, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[6.0.7, )"
+            },
+            "Serilog": {
+              "target": "Package",
+              "version": "[2.12.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

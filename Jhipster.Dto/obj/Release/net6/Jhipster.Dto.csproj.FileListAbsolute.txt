@@ -1,0 +1,15 @@
+/Users/user/Documents/PoC/Jhipster.Dto/bin/Release/net6/Jhipster.Dto.deps.json
+/Users/user/Documents/PoC/Jhipster.Dto/bin/Release/net6/Jhipster.Dto.dll
+/Users/user/Documents/PoC/Jhipster.Dto/bin/Release/net6/Jhipster.Dto.pdb
+/Users/user/Documents/PoC/Jhipster.Dto/bin/Release/net6/Jhipster.Crosscutting.dll
+/Users/user/Documents/PoC/Jhipster.Dto/bin/Release/net6/Jhipster.Crosscutting.pdb
+/Users/user/Documents/PoC/Jhipster.Dto/obj/Release/net6/Jhipster.Dto.csproj.AssemblyReference.cache
+/Users/user/Documents/PoC/Jhipster.Dto/obj/Release/net6/Jhipster.Dto.GeneratedMSBuildEditorConfig.editorconfig
+/Users/user/Documents/PoC/Jhipster.Dto/obj/Release/net6/Jhipster.Dto.AssemblyInfoInputs.cache
+/Users/user/Documents/PoC/Jhipster.Dto/obj/Release/net6/Jhipster.Dto.AssemblyInfo.cs
+/Users/user/Documents/PoC/Jhipster.Dto/obj/Release/net6/Jhipster.Dto.csproj.CoreCompileInputs.cache
+/Users/user/Documents/PoC/Jhipster.Dto/obj/Release/net6/Jhipster.Dto.csproj.CopyComplete
+/Users/user/Documents/PoC/Jhipster.Dto/obj/Release/net6/Jhipster.Dto.dll
+/Users/user/Documents/PoC/Jhipster.Dto/obj/Release/net6/refint/Jhipster.Dto.dll
+/Users/user/Documents/PoC/Jhipster.Dto/obj/Release/net6/Jhipster.Dto.pdb
+/Users/user/Documents/PoC/Jhipster.Dto/obj/Release/net6/ref/Jhipster.Dto.dll

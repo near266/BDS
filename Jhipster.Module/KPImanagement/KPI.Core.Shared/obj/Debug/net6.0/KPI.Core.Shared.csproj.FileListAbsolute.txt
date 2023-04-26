@@ -1,0 +1,12 @@
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/bin/Debug/net6.0/KPI.Core.Shared.deps.json
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/bin/Debug/net6.0/KPI.Core.Shared.dll
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/bin/Debug/net6.0/KPI.Core.Shared.pdb
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/obj/Debug/net6.0/KPI.Core.Shared.csproj.AssemblyReference.cache
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/obj/Debug/net6.0/KPI.Core.Shared.GeneratedMSBuildEditorConfig.editorconfig
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/obj/Debug/net6.0/KPI.Core.Shared.AssemblyInfoInputs.cache
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/obj/Debug/net6.0/KPI.Core.Shared.AssemblyInfo.cs
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/obj/Debug/net6.0/KPI.Core.Shared.csproj.CoreCompileInputs.cache
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/obj/Debug/net6.0/KPI.Core.Shared.dll
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/obj/Debug/net6.0/refint/KPI.Core.Shared.dll
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/obj/Debug/net6.0/KPI.Core.Shared.pdb
+/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI.Core.Shared/obj/Debug/net6.0/ref/KPI.Core.Shared.dll

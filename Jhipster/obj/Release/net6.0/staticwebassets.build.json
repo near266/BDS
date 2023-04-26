@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "41RIhIMLXOpP0zvaHFNlSsnw6Irt2KUCm9oD6IbFIUg=",
+  "Source": "jhipster",
+  "BasePath": "_content/jhipster",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "/Users/user/Documents/PoC/Jhipster.Module/KPImanagement/KPI/KPI.csproj",
+      "Version": 2,
+      "Source": "KPI",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "",
+      "AdditionalPublishPropertiesToRemove": "TargetFramework;RuntimeIdentifier",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "",
+      "AdditionalBuildPropertiesToRemove": "TargetFramework;RuntimeIdentifier"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
