@@ -21,7 +21,9 @@
           "Microsoft.EntityFrameworkCore.Tools": "6.0.10",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "6.0.7",
-          "Serilog": "2.12.0"
+          "Post.Domain": "1.0.0",
+          "Serilog": "2.12.0",
+          "Wallet.Domain": "1.0.0"
         },
         "runtime": {
           "Jhipster.Infrastructure.dll": {}
@@ -79,6 +81,37 @@
           "lib/net6.0/MailKit.dll": {
             "assemblyVersion": "3.4.0.0",
             "fileVersion": "3.4.2.0"
+          }
+        }
+      },
+      "MediatR/10.0.0": {
+        "dependencies": {
+          "MediatR.Contracts": "1.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/MediatR.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.0.0"
+          }
+        }
+      },
+      "MediatR.Contracts/1.0.0": {
+        "runtime": {
+          "lib/netstandard2.1/MediatR.Contracts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "MediatR.Extensions.Microsoft.DependencyInjection/10.0.0": {
+        "dependencies": {
+          "MediatR": "10.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/MediatR.Extensions.Microsoft.DependencyInjection.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.0.0"
           }
         }
       },
@@ -794,6 +827,27 @@
         "runtime": {
           "Jhipster.Dto.dll": {}
         }
+      },
+      "Post.Domain/1.0.0": {
+        "dependencies": {
+          "MediatR": "10.0.0",
+          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.10",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.10"
+        },
+        "runtime": {
+          "Post.Domain.dll": {}
+        }
+      },
+      "Wallet.Domain/1.0.0": {
+        "dependencies": {
+          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.10",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.10"
+        },
+        "runtime": {
+          "Wallet.Domain.dll": {}
+        }
       }
     }
   },
@@ -837,6 +891,27 @@
       "sha512": "sha512-BRt9YHSr5LtxUeKrsJfxuJ5t5jb+6a2dRWWZvxt/5Tm3Z+nKJ3HBvw7SaMq2ze9e2x0Izw0SS8Q7H31PxBaXSg==",
       "path": "mailkit/3.4.2",
       "hashPath": "mailkit.3.4.2.nupkg.sha512"
+    },
+    "MediatR/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4/oUEQEtDbJ9OIwsHux0sNsU9+/GRWFTrsDNXnt18JyPnZQyIisN7CmrieXbzJeG7oDSoY2SOw8frOz/mB6rrA==",
+      "path": "mediatr/10.0.0",
+      "hashPath": "mediatr.10.0.0.nupkg.sha512"
+    },
+    "MediatR.Contracts/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9IyK5yfH/ASk97FNs1cigFdAbXPbBCyoophoO0XXvua18EqHfrNWmRfy+ry2n5O0rNAwIVgI4KpDwDXO2M8VYg==",
+      "path": "mediatr.contracts/1.0.0",
+      "hashPath": "mediatr.contracts.1.0.0.nupkg.sha512"
+    },
+    "MediatR.Extensions.Microsoft.DependencyInjection/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IZvcm6MeGSX1AyIYx4+KdYjcqQgtXRIt07dxyWqjGgP3aGazuACAuIrp/czQ7hbxOVSnXqTJCPCjsn98jM/zAw==",
+      "path": "mediatr.extensions.microsoft.dependencyinjection/10.0.0",
+      "hashPath": "mediatr.extensions.microsoft.dependencyinjection.10.0.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication/2.2.0": {
       "type": "package",
@@ -1416,6 +1491,16 @@
       "sha512": ""
     },
     "Jhipster.Dto/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Post.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Wallet.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

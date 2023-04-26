@@ -32,7 +32,6 @@ namespace Jhipster.Domain.Services.Interfaces
         Task<bool> CompleteFwPassWord(string login, string key, string newPassWord);
         Task<bool> CompleteVerifiedEmail(string login, string key);
         Task<string> CheckOTP(string login, string key);
-        string GetReferralCodeByUsername(string name);
         string GetFullnameByReferralCode(string ReferalCode);
         string GetFullnameByUsername(string username);
         Task<bool> CheckExistedUser(string ReferCode);

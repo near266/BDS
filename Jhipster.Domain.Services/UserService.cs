@@ -54,8 +54,7 @@ namespace Jhipster.Domain.Services
                 PasswordHash = _userManager.PasswordHasher.HashPassword(null, password),
                 ResetKey = password,
                 ResetDate = DateTime.Now,
-                Activated = true,
-                ReferralCode = "admin"
+                Activated = true
             };
             await _userManager.CreateAsync(user);
             await CreateUserRoles(user, userToCreate.UserRoles.Select(iur => iur.Role.Name).ToHashSet());
@@ -76,7 +75,6 @@ namespace Jhipster.Domain.Services
             user.ImageUrl = userToUpdate.ImageUrl;
             user.Activated = userToUpdate.Activated;
             user.LangKey = userToUpdate.LangKey;
-            user.ReferralCode = userToUpdate.ReferralCode;
             await _userManager.UpdateAsync(user);
             await UpdateUserRoles(user, userToUpdate.UserRoles.Select(iur => iur.Role.Name).ToHashSet());
             return user;
@@ -210,7 +208,6 @@ namespace Jhipster.Domain.Services
                 PhoneNumber = userToRegister.PhoneNumber,
                 ImageUrl = userToRegister.ImageUrl,
                 LangKey = userToRegister.LangKey,
-                ReferralCode = userToRegister.ReferralCode,
                 // new user is not active
                 //Activated = false,
                 Activated = true,
@@ -372,13 +369,6 @@ namespace Jhipster.Domain.Services
             var client = new RestClient(_configuration.GetConnectionString("AIO"));
       
             return true;
-        }
-
-        public string GetReferralCodeByUsername(string name)
-        {
-            var user = _userManager.Users
-                .SingleOrDefault(u => u.UserName.ToLower() == name.ToLower());
-            return user.ReferralCode;
         }
 
         public string GetFullnameByReferralCode(string ReferalCode)

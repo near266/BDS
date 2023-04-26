@@ -207,10 +207,6 @@ namespace Jhipster.Controllers
             {
                 result = result.Where(p => !string.IsNullOrEmpty(p.PhoneNumber) && p.PhoneNumber.Contains(dto.Phone)).ToList();
             }
-            if (!string.IsNullOrEmpty(dto.ReferralCode))
-            {
-                result = result.Where(p => !string.IsNullOrEmpty(p.ReferralCode) && p.ReferralCode.ToLower().Equals(dto.ReferralCode.ToLower())).ToList();
-            }
             DateTime Day = new DateTime(1, 1, 1, 0, 0, 0);
             if (dto.CreateDate != Day)
                 result = result.Where(p => p.CreatedDate.ToShortDateString().Equals(dto.CreateDate.ToShortDateString())).ToList();

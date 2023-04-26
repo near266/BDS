@@ -68,9 +68,13 @@
 /Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/bin/Debug/net6/Jhipster.Crosscutting.dll
 /Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/bin/Debug/net6/Jhipster.Domain.dll
 /Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/bin/Debug/net6/Jhipster.Dto.dll
+/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/bin/Debug/net6/Post.Domain.dll
+/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/bin/Debug/net6/Wallet.Domain.dll
 /Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/bin/Debug/net6/Jhipster.Domain.pdb
 /Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/bin/Debug/net6/Jhipster.Dto.pdb
 /Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/bin/Debug/net6/Jhipster.Crosscutting.pdb
+/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/bin/Debug/net6/Wallet.Domain.pdb
+/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/bin/Debug/net6/Post.Domain.pdb
 /Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/obj/Debug/net6/Jhipster.Infrastructure.csproj.AssemblyReference.cache
 /Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/obj/Debug/net6/Jhipster.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
 /Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/obj/Debug/net6/Jhipster.Infrastructure.AssemblyInfoInputs.cache

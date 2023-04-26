@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "L8QYP1zAVJljn9bVJxbgGWoMLDQBPGVElMjbXalgVloglvkyWIFOBErZglEWt8+5rZdU3EpcXVkrEi0JGp+sEw==",
+  "dgSpecHash": "fjvVW9ccyhrXqqlQye8NrfvpeQRYgyj6PB3B8jyC5jFos+btUuXBbxY4ItSy3TokRRO5DU2Bq5MggHT4L0j0tg==",
   "success": true,
   "projectFilePath": "/Users/user/Documents/Ez_Real_Estate/Jhipster/Jhipster.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "/Users/user/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.0/automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "/Users/user/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/Users/user/.nuget/packages/hellang.middleware.problemdetails/6.5.1/hellang.middleware.problemdetails.6.5.1.nupkg.sha512",
+    "/Users/user/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/Users/user/.nuget/packages/jhipsternet.core/1.0.9/jhipsternet.core.1.0.9.nupkg.sha512",
     "/Users/user/.nuget/packages/jhipsternet.web/1.0.9/jhipsternet.web.1.0.9.nupkg.sha512",
     "/Users/user/.nuget/packages/languageext.core/4.2.9/languageext.core.4.2.9.nupkg.sha512",
@@ -50,6 +51,7 @@
     "/Users/user/.nuget/packages/microsoft.entityframeworkcore/6.0.10/microsoft.entityframeworkcore.6.0.10.nupkg.sha512",
     "/Users/user/.nuget/packages/microsoft.entityframeworkcore.abstractions/6.0.10/microsoft.entityframeworkcore.abstractions.6.0.10.nupkg.sha512",
     "/Users/user/.nuget/packages/microsoft.entityframeworkcore.analyzers/6.0.10/microsoft.entityframeworkcore.analyzers.6.0.10.nupkg.sha512",
+    "/Users/user/.nuget/packages/microsoft.entityframeworkcore.design/6.0.10/microsoft.entityframeworkcore.design.6.0.10.nupkg.sha512",
     "/Users/user/.nuget/packages/microsoft.entityframeworkcore.relational/6.0.10/microsoft.entityframeworkcore.relational.6.0.10.nupkg.sha512",
     "/Users/user/.nuget/packages/microsoft.entityframeworkcore.sqlite/6.0.10/microsoft.entityframeworkcore.sqlite.6.0.10.nupkg.sha512",
     "/Users/user/.nuget/packages/microsoft.entityframeworkcore.sqlite.core/6.0.10/microsoft.entityframeworkcore.sqlite.core.6.0.10.nupkg.sha512",

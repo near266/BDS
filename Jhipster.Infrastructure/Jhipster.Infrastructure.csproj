@@ -27,6 +27,8 @@
         <ProjectReference Include="..\Jhipster.Domain\Jhipster.Domain.csproj" />
         <ProjectReference Include="..\Jhipster.Dto\Jhipster.Dto.csproj" />
         <ProjectReference Include="..\Jhipster.Crosscutting\Jhipster.Crosscutting.csproj" />
+        <ProjectReference Include="..\Jhipster.Module\WalletManagement\Wallet.Domain\Wallet.Domain.csproj" />
+        <ProjectReference Include="..\Jhipster.Module\PostManagement\Post.Domain\Post.Domain.csproj" />
     </ItemGroup>
 
 </Project>

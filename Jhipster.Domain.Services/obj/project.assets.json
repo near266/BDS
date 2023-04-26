@@ -2065,13 +2065,46 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "6.0.10",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "6.0.7",
-          "Serilog": "2.12.0"
+          "Post.Domain": "1.0.0",
+          "Serilog": "2.12.0",
+          "Wallet.Domain": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Jhipster.Infrastructure.dll": {}
         },
         "runtime": {
           "bin/placeholder/Jhipster.Infrastructure.dll": {}
+        }
+      },
+      "Post.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MediatR": "10.0.0",
+          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.10",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.10"
+        },
+        "compile": {
+          "bin/placeholder/Post.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Post.Domain.dll": {}
+        }
+      },
+      "Wallet.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.10",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.10"
+        },
+        "compile": {
+          "bin/placeholder/Wallet.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Wallet.Domain.dll": {}
         }
       }
     }
@@ -5552,6 +5585,16 @@
       "type": "project",
       "path": "../Jhipster.Infrastructure/Jhipster.Infrastructure.csproj",
       "msbuildProject": "../Jhipster.Infrastructure/Jhipster.Infrastructure.csproj"
+    },
+    "Post.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/PostManagement/Post.Domain/Post.Domain.csproj",
+      "msbuildProject": "../Jhipster.Module/PostManagement/Post.Domain/Post.Domain.csproj"
+    },
+    "Wallet.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/WalletManagement/Wallet.Domain/Wallet.Domain.csproj",
+      "msbuildProject": "../Jhipster.Module/WalletManagement/Wallet.Domain/Wallet.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {

@@ -49,7 +49,8 @@ namespace Jhipster.Domain
 
         [JsonIgnore] public virtual ICollection<UserRole> UserRoles { get; set; }
 
-        public string? ReferralCode { get; set;}
+        public string Company { get; set;}
+        public string Address { get; set; }
 
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }

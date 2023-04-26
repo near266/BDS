@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2clZiwCZPh95wq9YxYgE2kDS3iL/5nZ4jIGk+aqQoVTqMsdcVE/OwMqrbv1fvDN8IA0WES31+JxY9lMyFcnmnQ==",
+  "dgSpecHash": "wGDmPdq/3V8Dpm7oxOH0qx2ftjzwLiFaqTMrsfLMxf9UnVq5XkX1FDz7VlnRkBo1J3rt/D4pS9nwcrkODGhU/Q==",
   "success": true,
   "projectFilePath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/Jhipster.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,9 @@
     "/Users/user/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/Users/user/.nuget/packages/jhipsternet.core/1.0.9/jhipsternet.core.1.0.9.nupkg.sha512",
     "/Users/user/.nuget/packages/mailkit/3.4.2/mailkit.3.4.2.nupkg.sha512",
+    "/Users/user/.nuget/packages/mediatr/10.0.0/mediatr.10.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/mediatr.contracts/1.0.0/mediatr.contracts.1.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/mediatr.extensions.microsoft.dependencyinjection/10.0.0/mediatr.extensions.microsoft.dependencyinjection.10.0.0.nupkg.sha512",
     "/Users/user/.nuget/packages/microsoft.aspnetcore.authentication/2.2.0/microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "/Users/user/.nuget/packages/microsoft.aspnetcore.authentication.abstractions/2.2.0/microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "/Users/user/.nuget/packages/microsoft.aspnetcore.authentication.cookies/2.2.0/microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",

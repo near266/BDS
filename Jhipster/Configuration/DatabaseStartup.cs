@@ -70,8 +70,8 @@ namespace Jhipster.Configuration
                 {
                     var context = scope.ServiceProvider.GetRequiredService<ApplicationDatabaseContext>();
                     context.Database.OpenConnection();
-                    //context.Database.EnsureCreated();
-                    context.Database.Migrate();
+                    context.Database.EnsureCreated();
+                    //context.Database.Migrate();
                 }
             }
 

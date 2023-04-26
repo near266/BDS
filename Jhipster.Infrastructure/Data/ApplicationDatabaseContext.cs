@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Wallet.Domain.Entities;
+using Post.Domain.Entities;
 
 namespace Jhipster.Infrastructure.Data
 {
@@ -26,6 +28,19 @@ namespace Jhipster.Infrastructure.Data
         {
             _httpContextAccessor = httpContextAccessor;
         }
+
+        /// <summary>
+        /// Wallet
+        /// </summary>
+        public DbSet<WalletPromotional> WalletPromotionals { get; set; }
+        public DbSet<Wallet.Domain.Entities.Wallet> Wallets { get; set; }
+
+        /// <summary>
+        /// Post
+        /// </summary>
+        public DbSet<SalePost> SalePosts { get; set; }
+        public DbSet<BoughtPost> BoughtPosts { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

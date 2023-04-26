@@ -566,3 +566,5 @@
 /Users/user/Documents/Ez_Real_Estate/Jhipster/obj/Debug/net6.0/jhipster.pdb
 /Users/user/Documents/Ez_Real_Estate/Jhipster/obj/Debug/net6.0/Jhipster.genruntimeconfig.cache
 /Users/user/Documents/Ez_Real_Estate/Jhipster/obj/Debug/net6.0/ref/jhipster.dll
+/Users/user/Documents/Ez_Real_Estate/Jhipster/bin/Debug/net6.0/Humanizer.dll
+/Users/user/Documents/Ez_Real_Estate/Jhipster/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Design.dll

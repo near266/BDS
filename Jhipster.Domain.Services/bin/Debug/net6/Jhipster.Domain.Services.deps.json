@@ -1068,10 +1068,33 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "6.0.10",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "6.0.7",
-          "Serilog": "2.12.0"
+          "Post.Domain": "1.0.0",
+          "Serilog": "2.12.0",
+          "Wallet.Domain": "1.0.0"
         },
         "runtime": {
           "Jhipster.Infrastructure.dll": {}
+        }
+      },
+      "Post.Domain/1.0.0": {
+        "dependencies": {
+          "MediatR": "11.0.0",
+          "MediatR.Extensions.Microsoft.DependencyInjection": "11.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.10",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.10"
+        },
+        "runtime": {
+          "Post.Domain.dll": {}
+        }
+      },
+      "Wallet.Domain/1.0.0": {
+        "dependencies": {
+          "MediatR.Extensions.Microsoft.DependencyInjection": "11.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.10",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.10"
+        },
+        "runtime": {
+          "Wallet.Domain.dll": {}
         }
       }
     }
@@ -1931,6 +1954,16 @@
       "sha512": ""
     },
     "Jhipster.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Post.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Wallet.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
