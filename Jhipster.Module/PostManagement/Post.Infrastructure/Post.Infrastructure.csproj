@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Extensions\" />
+    <None Remove="Persistences\" />
+    <None Remove="Persistences\Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="Persistences\" />
+    <Folder Include="Persistences\Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Jhipster.Infrastructure\Jhipster.Infrastructure.csproj" />
+    <ProjectReference Include="..\Post.Application\Post.Application.csproj" />
+    <ProjectReference Include="..\Post.Domain\Post.Domain.csproj" />
+    <ProjectReference Include="..\Post.Shared\Post.Shared.csproj" />
+  </ItemGroup>
+</Project>

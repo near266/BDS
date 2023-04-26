@@ -12,6 +12,9 @@ using Jhipster.Infrastructure.Shared;
 using MediatR;
 using System.Reflection;
 using Serilog;
+using Wallet;
+using Post;
+
 
 [assembly: ApiController]
 
@@ -78,6 +81,10 @@ namespace Jhipster
         {
             // General Infras
             services.AddSharedInfrastructure(Configuration);
+
+            services.AddWalletModule(Configuration);
+            services.AddPostModule(Configuration);
+
         }
 
     }

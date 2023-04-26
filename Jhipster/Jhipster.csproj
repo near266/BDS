@@ -49,6 +49,12 @@
         <ProjectReference Include="..\Jhipster.Dto\Jhipster.Dto.csproj" />
         <ProjectReference Include="..\Jhipster.Domain\Jhipster.Domain.csproj" />
         <ProjectReference Include="..\Jhipster.Infrastructure\Jhipster.Infrastructure.csproj" />
+        <ProjectReference Include="..\Jhipster.Module\WalletManagement\Wallet\Wallet.csproj">
+          <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+        </ProjectReference>
+        <ProjectReference Include="..\Jhipster.Module\PostManagement\Post\Post.csproj">
+          <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+        </ProjectReference>
     </ItemGroup>
 
 </Project>

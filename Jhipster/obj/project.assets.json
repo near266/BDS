@@ -33,7 +33,7 @@
           "lib/net6.0/AspNetCoreRateLimit.Redis.dll": {}
         }
       },
-      "AutoMapper/12.0.0": {
+      "AutoMapper/12.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0"
@@ -2821,6 +2821,130 @@
         "runtime": {
           "bin/placeholder/Jhipster.Infrastructure.dll": {}
         }
+      },
+      "Post/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Post.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Post.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Post.dll": {}
+        }
+      },
+      "Post.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "AutoMapper": "12.0.1"
+        },
+        "compile": {
+          "bin/placeholder/Post.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Post.Application.dll": {}
+        }
+      },
+      "Post.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MediatR": "10.0.0",
+          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.10",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.10"
+        },
+        "compile": {
+          "bin/placeholder/Post.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Post.Domain.dll": {}
+        }
+      },
+      "Post.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Jhipster.Infrastructure": "1.0.0",
+          "Post.Application": "1.0.0",
+          "Post.Domain": "1.0.0",
+          "Post.Shared": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Post.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Post.Infrastructure.dll": {}
+        }
+      },
+      "Post.Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Post.Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Post.Shared.dll": {}
+        }
+      },
+      "Wallet/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Wallet.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Wallet.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Wallet.dll": {}
+        }
+      },
+      "Wallet.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "AutoMapper": "12.0.1"
+        },
+        "compile": {
+          "bin/placeholder/Wallet.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Wallet.Application.dll": {}
+        }
+      },
+      "Wallet.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.10",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.10"
+        },
+        "compile": {
+          "bin/placeholder/Wallet.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Wallet.Domain.dll": {}
+        }
+      },
+      "Wallet.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Jhipster.Infrastructure": "1.0.0",
+          "Wallet.Application": "1.0.0",
+          "Wallet.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Wallet.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Wallet.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -2855,15 +2979,15 @@
         "lib/netstandard2.0/AspNetCoreRateLimit.Redis.dll"
       ]
     },
-    "AutoMapper/12.0.0": {
-      "sha512": "0Rmg0zI5AFu1O/y//o9VGyhxKjhggWpk9mOA1tp0DEVx40c61bs+lnQv+0jUq8XbniF7FKgIVvI1perqiMtLrA==",
+    "AutoMapper/12.0.1": {
+      "sha512": "hvV62vl6Hp/WfQ24yzo3Co9+OPl8wH8hApwVtgWpiAynVJkUcs7xvehnSftawL8Pe8FrPffBRM3hwzLQqWDNjA==",
       "type": "package",
-      "path": "automapper/12.0.0",
+      "path": "automapper/12.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
-        "automapper.12.0.0.nupkg.sha512",
+        "automapper.12.0.1.nupkg.sha512",
         "automapper.nuspec",
         "icon.png",
         "lib/netstandard2.1/AutoMapper.dll",
@@ -7494,6 +7618,51 @@
       "type": "project",
       "path": "../Jhipster.Infrastructure/Jhipster.Infrastructure.csproj",
       "msbuildProject": "../Jhipster.Infrastructure/Jhipster.Infrastructure.csproj"
+    },
+    "Post/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/PostManagement/Post/Post.csproj",
+      "msbuildProject": "../Jhipster.Module/PostManagement/Post/Post.csproj"
+    },
+    "Post.Application/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/PostManagement/Post.Application/Post.Application.csproj",
+      "msbuildProject": "../Jhipster.Module/PostManagement/Post.Application/Post.Application.csproj"
+    },
+    "Post.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/PostManagement/Post.Domain/Post.Domain.csproj",
+      "msbuildProject": "../Jhipster.Module/PostManagement/Post.Domain/Post.Domain.csproj"
+    },
+    "Post.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/PostManagement/Post.Infrastructure/Post.Infrastructure.csproj",
+      "msbuildProject": "../Jhipster.Module/PostManagement/Post.Infrastructure/Post.Infrastructure.csproj"
+    },
+    "Post.Shared/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/PostManagement/Post.Shared/Post.Shared.csproj",
+      "msbuildProject": "../Jhipster.Module/PostManagement/Post.Shared/Post.Shared.csproj"
+    },
+    "Wallet/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/WalletManagement/Wallet/Wallet.csproj",
+      "msbuildProject": "../Jhipster.Module/WalletManagement/Wallet/Wallet.csproj"
+    },
+    "Wallet.Application/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/WalletManagement/Wallet.Application/Wallet.Application.csproj",
+      "msbuildProject": "../Jhipster.Module/WalletManagement/Wallet.Application/Wallet.Application.csproj"
+    },
+    "Wallet.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/WalletManagement/Wallet.Domain/Wallet.Domain.csproj",
+      "msbuildProject": "../Jhipster.Module/WalletManagement/Wallet.Domain/Wallet.Domain.csproj"
+    },
+    "Wallet.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Jhipster.Module/WalletManagement/Wallet.Infrastructure/Wallet.Infrastructure.csproj",
+      "msbuildProject": "../Jhipster.Module/WalletManagement/Wallet.Infrastructure/Wallet.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -7513,11 +7682,13 @@
       "LanguageExt.Core >= 4.2.9",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.10",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 6.0.10",
+      "Post >= 1.0.0",
       "Scrutor >= 4.2.0",
       "Serilog.AspNetCore >= 6.0.1",
       "Serilog.Enrichers.ClientInfo >= 1.2.0",
       "Swashbuckle.AspNetCore >= 6.4.0",
-      "System.IdentityModel.Tokens.Jwt >= 6.25.0"
+      "System.IdentityModel.Tokens.Jwt >= 6.25.0",
+      "Wallet >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -7559,6 +7730,12 @@
             },
             "/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/Jhipster.Infrastructure.csproj": {
               "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Infrastructure/Jhipster.Infrastructure.csproj"
+            },
+            "/Users/user/Documents/Ez_Real_Estate/Jhipster.Module/PostManagement/Post/Post.csproj": {
+              "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Module/PostManagement/Post/Post.csproj"
+            },
+            "/Users/user/Documents/Ez_Real_Estate/Jhipster.Module/WalletManagement/Wallet/Wallet.csproj": {
+              "projectPath": "/Users/user/Documents/Ez_Real_Estate/Jhipster.Module/WalletManagement/Wallet/Wallet.csproj"
             }
           }
         }

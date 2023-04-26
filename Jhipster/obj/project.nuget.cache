@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "rHhz4bcdDjg1+fKeofuyyDXdShS+5ftmj2uCwFQSOMTHndHL8WZcPhA1v+Ih29sRjmmnkx3AGA720lW4FL3kwQ==",
+  "dgSpecHash": "L8QYP1zAVJljn9bVJxbgGWoMLDQBPGVElMjbXalgVloglvkyWIFOBErZglEWt8+5rZdU3EpcXVkrEi0JGp+sEw==",
   "success": true,
   "projectFilePath": "/Users/user/Documents/Ez_Real_Estate/Jhipster/Jhipster.csproj",
   "expectedPackageFiles": [
     "/Users/user/.nuget/packages/aspnetcoreratelimit/4.0.2/aspnetcoreratelimit.4.0.2.nupkg.sha512",
     "/Users/user/.nuget/packages/aspnetcoreratelimit.redis/1.0.1/aspnetcoreratelimit.redis.1.0.1.nupkg.sha512",
-    "/Users/user/.nuget/packages/automapper/12.0.0/automapper.12.0.0.nupkg.sha512",
+    "/Users/user/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/user/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.0/automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "/Users/user/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/Users/user/.nuget/packages/hellang.middleware.problemdetails/6.5.1/hellang.middleware.problemdetails.6.5.1.nupkg.sha512",
