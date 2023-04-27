@@ -7,6 +7,9 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using Post.Application.Commands.BoughtPostC;
+using System.Net.NetworkInformation;
+using Post.Application.Queries.BoughtPostQ;
 
 namespace Post.Controller
 {
@@ -35,7 +38,7 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to ping : {ping}");
             try
             {
-                var  res = ping;
+                var res = ping;
                 return Ok(res);
             }
             catch (Exception ex)
@@ -52,6 +55,78 @@ namespace Post.Controller
         private string? GetRoleFromContext()
         {
             return User.FindFirst(ClaimTypes.Role)?.Value;
+        }
+        [HttpPost("/boughtpost")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddBoughtPost([FromBody] AddBoughtPostCommand rq)
+        {
+            {
+                _logger.LogInformation($"REST request to ping : {rq}");
+                try
+                {
+                    var res = rq;
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+
+            }
+        }
+        [HttpPut("/boughtpost")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdateBoughtPost([FromBody] UpdateBoughtPostCommand rq)
+        {
+            {
+                _logger.LogInformation($"REST request to ping : {rq}");
+                try
+                {
+                    var res = rq;
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+
+            }
+        }
+        [HttpDelete("/boughtpost/{boughtpost-id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteBoughtPost([FromRoute(Name = "boughtpost-id")] string rq)
+        {
+            {
+                _logger.LogInformation($"REST request to ping : {rq}");
+                try
+                {
+                    var res = new DeleteBoughtPostCommand { Id = rq };
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+
+            }
+        }
+        [HttpPost("/boughtpost/get-all")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllBoughtPost([FromBody] ViewAllBoughtPostQuery rq)
+        {
+            {
+                _logger.LogInformation($"REST request to ping : {rq}");
+                try
+                {
+                    var res = rq;
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+
+            }
         }
     }
 }

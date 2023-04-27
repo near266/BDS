@@ -9,6 +9,7 @@ namespace Post.Domain.Extensions
         public static IServiceCollection AddBaseCore(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
+           
             return services;
         }
     }

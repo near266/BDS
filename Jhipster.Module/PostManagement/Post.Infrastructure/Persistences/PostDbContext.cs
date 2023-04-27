@@ -1,11 +1,15 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Post.Domain.Abstractions;
+using Post.Domain.Entities;
 
 namespace Post.Infrastructure.Persistences
 {
     public class PostDbContext : DbContext, IPostDbContext
     {
+        public DbSet<BoughtPost> BoughtPosts { get ; set ; }
+        public DbSet<SalePost> SalePosts { get ; set ; }
+
         public PostDbContext(DbContextOptions<PostDbContext> options) : base(options)
         {
         }
