@@ -10,6 +10,8 @@ using System.Security.Claims;
 using Post.Application.Commands.BoughtPostC;
 using System.Net.NetworkInformation;
 using Post.Application.Queries.BoughtPostQ;
+using Post.Application.Commands.SalePostC;
+using Post.Application.Queries.SalePostQ;
 
 namespace Post.Controller
 {
@@ -119,6 +121,114 @@ namespace Post.Controller
                 try
                 {
                     var res = rq;
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+
+            }
+        }
+        [HttpGet("/boughtpost/{boughtpost-id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ViewDetailBoughtPost([FromRoute(Name = "boughtpost-id")] string rq)
+        {
+            {
+                _logger.LogInformation($"REST request to ping : {rq}");
+                try
+                {
+                    var res = new ViewDetailBoughtPostQuery { Id = rq };
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+
+            }
+        }
+        [HttpPost("/salepost")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddSalePost([FromBody] AddSalePostCommand rq)
+        {
+            {
+                _logger.LogInformation($"REST request to ping : {rq}");
+                try
+                {
+                    var res = rq;
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+
+            }
+        }
+        [HttpPut("/salepost")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdateSalePost([FromBody] UpdateSalePostCommand rq)
+        {
+            {
+                _logger.LogInformation($"REST request to ping : {rq}");
+                try
+                {
+                    var res = rq;
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+
+            }
+        }
+        [HttpDelete("/salepost/{salepost-id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteSalePost([FromRoute(Name = "salepost-id")] string rq)
+        {
+            {
+                _logger.LogInformation($"REST request to ping : {rq}");
+                try
+                {
+                    var res = new DeleteBoughtPostCommand { Id = rq };
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+
+            }
+        }
+        [HttpPost("/salepost/get-all")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllBoughtPost([FromBody] ViewAllSalePostQuery rq)
+        {
+            {
+                _logger.LogInformation($"REST request to ping : {rq}");
+                try
+                {
+                    var res = rq;
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+
+            }
+        }
+        [HttpGet("/salepost/{salepost-id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ViewDetailSalePost([FromRoute(Name = "salepost-id")] string rq)
+        {
+            {
+                _logger.LogInformation($"REST request to ping : {rq}");
+                try
+                {
+                    var res = new ViewDetailBoughtPostQuery { Id = rq };
                     return Ok(res);
                 }
                 catch (Exception ex)
