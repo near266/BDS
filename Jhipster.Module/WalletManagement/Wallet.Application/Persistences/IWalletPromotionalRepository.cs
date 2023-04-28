@@ -9,9 +9,9 @@ namespace Wallet.Application.Persistences
 {
     public interface IWalletPromotionalRepository
     {
-        Task<int> Add(WalletPromotional request);
-        Task<int> Update(WalletPromotional request);
-        Task<int> Delete(Guid Id);
+        Task<int> Add(WalletPromotional request,CancellationToken cancellationToken);
+        Task<int> Update(WalletPromotional request,CancellationToken cancellationToken);
+        Task<int> Delete(Guid Id,CancellationToken cancellationToken);
         Task<IEnumerable<WalletPromotional>> GetAll();
     }
 }

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿    using AutoMapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -41,7 +41,7 @@ namespace Wallet.Application.Commands.WalletsC
         public async Task<int> Handle(UpdateWalletCommand rq, CancellationToken cancellationToken)
         {
             var obj = _mapper.Map<WalletEntity>(rq);
-            return await _repo.Update(obj);
+            return await _repo.Update(obj, cancellationToken);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
         }
         public async Task<int> Handle(DeleteWalletPromotionalCommand rq, CancellationToken cancellationToken)
         {
-            return await _repo.Delete(rq.Id);
+            return await _repo.Delete(rq.Id,cancellationToken);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
         public async Task<int> Handle(AddWalletPromotionCommand rq, CancellationToken cancellationToken)
         {
             var obj = _mapper.Map<WalletPromotional>(rq);
-            return await _repo.Add(obj);
+            return await _repo.Add(obj,cancellationToken);
         }
     }
 }

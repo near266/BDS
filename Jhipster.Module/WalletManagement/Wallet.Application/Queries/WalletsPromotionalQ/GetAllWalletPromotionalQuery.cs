@@ -18,9 +18,10 @@ namespace Wallet.Application.Queries.WalletsPromotionalQ
         private readonly IWalletPromotionalRepository _repo;
         private readonly IMapper _mapper;
 
-        public GetAllQueryHandler(IWalletPromotionalRepository repository , IMapper mapper) {
-        _repo = repository;
-        _mapper = mapper;
+        public GetAllQueryHandler(IWalletPromotionalRepository repository, IMapper mapper)
+        {
+            _repo = repository;
+            _mapper = mapper;
         }
         public async Task<IEnumerable<WalletPromotional>> Handle(GetAllWalletPromotionalQuery request, CancellationToken cancellationToken)
         {

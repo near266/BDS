@@ -25,7 +25,7 @@ namespace Wallet.Application.Commands.WalletsC
         }
         public async Task<int> Handle(DeleteWalletCommand rq, CancellationToken cancellationToken)
         {
-            return await _repo.Delete(rq.Id);
+            return await _repo.Delete(rq.Id,cancellationToken);
         }
     }
 }

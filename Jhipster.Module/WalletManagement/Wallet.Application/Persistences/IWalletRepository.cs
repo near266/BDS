@@ -9,9 +9,9 @@ namespace Wallet.Application.Persistences
 {
     public interface IWalletRepository
     {
-        Task<int> Add(WalletEntity Wallet);
-        Task<int> Update(WalletEntity Wallet);
-        Task<int> Delete(Guid Id);
+        Task<int> Add(WalletEntity Wallet,CancellationToken cancellation);
+        Task<int> Update(WalletEntity Wallet,CancellationToken cancellation);
+        Task<int> Delete(Guid Id,CancellationToken cancellation);
         Task<IEnumerable<WalletEntity>> GetAll();
     }
 }
