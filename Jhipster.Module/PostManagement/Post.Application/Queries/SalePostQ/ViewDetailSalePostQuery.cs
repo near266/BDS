@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Post.Application.Queries.SalePostQ
 {
-    public class ViewDeatailSalePostQuery : IRequest<SalePost>
+    public class ViewDetailSalePostQuery : IRequest<SalePost>
     {
         public string Id { get; set; }
     }
-    public class ViewDeatailSalePostQueryHandler : IRequestHandler<ViewDeatailSalePostQuery, SalePost>
+    public class ViewDeatailSalePostQueryHandler : IRequestHandler<ViewDetailSalePostQuery, SalePost>
     {
         private readonly IPostRepository _Repository;
         private readonly IMapper _mapper;
@@ -24,7 +24,7 @@ namespace Post.Application.Queries.SalePostQ
             _mapper = mapper;
         }
 
-        public async Task<SalePost> Handle(ViewDeatailSalePostQuery request, CancellationToken cancellationToken)
+        public async Task<SalePost> Handle(ViewDetailSalePostQuery request, CancellationToken cancellationToken)
         {
             return await _Repository.ViewDetailSalePost(request.Id);
         }

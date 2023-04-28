@@ -11,14 +11,14 @@ namespace Post.Application.Configurations.Mapper
 		public AutoMapperProfile()
 		{
             #region BoughtPost
-            CreateMap<BoughtPost, BoughtPost>().ReverseMap();
-			CreateMap<BoughtPost, UpdateBoughtPostCommand>().ReverseMap();
-			CreateMap<BoughtPost, AddBoughtPostCommand>().ReverseMap();
+            CreateMap<BoughtPost, BoughtPost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+			CreateMap<BoughtPost, UpdateBoughtPostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+			CreateMap<AddBoughtPostCommand,BoughtPost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             #endregion 
             #region SalePost
-            CreateMap<SalePost, SalePost>().ReverseMap();
-            CreateMap<SalePost, UpdateSalePostCommand>().ReverseMap();
-            CreateMap<SalePost, AddSalePostCommand>().ReverseMap();
+            CreateMap<SalePost, SalePost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<SalePost, UpdateSalePostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<SalePost, AddSalePostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             #endregion
 
         }
