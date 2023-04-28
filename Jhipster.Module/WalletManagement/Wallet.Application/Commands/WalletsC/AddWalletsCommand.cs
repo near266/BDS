@@ -42,7 +42,7 @@ namespace Wallet.Application.Commands.WalletsC
         public async Task<int> Handle(AddWalletsCommand rq , CancellationToken cancellationToken)
         {
             var obj = _mapper.Map<WalletEntity>(rq);
-            return await _repo.Add(obj);
+            return await _repo.Add(obj, cancellationToken);
         }
     }
 
