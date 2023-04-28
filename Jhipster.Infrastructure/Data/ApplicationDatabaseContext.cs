@@ -33,7 +33,7 @@ namespace Jhipster.Infrastructure.Data
         /// Wallet
         /// </summary>
         public DbSet<WalletPromotional> WalletPromotionals { get; set; }
-        public DbSet<Wallet.Domain.Entities.Wallet> Wallets { get; set; }
+        public DbSet<Wallet.Domain.Entities.WalletEntity> Wallets { get; set; }
 
         /// <summary>
         /// Post

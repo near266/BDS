@@ -2,8 +2,10 @@
 using Jhipster.Infrastructure.Shared;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Wallet.Application.Persistences;
 using Wallet.Domain.Abstractions;
 using Wallet.Infrastructure.Persistences;
+using Wallet.Infrastructure.Persistences.Repositories;
 
 namespace Wallet.Infrastructure.Extensions
 {
@@ -19,6 +21,8 @@ namespace Wallet.Infrastructure.Extensions
 
             //// Đăng kí repository
             //services.AddScoped(typeof(IBrandRepository), typeof(BrandRepository));
+            services.AddScoped(typeof(IWalletRepository),typeof(WalletRepository));
+            services.AddScoped(typeof(IWalletPromotionalRepository),typeof(WalletPromotionalRepository));
           
             return services;
         }

@@ -16,8 +16,6 @@
     <None Remove="DTO\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="Queries\" />
     <Folder Include="Contracts\" />
     <Folder Include="Configurations\" />
     <Folder Include="Configurations\Mapper\" />
@@ -25,5 +23,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Wallet.Domain\Wallet.Domain.csproj" />
   </ItemGroup>
 </Project>
