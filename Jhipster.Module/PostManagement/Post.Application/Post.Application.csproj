@@ -15,8 +15,6 @@
     <None Remove="DTO\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands\" />
-    <Folder Include="Queries\" />
     <Folder Include="Contracts\" />
     <Folder Include="Configurations\" />
     <Folder Include="Configurations\Mapper\" />
@@ -24,5 +22,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Jhipster.Crosscutting\Jhipster.Crosscutting.csproj" />
+    <ProjectReference Include="..\Post.Domain\Post.Domain.csproj" />
   </ItemGroup>
 </Project>
