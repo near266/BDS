@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Post.Application.Contracts;
 using Post.Domain.Abstractions;
 using Post.Domain.Entities;
+using Post.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Post.Infrastructure.Persistences.Repositories
     {
         private readonly IPostDbContext _context;
         private readonly IMapper _mapper;
-        public PostRepository(IPostDbContext context,IMapper mapper)
+        public PostRepository(IPostDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -25,17 +26,39 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
         {
-            rq.Status = 0;
+            rq.Status = (int) PostStatus.UnApproved;
             await _context.BoughtPosts.AddAsync(rq);
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<int> AddSalePost(SalePost rq, CancellationToken cancellationToken)
         {
-            if (rq.Type == 0) rq.Status = 0;
-            else rq.Status = 1;
+            if (rq.Type == 0) rq.Status = (int)PostStatus.UnApproved;
+            else rq.Status = (int)PostStatus.Showing;
             await _context.SalePosts.AddAsync(rq);
             return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<int> ApprovePost(int postType, string id, int status, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
+        {
+            if (postType == 0)
+            {
+                var res = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == id);
+                if (res == null) throw new ArgumentException("Not exists !");
+                res.Status = status;
+                res.LastModifiedDate = modifiedDate;
+                res.LastModifiedBy = modifiedBy;
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+            else
+            {
+                var res = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
+                if (res == null) throw new ArgumentException("Not exists !");
+                res.Status = status;
+                res.LastModifiedDate = modifiedDate;
+                res.LastModifiedBy = modifiedBy;
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
         }
 
         public async Task<int> DeleteBoughtPost(string Id, CancellationToken cancellationToken)
@@ -54,20 +77,61 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<PagedList<BoughtPost>> SearchBoughtPost(int Page, int PageSize)
+
+        public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, int Page, int PageSize)
         {
             var value = new PagedList<BoughtPost>();
-            var Data = await _context.BoughtPosts.ToListAsync();
+            if (userid != null)
+            {
+                var Data = await _context.BoughtPosts.Where(i => i.UserId == userid).ToListAsync();
+                value.Data = Data.Skip(PageSize * (Page - 1))
+                      .Take(PageSize);
+                value.TotalCount = Data.Count;
+            }
+            else
+            {
+                var Data = await _context.BoughtPosts.ToListAsync();
+                value.Data = Data.Skip(PageSize * (Page - 1))
+                      .Take(PageSize);
+                value.TotalCount = Data.Count;
+            }
+            return value;
+        }
+        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(int Page, int PageSize)
+        {
+            var value = new PagedList<BoughtPost>();
+            var Data = await _context.BoughtPosts.Where(i => i.Status == (int)PostStatus.Showing).ToListAsync();
             value.Data = Data.Skip(PageSize * (Page - 1))
                   .Take(PageSize);
             value.TotalCount = Data.Count;
             return value;
         }
 
-        public async Task<PagedList<SalePost>> SearchSalePost(int Page, int PageSize)
+        public async Task<PagedList<SalePost>> SearchSalePost(string? userid, int Page, int PageSize)
         {
             var value = new PagedList<SalePost>();
-            var Data = await _context.SalePosts.ToListAsync();
+            if (userid != null)
+            {
+                var Data = await _context.SalePosts.Where(i => i.UserId == userid).ToListAsync();
+                value.Data = Data.Skip(PageSize * (Page - 1))
+                      .Take(PageSize);
+                value.TotalCount = Data.Count;
+            }
+            else
+            {
+                var Data = await _context.SalePosts.ToListAsync();
+                value.Data = Data.Skip(PageSize * (Page - 1))
+                      .Take(PageSize);
+                value.TotalCount = Data.Count;
+            }
+
+            return value;
+        }
+
+        public async Task<PagedList<SalePost>> GetShowingSalePost(int Page, int PageSize)
+        {
+            var value = new PagedList<SalePost>();
+            var Data = await _context.SalePosts.Where(i => i.Status == (int)PostStatus.Showing).ToListAsync();
             value.Data = Data.Skip(PageSize * (Page - 1))
                   .Take(PageSize);
             value.TotalCount = Data.Count;
@@ -76,7 +140,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
         {
-            var check = await _context.BoughtPosts.FirstOrDefaultAsync(i=>i.Id==rq.Id);
+            var check = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
             if (check == null) throw new ArgumentException("Can not find!");
             else
             {
@@ -99,7 +163,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<BoughtPost> ViewDetailBoughtPost(string id)
         {
             var res = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == id);
-            if(res == null) throw new ArgumentException("Can not find!");
+            if (res == null) throw new ArgumentException("Can not find!");
             return res;
         }
 
