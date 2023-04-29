@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Jhipster.Domain;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Post.Domain.Entities
 {
@@ -7,16 +9,23 @@ namespace Post.Domain.Entities
 	{
         [Key]
         public string Id { get; set; } = RandomUtil.GenerateKey();
-
+      
         public int Type { get; set; }
 
         [MaxLength(25)]
         public string? Titile { get; set; }
         [MaxLength(3000)]
         public string? Description { get; set; }
-
+        /*
+            1 : Đang hiển thị
+            0 : Chưa duyệt
+            2 : Từ chối
+            3 : Đã bán
+            4 : Hạ
+       */
+        public int Status { get; set; }
+        public double Price { get; set; }
         public List<string>? Image { get; set; }
-
         public int IsOwner { get; set; }
 
         public string Username { get; set; }
@@ -24,9 +33,11 @@ namespace Post.Domain.Entities
         public string? Address { get; set; }
 
         public string? PhoneNumber { get; set; }
+        public DateTime? DueDate { get; set; }
+        public string UserId { get; set; }
     }
 
-    public class RandomUtil
+    public static class RandomUtil
     {
         private static readonly Random random = new Random();
 

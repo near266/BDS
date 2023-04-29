@@ -27,7 +27,7 @@ namespace Post.Application.Queries.SalePostQ
         }
         public async Task<PagedList<SalePost>> Handle(ViewAllSalePostQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetSalePost(request.Page, request.PageSize);
+            return await _repository.SearchSalePost(request.Page, request.PageSize);
         }
     }
 }

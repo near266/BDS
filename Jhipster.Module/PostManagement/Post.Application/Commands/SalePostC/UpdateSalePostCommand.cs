@@ -13,6 +13,7 @@ namespace Post.Application.Commands.SalePostC
 {
     public class UpdateSalePostCommand : IRequest<int>
     {
+        public string Id { get; set; }
         public int Type { get; set; }
 
         [MaxLength(25)]
@@ -21,14 +22,15 @@ namespace Post.Application.Commands.SalePostC
         public string? Description { get; set; }
 
         public List<string>? Image { get; set; }
+        public double Price { get; set; }
 
         public int IsOwner { get; set; }
-
-        public string Username { get; set; }
 
         public string? Address { get; set; }
 
         public string? PhoneNumber { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
+        public string? LastModifiedBy { get; set; }
     }
     public class UpdateSalePostCommandHandler : IRequestHandler<UpdateSalePostCommand, int>
     {
