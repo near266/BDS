@@ -29,13 +29,10 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<int> Delete(Guid Id, CancellationToken cancellationToken)
         {
-            var check = await _context.WalletPromotionals.FirstOrDefaultAsync();
-            if (check != null)
-            {
-                _context.WalletPromotionals.Remove(check);
-                return await _context.SaveChangesAsync(cancellationToken);
-            }
-            return 0;
+            var check = await _context.WalletPromotionals.FirstOrDefaultAsync(i => i.Id == Id);
+            if(check == null) throw new ArgumentException("WalletPromotional not found");
+            _context.WalletPromotionals.Remove(check);
+            return await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<WalletPromotional>> GetAll()
@@ -46,13 +43,10 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<int> Update(WalletPromotional request, CancellationToken cancellationToken)
         {
-            var old = await _context.WalletPromotionals.FirstOrDefaultAsync(i => i.Id.Equals(request.Id));
-            if (old != null)
-            {
-                old = _mapper.Map<WalletPromotional, WalletPromotional>(request, old);
-                return await _context.SaveChangesAsync(cancellationToken);
-            }
-            return 0;
+            var res = await _context.WalletPromotionals.FirstOrDefaultAsync(u => u.Id == request.Id);
+            if (res == null) throw new ArgumentException("walletPromotional not found");
+            _mapper.Map(request, res);
+            return await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

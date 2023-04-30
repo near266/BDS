@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Wallet.Application.Persistences;
 using Wallet.Domain.Entities;
@@ -13,7 +14,7 @@ namespace Wallet.Application.Commands.CustomerC
     public class UpdateCustomerCommand : IRequest<int>
     {
         public Guid Id { get; set; }
-        public string CustomerName { get; set; }
+        public string? CustomerName { get; set; }
         public string? Address { get; set; }
         public string? Phone { get; set; }
         public string? Company { get; set; }
@@ -24,7 +25,9 @@ namespace Wallet.Application.Commands.CustomerC
         public string? ExchangeDescription { get; set; }
         public DateTime? MaintainFrom { get; set; }
         public DateTime? MaintainTo { get; set; }
+        [JsonIgnore]
         public DateTime? LastModifiedDate { get; set; }
+        [JsonIgnore]
         public string? LastModifiedBy { get; set; }
     }
     public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, int>

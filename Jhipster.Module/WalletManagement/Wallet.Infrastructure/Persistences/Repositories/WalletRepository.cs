@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Wallet.Application.Persistences;
 using Wallet.Domain.Abstractions;
@@ -21,21 +22,18 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             _mapper = mapper;
         }
 
-        public async Task<int> Add(WalletEntity Wallet,CancellationToken cancellationToken)
+        public async Task<int> Add(WalletEntity Wallet, CancellationToken cancellationToken)
         {
             await _context.Wallets.AddAsync(Wallet);
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<int> Delete(Guid Id,CancellationToken cancellation)
+        public async Task<int> Delete(Guid Id, CancellationToken cancellation)
         {
-            var obj = await _context.Wallets.FirstOrDefaultAsync(i=>i.Id.Equals(Id));
-            if (obj != null)
-            {
-                _context.Wallets.Remove(obj);
-                return await _context.SaveChangesAsync(cancellation);
-            }
-            return 0;
+            var obj = await _context.Wallets.FirstOrDefaultAsync(i => i.Id == Id);
+            if(obj == null ) throw new ArgumentException("wallet not found");
+            _context.Wallets.Remove(obj);
+            return await _context.SaveChangesAsync(cancellation);
         }
 
         public async Task<IEnumerable<WalletEntity>> GetAll()
@@ -47,13 +45,10 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<int> Update(WalletEntity Wallet, CancellationToken cancellation)
         {
-            var old = await _context.Wallets.FirstOrDefaultAsync(x => x.Id.Equals(Wallet.Id));
-            if (old != null)
-            {
-                old = _mapper.Map<WalletEntity, WalletEntity>(Wallet, old);
-                return await _context.SaveChangesAsync(cancellation);
-            }
-            return 0;
+            var res = await _context.Wallets.FirstOrDefaultAsync(u => u.Id == Wallet.Id);
+            if (res == null) throw new ArgumentException("wallet not found");
+            _mapper.Map(Wallet, res);
+            return await _context.SaveChangesAsync(cancellation);
         }
     }
 }

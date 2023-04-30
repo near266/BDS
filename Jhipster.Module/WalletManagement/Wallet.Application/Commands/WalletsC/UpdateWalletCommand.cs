@@ -14,14 +14,8 @@ namespace Wallet.Application.Commands.WalletsC
     public class UpdateWalletCommand : IRequest<int>
     {
         public Guid Id { get; set; }
-        public string Username { get; set; }
         public decimal Amount { get; set; }
         public string? Currency { get; set; }
-        [JsonIgnore]
-        public string? CreatedBy { get; set; }
-        [JsonIgnore]
-
-        public DateTime CreatedDate { get; set; }
         [JsonIgnore]
 
         public string? LastModifiedBy { get; set; }

@@ -34,8 +34,11 @@ namespace Wallet.Controller
             _logger = logger;
             _mapper = mapper;
         }
+
         #region Wallets
-        [HttpPost("/walletpost")]
+        //api không cần thiết vì khi tạo tài khoản hoặc tạo khách hàng đã tạo luôn ví
+
+        /*[HttpPost("/walletpost")]
         public async Task<ActionResult<int>> AddWallet([FromBody] AddWalletsCommand request)
         {
             _logger.LogInformation($"REST request add Wallet : {JsonConvert.SerializeObject(request)}");
@@ -52,7 +55,9 @@ namespace Wallet.Controller
                 _logger.LogError($"REST request to add Wallet fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
-        }
+        }*/
+
+
         [HttpGet("/walletpost/getall")]
 
         public async Task<ActionResult<int>> GetAllWallet([FromQuery] GetAllWalletQuery request)
@@ -112,7 +117,9 @@ namespace Wallet.Controller
 
         // WalletsPromotional
         #region WalletPromotional
-        [HttpPost("WalletPromotional/Add")]
+        //api không cần thiết vì khi tạo tài khoản hoặc tạo khách hàng đã tạo luôn ví
+
+        /*[HttpPost("WalletPromotional/Add")]
         public async Task<ActionResult<int>> AddWalletPromotional([FromBody] AddWalletPromotionCommand request)
         {
             _logger.LogInformation($"REST request add Wallet : {JsonConvert.SerializeObject(request)}");
@@ -129,7 +136,7 @@ namespace Wallet.Controller
                 _logger.LogError($"REST request to add Wallet  Promotional fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
-        }
+        }*/
 
         [HttpGet("WalletPromotional/Get")]
 
