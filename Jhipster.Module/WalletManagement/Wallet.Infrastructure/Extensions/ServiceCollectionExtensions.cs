@@ -3,7 +3,11 @@ using Jhipster.Infrastructure.Shared;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using Wallet.Application.Commands.WalletsC;
+
 using Wallet.Application.Commands.WalletsPromotionaC;
+using Wallet.Application.Configurations.Mapper;
 using Wallet.Application.Persistences;
 using Wallet.Domain.Abstractions;
 using Wallet.Infrastructure.Persistences;
@@ -18,12 +22,20 @@ namespace Wallet.Infrastructure.Extensions
             services
                 .AddDatabaseContext<WalletDbContext>(config)
                 .AddScoped<IWalletDbContext>(provider => provider.GetService<WalletDbContext>());
+
+            //Đăng kí automapper
+            services.AddAutoMapper(typeof(AutoMapperProfile));
             // Đăng kí mediatR
+
+            services.AddMediatR(typeof(AddWalletsCommand).Assembly);
+
             services.AddMediatR(typeof(AddWalletPromotionCommand).Assembly);
+
 
             //// Đăng kí repository
             services.AddScoped(typeof(IWalletRepository), typeof(WalletRepository));
             services.AddScoped(typeof(IWalletPromotionalRepository), typeof(WalletPromotionalRepository));
+            services.AddScoped(typeof(ICustomerRepository), typeof(CustomerRepository));
 
             return services;
         }

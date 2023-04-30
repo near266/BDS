@@ -10,7 +10,7 @@ namespace Wallet.Infrastructure.Persistences
     {
         public DbSet<WalletEntity> Wallets { get; set; }
         public DbSet<WalletPromotional> WalletPromotionals { get; set; }
-
+        public DbSet<Customer> Customers { get; set; }
 
         public WalletDbContext(DbContextOptions<WalletDbContext> options) : base(options)
         {
