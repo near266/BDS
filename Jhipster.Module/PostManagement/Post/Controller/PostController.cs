@@ -14,6 +14,7 @@ using Post.Application.Commands.SalePostC;
 using Post.Application.Queries.SalePostQ;
 using MediatR;
 using Jhipster.Crosscutting.Constants;
+using Post.Application.Commands.AdminC;
 
 namespace Post.Controller
 {
@@ -51,6 +52,12 @@ namespace Post.Controller
             {
                 return StatusCode(500, ex.Message);
             }
+        }
+
+        private bool CheckRoleList(string? roles, string item)
+        {
+            if (roles.Contains(item)) return true;
+            else return false;
         }
 
         private string? GetUserIdFromConext()
@@ -128,14 +135,22 @@ namespace Post.Controller
 
 
         }
-        [HttpPost("/boughtpost/get-all")]
+        [HttpPost("/boughtpost/search")]
         [AllowAnonymous]
         public async Task<IActionResult> SearchBoughtPost([FromBody] ViewAllBoughtPostQuery rq)
         {
-
             _logger.LogInformation($"REST request to search bought post : {rq}");
             try
             {
+                var role = GetRoleFromContext();
+                if (!CheckRoleList(role, RolesConstants.ADMIN))
+                {
+                    rq.UserId = GetUserIdFromConext();
+                }
+                else
+                {
+                    rq.UserId = null;
+                }
                 var res = await _mediator.Send(rq);
                 return Ok(res);
             }
@@ -144,9 +159,27 @@ namespace Post.Controller
                 _logger.LogError($"REST request to search bought post fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
-
-
         }
+
+        [HttpPost("/boughtpost/getShowing")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetShowingBoughtPost([FromBody]GetAllShowingBoughtPostQuery rq)
+        {
+            _logger.LogInformation($"REST request to get showing bought post");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get showing bought post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+
         [HttpGet("/boughtpost/id")]
         [AllowAnonymous]
         public async Task<IActionResult> ViewDetailBoughtPost([FromQuery] string rq)
@@ -231,14 +264,22 @@ namespace Post.Controller
 
 
         }
-        [HttpPost("/salepost/get-all")]
+        [HttpPost("/salepost/search")]
         [AllowAnonymous]
         public async Task<IActionResult> SearchSalePost([FromBody] ViewAllSalePostQuery rq)
         {
-
             _logger.LogInformation($"REST request to search sale post : {rq}");
             try
             {
+                var role = GetRoleFromContext();
+                if (!CheckRoleList(role, RolesConstants.ADMIN))
+                {
+                    rq.UserId = GetUserIdFromConext();
+                }
+                else
+                {
+                    rq.UserId = null;
+                }
                 var res = await _mediator.Send(rq);
                 return Ok(res);
             }
@@ -247,9 +288,24 @@ namespace Post.Controller
                 _logger.LogError($"REST request to search sale post fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
-
-
         }
+
+        [HttpPost("/salepost/getShowing")]
+        public async Task<IActionResult> GetShowingSaletPost([FromBody]GetAllShowingSalePostQuery rq)
+        {
+            _logger.LogInformation($"REST request to get showing sale post");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get showing sale post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("/salepost/id")]
         [AllowAnonymous]
         public async Task<IActionResult> ViewDetailSalePost([FromQuery] string rq)
@@ -269,6 +325,25 @@ namespace Post.Controller
             }
 
 
+        }
+
+        [HttpPost("/admin/approve")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ApprovePost([FromBody] ApprovePostCommand rq)
+        {
+            _logger.LogInformation($"REST request to approve post : {rq}");
+            try
+            {
+                rq.modifiedDate = DateTime.UtcNow;
+                rq.modifiedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to approve post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

@@ -9,7 +9,8 @@ namespace Post.Application.Contracts
         Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken);
         Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken);
         Task<int> DeleteBoughtPost(string Id, CancellationToken cancellationToken);
-        Task<PagedList<BoughtPost>> SearchBoughtPost( int Page, int PageSize);
+        Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, int Page, int PageSize);
+        Task<PagedList<BoughtPost>> GetShowingBoughtPost(int Page, int PageSize);
         Task<BoughtPost> ViewDetailBoughtPost(string id);
         #endregion
 
@@ -17,9 +18,13 @@ namespace Post.Application.Contracts
         Task<int> AddSalePost(SalePost rq, CancellationToken cancellationToken);
         Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken);
         Task<int> DeleteSalePost(string Id, CancellationToken cancellationToken);
-        Task<PagedList<SalePost>> SearchSalePost(int Page, int PageSize);
+        Task<PagedList<SalePost>> SearchSalePost(string? userid, int Page, int PageSize);
+        Task<PagedList<SalePost>> GetShowingSalePost(int Page, int PageSize);
         Task<SalePost> ViewDetailSalePost(string id);
         #endregion
 
+        #region Admin
+        Task<int> ApprovePost (int postType,string id,int status,DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken);
+        #endregion
     }
 }

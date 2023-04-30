@@ -11,24 +11,23 @@ using System.Threading.Tasks;
 
 namespace Post.Application.Queries.SalePostQ
 {
-    public class ViewAllSalePostQuery : IRequest<PagedList<SalePost>>
+    public class GetAllShowingSalePostQuery : IRequest<PagedList<SalePost>>
     {
-        public string? UserId { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
     }
-    public class ViewAllSalePostQueryHandler : IRequestHandler<ViewAllSalePostQuery, PagedList<SalePost>>
+    public class GetAllShowingSalePostQueryHandler : IRequestHandler<GetAllShowingSalePostQuery, PagedList<SalePost>>
     {
         private readonly IPostRepository _repository;
         private readonly IMapper _mapper;
-        public ViewAllSalePostQueryHandler(IPostRepository repository, IMapper mapper)
+        public GetAllShowingSalePostQueryHandler(IPostRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<PagedList<SalePost>> Handle(ViewAllSalePostQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<SalePost>> Handle(GetAllShowingSalePostQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.SearchSalePost(request.UserId, request.Page, request.PageSize);
+            return await _repository.GetShowingSalePost(request.Page, request.PageSize);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Newtonsoft.Json;
 using Post.Application.Contracts;
 using Post.Domain.Entities;
 namespace Post.Application.Commands.BoughtPostC

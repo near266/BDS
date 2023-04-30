@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using Newtonsoft.Json;
 using Post.Application.Contracts;
 using Post.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Post.Application.Commands.SalePostC
 {
@@ -27,7 +21,7 @@ namespace Post.Application.Commands.SalePostC
         public string Username { get; set; }
         public string UserId { get; set; }
         public double Price { get; set; }
-        public int Status { get; set; };
+        public int Status { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
         public DateTime? CreatedDate { get; set; }

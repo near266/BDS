@@ -13,6 +13,7 @@ namespace Post.Application.Queries.BoughtPostQ
 {
     public class ViewAllBoughtPostQuery : IRequest<PagedList<BoughtPost>>
     {
+        public string? UserId { get; set; }
         public int Page { get;set; }
         public int PageSize { get; set; }
     }
@@ -27,7 +28,7 @@ namespace Post.Application.Queries.BoughtPostQ
         }
         public async Task<PagedList<BoughtPost>> Handle(ViewAllBoughtPostQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.SearchBoughtPost(request.Page,request.PageSize);
+            return await _repository.SearchBoughtPost(request.UserId,request.Page,request.PageSize);
         }
     }
 }
