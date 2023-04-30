@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Post.Application.Commands.BoughtPostC
@@ -21,7 +22,9 @@ namespace Post.Application.Commands.BoughtPostC
         public string? Address { get; set; }
 
         public string? PhoneNumber { get; set; }
+        [JsonIgnore]
         public DateTime? LastModifiedDate { get; set; }
+        [JsonIgnore]
         public string? LastModifiedBy { get; set; }
     }
     public class UpdateBoughtPostCommandHandler : IRequestHandler<UpdateBoughtPostCommand, int>

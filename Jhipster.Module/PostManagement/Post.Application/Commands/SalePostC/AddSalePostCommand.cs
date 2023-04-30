@@ -3,6 +3,7 @@ using MediatR;
 using Post.Application.Contracts;
 using Post.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Post.Application.Commands.SalePostC
 {
@@ -18,13 +19,17 @@ namespace Post.Application.Commands.SalePostC
         public List<string>? Image { get; set; }
 
         public int IsOwner { get; set; }
-        public string Username { get; set; }
-        public string UserId { get; set; }
+        [JsonIgnore]
+        public string? Username { get; set; }
+        [JsonIgnore]
+        public string? UserId { get; set; }
         public double Price { get; set; }
         public int Status { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
+        [JsonIgnore]
         public DateTime? CreatedDate { get; set; }
+        [JsonIgnore]
         public string? CreatedBy { get; set; }
         public DateTime? DueDate { get; set; }
     }

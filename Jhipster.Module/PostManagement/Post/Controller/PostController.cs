@@ -182,14 +182,13 @@ namespace Post.Controller
 
         [HttpGet("/boughtpost/id")]
         [AllowAnonymous]
-        public async Task<IActionResult> ViewDetailBoughtPost([FromQuery] string rq)
+        public async Task<IActionResult> ViewDetailBoughtPost([FromQuery] ViewDetailBoughtPostQuery rq)
         {
 
             _logger.LogInformation($"REST request to view detail bought post : {rq}");
             try
             {
-                var res = new ViewDetailBoughtPostQuery { Id = rq };
-                var result = await _mediator.Send(res);
+                var result = await _mediator.Send(rq);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -308,14 +307,13 @@ namespace Post.Controller
 
         [HttpGet("/salepost/id")]
         [AllowAnonymous]
-        public async Task<IActionResult> ViewDetailSalePost([FromQuery] string rq)
+        public async Task<IActionResult> ViewDetailSalePost([FromQuery] ViewDetailSalePostQuery rq)
         {
 
             _logger.LogInformation($"REST request to view detail : {rq}");
             try
             {
-                var res = new ViewDetailSalePostQuery { Id = rq };
-                var result = await _mediator.Send(res);
+                var result = await _mediator.Send(rq);
                 return Ok(result);
             }
             catch (Exception ex)

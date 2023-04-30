@@ -2,6 +2,8 @@
 using MediatR;
 using Post.Application.Contracts;
 using Post.Domain.Entities;
+using System.Text.Json.Serialization;
+
 namespace Post.Application.Commands.BoughtPostC
 {
     public class AddBoughtPostCommand : IRequest<int>
@@ -9,12 +11,16 @@ namespace Post.Application.Commands.BoughtPostC
         public string? LandToBuy { get; set; }
         public string? Criteria { get; set; }
         public string? FullName { get; set; }
-        public string Username { get; set; }
-        public string UserId { get; set; }
+        [JsonIgnore]
+        public string? Username { get; set; }
+        [JsonIgnore]
+        public string? UserId { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
         public int? Status { get; set; }
+        [JsonIgnore]
         public DateTime? CreatedDate { get; set; }
+        [JsonIgnore]
         public string? CreatedBy { get; set; }
     }
     public class AddBoughtPostCommandHandler : IRequestHandler<AddBoughtPostCommand, int>
