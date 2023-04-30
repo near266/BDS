@@ -34,6 +34,7 @@ namespace Jhipster.Infrastructure.Data
         /// </summary>
         public DbSet<WalletPromotional> WalletPromotionals { get; set; }
         public DbSet<Wallet.Domain.Entities.WalletEntity> Wallets { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         /// <summary>
         /// Post
