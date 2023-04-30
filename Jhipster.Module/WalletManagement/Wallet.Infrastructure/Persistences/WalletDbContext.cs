@@ -2,11 +2,16 @@
 using System.Reflection.Emit;
 using Microsoft.EntityFrameworkCore;
 using Wallet.Domain.Abstractions;
+using Wallet.Domain.Entities;
 
 namespace Wallet.Infrastructure.Persistences
 {
 	public class WalletDbContext : DbContext, IWalletDbContext
     {
+        public DbSet<WalletEntity> Wallets { get; set; }
+        public DbSet<WalletPromotional> WalletPromotionals { get; set; }
+
+
         public WalletDbContext(DbContextOptions<WalletDbContext> options) : base(options)
         {
         }

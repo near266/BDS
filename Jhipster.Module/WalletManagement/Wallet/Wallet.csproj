@@ -11,9 +11,6 @@
     <None Remove="Controller\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controller\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Wallet.Infrastructure\Wallet.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

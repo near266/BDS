@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
@@ -21,25 +20,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PostManagement", "PostManag
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WalletManagement", "WalletManagement", "{C09B1690-E34F-4978-B21A-CAA4C13CA1B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post.Application", "Jhipster.Module\PostManagement\Post.Application\Post.Application.csproj", "{3961EE2D-5113-4FB3-8E7B-5D9C2218A81B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Post.Application", "Jhipster.Module\PostManagement\Post.Application\Post.Application.csproj", "{3961EE2D-5113-4FB3-8E7B-5D9C2218A81B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post.Domain", "Jhipster.Module\PostManagement\Post.Domain\Post.Domain.csproj", "{1358BBBD-D533-47E0-9117-73782AB66195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Post.Domain", "Jhipster.Module\PostManagement\Post.Domain\Post.Domain.csproj", "{1358BBBD-D533-47E0-9117-73782AB66195}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post.Infrastructure", "Jhipster.Module\PostManagement\Post.Infrastructure\Post.Infrastructure.csproj", "{938D8200-301F-41DD-B84F-F12FBF5B8056}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Post.Infrastructure", "Jhipster.Module\PostManagement\Post.Infrastructure\Post.Infrastructure.csproj", "{938D8200-301F-41DD-B84F-F12FBF5B8056}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post.Shared", "Jhipster.Module\PostManagement\Post.Shared\Post.Shared.csproj", "{EE0F6AB5-EF80-4F29-9A13-CD9A1A3D4D71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Post.Shared", "Jhipster.Module\PostManagement\Post.Shared\Post.Shared.csproj", "{EE0F6AB5-EF80-4F29-9A13-CD9A1A3D4D71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallet.Application", "Jhipster.Module\WalletManagement\Wallet.Application\Wallet.Application.csproj", "{DFE1CDBD-31FA-4CDD-9B93-CE76825136CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wallet.Application", "Jhipster.Module\WalletManagement\Wallet.Application\Wallet.Application.csproj", "{DFE1CDBD-31FA-4CDD-9B93-CE76825136CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallet.Infrastructure", "Jhipster.Module\WalletManagement\Wallet.Infrastructure\Wallet.Infrastructure.csproj", "{60B715D5-7C28-4C24-9BDE-AF46BEBFE604}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wallet.Infrastructure", "Jhipster.Module\WalletManagement\Wallet.Infrastructure\Wallet.Infrastructure.csproj", "{60B715D5-7C28-4C24-9BDE-AF46BEBFE604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallet.Domain", "Jhipster.Module\WalletManagement\Wallet.Domain\Wallet.Domain.csproj", "{173353C2-282F-4F7A-AF91-2429254679D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wallet.Domain", "Jhipster.Module\WalletManagement\Wallet.Domain\Wallet.Domain.csproj", "{173353C2-282F-4F7A-AF91-2429254679D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallet.Shared", "Jhipster.Module\WalletManagement\Wallet.Shared\Wallet.Shared.csproj", "{3A29C1CE-5046-490F-B0C8-E7F02A7C5A7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wallet.Shared", "Jhipster.Module\WalletManagement\Wallet.Shared\Wallet.Shared.csproj", "{3A29C1CE-5046-490F-B0C8-E7F02A7C5A7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallet", "Jhipster.Module\WalletManagement\Wallet\Wallet.csproj", "{5654F94E-E9F1-4D7D-8774-5D2B3F3D2B1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wallet", "Jhipster.Module\WalletManagement\Wallet\Wallet.csproj", "{5654F94E-E9F1-4D7D-8774-5D2B3F3D2B1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post", "Jhipster.Module\PostManagement\Post\Post.csproj", "{6E51F4AA-556B-405B-ADA0-0B3A69C63F28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Post", "Jhipster.Module\PostManagement\Post\Post.csproj", "{6E51F4AA-556B-405B-ADA0-0B3A69C63F28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,26 +70,6 @@ Global
 		{EF05D011-6E1C-4A49-9DE2-ABE29A7BA260}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF05D011-6E1C-4A49-9DE2-ABE29A7BA260}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF05D011-6E1C-4A49-9DE2-ABE29A7BA260}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C159DC7-8A7D-4DE3-9E2F-250EC5418ED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C159DC7-8A7D-4DE3-9E2F-250EC5418ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C159DC7-8A7D-4DE3-9E2F-250EC5418ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C159DC7-8A7D-4DE3-9E2F-250EC5418ED7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4AFD78E-8453-4D94-A8FD-4A7DB7ED73BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4AFD78E-8453-4D94-A8FD-4A7DB7ED73BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4AFD78E-8453-4D94-A8FD-4A7DB7ED73BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4AFD78E-8453-4D94-A8FD-4A7DB7ED73BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C0AF53D-E5ED-4100-B887-E7945C8BB852}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C0AF53D-E5ED-4100-B887-E7945C8BB852}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C0AF53D-E5ED-4100-B887-E7945C8BB852}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C0AF53D-E5ED-4100-B887-E7945C8BB852}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D117538-F47C-46FD-ADB5-B7EAC11095E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D117538-F47C-46FD-ADB5-B7EAC11095E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D117538-F47C-46FD-ADB5-B7EAC11095E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D117538-F47C-46FD-ADB5-B7EAC11095E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{51242381-5BD1-4F77-9A42-D9DD550B2C8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51242381-5BD1-4F77-9A42-D9DD550B2C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51242381-5BD1-4F77-9A42-D9DD550B2C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51242381-5BD1-4F77-9A42-D9DD550B2C8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3961EE2D-5113-4FB3-8E7B-5D9C2218A81B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3961EE2D-5113-4FB3-8E7B-5D9C2218A81B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3961EE2D-5113-4FB3-8E7B-5D9C2218A81B}.Release|Any CPU.ActiveCfg = Release|Any CPU
