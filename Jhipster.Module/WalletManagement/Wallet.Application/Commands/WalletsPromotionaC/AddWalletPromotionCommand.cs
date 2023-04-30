@@ -15,21 +15,16 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
 {
     public class AddWalletPromotionCommand : IRequest<int>
     {
-        public Guid Id { get; set; }
-        public string Username { get; set; }
+        public Guid? Id { get; set; }
+        public string? Username { get; set; }
         public decimal Amount { get; set; }
         public string? Currency { get; set; }
+        public Guid? CustomerId { get; set; }
         [JsonIgnore]
         public string? CreatedBy { get; set; }
         [JsonIgnore]
 
         public DateTime CreatedDate { get; set; }
-        [JsonIgnore]
-
-        public string? LastModifiedBy { get; set; }
-        [MaxLength(100)]
-
-        public DateTime? LastModifiedDate { get; set; }
     }
 
     public class UpdateWalletCommandHandler : IRequestHandler<AddWalletPromotionCommand, int>
