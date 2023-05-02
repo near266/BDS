@@ -24,6 +24,8 @@ using Newtonsoft.Json;
 using System;
 using Microsoft.Extensions.Configuration;
 using RestSharp;
+using Wallet.Application.Commands.CustomerC;
+using MediatR;
 
 namespace Jhipster.Controllers
 {
@@ -34,19 +36,21 @@ namespace Jhipster.Controllers
     {
         private readonly ILogger<UsersController> _log;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
         private readonly IMailService _mailService;
         private readonly UserManager<User> _userManager;
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
 
         public UsersController(ILogger<UsersController> log, UserManager<User> userManager, IUserService userService,
-            IMapper mapper, IMailService mailService,IConfiguration configuration)
+            IMapper mapper, IMailService mailService,IConfiguration configuration, IMediator mediator)
         {
             _log = log;
             _userManager = userManager;
             _userService = userService;
             _mailService = mailService;
             _mapper = mapper;
+            _mediator = mediator;
             _configuration = configuration;
         }
 
@@ -74,6 +78,18 @@ namespace Jhipster.Controllers
                 throw new EmailAlreadyUsedException();
 
             var newUser = await _userService.CreateUser(_mapper.Map<User>(userDto));
+            try
+            {
+                var customer = _mapper.Map<AddCustomerCommand>(userDto);
+                customer.Id = Guid.Parse(newUser.Id);
+                customer.CreatedDate = DateTime.Now;
+                var res = _mediator.Send(customer);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500,ex.Message);
+            }
+
             //if (!string.IsNullOrEmpty(userDto.Email))
             //{
             //    await _mailService.SendCreationEmail(newUser);

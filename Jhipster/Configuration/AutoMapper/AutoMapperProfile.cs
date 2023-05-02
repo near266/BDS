@@ -4,6 +4,8 @@ using Jhipster.Domain;
 using Wallet.Domain.Entities;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
+using Wallet.Application.Commands.CustomerC;
+using Jhipster.Dto;
 
 namespace Jhipster.Configuration.AutoMapper
 {
@@ -25,6 +27,15 @@ namespace Jhipster.Configuration.AutoMapper
             CreateMap<WalletPromotional, WalletPromotional>().ReverseMap().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<AddWalletPromotionCommand, WalletPromotional>();
             CreateMap<DeleteWalletPromotionalCommand, WalletPromotional>();
+
+            //Customer
+            CreateMap<UserDto, AddCustomerCommand>()
+                .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.PhoneNumber))
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.FirstName));
+            CreateMap<ManagedUserDto, AddCustomerCommand>()
+                .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.PhoneNumber))
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.FirstName));
+
 
         }
     }

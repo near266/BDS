@@ -41,7 +41,7 @@ namespace Jhipster.Domain.Services
 
         public virtual async Task<User> CreateUser(User userToCreate)
         {
-            var password = RandomUtil.GeneratePassword();
+            var password = "Abc@123";
             var user = new User
             {
                 UserName = userToCreate.Login.ToLower(),

@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authorization;
 using Jhipster.Dto.Authentication;
 using Newtonsoft.Json;
 using Jhipster.Dto.ProfileInfo;
+using Wallet.Application.Commands.CustomerC;
+using MediatR;
 
 namespace Jhipster.Controllers
 {
@@ -27,17 +29,19 @@ namespace Jhipster.Controllers
         private readonly ILogger<AccountController> _log;
         private readonly IMapper _userMapper;
         private readonly IMailService _mailService;
+        private readonly IMediator _mediator;
         private readonly UserManager<User> _userManager;
         private readonly IUserService _userService;
 
         public AccountController(ILogger<AccountController> log, UserManager<User> userManager, IUserService userService,
-            IMapper userMapper, IMailService mailService)
+            IMapper userMapper, IMailService mailService, IMediator mediator)
         {
             _log = log;
             _userMapper = userMapper;
             _userManager = userManager;
             _userService = userService;
             _mailService = mailService;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -52,7 +56,17 @@ namespace Jhipster.Controllers
         {
             if (!CheckPasswordLength(managedUserDto.Password)) throw new InvalidPasswordException();
             var user = await _userService.RegisterUser(_userMapper.Map<User>(managedUserDto), managedUserDto.Password);
-
+            try
+            {
+                var customer = _userMapper.Map<AddCustomerCommand>(managedUserDto);
+                customer.Id = Guid.Parse(user.Id);
+                customer.CreatedDate = DateTime.Now;
+                var res = _mediator.Send(customer);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
             //await _mailService.SendActivationEmail(user);
             return CreatedAtAction(nameof(GetAccount), user);
         }
