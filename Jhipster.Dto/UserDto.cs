@@ -28,6 +28,18 @@ namespace Jhipster.Dto
 
         public string? PhoneNumber { get; set; }
 
+        public string? Company { get; set; }
+        public bool? IsUnique { get; set; }
+        [MaxLength(int.MaxValue)]
+        public string? Avatar { get; set; }
+        //Sàn
+        [MaxLength(100)]
+        public string? Exchange { get; set; }
+        [MaxLength(int.MaxValue)]
+        public string? ExchangeDescription { get; set; }
+        public DateTime? MaintainFrom { get; set; }
+        public DateTime? MaintainTo { get; set; }
+
         [MaxLength(256)] public string ImageUrl { get; set; }
 
         public bool Activated { get; set; }

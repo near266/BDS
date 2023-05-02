@@ -55,7 +55,7 @@ namespace Wallet.Controller
             return User.FindFirst(ClaimsTypeConst.Username)?.Value;
         }
 
-        [HttpPost("/customer/add")]
+        /*[HttpPost("/customer/add")]
         [AllowAnonymous]
         public async Task<IActionResult> AddCustomer([FromBody] AddCustomerCommand rq)
         {
@@ -98,7 +98,7 @@ namespace Wallet.Controller
                 _logger.LogError($"REST request to add customer fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
-        }
+        }*/
 
         [HttpPut("/customer/update")]
         [AllowAnonymous]
