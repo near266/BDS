@@ -18,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Jhipster.Infrastructure\Jhipster.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\WalletManagement\Wallet.Infrastructure\Wallet.Infrastructure.csproj" />
     <ProjectReference Include="..\Post.Application\Post.Application.csproj" />
     <ProjectReference Include="..\Post.Domain\Post.Domain.csproj" />
     <ProjectReference Include="..\Post.Shared\Post.Shared.csproj" />

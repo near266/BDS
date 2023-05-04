@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wallet.Domain.Abstractions;
 
 namespace Post.Infrastructure.Persistences.Repositories
 {
@@ -18,25 +19,48 @@ namespace Post.Infrastructure.Persistences.Repositories
     {
         private readonly IPostDbContext _context;
         private readonly IMapper _mapper;
-        public PostRepository(IPostDbContext context, IMapper mapper)
+        private readonly IWalletDbContext _wcontext;
+
+        public PostRepository(IPostDbContext context,IWalletDbContext wcontext, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
+            _wcontext = wcontext;
         }
 
         public async Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
         {
-            rq.Status = (int) PostStatus.UnApproved;
+            rq.Status = (int)PostStatus.UnApproved;
             await _context.BoughtPosts.AddAsync(rq);
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<int> AddSalePost(SalePost rq, CancellationToken cancellationToken)
         {
-            if (rq.Type == 0) rq.Status = (int)PostStatus.UnApproved;
-            else rq.Status = (int)PostStatus.Showing;
+            switch (rq.Type)
+            {
+                case (int)PostType.Normal:
+                    rq.Status = (int)PostStatus.UnApproved;
+                    break;
+                case (int)PostType.Golden:
+                    rq.Status = (int)PostStatus.Showing;
+                    break;
+                case (int)PostType.Vip:
+                    rq.Status = (int)PostStatus.Showing;
+                    break;
+                default:
+                    break;
+            }
             await _context.SalePosts.AddAsync(rq);
-            return await _context.SaveChangesAsync(cancellationToken);
+            var res = await _context.SaveChangesAsync(cancellationToken);
+            if(rq.Type == (int)PostType.Golden)
+            {
+                await SubtractMoney(rq.Id, 150000, cancellationToken);
+            }else if(rq.Type == (int)PostType.Vip)
+            {
+                await SubtractMoney(rq.Id, 250000, cancellationToken);
+            }
+            return res;
         }
 
         public async Task<int> ApprovePost(int postType, string id, int status, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
@@ -45,6 +69,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 var res = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == id);
                 if (res == null) throw new ArgumentException("Not exists !");
+
                 res.Status = status;
                 res.LastModifiedDate = modifiedDate;
                 res.LastModifiedBy = modifiedBy;
@@ -57,7 +82,12 @@ namespace Post.Infrastructure.Persistences.Repositories
                 res.Status = status;
                 res.LastModifiedDate = modifiedDate;
                 res.LastModifiedBy = modifiedBy;
-                return await _context.SaveChangesAsync(cancellationToken);
+                var result = await _context.SaveChangesAsync(cancellationToken);
+                if(status == (int)PostStatus.Showing)
+                {
+                    await SubtractMoney(id, 2500, cancellationToken);
+                }
+                return result;
             }
         }
 
@@ -172,6 +202,20 @@ namespace Post.Infrastructure.Persistences.Repositories
             var res = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
             if (res == null) throw new ArgumentException("Can not find!");
             return res;
+        }
+
+        public async Task SubtractMoney(string? postid, decimal amount, CancellationToken cancellationToken)
+        {
+            if(postid  != null)
+            {
+                var post = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postid);
+                if (post == null) throw new ArgumentException("No post found !!!");
+                var user = await _wcontext.Wallets.FirstOrDefaultAsync(i => i.CustomerId.ToString() == post.UserId);
+                if (user == null) throw new ArgumentException("No user found !!!");
+                user.Amount -= amount;
+                user.LastModifiedDate = DateTime.UtcNow;
+            }
+            await _wcontext.SaveChangesAsync(cancellationToken);
         }
     }
 }
