@@ -21,6 +21,7 @@ namespace Post.Application.Contracts
         Task<PagedList<SalePost>> SearchSalePost(string? userid, int Page, int PageSize);
         Task<PagedList<SalePost>> GetShowingSalePost(int Page, int PageSize);
         Task<SalePost> ViewDetailSalePost(string id);
+        Task SubtractMoney (string? postid, decimal amount, CancellationToken cancellationToken);
         #endregion
 
         #region Admin
