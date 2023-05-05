@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wallet.Application.DTO;
 using Wallet.Domain.Entities;
 
 namespace Wallet.Application.Persistences
@@ -14,6 +15,6 @@ namespace Wallet.Application.Persistences
         Task<int> Update(Customer cus, CancellationToken cancellationToken);
         Task<int> Delete(Guid Id,CancellationToken cancellationToken);
         Task<Customer> GetById (Guid Id);
-        Task<PagedList<Customer>> Search(int page, int pagesize);
+        Task<SearchCustomerReponse> Search(string? keyword, string? phone, bool? isUnique, int page, int pagesize);
     }
 }

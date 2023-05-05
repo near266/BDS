@@ -140,7 +140,7 @@ namespace Wallet.Controller
         }
         [HttpGet("/customer/id")]
         [AllowAnonymous]
-        public async Task<IActionResult> SearchBoughtPost([FromQuery] ViewDetailCustomerQuery rq)
+        public async Task<IActionResult> CustomerDetail([FromQuery] ViewDetailCustomerQuery rq)
         {
 
             _logger.LogInformation($"REST request to view detail customer : {rq}");
@@ -158,7 +158,7 @@ namespace Wallet.Controller
 
         [HttpPost("/customer/search")]
         [AllowAnonymous]
-        public async Task<IActionResult> SearchBoughtPost([FromBody] SearchCustomerQuery rq)
+        public async Task<IActionResult> SearchCustomer([FromBody] SearchCustomerQuery rq)
         {
 
             _logger.LogInformation($"REST request to search customer : {rq}");
