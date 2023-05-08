@@ -34,6 +34,7 @@ namespace Post.Domain.Entities
         public string? PhoneNumber { get; set; }
         public DateTime? DueDate { get; set; }
         public string UserId { get; set; }
+        public string? Reason { get; set; }
     }
 
     public static class RandomUtil

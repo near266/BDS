@@ -25,7 +25,7 @@ namespace Post.Application.Contracts
         #endregion
 
         #region Admin
-        Task<int> ApprovePost (int postType,string id,int status,DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken);
+        Task<int> ApprovePost (int postType,string id,int status,string? reason,DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken);
         #endregion
     }
 }

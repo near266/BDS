@@ -63,7 +63,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             return res;
         }
 
-        public async Task<int> ApprovePost(int postType, string id, int status, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
+        public async Task<int> ApprovePost(int postType, string id,  int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
         {
             if (postType == 0)
             {
@@ -71,6 +71,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 if (res == null) throw new ArgumentException("Not exists !");
 
                 res.Status = status;
+                res.Reason = reason;
                 res.LastModifiedDate = modifiedDate;
                 res.LastModifiedBy = modifiedBy;
                 return await _context.SaveChangesAsync(cancellationToken);
@@ -80,6 +81,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 var res = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
                 if (res == null) throw new ArgumentException("Not exists !");
                 res.Status = status;
+                res.Reason = reason;
                 res.LastModifiedDate = modifiedDate;
                 res.LastModifiedBy = modifiedBy;
                 var result = await _context.SaveChangesAsync(cancellationToken);
@@ -161,7 +163,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<PagedList<SalePost>> GetShowingSalePost(int Page, int PageSize)
         {
             var value = new PagedList<SalePost>();
-            var Data = await _context.SalePosts.Where(i => i.Status == (int)PostStatus.Showing).ToListAsync();
+            var Data = await _context.SalePosts.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Type).ToListAsync();
             value.Data = Data.Skip(PageSize * (Page - 1))
                   .Take(PageSize);
             value.TotalCount = Data.Count;

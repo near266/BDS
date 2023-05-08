@@ -22,6 +22,7 @@ namespace Post.Domain.Entities
 
         public int Status { get; set; }
         public string UserId { get; set; }
+        public string? Reason { get; set; }
     }
 }
 
