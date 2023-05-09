@@ -23,7 +23,7 @@ namespace Post.Application.Contracts
         Task<SalePost> ViewDetailSalePost(string id);
         Task SubtractMoney (string? postid, decimal amount, CancellationToken cancellationToken);
         #endregion
-
+        Task<bool> CheckBalance(string userId, int type);
         #region Admin
         Task<int> ApprovePost (int postType,string id,int status,string? reason,DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken);
         #endregion

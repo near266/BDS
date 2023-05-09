@@ -83,8 +83,8 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request  Update Wallet : {JsonConvert.SerializeObject(request)}");
             try
             {
-
-
+                request.LastModifiedBy = GetUserIdFromContext();
+                request.LastModifiedDate = DateTime.UtcNow;
                 var result = await _mediator.Send(request);
                 return Ok(result);
             }
@@ -101,8 +101,6 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request  Delete Wallet : {JsonConvert.SerializeObject(request)}");
             try
             {
-
-
                 var result = await _mediator.Send(request);
                 return Ok(result);
             }
@@ -145,8 +143,6 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request GetAllWallet : {JsonConvert.SerializeObject(request)}");
             try
             {
-
-
                 var result = await _mediator.Send(request);
                 return Ok(result);
             }
@@ -163,8 +159,8 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request  Update Wallet Promotional: {JsonConvert.SerializeObject(request)}");
             try
             {
-
-
+                request.LastModifiedBy = GetUserIdFromContext();
+                request.LastModifiedDate = DateTime.UtcNow;
                 var result = await _mediator.Send(request);
                 return Ok(result);
             }
@@ -181,8 +177,6 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request  Delete Wallet Promotional: {JsonConvert.SerializeObject(request)}");
             try
             {
-
-
                 var result = await _mediator.Send(request);
                 return Ok(result);
             }

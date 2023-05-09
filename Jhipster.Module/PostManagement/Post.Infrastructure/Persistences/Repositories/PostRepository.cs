@@ -21,7 +21,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         private readonly IMapper _mapper;
         private readonly IWalletDbContext _wcontext;
 
-        public PostRepository(IPostDbContext context,IWalletDbContext wcontext, IMapper mapper)
+        public PostRepository(IPostDbContext context, IWalletDbContext wcontext, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -53,17 +53,18 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             await _context.SalePosts.AddAsync(rq);
             var res = await _context.SaveChangesAsync(cancellationToken);
-            if(rq.Type == (int)PostType.Golden)
+            if (rq.Type == (int)PostType.Golden)
             {
                 await SubtractMoney(rq.Id, 150000, cancellationToken);
-            }else if(rq.Type == (int)PostType.Vip)
+            }
+            else if (rq.Type == (int)PostType.Vip)
             {
                 await SubtractMoney(rq.Id, 250000, cancellationToken);
             }
             return res;
         }
 
-        public async Task<int> ApprovePost(int postType, string id,  int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
+        public async Task<int> ApprovePost(int postType, string id, int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
         {
             if (postType == 0)
             {
@@ -85,7 +86,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 res.LastModifiedDate = modifiedDate;
                 res.LastModifiedBy = modifiedBy;
                 var result = await _context.SaveChangesAsync(cancellationToken);
-                if(status == (int)PostStatus.Showing)
+                if (status == (int)PostStatus.Showing)
                 {
                     await SubtractMoney(id, 2500, cancellationToken);
                 }
@@ -115,14 +116,14 @@ namespace Post.Infrastructure.Persistences.Repositories
             var value = new PagedList<BoughtPost>();
             if (userid != null)
             {
-                var Data = await _context.BoughtPosts.Where(i => i.UserId == userid).ToListAsync();
+                var Data = await _context.BoughtPosts.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate).ToListAsync();
                 value.Data = Data.Skip(PageSize * (Page - 1))
                       .Take(PageSize);
                 value.TotalCount = Data.Count;
             }
             else
             {
-                var Data = await _context.BoughtPosts.ToListAsync();
+                var Data = await _context.BoughtPosts.OrderByDescending(i => i.CreatedDate).ToListAsync();
                 value.Data = Data.Skip(PageSize * (Page - 1))
                       .Take(PageSize);
                 value.TotalCount = Data.Count;
@@ -132,7 +133,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(int Page, int PageSize)
         {
             var value = new PagedList<BoughtPost>();
-            var Data = await _context.BoughtPosts.Where(i => i.Status == (int)PostStatus.Showing).ToListAsync();
+            var Data = await _context.BoughtPosts.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.CreatedDate).ToListAsync();
             value.Data = Data.Skip(PageSize * (Page - 1))
                   .Take(PageSize);
             value.TotalCount = Data.Count;
@@ -144,14 +145,14 @@ namespace Post.Infrastructure.Persistences.Repositories
             var value = new PagedList<SalePost>();
             if (userid != null)
             {
-                var Data = await _context.SalePosts.Where(i => i.UserId == userid).ToListAsync();
+                var Data = await _context.SalePosts.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate).ToListAsync();
                 value.Data = Data.Skip(PageSize * (Page - 1))
                       .Take(PageSize);
                 value.TotalCount = Data.Count;
             }
             else
             {
-                var Data = await _context.SalePosts.ToListAsync();
+                var Data = await _context.SalePosts.OrderByDescending(i => i.CreatedDate).ToListAsync();
                 value.Data = Data.Skip(PageSize * (Page - 1))
                       .Take(PageSize);
                 value.TotalCount = Data.Count;
@@ -163,7 +164,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<PagedList<SalePost>> GetShowingSalePost(int Page, int PageSize)
         {
             var value = new PagedList<SalePost>();
-            var Data = await _context.SalePosts.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Type).ToListAsync();
+            var Data = await _context.SalePosts.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Type).ThenByDescending(i => i.CreatedDate).ToListAsync();
             value.Data = Data.Skip(PageSize * (Page - 1))
                   .Take(PageSize);
             value.TotalCount = Data.Count;
@@ -208,7 +209,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task SubtractMoney(string? postid, decimal amount, CancellationToken cancellationToken)
         {
-            if(postid  != null)
+            if (postid != null)
             {
                 var post = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postid);
                 if (post == null) throw new ArgumentException("No post found !!!");
@@ -216,8 +217,28 @@ namespace Post.Infrastructure.Persistences.Repositories
                 if (user == null) throw new ArgumentException("No user found !!!");
                 user.Amount -= amount;
                 user.LastModifiedDate = DateTime.UtcNow;
+                await _wcontext.SaveChangesAsync(cancellationToken);
             }
-            await _wcontext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<bool> CheckBalance(string userId, int type)
+        {
+            var check = false;
+            var user = await _wcontext.Wallets.FirstOrDefaultAsync(i => i.CustomerId.ToString() == userId);
+            if (user == null) throw new ArgumentException("User Not Found !!!");
+            if(type == (int)PostType.Normal && user.Amount > 0 && user.Amount > 2500)
+            {
+                check = true;
+            }
+            else if(type == (int)PostType.Golden && user.Amount > 0 && user.Amount > 150000)
+            {
+                check = true;
+            }
+            else if(type == (int)PostType.Vip && user.Amount > 0 && user.Amount > 250000)
+            {
+                check = true;
+            }
+            return check;
         }
     }
 }

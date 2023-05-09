@@ -51,27 +51,6 @@ namespace Wallet.Application.Commands.CustomerC
         {
             var map = _mapper.Map<Customer>(request);
             var res = await _repo.Add(map,cancellationToken);
-            var wallet = new WalletEntity
-            {
-                Id = Guid.NewGuid(),
-                Username = "string",
-                Amount = 0,
-                Currency = "Đồng",
-                CustomerId = (Guid)request.Id,
-                CreatedDate = DateTime.UtcNow,
-            };
-
-            var walletPro = new WalletPromotional
-            {
-                Id = Guid.NewGuid(),
-                Username = "string",
-                Amount = 0,
-                Currency = "Đồng",
-                CustomerId = (Guid)request.Id,
-                CreatedDate = DateTime.UtcNow,
-            };
-            var res1 = await _wRepo.Add(wallet, cancellationToken);
-            var res2 = await _wpRepo.Add(walletPro, cancellationToken);
             return res;
         }
     }

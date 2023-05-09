@@ -18,7 +18,6 @@ namespace Wallet.Application.Commands.WalletsC
         public string? Username { get; set; }
         public decimal Amount { get; set; }
         public string? Currency { get; set; }
-        [JsonIgnore]
         public Guid? CustomerId { get; set; }
         [JsonIgnore]
         public string? CreatedBy { get; set; }

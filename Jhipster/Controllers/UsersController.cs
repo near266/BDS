@@ -26,6 +26,9 @@ using Microsoft.Extensions.Configuration;
 using RestSharp;
 using Wallet.Application.Commands.CustomerC;
 using MediatR;
+using Wallet.Domain.Entities;
+using Wallet.Application.Commands.WalletsC;
+using Wallet.Application.Commands.WalletsPromotionaC;
 
 namespace Jhipster.Controllers
 {
@@ -84,6 +87,27 @@ namespace Jhipster.Controllers
                 customer.Id = Guid.Parse(newUser.Id);
                 customer.CreatedDate = DateTime.Now;
                 var res = _mediator.Send(customer);
+                var wallet = new AddWalletsCommand
+                {
+                    Id = Guid.NewGuid(),
+                    Username = "string",
+                    Amount = 0,
+                    Currency = "Đồng",
+                    CustomerId = customer.Id,
+                    CreatedDate = DateTime.UtcNow,
+                };
+
+                var walletPro = new AddWalletPromotionCommand
+                {
+                    Id = Guid.NewGuid(),
+                    Username = "string",
+                    Amount = 0,
+                    Currency = "Đồng",
+                    CustomerId = customer.Id,
+                    CreatedDate = DateTime.UtcNow,
+                };
+                var resWallet = _mediator.Send(wallet);
+                var resWalletPro = _mediator.Send(walletPro);
             }
             catch(Exception ex)
             {

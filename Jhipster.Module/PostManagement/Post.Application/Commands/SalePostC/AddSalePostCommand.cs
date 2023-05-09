@@ -31,7 +31,6 @@ namespace Post.Application.Commands.SalePostC
         public DateTime? CreatedDate { get; set; }
         [JsonIgnore]
         public string? CreatedBy { get; set; }
-        public DateTime? DueDate { get; set; }
     }
     public class AddSalePostCommandHadler : IRequestHandler<AddSalePostCommand, int>
     {
@@ -46,6 +45,9 @@ namespace Post.Application.Commands.SalePostC
         public async Task<int> Handle(AddSalePostCommand request, CancellationToken cancellationToken)
         {
             var map = _mapper.Map<SalePost>(request);
+            map.DueDate = map.CreatedDate.AddDays(25);
+            var check = await _repository.CheckBalance(request.UserId,request.Type);
+            if(!check) throw new ArgumentException ("Not enough money");
             return await _repository.AddSalePost(map, cancellationToken);
         }
     }
