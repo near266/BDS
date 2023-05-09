@@ -14,11 +14,10 @@ namespace Wallet.Application.Commands.WalletsC
     public class UpdateWalletCommand : IRequest<int>
     {
         public Guid Id { get; set; }
-        public string CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public decimal Amount { get; set; }
         public string? Currency { get; set; }
         [JsonIgnore]
-
         public string? LastModifiedBy { get; set; }
         [JsonIgnore]
 

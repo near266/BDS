@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Jhipster.Crosscutting.Constants;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -16,8 +18,9 @@ using Wallet.Application.Queries.WalletsQ;
 
 namespace Wallet.Controller
 {
-    [ApiController]
+    [Authorize]
     [Route("gw/[controller]")]
+    [ApiController]
     public class WallletController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -58,15 +61,15 @@ namespace Wallet.Controller
         }*/
 
 
-        [HttpGet("/walletpost/getall")]
+        [HttpGet("/wallet/getall")]
 
         public async Task<ActionResult<int>> GetAllWallet([FromQuery] GetAllWalletQuery request)
         {
             _logger.LogInformation($"REST request GetAllWallet : {JsonConvert.SerializeObject(request)}");
             try
             {
-                
-            
+
+
                 var result = await _mediator.Send(request);
                 return Ok(result);
             }
@@ -76,7 +79,9 @@ namespace Wallet.Controller
                 return StatusCode(500, ex.Message);
             }
         }
-        [HttpPut("/walletpost/update")]
+
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPut("/wallet/update")]
 
         public async Task<ActionResult<int>> UpdateWallet([FromBody] UpdateWalletCommand request)
         {
@@ -94,7 +99,8 @@ namespace Wallet.Controller
                 return StatusCode(500, ex.Message);
             }
         }
-        [HttpPut("walletpost/delete/{walletpost-id}")]
+
+        [HttpPut("wallet/delete/{walletpost-id}")]
 
         public async Task<ActionResult<int>> DeleteWallet ([FromBody] DeleteWalletCommand request)
         {
@@ -152,6 +158,8 @@ namespace Wallet.Controller
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPut("WalletPromotional/Update")]
 
         public async Task<ActionResult<int>> UpdateWalletPromotional([FromBody] UpdateWalletPromotionCommand request)

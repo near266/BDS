@@ -17,7 +17,6 @@ namespace Post.Application.Commands.BoughtPostC
         public string? UserId { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
-        public int? Status { get; set; }
         [JsonIgnore]
         public DateTime? CreatedDate { get; set; }
         [JsonIgnore]

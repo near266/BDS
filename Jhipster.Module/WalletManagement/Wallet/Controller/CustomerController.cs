@@ -55,53 +55,8 @@ namespace Wallet.Controller
             return User.FindFirst(ClaimsTypeConst.Username)?.Value;
         }
 
-        /*[HttpPost("/customer/add")]
-        [AllowAnonymous]
-        public async Task<IActionResult> AddCustomer([FromBody] AddCustomerCommand rq)
-        {
-            _logger.LogInformation($"REST request to add customer : {rq}");
-            try
-            {
-                rq.Id = Guid.NewGuid();
-                rq.CreatedDate = DateTime.UtcNow;
-                rq.CreatedBy = GetUsernameFromContext();
-
-                var wallet = new AddWalletsCommand
-                {
-                    Id = Guid.NewGuid(),
-                    Username = "string",
-                    Amount = 0,
-                    Currency = "Đồng",
-                    CustomerId = rq.Id,
-                    CreatedDate = DateTime.UtcNow,
-                    CreatedBy = GetUsernameFromContext(),
-                };
-
-                var walletPro = new AddWalletPromotionCommand
-                {
-                    Id = Guid.NewGuid(),
-                    Username = "string",
-                    Amount = 0,
-                    Currency = "Đồng",
-                    CustomerId = rq.Id,
-                    CreatedDate = DateTime.UtcNow,
-                    CreatedBy = GetUsernameFromContext(),
-                };
-
-                var res = await _mediator.Send(rq);
-                var res1 = await _mediator.Send(wallet);
-                var res2 = await _mediator.Send(walletPro);
-                return Ok(res);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to add customer fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }*/
-
+        [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPut("/customer/update")]
-        [AllowAnonymous]
         public async Task<IActionResult> UpdateCustomer([FromBody] UpdateCustomerCommand rq)
         {
             _logger.LogInformation($"REST request to update customer : {rq}");
@@ -119,8 +74,8 @@ namespace Wallet.Controller
             }
         }
 
+        [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpDelete("/customer/delete")]
-        [AllowAnonymous]
         public async Task<IActionResult> DeleteCustomer([FromQuery] DeleteCustomerCommand rq)
         {
 
@@ -135,11 +90,10 @@ namespace Wallet.Controller
                 _logger.LogError($"REST request to delete customer fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
-
-
         }
+
+        [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpGet("/customer/id")]
-        [AllowAnonymous]
         public async Task<IActionResult> CustomerDetail([FromQuery] ViewDetailCustomerQuery rq)
         {
 
@@ -156,8 +110,8 @@ namespace Wallet.Controller
             }
         }
 
+        [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPost("/customer/search")]
-        [AllowAnonymous]
         public async Task<IActionResult> SearchCustomer([FromBody] SearchCustomerQuery rq)
         {
 

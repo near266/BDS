@@ -74,8 +74,8 @@ namespace Post.Controller
             return User.FindFirst(ClaimsTypeConst.Username)?.Value;
         }
 
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("/boughtpost/add")]
-        [AllowAnonymous]
         public async Task<IActionResult> AddBoughtPost([FromBody] AddBoughtPostCommand rq)
         {
             _logger.LogInformation($"REST request to add bought post : {rq}");
@@ -94,8 +94,9 @@ namespace Post.Controller
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpPut("/boughtpost/update")]
-        [AllowAnonymous]
         public async Task<IActionResult> UpdateBoughtPost([FromBody] UpdateBoughtPostCommand rq)
         {
 
@@ -115,8 +116,9 @@ namespace Post.Controller
 
 
         }
+
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpDelete("/boughtpost/delete")]
-        [AllowAnonymous]
         public async Task<IActionResult> DeleteBoughtPost([FromQuery] string rq)
         {
 
@@ -135,8 +137,9 @@ namespace Post.Controller
 
 
         }
+
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("/boughtpost/search")]
-        [AllowAnonymous]
         public async Task<IActionResult> SearchBoughtPost([FromBody] ViewAllBoughtPostQuery rq)
         {
             _logger.LogInformation($"REST request to search bought post : {rq}");
@@ -179,9 +182,8 @@ namespace Post.Controller
         }
 
 
-
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpGet("/boughtpost/id")]
-        [AllowAnonymous]
         public async Task<IActionResult> ViewDetailBoughtPost([FromQuery] ViewDetailBoughtPostQuery rq)
         {
 
@@ -196,11 +198,10 @@ namespace Post.Controller
                 _logger.LogError($"REST request to view detail bought post fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
-
-
         }
+
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("/salepost/add")]
-        [AllowAnonymous]
         public async Task<IActionResult> AddSalePost([FromBody] AddSalePostCommand rq)
         {
 
@@ -222,8 +223,9 @@ namespace Post.Controller
 
 
         }
+
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpPut("/salepost/update")]
-        [AllowAnonymous]
         public async Task<IActionResult> UpdateSalePost([FromBody] UpdateSalePostCommand rq)
         {
 
@@ -243,8 +245,9 @@ namespace Post.Controller
 
 
         }
+
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpDelete("/salepost/delete")]
-        [AllowAnonymous]
         public async Task<IActionResult> DeleteSalePost([FromQuery] string rq)
         {
 
@@ -263,8 +266,9 @@ namespace Post.Controller
 
 
         }
+
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("/salepost/search")]
-        [AllowAnonymous]
         public async Task<IActionResult> SearchSalePost([FromBody] ViewAllSalePostQuery rq)
         {
             _logger.LogInformation($"REST request to search sale post : {rq}");
@@ -290,6 +294,7 @@ namespace Post.Controller
         }
 
         [HttpPost("/salepost/getShowing")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetShowingSaletPost([FromBody]GetAllShowingSalePostQuery rq)
         {
             _logger.LogInformation($"REST request to get showing sale post");
@@ -305,8 +310,8 @@ namespace Post.Controller
             }
         }
 
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpGet("/salepost/id")]
-        [AllowAnonymous]
         public async Task<IActionResult> ViewDetailSalePost([FromQuery] ViewDetailSalePostQuery rq)
         {
 
@@ -325,15 +330,15 @@ namespace Post.Controller
 
         }
 
+        [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPost("/admin/approve")]
-        [AllowAnonymous]
         public async Task<IActionResult> ApprovePost([FromBody] ApprovePostCommand rq)
         {
             _logger.LogInformation($"REST request to approve post : {rq}");
             try
             {
-                rq.modifiedDate = DateTime.UtcNow;
-                rq.modifiedBy = GetUsernameFromContext();
+                rq.LastModifiedDate = DateTime.UtcNow;
+                rq.LastModifiedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
                 return Ok(res);
             }

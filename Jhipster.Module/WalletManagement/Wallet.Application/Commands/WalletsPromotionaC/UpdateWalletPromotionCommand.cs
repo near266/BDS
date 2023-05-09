@@ -15,12 +15,13 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
     public class UpdateWalletPromotionCommand :IRequest<int>
     {
         public Guid Id { get; set; }
+        public Guid CustomerId { get; set; }
         public decimal Amount { get; set; }
         public string? Currency { get; set; }
         [JsonIgnore]
 
         public string? LastModifiedBy { get; set; }
-        [MaxLength(100)]
+        [JsonIgnore]
 
         public DateTime? LastModifiedDate { get; set; }
     }
