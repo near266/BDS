@@ -24,6 +24,12 @@ namespace Post.Domain.Entities
        */
         public int Status { get; set; }
         public double Price { get; set; }
+        //đơn vị : triệu, tỷ, . . .
+        public string? Unit { get; set; }
+        //Diện tích
+        public double? Area { get; set; }
+        [MaxLength(100)]
+        public string? Region { get; set; }
         public List<string>? Image { get; set; }
         public int IsOwner { get; set; }
 

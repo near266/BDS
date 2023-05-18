@@ -24,6 +24,12 @@ namespace Post.Application.Commands.SalePostC
         [JsonIgnore]
         public string? UserId { get; set; }
         public double Price { get; set; }
+        //đơn vị : triệu, tỷ, . . .
+        public string? Unit { get; set; }
+        //Diện tích
+        public double? Area { get; set; }
+        //khu vực
+        public string? Region { get; set; }
         public int Status { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }

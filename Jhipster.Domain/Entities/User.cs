@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Jhipster.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
@@ -51,7 +52,8 @@ namespace Jhipster.Domain
 
         public string Company { get; set;}
         public string Address { get; set; }
-
+        public string? OTP { get; set; } = RandomUtil.GenerateKey();
+        public string? ReferalCode { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public string LastModifiedBy { get; set; }
@@ -87,6 +89,17 @@ namespace Jhipster.Domain
                    $", LangKey='{LangKey}'" +
                    $", ActivationKey='{ActivationKey}'" +
                    "}";
+        }
+        public static class RandomUtil
+        {
+            private static readonly Random random = new Random();
+
+            public static string GenerateKey()
+            {
+                const string chars = "0123456789";
+                return new string(Enumerable.Repeat(chars, 6)
+                    .Select(s => s[random.Next(s.Length)]).ToArray());
+            }
         }
     }
 }

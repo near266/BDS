@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Wallet.Domain.Entities;
 using Post.Domain.Entities;
+using Jhipster.Domain.Entities;
 
 namespace Jhipster.Infrastructure.Data
 {
@@ -42,6 +43,7 @@ namespace Jhipster.Infrastructure.Data
         public DbSet<SalePost> SalePosts { get; set; }
         public DbSet<BoughtPost> BoughtPosts { get; set; }
 
+        public DbSet<DeliveryData> DeliveryDatas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

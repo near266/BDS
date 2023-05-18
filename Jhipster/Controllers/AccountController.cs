@@ -20,6 +20,9 @@ using Wallet.Application.Commands.CustomerC;
 using MediatR;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
+using Jhipster.Domain.Entities;
+using Microsoft.Extensions.Configuration;
+using Jhipster.Infrastructure.Data;
 
 namespace Jhipster.Controllers
 {
@@ -32,11 +35,13 @@ namespace Jhipster.Controllers
         private readonly IMapper _userMapper;
         private readonly IMailService _mailService;
         private readonly IMediator _mediator;
+        private readonly IConfiguration _configuration;
+        private readonly ApplicationDatabaseContext _context;
         private readonly UserManager<User> _userManager;
         private readonly IUserService _userService;
 
         public AccountController(ILogger<AccountController> log, UserManager<User> userManager, IUserService userService,
-            IMapper userMapper, IMailService mailService, IMediator mediator)
+            IMapper userMapper, IMailService mailService, IMediator mediator, IConfiguration configuration, ApplicationDatabaseContext context)
         {
             _log = log;
             _userMapper = userMapper;
@@ -44,6 +49,8 @@ namespace Jhipster.Controllers
             _userService = userService;
             _mailService = mailService;
             _mediator = mediator;
+            _configuration = configuration;
+            _context = context;
         }
 
         /// <summary>
@@ -85,8 +92,21 @@ namespace Jhipster.Controllers
                 };
                 var resWallet = _mediator.Send(wallet);
                 var resWalletPro = _mediator.Send(walletPro);
+
+                var datas = _configuration.GetValue<string>("EmailTemplate:OTPvetifiedEmail");
+                var delivery = new DeliveryData
+                {
+                    Data = string.Format(datas,user.Email,user.OTP),
+                    Method = "Email",
+                    MethodData = user.Email,
+                    Subject = "Yêu cầu mã bảo mật",
+                    IsCancelled = false,
+                    IsSend = false,
+                };
+                _context.DeliveryDatas.Add(delivery);
+                _context.SaveChanges();
             }
-            catch (Exception ex)
+            catch (Exception ex)  
             {
                 return StatusCode(500, ex.Message);
             }

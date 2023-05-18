@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Jhipster.Crosscutting.Utilities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Post.Application.Contracts;
 using Post.Domain.Abstractions;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wallet.Domain.Abstractions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Post.Infrastructure.Persistences.Repositories
 {
@@ -161,14 +163,60 @@ namespace Post.Infrastructure.Persistences.Repositories
             return value;
         }
 
-        public async Task<PagedList<SalePost>> GetShowingSalePost(int Page, int PageSize)
+        public async Task<PagedList<SalePost>> GetShowingSalePost(int? fromPrice, int? toPrice, string? million, string? trillion, double? fromArea, double? toArea,
+            string? region, int Page, int PageSize)
         {
-            var value = new PagedList<SalePost>();
-            var Data = await _context.SalePosts.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Type).ThenByDescending(i => i.CreatedDate).ToListAsync();
-            value.Data = Data.Skip(PageSize * (Page - 1))
-                  .Take(PageSize);
-            value.TotalCount = Data.Count;
-            return value;
+            var query = _context.SalePosts.AsQueryable();
+            if ((fromPrice >= 0) && (million != null || trillion != null))
+            {
+                if (toPrice > 0)
+                {
+                    if (million != null && million.Equals("Triệu") && trillion == null)
+                    {
+                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
+                        i.Unit == million && (i.Price >= fromPrice && i.Price <= toPrice));
+                    }
+                    else if (million != null && million.Equals("Triệu") && trillion != null && trillion.Equals("Tỷ"))
+                    {
+                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
+                        (i.Unit == million && i.Price >= fromPrice) || (i.Unit == trillion && i.Price <= toPrice));
+                    }
+                    else if (trillion != null && trillion.Equals("Tỷ") && million == null)
+                    {
+                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
+                        i.Unit == trillion && (i.Price >= fromPrice && i.Price <= toPrice));
+                    }
+                }
+                else
+                {
+                    query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
+                    i.Unit == trillion && i.Price >= fromPrice);
+                }
+            }
+
+            if (fromArea >= 0)
+            {
+                if (toArea > 0) query = query.Where(i => i.Area > 0 && (i.Area >= fromArea && i.Area <= toArea));
+                else query = query.Where(i => i.Area > 0 && i.Area >= fromArea);
+            }
+
+            if(region != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
+            }
+
+            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)
+                .OrderByDescending(i => i.Type).ThenByDescending(i => i.CreatedDate);
+            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                .Take(PageSize)
+                                .ToListAsync();
+
+            var reslist = await sQuery.ToListAsync();
+            return new PagedList<SalePost>
+            {
+                Data = sQuery1,
+                TotalCount = reslist.Count,
+            };
         }
 
         public async Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
@@ -226,15 +274,15 @@ namespace Post.Infrastructure.Persistences.Repositories
             var check = false;
             var user = await _wcontext.Wallets.FirstOrDefaultAsync(i => i.CustomerId.ToString() == userId);
             if (user == null) throw new ArgumentException("User Not Found !!!");
-            if(type == (int)PostType.Normal && user.Amount > 0 && user.Amount > 2500)
+            if (type == (int)PostType.Normal && user.Amount > 0 && user.Amount > 2500)
             {
                 check = true;
             }
-            else if(type == (int)PostType.Golden && user.Amount > 0 && user.Amount > 150000)
+            else if (type == (int)PostType.Golden && user.Amount > 0 && user.Amount > 150000)
             {
                 check = true;
             }
-            else if(type == (int)PostType.Vip && user.Amount > 0 && user.Amount > 250000)
+            else if (type == (int)PostType.Vip && user.Amount > 0 && user.Amount > 250000)
             {
                 check = true;
             }

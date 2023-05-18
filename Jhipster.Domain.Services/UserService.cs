@@ -209,8 +209,8 @@ namespace Jhipster.Domain.Services
                 ImageUrl = userToRegister.ImageUrl,
                 LangKey = userToRegister.LangKey,
                 // new user is not active
-                //Activated = false,
-                Activated = true,
+                Activated = false,
+                //Activated = true,
                 // new user gets registration key
                 //ActivationKey = RandomUtil.GenerateActivationKey()
                 //TODO manage authorities

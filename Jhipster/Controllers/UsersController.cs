@@ -29,6 +29,7 @@ using MediatR;
 using Wallet.Domain.Entities;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
+using Jhipster.Domain.Entities;
 
 namespace Jhipster.Controllers
 {
