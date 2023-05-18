@@ -27,7 +27,7 @@ namespace Jhipster.Dto
         public string? Email { get; set; }
 
         public string? PhoneNumber { get; set; }
-
+        public string? Address { get; set; }
         public string? Company { get; set; }
         public bool? IsUnique { get; set; }
         [MaxLength(int.MaxValue)]

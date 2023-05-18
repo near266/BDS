@@ -97,7 +97,7 @@ namespace Jhipster.Controllers
                 var delivery = new DeliveryData
                 {
                     Data = string.Format(datas,user.Email,user.ActivationKey),
-                    Method = "Email",
+                    Method = "Email", 
                     MethodData = user.Email,
                     Subject = "Yêu cầu mã bảo mật",
                     IsCancelled = false,
