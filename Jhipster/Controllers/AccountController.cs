@@ -102,6 +102,8 @@ namespace Jhipster.Controllers
                     Subject = "Yêu cầu mã bảo mật",
                     IsCancelled = false,
                     IsSend = false,
+                    CreatedDate = DateTime.UtcNow,
+                    CreatedBy = "admin"
                 };
                 _context.DeliveryDatas.Add(delivery);
                 _context.SaveChanges();
