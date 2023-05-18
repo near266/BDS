@@ -39,7 +39,7 @@ namespace Jhipster.Domain
         [StringLength(20)]
         [Column("activation_key")]
         [JsonIgnore]
-        public string ActivationKey { get; set; }
+        public string ActivationKey { get; set; } = RandomUtil.GenerateKey();
 
         [StringLength(20)]
         [Column("reset_key")]

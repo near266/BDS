@@ -96,7 +96,7 @@ namespace Jhipster.Controllers
                 var datas = _configuration.GetValue<string>("EmailTemplate:OTPvetifiedEmail");
                 var delivery = new DeliveryData
                 {
-                    Data = string.Format(datas,user.Email,user.OTP),
+                    Data = string.Format(datas,user.Email,user.ActivationKey),
                     Method = "Email",
                     MethodData = user.Email,
                     Subject = "Yêu cầu mã bảo mật",

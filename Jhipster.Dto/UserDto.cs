@@ -17,7 +17,7 @@ namespace Jhipster.Dto
         [MaxLength(50)]
         public string Login { get; set; }
 
-        public string? ReferralCode { get; set; }
+        public string? ReferalCode { get; set; }
 
         [MaxLength(50)] public string FirstName { get; set; }
 
