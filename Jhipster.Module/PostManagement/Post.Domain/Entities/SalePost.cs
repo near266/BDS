@@ -32,11 +32,9 @@ namespace Post.Domain.Entities
         public string? Region { get; set; }
         public List<string>? Image { get; set; }
         public int IsOwner { get; set; }
-
         public string Username { get; set; }
-
+        [MaxLength(250)]
         public string? Address { get; set; }
-
         public string? PhoneNumber { get; set; }
         public DateTime? DueDate { get; set; }
         public string UserId { get; set; }

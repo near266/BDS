@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Jhipster.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Jhipster.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDatabaseContext))]
-    partial class ApplicationDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230519090653_addFieldBoughtPost")]
+    partial class addFieldBoughtPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -392,9 +394,6 @@ namespace Jhipster.Infrastructure.Migrations
                     b.Property<string>("Titile")
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()

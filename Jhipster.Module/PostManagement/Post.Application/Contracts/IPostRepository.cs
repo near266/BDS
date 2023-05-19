@@ -10,7 +10,8 @@ namespace Post.Application.Contracts
         Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken);
         Task<int> DeleteBoughtPost(string Id, CancellationToken cancellationToken);
         Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, int Page, int PageSize);
-        Task<PagedList<BoughtPost>> GetShowingBoughtPost(int Page, int PageSize);
+        Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? keyword, int? fromPrice, int? toPrice, string? million, string? trillion,
+            string? region, int Page, int PageSize);
         Task<BoughtPost> ViewDetailBoughtPost(string id);
         #endregion
 
@@ -19,7 +20,7 @@ namespace Post.Application.Contracts
         Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken);
         Task<int> DeleteSalePost(string Id, CancellationToken cancellationToken);
         Task<PagedList<SalePost>> SearchSalePost(string? userid, int Page, int PageSize);
-        Task<PagedList<SalePost>> GetShowingSalePost(int? fromPrice, int? toPrice, string? million, string? trillion, double? fromArea, double? toArea,
+        Task<PagedList<SalePost>> GetShowingSalePost(string? keyword, int? fromPrice, int? toPrice, string? million, string? trillion, double? fromArea, double? toArea,
             string? region, int Page, int PageSize);
         Task<SalePost> ViewDetailSalePost(string id);
         Task SubtractMoney (string? postid, decimal amount, CancellationToken cancellationToken);

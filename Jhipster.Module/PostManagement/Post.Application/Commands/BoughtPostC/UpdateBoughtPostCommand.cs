@@ -14,6 +14,10 @@ namespace Post.Application.Commands.BoughtPostC
     public class UpdateBoughtPostCommand : IRequest<int>
     {
         public string Id { get; set; }
+        public string? Titile { get; set; }
+        public string? Description { get; set; }
+        public string? Region { get; set; }
+        public double Price { get; set; }
         public string? LandToBuy { get; set; }
         public string? Criteria { get; set; }
 

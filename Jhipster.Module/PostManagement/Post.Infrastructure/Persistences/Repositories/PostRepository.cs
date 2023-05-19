@@ -132,14 +132,60 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return value;
         }
-        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(int Page, int PageSize)
+        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? keyword, int? fromPrice, int? toPrice, string? million, string? trillion,
+            string? region, int Page, int PageSize)
         {
-            var value = new PagedList<BoughtPost>();
-            var Data = await _context.BoughtPosts.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.CreatedDate).ToListAsync();
-            value.Data = Data.Skip(PageSize * (Page - 1))
-                  .Take(PageSize);
-            value.TotalCount = Data.Count;
-            return value;
+            var query = _context.BoughtPosts.AsQueryable();
+
+            if (keyword != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
+            }
+
+            if ((fromPrice >= 0) && (million != null || trillion != null))
+            {
+                if (toPrice > 0)
+                {
+                    if (million != null && million.Equals("Triệu") && trillion == null)
+                    {
+                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
+                        i.Unit == million && (i.Price >= fromPrice && i.Price <= toPrice));
+                    }
+                    else if (million != null && million.Equals("Triệu") && trillion != null && trillion.Equals("Tỷ"))
+                    {
+                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
+                        (i.Unit == million && i.Price >= fromPrice) || (i.Unit == trillion && i.Price <= toPrice));
+                    }
+                    else if (trillion != null && trillion.Equals("Tỷ") && million == null)
+                    {
+                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
+                        i.Unit == trillion && (i.Price >= fromPrice && i.Price <= toPrice));
+                    }
+                }
+                else
+                {
+                    query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
+                    i.Unit == trillion && i.Price >= fromPrice);
+                }
+            }
+
+
+            if (region != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
+            }
+
+            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.CreatedDate);
+            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                .Take(PageSize)
+                                .ToListAsync();
+
+            var reslist = await sQuery.ToListAsync();
+            return new PagedList<BoughtPost>
+            {
+                Data = sQuery1,
+                TotalCount = reslist.Count,
+            };
         }
 
         public async Task<PagedList<SalePost>> SearchSalePost(string? userid, int Page, int PageSize)
@@ -163,10 +209,16 @@ namespace Post.Infrastructure.Persistences.Repositories
             return value;
         }
 
-        public async Task<PagedList<SalePost>> GetShowingSalePost(int? fromPrice, int? toPrice, string? million, string? trillion, double? fromArea, double? toArea,
+        public async Task<PagedList<SalePost>> GetShowingSalePost(string? keyword, int? fromPrice, int? toPrice, string? million, string? trillion, double? fromArea, double? toArea,
             string? region, int Page, int PageSize)
         {
             var query = _context.SalePosts.AsQueryable();
+
+            if (keyword != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
+            }
+
             if ((fromPrice >= 0) && (million != null || trillion != null))
             {
                 if (toPrice > 0)
