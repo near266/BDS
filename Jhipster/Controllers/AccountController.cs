@@ -23,6 +23,7 @@ using Wallet.Application.Commands.WalletsPromotionaC;
 using Jhipster.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Jhipster.Infrastructure.Data;
+using Wallet.Application.Queries.CustomerQ;
 
 namespace Jhipster.Controllers
 {
@@ -203,7 +204,11 @@ namespace Jhipster.Controllers
         {
             var user = await _userService.GetUserWithUserRoles();
             if (user == null) throw new InternalServerErrorException("User could not be found");
+            var comd = new ViewDetailCustomerQuery { Id = Guid.Parse(user.Id) };
+            var cus = await _mediator.Send(comd);
             var userDto = _userMapper.Map<UserDto>(user);
+            userDto.Company = cus.Company;
+            userDto.Address = cus.Address;
             return Ok(userDto);
         }
 

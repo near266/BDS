@@ -54,7 +54,8 @@ namespace Jhipster.Domain.Services
                 PasswordHash = _userManager.PasswordHasher.HashPassword(null, password),
                 ResetKey = password,
                 ResetDate = DateTime.Now,
-                Activated = true
+                Activated = true,
+                IsEnterprise = false,
             };
             await _userManager.CreateAsync(user);
             await CreateUserRoles(user, userToCreate.UserRoles.Select(iur => iur.Role.Name).ToHashSet());
@@ -208,6 +209,8 @@ namespace Jhipster.Domain.Services
                 PhoneNumber = userToRegister.PhoneNumber,
                 ImageUrl = userToRegister.ImageUrl,
                 LangKey = userToRegister.LangKey,
+                ReferalCode = userToRegister.ReferalCode,
+                IsEnterprise = false,
                 // new user is not active
                 //Activated = false,
                 Activated = true,

@@ -54,6 +54,7 @@ namespace Jhipster.Domain
         public string Address { get; set; }
         public string? OTP { get; set; } = RandomUtil.GenerateKey();
         public string? ReferalCode { get; set; }
+        public bool? IsEnterprise { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public string LastModifiedBy { get; set; }
