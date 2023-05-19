@@ -13,6 +13,7 @@ namespace Post.Application.Commands.BoughtPostC
         public string? Description { get; set; }
         public string? Region { get; set; }
         public double Price { get; set; }
+        public string? Unit { get; set; }
         public string? LandToBuy { get; set; }
         public string? Criteria { get; set; }
         public string? FullName { get; set; }
