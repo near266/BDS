@@ -26,10 +26,19 @@ namespace Wallet.Controller
         private readonly IMediator _mediator;
         private readonly ILogger<WallletController> _logger;
         private readonly IMapper _mapper;
-        private string GetUserIdFromContext()
-        {
-            return User.FindFirst("UserId")?.Value;
 
+        private string? GetUserIdFromConext()
+        {
+            return User.FindFirst(ClaimsTypeConst.Id)?.Value;
+        }
+
+        private string? GetRoleFromContext()
+        {
+            return User.FindFirst(ClaimsTypeConst.Role)?.Value;
+        }
+        private string? GetUsernameFromContext()
+        {
+            return User.FindFirst(ClaimsTypeConst.Username)?.Value;
         }
         public WallletController(IMediator mediator, ILogger<WallletController> logger, IMapper mapper)
         {
@@ -61,6 +70,24 @@ namespace Wallet.Controller
         }*/
 
 
+        [HttpGet("/wallet/getByUserId")]
+
+        public async Task<IActionResult> GetWalletByUserId([FromQuery] GetWalletByUserIdQuery request)
+        {
+            _logger.LogInformation($"REST request GetWalletByUserId : {JsonConvert.SerializeObject(request)}");
+            try
+            {
+                request.UserId = GetUserIdFromConext();
+                var result = await _mediator.Send(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to GetWalletByUserId fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("/wallet/getall")]
 
         public async Task<ActionResult<int>> GetAllWallet([FromQuery] GetAllWalletQuery request)
@@ -88,7 +115,7 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request  Update Wallet : {JsonConvert.SerializeObject(request)}");
             try
             {
-                request.LastModifiedBy = GetUserIdFromContext();
+                request.LastModifiedBy = GetUserIdFromConext();
                 request.LastModifiedDate = DateTime.UtcNow;
                 var result = await _mediator.Send(request);
                 return Ok(result);
@@ -167,7 +194,7 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request  Update Wallet Promotional: {JsonConvert.SerializeObject(request)}");
             try
             {
-                request.LastModifiedBy = GetUserIdFromContext();
+                request.LastModifiedBy = GetUserIdFromConext();
                 request.LastModifiedDate = DateTime.UtcNow;
                 var result = await _mediator.Send(request);
                 return Ok(result);

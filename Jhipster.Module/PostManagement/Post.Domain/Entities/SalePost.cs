@@ -33,6 +33,10 @@ namespace Post.Domain.Entities
         public List<string>? Image { get; set; }
         public int IsOwner { get; set; }
         public string Username { get; set; }
+        [MaxLength(50)]
+        public string? FullName { get; set; }
+        [EmailAddress]
+        public string? Email { get; set; }
         [MaxLength(250)]
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Wallet.Application.DTO;
 using Wallet.Application.Persistences;
 using Wallet.Domain.Abstractions;
 using Wallet.Domain.Entities;
@@ -41,6 +42,20 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             var obj = await _context.Wallets.ToListAsync();
 
             return obj;
+        }
+
+        public async Task<WalletResponseDTO> GetWalletByUserId(string? userId)
+        {
+            var w = await _context.Wallets.FirstOrDefaultAsync(i => i.CustomerId == Guid.Parse(userId));
+            if (w == null) throw new ArgumentException("Wallet not found");
+            var wp = await _context.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId == Guid.Parse(userId));
+            if (wp == null) throw new ArgumentException("Wallet Promotional not found");
+            var res = new WalletResponseDTO
+            {
+                wallet = _mapper.Map<WalletDto>(w),
+                walletPromotional = _mapper.Map<WalletPromotionalDto>(wp),
+            };
+            return res;
         }
 
         public async Task<int> Update(WalletEntity Wallet, CancellationToken cancellation)

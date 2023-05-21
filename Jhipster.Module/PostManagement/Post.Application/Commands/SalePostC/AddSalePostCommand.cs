@@ -9,11 +9,8 @@ namespace Post.Application.Commands.SalePostC
 {
     public class AddSalePostCommand : IRequest<int>
     {
-        public int Type { get; set; }
-
-        [MaxLength(25)]
+        public int Type { get; set; } 
         public string? Titile { get; set; }
-        [MaxLength(3000)]
         public string? Description { get; set; }
 
         public List<string>? Image { get; set; }
@@ -31,6 +28,8 @@ namespace Post.Application.Commands.SalePostC
         //khu vực
         public string? Region { get; set; }
         public int Status { get; set; }
+        public string? FullName { get; set; }
+        public string? Email { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
         [JsonIgnore]

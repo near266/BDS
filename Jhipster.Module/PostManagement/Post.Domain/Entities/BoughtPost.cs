@@ -19,6 +19,8 @@ namespace Post.Domain.Entities
         [MaxLength(250)]
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
+        [EmailAddress]
+        public string? Email { get; set; }
         [MaxLength(100)]
         public string? Region { get; set; }
         public double Price { get; set; }
