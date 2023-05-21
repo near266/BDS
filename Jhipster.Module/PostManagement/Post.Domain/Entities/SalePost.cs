@@ -11,7 +11,7 @@ namespace Post.Domain.Entities
       
         public int Type { get; set; }
 
-        [MaxLength(25)]
+        [MaxLength(500)]
         public string? Titile { get; set; }
         [MaxLength(3000)]
         public string? Description { get; set; }

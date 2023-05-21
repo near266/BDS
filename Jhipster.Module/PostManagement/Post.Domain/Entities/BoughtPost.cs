@@ -8,7 +8,7 @@ namespace Post.Domain.Entities
     {
         [Key]
         public string Id { get; set; } = RandomUtil.GenerateKey();
-        [MaxLength(25)]
+        [MaxLength(500)]
         public string? Titile { get; set; }
         [MaxLength(3000)]
         public string? Description { get; set; }
