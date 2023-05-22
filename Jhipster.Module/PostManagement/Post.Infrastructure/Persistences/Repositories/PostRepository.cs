@@ -346,7 +346,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         {
             if(type == 0)
             {
-                var regionsBought = await _context.BoughtPosts
+                var regionsBought = await _context.BoughtPosts.Where(i => i.Status == (int)PostStatus.Showing)
                 .GroupBy(p => p.Region)
                 .Select(g => new PostDto { Region = g.Key ?? "Unknown", Count = g.Count() })
                 .ToListAsync();
@@ -354,7 +354,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             else
             {
-                var regionsSale = await _context.SalePosts
+                var regionsSale = await _context.SalePosts.Where(i => i.Status == (int)PostStatus.Showing)
                 .GroupBy(p => p.Region)
                 .Select(g => new PostDto { Region = g.Key ?? "Unknown", Count = g.Count() })
                 .ToListAsync();
