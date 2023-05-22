@@ -147,26 +147,26 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 if (toPrice > 0)
                 {
-                    if (million != null && million.Equals("Triệu") && trillion == null)
+                    if (million != null && million.ToLower().Equals("triệu") && trillion == null)
                     {
                         query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        i.Unit == million && (i.Price >= fromPrice && i.Price <= toPrice));
+                        i.Unit.ToLower() == million.ToLower() && (i.Price >= fromPrice && i.Price <= toPrice));
                     }
-                    else if (million != null && million.Equals("Triệu") && trillion != null && trillion.Equals("Tỷ"))
+                    else if (million != null && million.ToLower().Equals("triệu") && trillion != null && trillion.ToLower().Equals("tỷ"))
                     {
                         query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        (i.Unit == million && i.Price >= fromPrice) || (i.Unit == trillion && i.Price <= toPrice));
+                        ((i.Unit.ToLower() == million.ToLower() && i.Price >= fromPrice) || (i.Unit.ToLower() == trillion.ToLower() && i.Price <= toPrice)));
                     }
-                    else if (trillion != null && trillion.Equals("Tỷ") && million == null)
+                    else if (trillion != null && trillion.ToLower().Equals("tỷ") && million == null)
                     {
                         query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        i.Unit == trillion && (i.Price >= fromPrice && i.Price <= toPrice));
+                        i.Unit.ToLower() == trillion.ToLower() && (i.Price >= fromPrice && i.Price <= toPrice));
                     }
                 }
                 else
                 {
-                    query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                    i.Unit == trillion && i.Price >= fromPrice);
+                    query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 && trillion != null &&
+                    i.Unit.ToLower() == trillion.ToLower() && i.Price >= fromPrice);
                 }
             }
 
@@ -224,26 +224,26 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 if (toPrice > 0)
                 {
-                    if (million != null && million.Equals("Triệu") && trillion == null)
+                    if (million != null && million.ToLower().Equals("triệu") && trillion == null)
                     {
                         query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        i.Unit == million && (i.Price >= fromPrice && i.Price <= toPrice));
+                        i.Unit.ToLower() == million && (i.Price >= fromPrice && i.Price <= toPrice));
                     }
-                    else if (million != null && million.Equals("Triệu") && trillion != null && trillion.Equals("Tỷ"))
+                    else if (million != null && million.ToLower().Equals("triệu") && trillion != null && trillion.ToLower().Equals("tỷ"))
                     {
                         query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        (i.Unit == million && i.Price >= fromPrice) || (i.Unit == trillion && i.Price <= toPrice));
+                        ((i.Unit.ToLower() == million && i.Price >= fromPrice) || (i.Unit.ToLower() == trillion && i.Price <= toPrice)));
                     }
-                    else if (trillion != null && trillion.Equals("Tỷ") && million == null)
+                    else if (trillion != null && trillion.ToLower().Equals("tỷ") && million == null)
                     {
                         query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        i.Unit == trillion && (i.Price >= fromPrice && i.Price <= toPrice));
+                        i.Unit.ToLower() == trillion && (i.Price >= fromPrice && i.Price <= toPrice));
                     }
                 }
                 else
                 {
-                    query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                    i.Unit == trillion && i.Price >= fromPrice);
+                    query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 && trillion != null &&
+                    i.Unit.ToLower() == trillion.ToLower() && i.Price >= fromPrice);
                 }
             }
 
