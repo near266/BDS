@@ -3,6 +3,7 @@ using Jhipster.Crosscutting.Utilities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Post.Application.Contracts;
+using Post.Application.DTO;
 using Post.Domain.Abstractions;
 using Post.Domain.Entities;
 using Post.Shared.Enums;
@@ -339,6 +340,26 @@ namespace Post.Infrastructure.Persistences.Repositories
                 check = true;
             }
             return check;
+        }
+
+        public async Task<List<PostDto>> GetAllRegion(int? type)
+        {
+            if(type == 0)
+            {
+                var regionsBought = await _context.BoughtPosts
+                .GroupBy(p => p.Region)
+                .Select(g => new PostDto { Region = g.Key ?? "Unknown", Count = g.Count() })
+                .ToListAsync();
+                return regionsBought;
+            }
+            else
+            {
+                var regionsSale = await _context.SalePosts
+                .GroupBy(p => p.Region)
+                .Select(g => new PostDto { Region = g.Key ?? "Unknown", Count = g.Count() })
+                .ToListAsync();
+                return regionsSale;
+            }
         }
     }
 }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Post.Application.DTO
 {
-    /*public class SalePostDto
+    public class PostDto
     {
-        public 
-    }*/
+        public string Region { get; set; }
+        public int Count { get; set; }
+    }
 }

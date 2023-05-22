@@ -15,6 +15,9 @@ using Post.Application.Queries.SalePostQ;
 using MediatR;
 using Jhipster.Crosscutting.Constants;
 using Post.Application.Commands.AdminC;
+using Microsoft.EntityFrameworkCore;
+using Post.Domain.Abstractions;
+using Post.Application.Queries.CommonQ;
 
 namespace Post.Controller
 {
@@ -27,14 +30,16 @@ namespace Post.Controller
         private readonly ILogger<PostController> _logger;
         private readonly IConfiguration _configuration;
         private readonly IMediator _mediator;
+        private readonly IPostDbContext _context;
         private readonly IDistributedCache _cache;
 
-        public PostController(ILogger<PostController> logger, IDistributedCache cache, IConfiguration configuration, IMediator mediator)
+        public PostController(ILogger<PostController> logger, IDistributedCache cache, IConfiguration configuration, IMediator mediator, IPostDbContext context)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _context = context;
         }
 
 
@@ -345,6 +350,23 @@ namespace Post.Controller
             catch (Exception ex)
             {
                 _logger.LogError($"REST request to approve post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("/post/getAllRegion")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetRegionsWithCount([FromQuery] GetRegionWithCountQuery rq)
+        {
+            _logger.LogInformation($"REST request to get region : {rq}");
+            try
+            {
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get region fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }

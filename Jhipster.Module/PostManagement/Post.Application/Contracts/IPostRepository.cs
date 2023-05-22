@@ -1,4 +1,5 @@
 ﻿using Jhipster.Crosscutting.Utilities;
+using Post.Application.DTO;
 using Post.Domain.Entities;
 
 namespace Post.Application.Contracts
@@ -14,6 +15,8 @@ namespace Post.Application.Contracts
             string? region, int Page, int PageSize);
         Task<BoughtPost> ViewDetailBoughtPost(string id);
         #endregion
+
+        Task<List<PostDto>> GetAllRegion(int? type);
 
         #region SalePost
         Task<int> AddSalePost(SalePost rq, CancellationToken cancellationToken);
