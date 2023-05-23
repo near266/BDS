@@ -93,7 +93,7 @@ namespace Jhipster.Controllers
                     Id = Guid.NewGuid(),
                     Username = "string",
                     Amount = 0,
-                    Currency = "Đồng",
+                    Currency = "VND",
                     CustomerId = customer.Id,
                     CreatedDate = DateTime.UtcNow,
                 };
@@ -103,7 +103,7 @@ namespace Jhipster.Controllers
                     Id = Guid.NewGuid(),
                     Username = "string",
                     Amount = 0,
-                    Currency = "Đồng",
+                    Currency = "VND",
                     CustomerId = customer.Id,
                     CreatedDate = DateTime.UtcNow,
                 };
