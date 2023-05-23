@@ -30,6 +30,7 @@ using Wallet.Domain.Entities;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
 using Jhipster.Domain.Entities;
+using LanguageExt.Pipes;
 
 namespace Jhipster.Controllers
 {
@@ -87,6 +88,7 @@ namespace Jhipster.Controllers
                 var customer = _mapper.Map<AddCustomerCommand>(userDto);
                 customer.Id = Guid.Parse(newUser.Id);
                 customer.CreatedDate = DateTime.Now;
+                customer.Avatar = newUser.ImageUrl;
                 var res = _mediator.Send(customer);
                 var wallet = new AddWalletsCommand
                 {

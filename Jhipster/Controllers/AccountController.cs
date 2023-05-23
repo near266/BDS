@@ -71,6 +71,7 @@ namespace Jhipster.Controllers
                 var customer = _userMapper.Map<AddCustomerCommand>(managedUserDto);
                 customer.Id = Guid.Parse(user.Id);
                 customer.CreatedDate = DateTime.Now;
+                customer.Avatar = user.ImageUrl;
                 var res = _mediator.Send(customer);
                 var wallet = new AddWalletsCommand
                 {
