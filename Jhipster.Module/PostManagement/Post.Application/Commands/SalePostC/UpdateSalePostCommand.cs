@@ -21,7 +21,7 @@ namespace Post.Application.Commands.SalePostC
         public string? Titile { get; set; }
         [MaxLength(3000)]
         public string? Description { get; set; }
-
+        public string? Region { get; set; }
         public List<string>? Image { get; set; }
         public double Price { get; set; }
 
@@ -30,6 +30,7 @@ namespace Post.Application.Commands.SalePostC
         public string? Address { get; set; }
 
         public string? PhoneNumber { get; set; }
+        public string? Email { get; set; }
         [JsonIgnore]
         public DateTime? LastModifiedDate { get; set; }
         [JsonIgnore]

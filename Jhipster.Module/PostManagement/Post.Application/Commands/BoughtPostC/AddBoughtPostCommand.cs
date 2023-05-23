@@ -15,7 +15,6 @@ namespace Post.Application.Commands.BoughtPostC
         public string? Ward { get; set; }
         public double Price { get; set; }
         public bool? IsOpenFinance { get; set; }
-        public string? Unit { get; set; }
         public string? LandToBuy { get; set; }
         public string? Criteria { get; set; }
         public string? FullName { get; set; }

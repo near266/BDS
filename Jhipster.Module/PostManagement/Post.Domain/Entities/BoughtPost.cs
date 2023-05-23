@@ -27,8 +27,6 @@ namespace Post.Domain.Entities
         public string? Ward { get; set; }
         public double Price { get; set; }
         public bool? IsOpenFinance { get; set; }
-        //đơn vị : triệu, tỷ, . . .
-        public string? Unit { get; set; }
         public int Status { get; set; }
         public string UserId { get; set; }
         public string? Reason { get; set; }

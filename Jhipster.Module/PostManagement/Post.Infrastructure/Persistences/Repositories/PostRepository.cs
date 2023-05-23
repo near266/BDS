@@ -133,8 +133,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return value;
         }
-        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? keyword, int? fromPrice, int? toPrice, string? million, string? trillion,
-            string? region, int Page, int PageSize)
+        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? keyword, int? fromPrice, int? toPrice, string? region, int Page, int PageSize)
         {
             var query = _context.BoughtPosts.AsQueryable();
 
@@ -143,30 +142,15 @@ namespace Post.Infrastructure.Persistences.Repositories
                 query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
             }
 
-            if ((fromPrice >= 0) && (million != null || trillion != null))
+            if (fromPrice >= 0)
             {
                 if (toPrice > 0)
                 {
-                    if (million != null && million.ToLower().Equals("triệu") && trillion == null)
-                    {
-                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        i.Unit.ToLower() == million.ToLower() && (i.Price >= fromPrice && i.Price <= toPrice));
-                    }
-                    else if (million != null && million.ToLower().Equals("triệu") && trillion != null && trillion.ToLower().Equals("tỷ"))
-                    {
-                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        ((i.Unit.ToLower() == million.ToLower() && i.Price >= fromPrice) || (i.Unit.ToLower() == trillion.ToLower() && i.Price <= toPrice)));
-                    }
-                    else if (trillion != null && trillion.ToLower().Equals("tỷ") && million == null)
-                    {
-                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        i.Unit.ToLower() == trillion.ToLower() && (i.Price >= fromPrice && i.Price <= toPrice));
-                    }
+                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price <= toPrice));
                 }
                 else
                 {
-                    query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 && trillion != null &&
-                    i.Unit.ToLower() == trillion.ToLower() && i.Price >= fromPrice);
+                    query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
                 }
             }
 
@@ -210,7 +194,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             return value;
         }
 
-        public async Task<PagedList<SalePost>> GetShowingSalePost(string? keyword, int? fromPrice, int? toPrice, string? million, string? trillion, double? fromArea, double? toArea,
+        public async Task<PagedList<SalePost>> GetShowingSalePost(string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize)
         {
             var query = _context.SalePosts.AsQueryable();
@@ -220,30 +204,15 @@ namespace Post.Infrastructure.Persistences.Repositories
                 query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
             }
 
-            if ((fromPrice >= 0) && (million != null || trillion != null))
+            if (fromPrice >= 0)
             {
                 if (toPrice > 0)
                 {
-                    if (million != null && million.ToLower().Equals("triệu") && trillion == null)
-                    {
-                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        i.Unit.ToLower() == million && (i.Price >= fromPrice && i.Price <= toPrice));
-                    }
-                    else if (million != null && million.ToLower().Equals("triệu") && trillion != null && trillion.ToLower().Equals("tỷ"))
-                    {
-                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        ((i.Unit.ToLower() == million && i.Price >= fromPrice) || (i.Unit.ToLower() == trillion && i.Price <= toPrice)));
-                    }
-                    else if (trillion != null && trillion.ToLower().Equals("tỷ") && million == null)
-                    {
-                        query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 &&
-                        i.Unit.ToLower() == trillion && (i.Price >= fromPrice && i.Price <= toPrice));
-                    }
+                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price <= toPrice));
                 }
                 else
                 {
-                    query = query.Where(i => !string.IsNullOrEmpty(i.Unit) && i.Price > 0 && trillion != null &&
-                    i.Unit.ToLower() == trillion.ToLower() && i.Price >= fromPrice);
+                    query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
                 }
             }
 
@@ -253,7 +222,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 else query = query.Where(i => i.Area > 0 && i.Area >= fromArea);
             }
 
-            if(region != null)
+            if (region != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
             }
@@ -344,7 +313,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<List<PostDto>> GetAllRegion(int? type)
         {
-            if(type == 0)
+            if (type == 0)
             {
                 var regionsBought = await _context.BoughtPosts.Where(i => i.Status == (int)PostStatus.Showing)
                 .GroupBy(p => p.Region)

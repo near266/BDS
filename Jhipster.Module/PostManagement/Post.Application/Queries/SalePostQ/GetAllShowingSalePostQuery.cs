@@ -18,8 +18,6 @@ namespace Post.Application.Queries.SalePostQ
         public int? ToPrice { get; set; }
         public double? FromArea { get; set; }
         public double? ToArea { get; set; }
-        public string? Million { get; set; }
-        public string? Trillion { get; set; }
         public string? Region { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
@@ -35,8 +33,7 @@ namespace Post.Application.Queries.SalePostQ
         }
         public async Task<PagedList<SalePost>> Handle(GetAllShowingSalePostQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetShowingSalePost(request.Keyword,request.FromPrice, request.ToPrice,
-                request.Million,request.Trillion, request.FromArea, request.ToArea, request.Region, request.Page, request.PageSize);
+            return await _repository.GetShowingSalePost(request.Keyword,request.FromPrice, request.ToPrice, request.FromArea, request.ToArea, request.Region, request.Page, request.PageSize);
         }
     }
 }
