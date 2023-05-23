@@ -24,6 +24,7 @@ using Jhipster.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Jhipster.Infrastructure.Data;
 using Wallet.Application.Queries.CustomerQ;
+using RestSharp;
 
 namespace Jhipster.Controllers
 {
@@ -95,20 +96,22 @@ namespace Jhipster.Controllers
                 var resWallet = _mediator.Send(wallet);
                 var resWalletPro = _mediator.Send(walletPro);
 
-                var datas = _configuration.GetValue<string>("EmailTemplate:OTPvetifiedEmail");
-                var delivery = new DeliveryData
+                var requestData = new
                 {
-                    Data = string.Format(datas,user.Email,user.ActivationKey),
-                    Method = "Email", 
-                    MethodData = user.Email,
-                    Subject = "Yêu cầu mã bảo mật",
-                    IsCancelled = false,
-                    IsSend = false,
-                    CreatedDate = DateTime.UtcNow,
-                    CreatedBy = "admin"
+                    data = user.UserName + "///" + user.FirstName + "///" + user.PhoneNumber,
+                    method = "Email",
+                    methodData = user.Email,
+                    methodType = 0,
+                    source = "string",
+                    type = 6
                 };
-                _context.DeliveryDatas.Add(delivery);
-                _context.SaveChanges();
+                string body = JsonConvert.SerializeObject(requestData);
+                var client = new RestClient(_configuration.GetValue<string>("SenderDomain"));
+                var rquest = new RestRequest("/send/data", Method.Post);
+                rquest.AddHeader("Client_Id", _configuration.GetValue<string>("Application:Client_Id"));
+                rquest.AddHeader("Client_Secret", _configuration.GetValue<string>("Application:Client_Secret"));
+                rquest.AddJsonBody(body);
+                var response = client.Execute(rquest);
             }
             catch (Exception ex)  
             {
