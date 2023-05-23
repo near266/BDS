@@ -30,6 +30,8 @@ namespace Post.Domain.Entities
         public double? Area { get; set; }
         [MaxLength(100)]
         public string? Region { get; set; }
+        [MaxLength(100)]
+        public string? Ward { get; set; }
         public List<string>? Image { get; set; }
         public int IsOwner { get; set; }
         public string Username { get; set; }

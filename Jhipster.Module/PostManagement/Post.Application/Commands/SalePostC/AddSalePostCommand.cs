@@ -27,6 +27,7 @@ namespace Post.Application.Commands.SalePostC
         public double? Area { get; set; }
         //khu vực
         public string? Region { get; set; }
+        public string? Ward { get; set; }
         public int Status { get; set; }
         public string? FullName { get; set; }
         public string? Email { get; set; }
