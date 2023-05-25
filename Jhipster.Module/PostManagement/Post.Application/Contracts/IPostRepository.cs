@@ -19,7 +19,7 @@ namespace Post.Application.Contracts
         Task<List<PostDto>> GetAllRegion(int? type);
 
         #region SalePost
-        Task<int> AddSalePost(SalePost rq, CancellationToken cancellationToken);
+        Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, CancellationToken cancellationToken);
         Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken);
         Task<int> DeleteSalePost(string Id, CancellationToken cancellationToken);
         Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, int Page, int PageSize);
@@ -27,8 +27,10 @@ namespace Post.Application.Contracts
             string? region, int Page, int PageSize);
         Task<SalePost> ViewDetailSalePost(string id);
         Task SubtractMoney(string? postid, decimal amount, CancellationToken cancellationToken);
+        Task SubtractMoneyPromotional(string? postid, decimal amount, CancellationToken cancellationToken);
         #endregion
         Task<bool> CheckBalance(string userId, int type);
+        Task<bool> CheckBalancePromotional(string userId, int type);
 
         #region Admin
         Task<int> ApprovePost(int postType, List<string> id, int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken);

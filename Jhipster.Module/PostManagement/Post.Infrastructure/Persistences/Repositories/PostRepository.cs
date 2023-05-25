@@ -2,6 +2,7 @@
 using Jhipster.Crosscutting.Utilities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Post.Application.Contracts;
 using Post.Application.DTO;
 using Post.Domain.Abstractions;
@@ -24,12 +25,15 @@ namespace Post.Infrastructure.Persistences.Repositories
         private readonly IPostDbContext _context;
         private readonly IMapper _mapper;
         private readonly IWalletDbContext _wcontext;
+        private readonly IConfiguration _configuration;
 
-        public PostRepository(IPostDbContext context, IWalletDbContext wcontext, IMapper mapper)
+
+        public PostRepository(IPostDbContext context, IWalletDbContext wcontext, IMapper mapper, IConfiguration configuration)
         {
             _context = context;
             _mapper = mapper;
             _wcontext = wcontext;
+            _configuration = configuration;
         }
 
         public async Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
@@ -39,7 +43,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<int> AddSalePost(SalePost rq, CancellationToken cancellationToken)
+        public async Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, CancellationToken cancellationToken)
         {
             switch (rq.Type)
             {
@@ -59,11 +63,25 @@ namespace Post.Infrastructure.Persistences.Repositories
             var res = await _context.SaveChangesAsync(cancellationToken);
             if (rq.Type == (int)PostType.Golden)
             {
-                await SubtractMoney(rq.Id, 150000, cancellationToken);
+                if (isEnoughWalletPro == true)
+                {
+                    await SubtractMoneyPromotional(rq.Id, _configuration.GetValue<int>("Price:Vip"), cancellationToken);
+                }
+                else if(isEnoughWalletPro == false && isEnoughWallet == true)
+                {
+                    await SubtractMoney(rq.Id, _configuration.GetValue<int>("Price:Vip"), cancellationToken);
+                }
             }
             else if (rq.Type == (int)PostType.Vip)
             {
-                await SubtractMoney(rq.Id, 250000, cancellationToken);
+                if (isEnoughWalletPro == true)
+                {
+                    await SubtractMoneyPromotional(rq.Id, _configuration.GetValue<int>("Price:SuperVip"), cancellationToken);
+                }
+                else if (isEnoughWalletPro == false && isEnoughWallet == true)
+                {
+                    await SubtractMoney(rq.Id, _configuration.GetValue<int>("Price:SuperVip"), cancellationToken);
+                }
             }
             return res;
         }
@@ -94,11 +112,19 @@ namespace Post.Infrastructure.Persistences.Repositories
                     item.LastModifiedBy = modifiedBy;
                 }
                 var result = await _context.SaveChangesAsync(cancellationToken);
-                foreach (var item2 in res)
+                foreach (var item2 in res.Select(i => i.Id))
                 {
                     if (status == (int)PostStatus.Showing)
                     {
-                        await SubtractMoney(item2.Id, 2500, cancellationToken);
+                        var check = await CheckBalancePromotional(item2, (int)PostType.Normal);
+                        if (check)
+                        {
+                            await SubtractMoneyPromotional(item2, _configuration.GetValue<int>("Price:Normal"), cancellationToken);
+                        }
+                        else
+                        {
+                            await SubtractMoney(item2, _configuration.GetValue<int>("Price:Normal"), cancellationToken);
+                        }
                     }
                 }
                 return result;
@@ -367,6 +393,40 @@ namespace Post.Infrastructure.Persistences.Repositories
             return check;
         }
 
+        public async Task SubtractMoneyPromotional(string? postid, decimal amount, CancellationToken cancellationToken)
+        {
+            if (postid != null)
+            {
+                var post = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postid);
+                if (post == null) throw new ArgumentException("No post found !!!");
+                var user = await _wcontext.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId.ToString() == post.UserId);
+                if (user == null) throw new ArgumentException("No user found !!!");
+                user.Amount -= amount;
+                user.LastModifiedDate = DateTime.UtcNow;
+                await _wcontext.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task<bool> CheckBalancePromotional(string userId, int type)
+        {
+            var check = false;
+            var user = await _wcontext.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId.ToString() == userId);
+            if (user == null) throw new ArgumentException("User Not Found !!!");
+            if (type == (int)PostType.Normal && user.Amount > 0 && user.Amount > 2500)
+            {
+                check = true;
+            }
+            else if (type == (int)PostType.Golden && user.Amount > 0 && user.Amount > 150000)
+            {
+                check = true;
+            }
+            else if (type == (int)PostType.Vip && user.Amount > 0 && user.Amount > 250000)
+            {
+                check = true;
+            }
+            return check;
+        }
+
         public async Task<List<PostDto>> GetAllRegion(int? type)
         {
             if (type == 0)
@@ -386,5 +446,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 return regionsSale;
             }
         }
+
+
     }
 }

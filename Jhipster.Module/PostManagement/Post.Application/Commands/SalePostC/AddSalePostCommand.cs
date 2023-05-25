@@ -9,7 +9,7 @@ namespace Post.Application.Commands.SalePostC
 {
     public class AddSalePostCommand : IRequest<int>
     {
-        public int Type { get; set; } 
+        public int Type { get; set; }
         public string? Titile { get; set; }
         public string? Description { get; set; }
 
@@ -50,9 +50,10 @@ namespace Post.Application.Commands.SalePostC
         {
             var map = _mapper.Map<SalePost>(request);
             map.DueDate = map.CreatedDate.AddDays(25);
-            var check = await _repository.CheckBalance(request.UserId,request.Type);
-            if(!check) throw new ArgumentException ("Not enough money");
-            return await _repository.AddSalePost(map, cancellationToken);
+            var check2 = await _repository.CheckBalancePromotional(request.UserId, request.Type);
+            var check = await _repository.CheckBalance(request.UserId, request.Type);
+            if (!check && !check2) throw new ArgumentException("Not enough money");
+            return await _repository.AddSalePost(map, check, check2, cancellationToken);
         }
     }
 }
