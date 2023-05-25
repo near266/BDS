@@ -12,7 +12,7 @@ namespace Jhipster.Crosscutting.Utilities
 
     public class PhoneNumberAttribute
     {
-        public const string motif = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+        public const string motif = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{2,7})$";
         public static bool IsValid(string value)
         {
             if (value != null) return Regex.IsMatch(value, motif);

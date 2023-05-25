@@ -12,7 +12,7 @@ namespace Post.Application.Commands.AdminC
     public class ApprovePostCommand : IRequest<int>
     {
         public int postType { get; set; }
-        public string id { get; set; }
+        public List<string> listId { get; set; }
         public int status { get; set; }
         public string? reason { get; set; }
         [JsonIgnore]
@@ -29,7 +29,7 @@ namespace Post.Application.Commands.AdminC
         }
         public async Task<int> Handle(ApprovePostCommand request, CancellationToken cancellationToken)
         {
-            return await _postRepository.ApprovePost(request.postType, request.id, request.status, request.reason, request.LastModifiedDate, request.LastModifiedBy, cancellationToken);
+            return await _postRepository.ApprovePost(request.postType, request.listId, request.status, request.reason, request.LastModifiedDate, request.LastModifiedBy, cancellationToken);
         }
     }
 }

@@ -16,6 +16,9 @@ namespace Post.Application.Queries.SalePostQ
     {
         [JsonIgnore]
         public string? UserId { get; set; }
+        public string? Title { get; set; }
+        public int? Status { get; set; }
+        public int? Type { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
     }
@@ -30,7 +33,7 @@ namespace Post.Application.Queries.SalePostQ
         }
         public async Task<PagedList<SalePost>> Handle(ViewAllSalePostQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.SearchSalePost(request.UserId, request.Page, request.PageSize);
+            return await _repository.SearchSalePost(request.UserId, request.Title, request.Status,request.Type, request.Page, request.PageSize);
         }
     }
 }

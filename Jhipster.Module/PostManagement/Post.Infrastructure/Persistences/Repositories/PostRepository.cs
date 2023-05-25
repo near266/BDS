@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wallet.Domain.Abstractions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace Post.Infrastructure.Persistences.Repositories
 {
@@ -33,7 +34,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
         {
-            rq.Status = (int)PostStatus.UnApproved;
+            rq.Status = (int)PostStatus.Showing;
             await _context.BoughtPosts.AddAsync(rq);
             return await _context.SaveChangesAsync(cancellationToken);
         }
@@ -67,31 +68,38 @@ namespace Post.Infrastructure.Persistences.Repositories
             return res;
         }
 
-        public async Task<int> ApprovePost(int postType, string id, int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
+        public async Task<int> ApprovePost(int postType, List<string> id, int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
         {
             if (postType == 0)
             {
-                var res = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == id);
-                if (res == null) throw new ArgumentException("Not exists !");
+                var res = await _context.BoughtPosts.Where(i => id.Contains(i.Id)).ToListAsync();
+                foreach (var item in res)
+                {
+                    item.Status = status;
+                    item.Reason = reason;
+                    item.LastModifiedDate = modifiedDate;
+                    item.LastModifiedBy = modifiedBy;
+                }
 
-                res.Status = status;
-                res.Reason = reason;
-                res.LastModifiedDate = modifiedDate;
-                res.LastModifiedBy = modifiedBy;
                 return await _context.SaveChangesAsync(cancellationToken);
             }
             else
             {
-                var res = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
-                if (res == null) throw new ArgumentException("Not exists !");
-                res.Status = status;
-                res.Reason = reason;
-                res.LastModifiedDate = modifiedDate;
-                res.LastModifiedBy = modifiedBy;
-                var result = await _context.SaveChangesAsync(cancellationToken);
-                if (status == (int)PostStatus.Showing)
+                var res = await _context.SalePosts.Where(i => id.Contains(i.Id)).ToListAsync();
+                foreach (var item in res)
                 {
-                    await SubtractMoney(id, 2500, cancellationToken);
+                    item.Status = status;
+                    item.Reason = reason;
+                    item.LastModifiedDate = modifiedDate;
+                    item.LastModifiedBy = modifiedBy;
+                }
+                var result = await _context.SaveChangesAsync(cancellationToken);
+                foreach (var item2 in res)
+                {
+                    if (status == (int)PostStatus.Showing)
+                    {
+                        await SubtractMoney(item2.Id, 2500, cancellationToken);
+                    }
                 }
                 return result;
             }
@@ -114,24 +122,46 @@ namespace Post.Infrastructure.Persistences.Repositories
         }
 
 
-        public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, int Page, int PageSize)
+        public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, string? title, int? status, int Page, int PageSize)
         {
-            var value = new PagedList<BoughtPost>();
+            var query = _context.BoughtPosts.AsQueryable();
+
+            if (title != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim()));
+            }
+
+            if (status != null)
+            {
+                query = query.Where(i => i.Status == status);
+            }
+
             if (userid != null)
             {
-                var Data = await _context.BoughtPosts.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate).ToListAsync();
-                value.Data = Data.Skip(PageSize * (Page - 1))
-                      .Take(PageSize);
-                value.TotalCount = Data.Count;
+                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<BoughtPost>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
             }
             else
             {
-                var Data = await _context.BoughtPosts.OrderByDescending(i => i.CreatedDate).ToListAsync();
-                value.Data = Data.Skip(PageSize * (Page - 1))
-                      .Take(PageSize);
-                value.TotalCount = Data.Count;
+                var sQuery = query.OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<BoughtPost>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
             }
-            return value;
         }
         public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? keyword, int? fromPrice, int? toPrice, string? region, int Page, int PageSize)
         {
@@ -173,25 +203,51 @@ namespace Post.Infrastructure.Persistences.Repositories
             };
         }
 
-        public async Task<PagedList<SalePost>> SearchSalePost(string? userid, int Page, int PageSize)
+        public async Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, int Page, int PageSize)
         {
-            var value = new PagedList<SalePost>();
+            var query = _context.SalePosts.AsQueryable();
+
+            if (title != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim()));
+            }
+
+            if (status != null)
+            {
+                query = query.Where(i => i.Status == status);
+            }
+
+            if (type != null)
+            {
+                query = query.Where(i => i.Type == type);
+            }
+
             if (userid != null)
             {
-                var Data = await _context.SalePosts.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate).ToListAsync();
-                value.Data = Data.Skip(PageSize * (Page - 1))
-                      .Take(PageSize);
-                value.TotalCount = Data.Count;
+                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<SalePost>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
             }
             else
             {
-                var Data = await _context.SalePosts.OrderByDescending(i => i.CreatedDate).ToListAsync();
-                value.Data = Data.Skip(PageSize * (Page - 1))
-                      .Take(PageSize);
-                value.TotalCount = Data.Count;
+                var sQuery = query.OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<SalePost>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
             }
-
-            return value;
         }
 
         public async Task<PagedList<SalePost>> GetShowingSalePost(string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,

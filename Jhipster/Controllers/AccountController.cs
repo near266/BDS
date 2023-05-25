@@ -96,7 +96,7 @@ namespace Jhipster.Controllers
                 var resWallet = _mediator.Send(wallet);
                 var resWalletPro = _mediator.Send(walletPro);
 
-                var requestData = new
+               /* var requestData = new
                 {
                     data = user.UserName + "///" + user.FirstName + "///" + user.PhoneNumber,
                     method = "Email",
@@ -111,7 +111,7 @@ namespace Jhipster.Controllers
                 rquest.AddHeader("Client_Id", _configuration.GetValue<string>("Application:Client_Id"));
                 rquest.AddHeader("Client_Secret", _configuration.GetValue<string>("Application:Client_Secret"));
                 rquest.AddJsonBody(body);
-                var response = client.Execute(rquest);
+                var response = client.Execute(rquest);*/
             }
             catch (Exception ex)  
             {
