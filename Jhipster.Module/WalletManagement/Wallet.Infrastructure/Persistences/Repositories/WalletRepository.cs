@@ -50,10 +50,16 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             if (w == null) throw new ArgumentException("Wallet not found");
             var wp = await _context.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId == Guid.Parse(userId));
             if (wp == null) throw new ArgumentException("Wallet Promotional not found");
+            var cus = await _context.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(userId));
+            if (cus == null) throw new ArgumentException("Customer not found");
             var res = new WalletResponseDTO
             {
                 wallet = _mapper.Map<WalletDto>(w),
                 walletPromotional = _mapper.Map<WalletPromotionalDto>(wp),
+                customer = new CustomerDto
+                {
+                    Point = cus.Point
+                }
             };
             return res;
         }
@@ -62,7 +68,16 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         {
             var res = await _context.Wallets.FirstOrDefaultAsync(u => u.Id == Wallet.Id);
             if (res == null) throw new ArgumentException("wallet not found");
-            _mapper.Map(Wallet, res);
+            res.Currency = "VND";
+            res.CustomerId = Wallet.CustomerId;
+            res.LastModifiedDate = Wallet.LastModifiedDate;
+            res.LastModifiedBy = Wallet.LastModifiedBy;
+            res.Username = "string";
+            res.Amount = res.Amount == 0 ? Wallet.Amount : res.Amount + Wallet.Amount;
+
+            var cus = await _context.Customers.FirstOrDefaultAsync(u => u.Id == res.CustomerId);
+            if (cus == null) throw new ArgumentException("Customer not found");
+            cus.Point = cus.Point == 0 ? (double?)(Wallet.Amount / 1000) : cus.Point + (double?)(Wallet.Amount / 1000);
             return await _context.SaveChangesAsync(cancellation);
         }
     }

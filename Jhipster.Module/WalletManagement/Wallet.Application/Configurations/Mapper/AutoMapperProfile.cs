@@ -18,7 +18,9 @@ namespace Wallet.Application.Configurations.Mapper
             CreateMap<Customer, UpdateCustomerCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
 
             //Wallet
-            CreateMap<WalletEntity, WalletEntity>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            /*CreateMap<WalletEntity, WalletEntity>()
+                .ForMember(dest => dest.Amount, opt => opt.Ignore())
+                .ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));*/
             CreateMap<WalletEntity, AddWalletsCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<WalletEntity, UpdateWalletCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<WalletEntity, WalletDto>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));

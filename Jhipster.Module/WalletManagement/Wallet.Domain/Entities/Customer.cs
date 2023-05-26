@@ -27,5 +27,6 @@ namespace Wallet.Domain.Entities
         public string? ExchangeDescription { get; set; }
         public DateTime? MaintainFrom { get; set; }
         public DateTime? MaintainTo { get; set; }
+        public double? Point { get; set; }
     }
 }

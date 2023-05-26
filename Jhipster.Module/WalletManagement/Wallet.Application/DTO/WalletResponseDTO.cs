@@ -10,5 +10,11 @@ namespace Wallet.Application.DTO
     {
         public WalletDto? wallet { get; set; }
         public WalletPromotionalDto? walletPromotional { get; set; }
+        public CustomerDto? customer { get; set; }
+    }
+
+    public class CustomerDto
+    {
+        public double? Point { get; set; }
     }
 }
