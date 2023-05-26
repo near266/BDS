@@ -13,6 +13,7 @@ namespace Post.Application.Queries.BoughtPostQ
 {
     public class GetAllShowingBoughtPostQuery : IRequest<PagedList<BoughtPost>>
     {
+        public string? UserId { get; set; }
         public string? Keyword { get; set; }
         public int? FromPrice { get; set; }
         public int? ToPrice { get; set; }
@@ -31,7 +32,7 @@ namespace Post.Application.Queries.BoughtPostQ
         }
         public async Task<PagedList<BoughtPost>> Handle(GetAllShowingBoughtPostQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetShowingBoughtPost(request.Keyword, request.FromPrice, request.ToPrice, request.Region, request.Page, request.PageSize);
+            return await _repository.GetShowingBoughtPost(request.UserId,request.Keyword, request.FromPrice, request.ToPrice, request.Region, request.Page, request.PageSize);
         }
     }
 }

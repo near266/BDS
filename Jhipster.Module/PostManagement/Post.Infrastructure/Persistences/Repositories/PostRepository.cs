@@ -200,7 +200,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 };
             }
         }
-        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? keyword, int? fromPrice, int? toPrice, string? region, int Page, int PageSize)
+        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? userid,string? keyword, int? fromPrice, int? toPrice, string? region, int Page, int PageSize)
         {
             var query = _context.BoughtPosts.AsQueryable();
 
@@ -225,6 +225,11 @@ namespace Post.Infrastructure.Persistences.Repositories
             if (region != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
+            }
+
+            if(userid != null)
+            {
+                query = query.Where(i => i.UserId == userid);
             }
 
             var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.CreatedDate);
@@ -287,7 +292,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
         }
 
-        public async Task<PagedList<SalePost>> GetShowingSalePost(string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
+        public async Task<PagedList<SalePost>> GetShowingSalePost(string? userid,string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize)
         {
             var query = _context.SalePosts.AsQueryable();
@@ -318,6 +323,11 @@ namespace Post.Infrastructure.Persistences.Repositories
             if (region != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
+            }
+
+            if (userid != null)
+            {
+                query = query.Where(i => i.UserId == userid);
             }
 
             var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)

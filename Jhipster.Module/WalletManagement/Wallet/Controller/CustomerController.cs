@@ -92,7 +92,7 @@ namespace Wallet.Controller
             }
         }
 
-        [Authorize(Roles = RolesConstants.ADMIN)]
+        [AllowAnonymous]
         [HttpGet("/customer/id")]
         public async Task<IActionResult> CustomerDetail([FromQuery] ViewDetailCustomerQuery rq)
         {
