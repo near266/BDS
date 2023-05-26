@@ -19,7 +19,7 @@ namespace Post.Application.Contracts
         Task<List<PostDto>> GetAllRegion(int? type);
 
         #region SalePost
-        Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, CancellationToken cancellationToken);
+        Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken);
         Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken);
         Task<int> DeleteSalePost(string Id, CancellationToken cancellationToken);
         Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, int Page, int PageSize);

@@ -31,6 +31,7 @@ namespace Post.Application.Commands.SalePostC
         public string? Email { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
+        public double NumberOfDate { get; set; }
         [JsonIgnore]
         public DateTime? CreatedDate { get; set; }
         [JsonIgnore]
@@ -49,11 +50,11 @@ namespace Post.Application.Commands.SalePostC
         public async Task<int> Handle(AddSalePostCommand request, CancellationToken cancellationToken)
         {
             var map = _mapper.Map<SalePost>(request);
-            map.DueDate = map.CreatedDate.AddDays(25);
+            map.DueDate = map.CreatedDate.AddDays(request.NumberOfDate);
             var check2 = await _repository.CheckBalancePromotional(request.UserId, request.Type);
             var check = await _repository.CheckBalance(request.UserId, request.Type);
             if (!check && !check2) throw new ArgumentException("Not enough money");
-            return await _repository.AddSalePost(map, check, check2, cancellationToken);
+            return await _repository.AddSalePost(map, check, check2, request.NumberOfDate, cancellationToken);
         }
     }
 }

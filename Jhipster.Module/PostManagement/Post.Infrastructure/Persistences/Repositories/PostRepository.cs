@@ -43,7 +43,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, CancellationToken cancellationToken)
+        public async Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken)
         {
             switch (rq.Type)
             {
@@ -61,26 +61,37 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             await _context.SalePosts.AddAsync(rq);
             var res = await _context.SaveChangesAsync(cancellationToken);
-            if (rq.Type == (int)PostType.Golden)
+            if (rq.Type == (int)PostType.Normal)
             {
                 if (isEnoughWalletPro == true)
                 {
-                    await SubtractMoneyPromotional(rq.Id, _configuration.GetValue<int>("Price:Vip"), cancellationToken);
+                    await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate), cancellationToken);
                 }
-                else if(isEnoughWalletPro == false && isEnoughWallet == true)
+                else if (isEnoughWalletPro == false && isEnoughWallet == true)
                 {
-                    await SubtractMoney(rq.Id, _configuration.GetValue<int>("Price:Vip"), cancellationToken);
+                    await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal")* numofDate), cancellationToken);
+                }
+            }
+            else if (rq.Type == (int)PostType.Golden)
+            {
+                if (isEnoughWalletPro == true)
+                {
+                    await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate), cancellationToken);
+                }
+                else if (isEnoughWalletPro == false && isEnoughWallet == true)
+                {
+                    await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip")* numofDate), cancellationToken);
                 }
             }
             else if (rq.Type == (int)PostType.Vip)
             {
                 if (isEnoughWalletPro == true)
                 {
-                    await SubtractMoneyPromotional(rq.Id, _configuration.GetValue<int>("Price:SuperVip"), cancellationToken);
+                    await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip")*numofDate), cancellationToken);
                 }
                 else if (isEnoughWalletPro == false && isEnoughWallet == true)
                 {
-                    await SubtractMoney(rq.Id, _configuration.GetValue<int>("Price:SuperVip"), cancellationToken);
+                    await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip")* numofDate), cancellationToken);
                 }
             }
             return res;
@@ -112,7 +123,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     item.LastModifiedBy = modifiedBy;
                 }
                 var result = await _context.SaveChangesAsync(cancellationToken);
-                foreach (var item2 in res.Select(i => i.Id))
+                /*foreach (var item2 in res.Select(i => i.Id))
                 {
                     if (status == (int)PostStatus.Showing)
                     {
@@ -126,7 +137,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                             await SubtractMoney(item2, _configuration.GetValue<int>("Price:Normal"), cancellationToken);
                         }
                     }
-                }
+                }*/
                 return result;
             }
         }
