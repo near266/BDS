@@ -100,6 +100,11 @@ namespace Post.Controller
             }
         }
 
+        /// <summary>
+        /// Chỉnh sửa bài đăng bán
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpPut("/boughtpost/update")]
         public async Task<IActionResult> UpdateBoughtPost([FromBody] UpdateBoughtPostCommand rq)
@@ -122,6 +127,11 @@ namespace Post.Controller
 
         }
 
+        /// <summary>
+        /// Xóa bài đăng bán
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpDelete("/boughtpost/delete")]
         public async Task<IActionResult> DeleteBoughtPost([FromQuery] string rq)
@@ -143,6 +153,11 @@ namespace Post.Controller
 
         }
 
+        /// <summary>
+        /// [Yêu cầu đăng nhập] Lấy ra những danh sách tất cả tin MUA , nếu là User thì lấy ra những tin bán của User đó, nếu là ADMIN thì lấy ra tất cả
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("/boughtpost/search")]
         public async Task<IActionResult> SearchBoughtPost([FromBody] ViewAllBoughtPostQuery rq)
@@ -169,6 +184,12 @@ namespace Post.Controller
             }
         }
 
+
+        /// <summary>
+        /// Lấy ra những tin MUA đang được hiển thị trên trang chủ mà ko cần đăng nhập
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [HttpPost("/boughtpost/getShowing")]
         [AllowAnonymous]
         public async Task<IActionResult> GetShowingBoughtPost([FromBody]GetAllShowingBoughtPostQuery rq)
@@ -186,7 +207,11 @@ namespace Post.Controller
             }
         }
 
-
+        /// <summary>
+        /// Xem chi tiết bài đăng MUA
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpGet("/boughtpost/id")]
         public async Task<IActionResult> ViewDetailBoughtPost([FromQuery] ViewDetailBoughtPostQuery rq)
@@ -205,6 +230,11 @@ namespace Post.Controller
             }
         }
 
+        /// <summary>
+        /// Đăng tin bán - đã tích hợp trừ tiền trong ví sau khi đăng tin thành công
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("/salepost/add")]
         public async Task<IActionResult> AddSalePost([FromBody] AddSalePostCommand rq)
@@ -229,6 +259,11 @@ namespace Post.Controller
 
         }
 
+        /// <summary>
+        /// Chỉnh sửa bài đăng bán
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpPut("/salepost/update")]
         public async Task<IActionResult> UpdateSalePost([FromBody] UpdateSalePostCommand rq)
@@ -251,6 +286,11 @@ namespace Post.Controller
 
         }
 
+        /// <summary>
+        /// [ADMIN] xóa bài đăng bán
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpDelete("/salepost/delete")]
         public async Task<IActionResult> DeleteSalePost([FromQuery] string rq)
@@ -272,6 +312,12 @@ namespace Post.Controller
 
         }
 
+
+        /// <summary>
+        /// Lấy ra những danh sách tất cả tin BÁN , nếu là User thì lấy ra những tin bán của User đó, nếu là ADMIN thì lấy ra tất cả
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("/salepost/search")]
         public async Task<IActionResult> SearchSalePost([FromBody] ViewAllSalePostQuery rq)
@@ -298,6 +344,12 @@ namespace Post.Controller
             }
         }
 
+
+        /// <summary>
+        /// Lấy ra những tin BÁN đang được hiển thị trên trang chủ mà ko cần đăng nhập
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [HttpPost("/salepost/getShowing")]
         [AllowAnonymous]
         public async Task<IActionResult> GetShowingSaletPost([FromBody]GetAllShowingSalePostQuery rq)
@@ -315,6 +367,11 @@ namespace Post.Controller
             }
         }
 
+        /// <summary>
+        /// Xem chi tiết bài đăng BÁN
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpGet("/salepost/id")]
         public async Task<IActionResult> ViewDetailSalePost([FromQuery] ViewDetailSalePostQuery rq)
@@ -335,6 +392,12 @@ namespace Post.Controller
 
         }
 
+
+        /// <summary>
+        /// [ADMIN] Duyệt các bài post (tin mua - boughtPost : postType = 0, tin bán - salePost : postType = 1)
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPost("/admin/approve")]
         public async Task<IActionResult> ApprovePost([FromBody] ApprovePostCommand rq)
@@ -354,6 +417,11 @@ namespace Post.Controller
             }
         }
 
+        /// <summary>
+        /// Lấy danh sách khu vực để thực hiện filter - màn hình end user
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [HttpGet("/post/getAllRegion")]
         [AllowAnonymous]
         public async Task<IActionResult> GetRegionsWithCount([FromQuery] GetRegionWithCountQuery rq)
