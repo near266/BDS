@@ -39,7 +39,7 @@ namespace Jhipster.Configuration
         {
             return new List<User> {
                 new User {
-                    Id = "user-0",
+                    Id = "e7502689-bec6-4462-beaf-9368d7a441e4",
                     UserName = "system",
                     PasswordHash = "$2a$10$mE.qmcV0mFU5NcKh73TZx.z4ueI/.bDWbj0T1BYyqP481kGGarKLG",
                     FirstName = "",
@@ -49,7 +49,7 @@ namespace Jhipster.Configuration
                     LangKey = "en"
                 },
                 new User {
-                    Id = "user-1",
+                    Id = "0228b8ca-66a2-4d91-b0cb-305e11f7803c",
                     UserName = "anonymoususer",
                     PasswordHash = "$2a$10$j8S5d7Sr7.8VTOYNviDPOeWX8KcYILUVJBsYV83Y5NtECayypx9lO",
                     FirstName = "Anonymous",
@@ -59,7 +59,7 @@ namespace Jhipster.Configuration
                     LangKey = "en"
                 },
                 new User {
-                    Id = "user-2",
+                    Id = "13347e15-8b5d-49a7-b7bf-c9f073e97967",
                     UserName = "admin",
                     PasswordHash = "$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC",
                     FirstName = "admin",
@@ -69,7 +69,7 @@ namespace Jhipster.Configuration
                     LangKey = "en"
                 },
                 new User {
-                    Id = "user-3",
+                    Id = "adeaac3a-a71e-4ed8-86d9-3a1f898fe223",
                     UserName = "user",
                     PasswordHash = "$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K",
                     FirstName = "",
@@ -84,9 +84,9 @@ namespace Jhipster.Configuration
         private static IDictionary<string, string[]> UserRoles()
         {
             return new Dictionary<string, string[]> {
-                {"user-0", new[] {"ROLE_ADMIN", "ROLE_USER"}},
-                {"user-2", new[] {"ROLE_ADMIN", "ROLE_USER"}},
-                {"user-3", new[] {"ROLE_USER"}}
+                {"e7502689-bec6-4462-beaf-9368d7a441e4", new[] {"ROLE_ADMIN", "ROLE_USER"}},
+                {"13347e15-8b5d-49a7-b7bf-c9f073e97967", new[] {"ROLE_ADMIN", "ROLE_USER"}},
+                {"adeaac3a-a71e-4ed8-86d9-3a1f898fe223", new[] {"ROLE_USER"}}
             };
         }
 
