@@ -96,24 +96,24 @@ namespace Jhipster.Controllers
                 var resWallet = _mediator.Send(wallet);
                 var resWalletPro = _mediator.Send(walletPro);
 
-               /* var requestData = new
-                {
-                    data = user.UserName + "///" + user.FirstName + "///" + user.PhoneNumber,
-                    method = "Email",
-                    methodData = user.Email,
-                    methodType = 0,
-                    source = "string",
-                    type = 6
-                };
-                string body = JsonConvert.SerializeObject(requestData);
-                var client = new RestClient(_configuration.GetValue<string>("SenderDomain"));
-                var rquest = new RestRequest("/send/data", Method.Post);
-                rquest.AddHeader("Client_Id", _configuration.GetValue<string>("Application:Client_Id"));
-                rquest.AddHeader("Client_Secret", _configuration.GetValue<string>("Application:Client_Secret"));
-                rquest.AddJsonBody(body);
-                var response = client.Execute(rquest);*/
+                /* var requestData = new
+                 {
+                     data = user.UserName + "///" + user.FirstName + "///" + user.PhoneNumber,
+                     method = "Email",
+                     methodData = user.Email,
+                     methodType = 0,
+                     source = "string",
+                     type = 6
+                 };
+                 string body = JsonConvert.SerializeObject(requestData);
+                 var client = new RestClient(_configuration.GetValue<string>("SenderDomain"));
+                 var rquest = new RestRequest("/send/data", Method.Post);
+                 rquest.AddHeader("Client_Id", _configuration.GetValue<string>("Application:Client_Id"));
+                 rquest.AddHeader("Client_Secret", _configuration.GetValue<string>("Application:Client_Secret"));
+                 rquest.AddJsonBody(body);
+                 var response = client.Execute(rquest);*/
             }
-            catch (Exception ex)  
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -178,11 +178,11 @@ namespace Jhipster.Controllers
         /// <exception cref="InternalServerErrorException"></exception>
         [AllowAnonymous]
         [HttpGet("validateUser")]
-        public async Task<IActionResult> ValidateUser(string User,string ReferralUser)
+        public async Task<IActionResult> ValidateUser(string User, string ReferralUser)
         {
             var existingUser = await _userManager.FindByNameAsync(User.ToLower());
 
-            if(existingUser != null)
+            if (existingUser != null)
             {
                 throw new LoginAlreadyUsedException();
             }
@@ -208,12 +208,21 @@ namespace Jhipster.Controllers
         {
             var user = await _userService.GetUserWithUserRoles();
             if (user == null) throw new InternalServerErrorException("User could not be found");
-            var comd = new ViewDetailCustomerQuery { Id = Guid.Parse(user.Id) };
-            var cus = await _mediator.Send(comd);
-            var userDto = _userMapper.Map<UserDto>(user);
-            userDto.Company = cus.Company;
-            userDto.Address = cus.Address;
-            return Ok(userDto);
+            if (User.IsInRole(RolesConstants.USER) && !User.IsInRole(RolesConstants.ADMIN))
+            {
+                var comd = new ViewDetailCustomerQuery { Id = Guid.Parse(user.Id) };
+                var cus = await _mediator.Send(comd);
+                var userDto = _userMapper.Map<UserDto>(user);
+                userDto.Company = cus.Company;
+                userDto.Address = cus.Address;
+                return Ok(userDto);
+            }
+            else
+            {
+                var userDto = _userMapper.Map<UserDto>(user);
+                return Ok(userDto);
+            }
+
         }
 
         /// <summary>
@@ -239,7 +248,7 @@ namespace Jhipster.Controllers
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null) throw new InternalServerErrorException("User could not be found");
 
-            await _userService.UpdateUser(request.Email,request.PhoneNumber);
+            await _userService.UpdateUser(request.Email, request.PhoneNumber);
             return Ok();
         }
 
@@ -326,7 +335,7 @@ namespace Jhipster.Controllers
                 var method = await _userService.ForgotPasswordMethod(Login);
                 return Ok(method);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
@@ -344,7 +353,7 @@ namespace Jhipster.Controllers
             try
             {
                 var user = await _userService.RequestOTPFWPass(forgotPasswordOTPRqDTO.Login, forgotPasswordOTPRqDTO.Type, forgotPasswordOTPRqDTO.Value);
-                if(forgotPasswordOTPRqDTO.Type.Equals(MethodConstants.EMAIL))
+                if (forgotPasswordOTPRqDTO.Type.Equals(MethodConstants.EMAIL))
                     await _mailService.SendPasswordForgotOTPMail(user);
 
                 // Chưa xử lý
@@ -392,7 +401,7 @@ namespace Jhipster.Controllers
             _log.LogDebug($"REST request to forgot password Reset : {JsonConvert.SerializeObject(forgotPasswordCompleteRpDTO)}");
             try
             {
-                var response = await _userService.CompleteFwPassWord(forgotPasswordCompleteRpDTO.Login, forgotPasswordCompleteRpDTO.Key,forgotPasswordCompleteRpDTO.NewPassword);
+                var response = await _userService.CompleteFwPassWord(forgotPasswordCompleteRpDTO.Login, forgotPasswordCompleteRpDTO.Key, forgotPasswordCompleteRpDTO.NewPassword);
 
                 return Ok(response);
             }
