@@ -134,14 +134,13 @@ namespace Post.Controller
         /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpDelete("/boughtpost/delete")]
-        public async Task<IActionResult> DeleteBoughtPost([FromQuery] string rq)
+        public async Task<IActionResult> DeleteBoughtPost([FromBody] DeleteBoughtPostCommand rq)
         {
 
             _logger.LogInformation($"REST request to delete bought post : {rq}");
             try
             {
-                var res = new DeleteBoughtPostCommand { Id = rq };
-                var result = await _mediator.Send(res);
+                var result = await _mediator.Send(rq);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -293,14 +292,13 @@ namespace Post.Controller
         /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpDelete("/salepost/delete")]
-        public async Task<IActionResult> DeleteSalePost([FromQuery] string rq)
+        public async Task<IActionResult> DeleteSalePost([FromBody] DeleteSalePostCommand rq)
         {
 
             _logger.LogInformation($"REST request to delete sale post : {rq}");
             try
             {
-                var res = new DeleteSalePostCommand { Id = rq };
-                var result = await _mediator.Send(res);
+                var result = await _mediator.Send(rq);
                 return Ok(result);
             }
             catch (Exception ex)

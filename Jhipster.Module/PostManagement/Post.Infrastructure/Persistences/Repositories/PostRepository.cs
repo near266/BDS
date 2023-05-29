@@ -143,19 +143,23 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
         }
 
-        public async Task<int> DeleteBoughtPost(string Id, CancellationToken cancellationToken)
+        public async Task<int> DeleteBoughtPost(List<string> Id, CancellationToken cancellationToken)
         {
-            var check = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == Id);
-            if (check == null) throw new ArgumentException("Can not find!");
-            _context.BoughtPosts.Remove(check);
+            var check = await _context.BoughtPosts.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach(var item in check)
+            {
+                _context.BoughtPosts.Remove(item);
+            }
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<int> DeleteSalePost(string Id, CancellationToken cancellationToken)
+        public async Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken)
         {
-            var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == Id);
-            if (check == null) throw new ArgumentException("Can not find!");
-            _context.SalePosts.Remove(check);
+            var check = await _context.SalePosts.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach (var item in check)
+            {
+                _context.SalePosts.Remove(item);
+            }
             return await _context.SaveChangesAsync(cancellationToken);
         }
 

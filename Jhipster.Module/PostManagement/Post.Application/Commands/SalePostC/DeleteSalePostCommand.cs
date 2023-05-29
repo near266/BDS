@@ -11,7 +11,7 @@ namespace Post.Application.Commands.SalePostC
 {
     public class DeleteSalePostCommand : IRequest<int>
     {
-        public string Id { get; set; }
+        public List<string> ListId { get; set; }
 
     }
     public class DeleteSalePostCommandHandler : IRequestHandler<DeleteSalePostCommand, int>
@@ -26,7 +26,7 @@ namespace Post.Application.Commands.SalePostC
 
         public async Task<int> Handle(DeleteSalePostCommand request, CancellationToken cancellationToken)
         {
-            return await _repository.DeleteSalePost(request.Id, cancellationToken);
+            return await _repository.DeleteSalePost(request.ListId, cancellationToken);
         }
     }
 
