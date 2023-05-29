@@ -70,6 +70,11 @@ namespace Wallet.Controller
         }*/
 
 
+        /// <summary>
+        /// Lấy số dư tài khoản theo đăng nhập
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpGet("/wallet/getByUserId")]
 
         public async Task<IActionResult> GetWalletByUserId([FromQuery] GetWalletByUserIdQuery request)
@@ -107,6 +112,12 @@ namespace Wallet.Controller
             }
         }
 
+
+        /// <summary>
+        /// [ADMIN] Nạp tiền vào ví chính
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPut("/wallet/update")]
 
@@ -186,6 +197,12 @@ namespace Wallet.Controller
             }
         }
 
+
+        /// <summary>
+        /// [ADMIN] Nạp tiền vào ví khuyến mại
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPut("WalletPromotional/Update")]
 

@@ -55,6 +55,11 @@ namespace Wallet.Controller
             return User.FindFirst(ClaimsTypeConst.Username)?.Value;
         }
 
+        /// <summary>
+        /// [ADMIN] Chỉnh sửa thông tin khách hàng
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPut("/customer/update")]
         public async Task<IActionResult> UpdateCustomer([FromBody] UpdateCustomerCommand rq)
@@ -74,6 +79,11 @@ namespace Wallet.Controller
             }
         }
 
+        /// <summary>
+        /// [ADMIN] Xóa khách hàng 
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpDelete("/customer/delete")]
         public async Task<IActionResult> DeleteCustomer([FromQuery] DeleteCustomerCommand rq)
@@ -92,6 +102,11 @@ namespace Wallet.Controller
             }
         }
 
+        /// <summary>
+        /// Lấy thông tin chi tiết của khách hàng
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("/customer/id")]
         public async Task<IActionResult> CustomerDetail([FromQuery] ViewDetailCustomerQuery rq)
@@ -110,6 +125,11 @@ namespace Wallet.Controller
             }
         }
 
+        /// <summary>
+        /// [ADMIN] Xem danh sách khách hàng + số dư tài khoản
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPost("/customer/search")]
         public async Task<IActionResult> SearchCustomer([FromBody] SearchCustomerQuery rq)

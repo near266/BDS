@@ -19,7 +19,11 @@ namespace Jhipster.Configuration
                 //c.OperationFilter<PageableModelFilter>();
 
                 var filePath = Path.Combine(System.AppContext.BaseDirectory, "Jhipster.xml");
+                var postfilePath = Path.Combine(System.AppContext.BaseDirectory, "Post.xml");
+                var walletfilePath = Path.Combine(System.AppContext.BaseDirectory, "Wallet.xml");
                 c.IncludeXmlComments(filePath);
+                c.IncludeXmlComments(postfilePath);
+                c.IncludeXmlComments(walletfilePath);
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
