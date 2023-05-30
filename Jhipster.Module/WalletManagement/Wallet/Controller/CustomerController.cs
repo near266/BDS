@@ -86,7 +86,7 @@ namespace Wallet.Controller
         /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpDelete("/customer/delete")]
-        public async Task<IActionResult> DeleteCustomer([FromQuery] DeleteCustomerCommand rq)
+        public async Task<IActionResult> DeleteCustomer([FromBody] DeleteCustomerCommand rq)
         {
 
             _logger.LogInformation($"REST request to delete customer : {rq}");

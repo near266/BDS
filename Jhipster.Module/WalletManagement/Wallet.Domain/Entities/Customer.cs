@@ -28,5 +28,6 @@ namespace Wallet.Domain.Entities
         public DateTime? MaintainFrom { get; set; }
         public DateTime? MaintainTo { get; set; }
         public double? Point { get; set; }
+        public bool? Status { get; set; }
     }
 }

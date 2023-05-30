@@ -244,6 +244,7 @@ namespace Jhipster.Domain.Services
                 //user.FirstName = firstName;
                // user.LastName = lastName;
                 user.Email = email;
+                user.Login = email;
                 //user.LangKey = langKey;
                 //user.ImageUrl = imageUrl;
                 await _userManager.UpdateAsync(user);

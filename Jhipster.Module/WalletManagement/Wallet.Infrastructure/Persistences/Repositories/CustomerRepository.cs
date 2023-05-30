@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Jhipster.Crosscutting.Utilities;
+using Jhipster.Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -21,10 +22,13 @@ namespace Wallet.Infrastructure.Persistences.Repositories
     {
         private readonly IWalletDbContext _context;
         private readonly IMapper _mapper;
-        public CustomerRepository(IWalletDbContext context, IMapper mapper)
+        private readonly ApplicationDatabaseContext _appcontext;
+
+        public CustomerRepository(IWalletDbContext context, IMapper mapper, ApplicationDatabaseContext appcontext)
         {
             _context = context;
             _mapper = mapper;
+            _appcontext = appcontext;
         }
         public async Task<int> Add(Customer cus, CancellationToken cancellationToken)
         {
@@ -32,11 +36,17 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<int> Delete(Guid Id, CancellationToken cancellationToken)
+        public async Task<int> Delete(List<Guid> Id, CancellationToken cancellationToken)
         {
-            var check = await _context.Customers.FirstOrDefaultAsync(i => i.Id == Id);
-            if (check == null) throw new ArgumentException("Not exists!");
-            _context.Customers.Remove(check);
+            var check = await _context.Customers.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach (var cus in check)
+            {
+                cus.Status = true;
+                var user = await _appcontext.Users.FirstOrDefaultAsync(i => i.Id == cus.Id.ToString());
+                if (user == null) continue;
+                user.Activated = false;
+                await _appcontext.SaveChangesAsync(cancellationToken);
+            }
             return await _context.SaveChangesAsync(cancellationToken);
         }
 

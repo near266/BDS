@@ -13,7 +13,7 @@ namespace Wallet.Application.Persistences
     {
         Task<int> Add(Customer cus,CancellationToken cancellationToken);
         Task<int> Update(Customer cus, CancellationToken cancellationToken);
-        Task<int> Delete(Guid Id,CancellationToken cancellationToken);
+        Task<int> Delete(List<Guid> Id,CancellationToken cancellationToken);
         Task<Customer> GetById (Guid Id);
         Task<SearchCustomerReponse> Search(string? keyword, string? phone, bool? isUnique, int page, int pagesize);
     }

@@ -10,7 +10,7 @@ namespace Wallet.Application.Commands.CustomerC
 {
     public class DeleteCustomerCommand : IRequest<int>
     {
-        public Guid Id { get; set; }
+        public List<Guid> ListId { get; set; }
     }
     public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, int>
     {
@@ -21,7 +21,7 @@ namespace Wallet.Application.Commands.CustomerC
         }
         public async Task<int> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
         {
-            var res = await _repo.Delete(request.Id, cancellationToken);
+            var res = await _repo.Delete(request.ListId, cancellationToken);
             return res;
         }
     }

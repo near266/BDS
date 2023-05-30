@@ -73,6 +73,7 @@ namespace Jhipster.Controllers
                 customer.Id = Guid.Parse(user.Id);
                 customer.CreatedDate = DateTime.Now;
                 customer.Avatar = user.ImageUrl;
+                customer.Status = false;
                 var res = _mediator.Send(customer);
                 var wallet = new AddWalletsCommand
                 {
@@ -226,7 +227,7 @@ namespace Jhipster.Controllers
         }
 
         /// <summary>
-        /// Cập nhật thông tin cơ bản của người dùng
+        /// Cập nhật thông tin cơ bản của người dùng - Cập nhật email : không được trùng email (ko được null), cập nhật số điện thoại (có thể null)
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -253,7 +254,7 @@ namespace Jhipster.Controllers
         }
 
         /// <summary>
-        /// Lấy thông tin cơ bản của người dùng
+        /// Lấy thông tin cơ bản của người dùng (Email và số điện thoại)
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InternalServerErrorException"></exception>

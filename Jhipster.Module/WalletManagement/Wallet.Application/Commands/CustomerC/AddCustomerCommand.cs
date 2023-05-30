@@ -30,6 +30,8 @@ namespace Wallet.Application.Commands.CustomerC
         public DateTime? MaintainFrom { get; set; }
         public DateTime? MaintainTo { get; set; }
         [JsonIgnore]
+        public bool? Status { get; set; }
+        [JsonIgnore]
         public DateTime? CreatedDate { get; set; }
         [JsonIgnore]
         public string? CreatedBy { get; set; }
