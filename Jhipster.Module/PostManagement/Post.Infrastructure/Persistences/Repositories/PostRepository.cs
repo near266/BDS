@@ -146,7 +146,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<int> DeleteBoughtPost(List<string> Id, CancellationToken cancellationToken)
         {
             var check = await _context.BoughtPosts.Where(i => Id.Contains(i.Id)).ToListAsync();
-            foreach(var item in check)
+            foreach (var item in check)
             {
                 _context.BoughtPosts.Remove(item);
             }
@@ -170,7 +170,8 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             if (title != null)
             {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim()));
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim())
+                                    || !string.IsNullOrEmpty(i.Id) && i.Id.ToLower().Contains(title.ToLower().Trim()));
             }
 
             if (status != null)
@@ -250,13 +251,15 @@ namespace Post.Infrastructure.Persistences.Repositories
             };
         }
 
-        public async Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, int Page, int PageSize)
+        public async Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type,
+            DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize)
         {
             var query = _context.SalePosts.AsQueryable();
 
             if (title != null)
             {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim()));
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim())
+                                     || !string.IsNullOrEmpty(i.Id) && i.Id.ToLower().Contains(title.ToLower().Trim()));
             }
 
             if (status != null)
@@ -267,6 +270,51 @@ namespace Post.Infrastructure.Persistences.Repositories
             if (type != null)
             {
                 query = query.Where(i => i.Type == type);
+            }
+
+            if (fromDate != null && toDate != null)
+            {
+                query = query.Where(i => i.CreatedDate >= fromDate && i.CreatedDate <= toDate);
+            }
+
+
+            if (!string.IsNullOrEmpty(sortFeild))
+            {
+                if (sortValue == true)
+                {
+                    query = query.OrderByDescending(i => EF.Property<object>(i, sortFeild));
+                }
+                else
+                {
+                    query = query.OrderBy(i => EF.Property<object>(i, sortFeild));
+                }
+
+                if (userid != null)
+                {
+                    var sQuery = query.Where(i => i.UserId == userid);
+                    var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                        .Take(PageSize)
+                                        .ToListAsync();
+                    var reslist = await sQuery.ToListAsync();
+                    return new PagedList<SalePost>
+                    {
+                        Data = sQuery1,
+                        TotalCount = reslist.Count,
+                    };
+                }
+                else
+                {
+                    var sQuery = query;
+                    var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                        .Take(PageSize)
+                                        .ToListAsync();
+                    var reslist = await sQuery.ToListAsync();
+                    return new PagedList<SalePost>
+                    {
+                        Data = sQuery1,
+                        TotalCount = reslist.Count,
+                    };
+                }
             }
 
             if (userid != null)

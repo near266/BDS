@@ -81,7 +81,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                     query = query.Where(i => i.IsUnique == false);
                 }
             }
-            var cusquery1 = query.OrderByDescending(i => i.CreatedDate);
+            var cusquery1 = query.Where(i => i.Status == false).OrderByDescending(i => i.CreatedDate);
             var cusquery2 = await cusquery1.Skip(pagesize * (page - 1))
                                 .Take(pagesize)
                                 .ToListAsync();

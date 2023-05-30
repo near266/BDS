@@ -11,7 +11,7 @@ namespace Post.Application.Contracts
         Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken);
         Task<int> DeleteBoughtPost(List<string> Id, CancellationToken cancellationToken);
         Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, string? title, int? status, int Page, int PageSize);
-        Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? userid,string? keyword, int? fromPrice, int? toPrice,
+        Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? userid, string? keyword, int? fromPrice, int? toPrice,
             string? region, int Page, int PageSize);
         Task<BoughtPost> ViewDetailBoughtPost(string id);
         #endregion
@@ -22,8 +22,8 @@ namespace Post.Application.Contracts
         Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken);
         Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken);
         Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken);
-        Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, int Page, int PageSize);
-        Task<PagedList<SalePost>> GetShowingSalePost(string? userid,string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
+        Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize);
+        Task<PagedList<SalePost>> GetShowingSalePost(string? userid, string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize);
         Task<SalePost> ViewDetailSalePost(string id);
         Task SubtractMoney(string? postid, decimal amount, CancellationToken cancellationToken);
