@@ -508,6 +508,31 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
         }
 
+        public async Task<int> AddNewPost(NewPost rq, CancellationToken cancellationToken)
+        {
+            await _context.NewPosts.AddAsync(rq);
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
 
+        public async Task<int> UpdateNewPost(NewPost rq, CancellationToken cancellationToken)
+        {
+            var check = await _context.NewPosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            if (check == null) throw new ArgumentException("Can not find");
+            else
+            {
+                _mapper.Map(rq, check);
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task<int> DeleteNewPost(List<string> Id, CancellationToken cancellationToken)
+        {
+            var check = await _context.NewPosts.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach (var item in check)
+            {
+                _context.NewPosts.Remove(item);
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }

@@ -33,6 +33,13 @@ namespace Post.Application.Contracts
         Task<bool> CheckBalance(string userId, int type);
         Task<bool> CheckBalancePromotional(string userId, int type);
 
+        #region NewPost
+        Task<int> AddNewPost(NewPost rq,CancellationToken cancellationToken);
+        Task<int> UpdateNewPost(NewPost rq,CancellationToken cancellationToken);
+        Task<int> DeleteNewPost(List<string> Id, CancellationToken cancellationToken);
+        //Task<PagedList<NewPost>> SearchNewPost();
+        #endregion
+
         #region Admin
         Task<int> ApprovePost(int postType, List<string> id, int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken);
         #endregion

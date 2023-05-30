@@ -43,6 +43,7 @@ namespace Jhipster.Infrastructure.Data
         public DbSet<SalePost> SalePosts { get; set; }
         public DbSet<BoughtPost> BoughtPosts { get; set; }
 
+        public DbSet<NewPost> NewPosts { get; set; }
         public DbSet<DeliveryData> DeliveryDatas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

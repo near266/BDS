@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using Post.Application.Commands.BoughtPostC;
+using Post.Application.Commands.NewPostC;
 using Post.Application.Commands.SalePostC;
 using Post.Domain.Entities;
 
@@ -20,7 +21,11 @@ namespace Post.Application.Configurations.Mapper
             CreateMap<SalePost, UpdateSalePostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<SalePost, AddSalePostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             #endregion
-
+            #region NewPost
+            CreateMap<NewPost,NewPost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<NewPost,UpdateNewPostCommand>().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<NewPost,AddNewPostCommand>().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            #endregion
         }
     }
 }

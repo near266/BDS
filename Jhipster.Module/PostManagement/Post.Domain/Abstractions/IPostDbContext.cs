@@ -7,6 +7,7 @@ namespace Post.Domain.Abstractions
 	{
         public DbSet<BoughtPost> BoughtPosts { get; set; }
         public DbSet<SalePost> SalePosts { get; set; }
+        public DbSet<NewPost> NewPosts { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
