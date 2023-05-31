@@ -38,7 +38,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
         {
-            rq.Status = (int)PostStatus.Showing;
+            rq.Status = (int)PostStatus.UnApproved;
             await _context.BoughtPosts.AddAsync(rq);
             return await _context.SaveChangesAsync(cancellationToken);
         }

@@ -48,7 +48,7 @@ namespace Jhipster.Controllers
         private readonly IConfiguration _configuration;
 
         public UsersController(ILogger<UsersController> log, UserManager<User> userManager, IUserService userService,
-            IMapper mapper, IMailService mailService,IConfiguration configuration, IMediator mediator)
+            IMapper mapper, IMailService mailService, IConfiguration configuration, IMediator mediator)
         {
             _log = log;
             _userManager = userManager;
@@ -113,9 +113,9 @@ namespace Jhipster.Controllers
                 var resWallet = _mediator.Send(wallet);
                 var resWalletPro = _mediator.Send(walletPro);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500,ex.Message);
+                return StatusCode(500, ex.Message);
             }
 
             //if (!string.IsNullOrEmpty(userDto.Email))
@@ -178,14 +178,34 @@ namespace Jhipster.Controllers
         /// <returns></returns>
         [HttpPost("GetAllUser")]
         [Authorize(Roles = RolesConstants.ADMIN)]
-        public async Task<IActionResult> GetAllUsers(int page, int pagesize)
+        public async Task<IActionResult> GetAllUsers(string phone, string username, int page, int pagesize)
         {
             _log.LogDebug("REST request to get a page of Users");
-            var listUser = await _userManager.Users
+            List<User> listUser;
+            if(phone != null)
+            {
+                listUser = await _userManager.Users.Where(i => i.PhoneNumber == phone)
                 .Include(it => it.UserRoles)
                 .ThenInclude(r => r.Role)
                 .OrderBy(p => p.CreatedDate)
                 .ToListAsync();
+            }else if(username != null)
+            {
+                listUser = await _userManager.Users.Where(i => i.UserName.Contains(username))
+                .Include(it => it.UserRoles)
+                .ThenInclude(r => r.Role)
+                .OrderBy(p => p.CreatedDate)
+                .ToListAsync();
+            }
+            else
+            {
+                listUser = await _userManager.Users
+                .Include(it => it.UserRoles)
+                .ThenInclude(r => r.Role)
+                .OrderBy(p => p.CreatedDate)
+                .ToListAsync();
+            }
+            
             var userDtos = listUser.Select(user => _mapper.Map<UserDto>(user));
             UserDtoAdmin value = new()
             {
@@ -220,13 +240,13 @@ namespace Jhipster.Controllers
         public async Task<IActionResult> SearchUser([FromBody] SearchUserDto dto, int page, int pagesize)
         {
             _log.LogDebug($"REST request to search User : {dto}");
-            
+
             var result = await _userManager.Users
                 .OrderByDescending(p => p.CreatedDate)
                 .Include(it => it.UserRoles)
                 .ThenInclude(r => r.Role)
                 .ToListAsync();
-            if(dto.IsActived == "True")
+            if (dto.IsActived == "True")
             {
                 result = result.Where(p => p.Activated == true).ToList();
             }
@@ -241,7 +261,7 @@ namespace Jhipster.Controllers
             }
             if (!string.IsNullOrEmpty(dto.Fullname))
             {
-                result = result.Where(p => !string.IsNullOrEmpty(p.FirstName)  && p.FirstName.ToLower().Contains(dto.Fullname.ToLower())).ToList();
+                result = result.Where(p => !string.IsNullOrEmpty(p.FirstName) && p.FirstName.ToLower().Contains(dto.Fullname.ToLower())).ToList();
             }
             if (!string.IsNullOrEmpty(dto.Email))
             {
@@ -263,7 +283,7 @@ namespace Jhipster.Controllers
             UserDtoAdmin value = new()
             {
                 TotalCount = userDto.Count(),
-                userDtos = userDto                  
+                userDtos = userDto
                     .Skip((page - 1) * pagesize)
                     .Take(pagesize)
                     .ToList()
@@ -323,7 +343,7 @@ namespace Jhipster.Controllers
                 await _userService.AdminPasswordReset(resetPasswordAdminDTO.Login, resetPasswordAdminDTO.NewPassword);
                 return Ok();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
