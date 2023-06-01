@@ -46,9 +46,9 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<bool> CheckTitle(string title, string userid)
         {
             var post = await _context.BoughtPosts.Where(i => i.UserId == userid).AsNoTracking().ToListAsync();
-            foreach(var item in post)
+            foreach(var item in post.Select(i => i.Titile))
             {
-                if (title.Equals(item.Titile))
+                if (!string.IsNullOrEmpty(item) && title.Equals(item))
                 {
                     return false;
                 }
