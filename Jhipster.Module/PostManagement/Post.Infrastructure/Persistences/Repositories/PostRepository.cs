@@ -43,6 +43,19 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task<bool> CheckTitle(string title, string userid)
+        {
+            var post = await _context.BoughtPosts.Where(i => i.UserId == userid).AsNoTracking().ToListAsync();
+            foreach(var item in post)
+            {
+                if (title.Equals(item.Titile))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public async Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken)
         {
             switch (rq.Type)
@@ -556,6 +569,6 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
         }
 
-
+        
     }
 }

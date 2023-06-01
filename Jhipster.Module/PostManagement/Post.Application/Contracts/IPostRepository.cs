@@ -14,6 +14,7 @@ namespace Post.Application.Contracts
         Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? userid, string? keyword, int? fromPrice, int? toPrice,
             string? region, int Page, int PageSize);
         Task<BoughtPost> ViewDetailBoughtPost(string id);
+        Task<bool> CheckTitle(string title, string userid);
         #endregion
 
         Task<List<PostDto>> GetAllRegion(int? type);

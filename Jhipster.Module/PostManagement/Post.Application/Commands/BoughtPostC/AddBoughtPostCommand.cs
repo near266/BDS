@@ -9,7 +9,7 @@ namespace Post.Application.Commands.BoughtPostC
 {
     public class AddBoughtPostCommand : IRequest<int>
     {
-        public string? Titile { get; set; }
+        public string Titile { get; set; }
         public string? Description { get; set; }
         public string? Region { get; set; }
         public string? Ward { get; set; }
@@ -43,6 +43,8 @@ namespace Post.Application.Commands.BoughtPostC
         public async Task<int> Handle(AddBoughtPostCommand request, CancellationToken cancellationToken)
         {
             var map = _mapper.Map<BoughtPost>(request);
+            var check = await _repository.CheckTitle(request.Titile, request.UserId);
+            if(!check) throw new ArgumentException("Can not have the same title !");
             return await _repository.AddBoughtPost(map, cancellationToken);
         }
     }
