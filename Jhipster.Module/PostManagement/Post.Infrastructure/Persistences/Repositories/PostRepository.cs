@@ -521,6 +521,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             else
             {
                 _mapper.Map(rq, check);
+                //check = _mapper.Map<NewPost,NewPost>(rq,check);
                 return await _context.SaveChangesAsync(cancellationToken);
             }
         }
@@ -533,6 +534,63 @@ namespace Post.Infrastructure.Persistences.Repositories
                 _context.NewPosts.Remove(item);
             }
             return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<NewPost> ViewDetailNewPost(string id)
+        {
+            var res = await _context.NewPosts.FirstOrDefaultAsync(i => i.Id == id);
+            if (res == null) throw new ArgumentException("Can not find!");
+            return res;
+        }
+
+        public async Task<PagedList<NewPost>> GetShowingNewPost(string? title, int Page, int PageSize)
+        {
+            var query = _context.NewPosts.AsQueryable();
+            if(title != null) 
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Title) && i.Title.ToLower().Contains(title.ToLower().Trim()));
+            }
+            var sQuery = query.OrderByDescending(i => i.CreatedDate);
+            var sQuery1 =await sQuery.Skip(PageSize * (Page - 1))
+                          .Take(PageSize)
+                          .ToListAsync();
+            var reslist = await sQuery.ToListAsync();
+            return new PagedList<NewPost>
+            {
+                Data = sQuery1,
+                TotalCount = reslist.Count,
+            };
+        }
+
+        public async Task<PagedList<NewPost>> SearchNewPost(string? title, int Page, int PageSize)
+        {
+            throw new Exception();
+            //var query = _context.NewPosts.AsQueryable();
+            //if (title != null)
+            //{
+            //    query = query.Where(i => !string.IsNullOrEmpty(i.Title) && i.Title.ToLower().Contains(title.ToLower().Trim()));
+            //}
+            //if (userid != null)
+            //{
+            //    var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
+            //    var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+            //                   .Take(PageSize)
+            //                   .ToListAsync();
+            //    var reslist = await sQuery.ToListAsync();
+            //    return new PagedList<NewPost>
+            //    {
+            //        Data = sQuery1,
+            //        TotalCount = reslist.Count,
+            //    };
+            //}
+            //else
+            //{
+            //    var sQuery = query.OrderByDescending(i => i.CreatedDate);
+            //    var sQuery1 = await sQuery.Skip(PageSize * (Page -1)) 
+            //                        .Take(PageSize)
+            //                        .ToListAsync();
+
+            //}
         }
     }
 }

@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Post.Domain.Abstractions;
 using Post.Application.Queries.CommonQ;
 using Post.Application.Commands.NewPostC;
+using Post.Application.Queries.NewPostQ;
 
 namespace Post.Controller
 {
@@ -79,40 +80,8 @@ namespace Post.Controller
         {
             return User.FindFirst(ClaimsTypeConst.Username)?.Value;
         }
-        [Authorize(Roles = RolesConstants.ADMIN)]
-        [HttpPost("/newpost/add")]
-        public async Task<IActionResult> AddNewPost([FromBody] AddNewPostCommand rq)
-        {
-            _logger.LogInformation($"Rest request to add new post : {rq}");
-            try
-            {
-                rq.CreatedDate = DateTime.Now;
-                rq.CreatedBy = GetUsernameFromContext();
-                var res = await _mediator.Send(rq);
-                return Ok(res);
-            }catch(Exception ex)
-            {
-                _logger.LogError($"REST request to add new post fail:{ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }
-        [Authorize(Roles = RolesConstants.ADMIN)]
-        [HttpPut]
-        public async Task<IActionResult> UpdateNewPost([FromBody] UpdateNewPostCommand rq)
-        {
-            _logger.LogInformation($"REST request to update bought post : {rq}");
-            try
-            {
-                rq.LastModifiedDate = DateTime.Now;
-                rq.LastModifiedBy = GetUsernameFromContext();
-                var res = await _mediator.Send(rq);
-                return Ok(res);
-            }catch(Exception ex)
-            {
-                _logger.LogError($"REST request to update new post fail: {ex.Message}");
-                return StatusCode(500,ex.Message);
-            }
-        }
+
+        
         [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("/boughtpost/add")]
         public async Task<IActionResult> AddBoughtPost([FromBody] AddBoughtPostCommand rq)
@@ -468,6 +437,110 @@ namespace Post.Controller
             {
                 _logger.LogError($"REST request to get region fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
+            }
+        }
+
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPost("/newpost/add")]
+        public async Task<IActionResult> AddNewPost([FromBody] AddNewPostCommand rq)
+        {
+            _logger.LogInformation($"Rest request to add new post : {rq}");
+            try
+            {
+                rq.CreatedDate = DateTime.Now;
+                rq.CreatedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to add new post fail:{ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Chỉnh sửa tin tức
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPut("/newpost/update")]
+        public async Task<IActionResult> UpdateNewPost([FromBody] UpdateNewPostCommand rq)
+        {
+            _logger.LogInformation($"REST request to update bought post : {rq}");
+            try
+            {
+                rq.LastModifiedDate = DateTime.Now;
+                rq.LastModifiedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to update new post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// xóa tin tức
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpDelete("/newpost/delete")]
+        public async Task<IActionResult> DeleteNewPost([FromBody] DeleteNewPostCommand rq)
+        {
+            _logger.LogInformation($"REST request to delete new post :{rq}");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to delete new post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Xem chi tiết bài tin tức
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.USER)]
+        [HttpGet("/newpost/id")]
+        public async Task<IActionResult> ViewDetailNewPost([FromQuery] ViewDetailNewPostQuery rq)
+        {
+            _logger.LogInformation($"REST request to view detail new post : {rq}");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }catch(Exception ex)
+            {
+                _logger.LogError($" REST request to view detail new post fail: {ex.Message}");
+                return StatusCode(500,ex.Message);
+            }
+        }
+        /// <summary>
+        /// Lấy ra những tin MUA đang được hiển thị trên trang chủ mà ko cần đăng nhập
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/newpost/getShowing")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetShowingnewPost([FromBody]GetAllShowingNewPostQuery rq)
+        {
+            _logger.LogInformation($"REST request to get showing new post");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get showing new post fail: {ex.Message}");
+                return StatusCode(500,ex.Message);
             }
         }
     }

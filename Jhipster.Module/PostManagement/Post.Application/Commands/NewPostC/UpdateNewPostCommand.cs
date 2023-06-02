@@ -18,6 +18,7 @@ namespace Post.Application.Commands.NewPostC
         public string Description { get; set; }
 
         public List<string>? Image { get; set; }
+       
         [JsonIgnore]
         public string? LastModifiedBy { get; set; }
         

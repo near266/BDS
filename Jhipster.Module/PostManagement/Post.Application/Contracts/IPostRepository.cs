@@ -37,7 +37,9 @@ namespace Post.Application.Contracts
         Task<int> AddNewPost(NewPost rq,CancellationToken cancellationToken);
         Task<int> UpdateNewPost(NewPost rq,CancellationToken cancellationToken);
         Task<int> DeleteNewPost(List<string> Id, CancellationToken cancellationToken);
-        //Task<PagedList<NewPost>> SearchNewPost();
+        Task <NewPost> ViewDetailNewPost(string id);
+        Task<PagedList<NewPost>> SearchNewPost(string? title, int Page, int PageSize);
+        Task<PagedList<NewPost>> GetShowingNewPost(string? title, int Page, int PageSize);
         #endregion
 
         #region Admin

@@ -23,8 +23,8 @@ namespace Post.Application.Configurations.Mapper
             #endregion
             #region NewPost
             CreateMap<NewPost,NewPost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
-            CreateMap<NewPost,UpdateNewPostCommand>().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
-            CreateMap<NewPost,AddNewPostCommand>().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<NewPost,UpdateNewPostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<NewPost,AddNewPostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             #endregion
         }
     }

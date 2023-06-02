@@ -13,11 +13,8 @@ namespace Post.Domain.Entities
         public string Id { get; set; } = RandomUtil.GenerateKey();
         public string Title { get; set; }
         public string Description { get; set; }
-        public string UserName { get; set; }    
-
-        public string UserId { get; set; }  
-        
         public List<string>? Image { get; set; }
+        
 
     }
 }
