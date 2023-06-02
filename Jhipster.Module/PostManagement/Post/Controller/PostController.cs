@@ -211,8 +211,8 @@ namespace Post.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [Authorize(Roles = RolesConstants.USER)]
         [HttpGet("/boughtpost/id")]
+        [AllowAnonymous]
         public async Task<IActionResult> ViewDetailBoughtPost([FromQuery] ViewDetailBoughtPostQuery rq)
         {
 
@@ -370,8 +370,8 @@ namespace Post.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [Authorize(Roles = RolesConstants.USER)]
         [HttpGet("/salepost/id")]
+        [AllowAnonymous]
         public async Task<IActionResult> ViewDetailSalePost([FromQuery] ViewDetailSalePostQuery rq)
         {
 
