@@ -416,7 +416,7 @@ namespace Post.Controller
         }
 
         /// <summary>
-        /// Lấy danh sách khu vực để thực hiện filter - màn hình end user
+        /// Lấy danh sách khu vực để thực hiện filter - màn hình end user (type = 0 : tin MUA, type = 1 : tin BÁN)
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
@@ -433,6 +433,28 @@ namespace Post.Controller
             catch (Exception ex)
             {
                 _logger.LogError($"REST request to get region fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Lấy danh sách trạng thái để hiển thị ở màn quản lý tin đăng - màn hình end user (type = 0 : tin MUA, type = 1 : tin BÁN)
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.USER)]
+        [HttpGet("/post/getAllStatus")]
+        public async Task<IActionResult> GetStatusWithCount([FromQuery] GetStatusWithCountQuery rq)
+        {
+            _logger.LogInformation($"REST request to get status : {rq}");
+            try
+            {
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get status fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }

@@ -11,4 +11,10 @@ namespace Post.Application.DTO
         public string Region { get; set; }
         public int Count { get; set; }
     }
+
+    public class StatusDto
+    {
+        public int Status { get; set; }
+        public int Count { get; set; }
+    }
 }

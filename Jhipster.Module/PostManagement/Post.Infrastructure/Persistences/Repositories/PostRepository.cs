@@ -36,126 +36,13 @@ namespace Post.Infrastructure.Persistences.Repositories
             _configuration = configuration;
         }
 
+        #region BoughtPost
         public async Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
         {
             rq.Status = (int)PostStatus.UnApproved;
             await _context.BoughtPosts.AddAsync(rq);
             return await _context.SaveChangesAsync(cancellationToken);
         }
-
-        public async Task<bool> CheckTitle(string title, string userid)
-        {
-            var post = await _context.BoughtPosts.Where(i => i.UserId == userid).AsNoTracking().ToListAsync();
-            foreach(var item in post.Select(i => i.Titile))
-            {
-                if (!string.IsNullOrEmpty(item) && title.Equals(item))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public async Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken)
-        {
-            switch (rq.Type)
-            {
-                case (int)PostType.Normal:
-                    rq.Status = (int)PostStatus.UnApproved;
-                    break;
-                case (int)PostType.Golden:
-                    rq.Status = (int)PostStatus.Showing;
-                    break;
-                case (int)PostType.Vip:
-                    rq.Status = (int)PostStatus.Showing;
-                    break;
-                default:
-                    break;
-            }
-            await _context.SalePosts.AddAsync(rq);
-            var res = await _context.SaveChangesAsync(cancellationToken);
-            if (rq.Type == (int)PostType.Normal)
-            {
-                if (isEnoughWalletPro == true)
-                {
-                    await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate), cancellationToken);
-                }
-                else if (isEnoughWalletPro == false && isEnoughWallet == true)
-                {
-                    await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate), cancellationToken);
-                }
-            }
-            else if (rq.Type == (int)PostType.Golden)
-            {
-                if (isEnoughWalletPro == true)
-                {
-                    await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate), cancellationToken);
-                }
-                else if (isEnoughWalletPro == false && isEnoughWallet == true)
-                {
-                    await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate), cancellationToken);
-                }
-            }
-            else if (rq.Type == (int)PostType.Vip)
-            {
-                if (isEnoughWalletPro == true)
-                {
-                    await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate), cancellationToken);
-                }
-                else if (isEnoughWalletPro == false && isEnoughWallet == true)
-                {
-                    await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate), cancellationToken);
-                }
-            }
-            return res;
-        }
-
-        public async Task<int> ApprovePost(int postType, List<string> id, int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
-        {
-            if (postType == 0)
-            {
-                var res = await _context.BoughtPosts.Where(i => id.Contains(i.Id)).ToListAsync();
-                foreach (var item in res)
-                {
-                    item.Status = status;
-                    item.Reason = reason;
-                    item.LastModifiedDate = modifiedDate;
-                    item.LastModifiedBy = modifiedBy;
-                }
-
-                return await _context.SaveChangesAsync(cancellationToken);
-            }
-            else
-            {
-                var res = await _context.SalePosts.Where(i => id.Contains(i.Id)).ToListAsync();
-                foreach (var item in res)
-                {
-                    item.Status = status;
-                    item.Reason = reason;
-                    item.LastModifiedDate = modifiedDate;
-                    item.LastModifiedBy = modifiedBy;
-                }
-                var result = await _context.SaveChangesAsync(cancellationToken);
-                foreach (var item2 in res)
-                {
-                    if (status == (int)PostStatus.Rejected)
-                    {
-                        var check = await CheckBalancePromotional(item2.UserId, (int)PostType.Normal);
-                        var dif = (item2.DueDate - item2.CreatedDate).Value.TotalDays;
-                        if (check)
-                        {
-                            await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
-                        }
-                        else
-                        {
-                            await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 1, cancellationToken);
-                        }
-                    }
-                }
-                return result;
-            }
-        }
-
         public async Task<int> DeleteBoughtPost(List<string> Id, CancellationToken cancellationToken)
         {
             var check = await _context.BoughtPosts.Where(i => Id.Contains(i.Id)).ToListAsync();
@@ -165,18 +52,6 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return await _context.SaveChangesAsync(cancellationToken);
         }
-
-        public async Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken)
-        {
-            var check = await _context.SalePosts.Where(i => Id.Contains(i.Id)).ToListAsync();
-            foreach (var item in check)
-            {
-                _context.SalePosts.Remove(item);
-            }
-            return await _context.SaveChangesAsync(cancellationToken);
-        }
-
-
         public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, string? title, int? status, int Page, int PageSize)
         {
             var query = _context.BoughtPosts.AsQueryable();
@@ -263,7 +138,87 @@ namespace Post.Infrastructure.Persistences.Repositories
                 TotalCount = reslist.Count,
             };
         }
+        public async Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
+        {
+            var check = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            if (check == null) throw new ArgumentException("Can not find!");
+            else
+            {
+                _mapper.Map(rq, check);
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+        public async Task<BoughtPost> ViewDetailBoughtPost(string id)
+        {
+            var res = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == id);
+            if (res == null) throw new ArgumentException("Can not find!");
+            return res;
+        }
+        #endregion
 
+        #region SalePost
+        public async Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken)
+        {
+            switch (rq.Type)
+            {
+                case (int)PostType.Normal:
+                    rq.Status = (int)PostStatus.UnApproved;
+                    break;
+                case (int)PostType.Golden:
+                    rq.Status = (int)PostStatus.Showing;
+                    break;
+                case (int)PostType.Vip:
+                    rq.Status = (int)PostStatus.Showing;
+                    break;
+                default:
+                    break;
+            }
+            await _context.SalePosts.AddAsync(rq);
+            var res = await _context.SaveChangesAsync(cancellationToken);
+            if (rq.Type == (int)PostType.Normal)
+            {
+                if (isEnoughWalletPro == true)
+                {
+                    await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate), cancellationToken);
+                }
+                else if (isEnoughWalletPro == false && isEnoughWallet == true)
+                {
+                    await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate), cancellationToken);
+                }
+            }
+            else if (rq.Type == (int)PostType.Golden)
+            {
+                if (isEnoughWalletPro == true)
+                {
+                    await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate), cancellationToken);
+                }
+                else if (isEnoughWalletPro == false && isEnoughWallet == true)
+                {
+                    await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate), cancellationToken);
+                }
+            }
+            else if (rq.Type == (int)PostType.Vip)
+            {
+                if (isEnoughWalletPro == true)
+                {
+                    await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate), cancellationToken);
+                }
+                else if (isEnoughWalletPro == false && isEnoughWallet == true)
+                {
+                    await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate), cancellationToken);
+                }
+            }
+            return res;
+        }
+        public async Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken)
+        {
+            var check = await _context.SalePosts.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach (var item in check)
+            {
+                _context.SalePosts.Remove(item);
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
         public async Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type,
             DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize)
         {
@@ -357,7 +312,6 @@ namespace Post.Infrastructure.Persistences.Repositories
                 };
             }
         }
-
         public async Task<PagedList<SalePost>> GetShowingSalePost(string? userid, string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize)
         {
@@ -410,17 +364,6 @@ namespace Post.Infrastructure.Persistences.Repositories
             };
         }
 
-        public async Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
-        {
-            var check = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
-            if (check == null) throw new ArgumentException("Can not find!");
-            else
-            {
-                _mapper.Map(rq, check);
-                return await _context.SaveChangesAsync(cancellationToken);
-            }
-        }
-
         public async Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken)
         {
             var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
@@ -432,20 +375,72 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
         }
 
-        public async Task<BoughtPost> ViewDetailBoughtPost(string id)
-        {
-            var res = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == id);
-            if (res == null) throw new ArgumentException("Can not find!");
-            return res;
-        }
-
         public async Task<SalePost> ViewDetailSalePost(string id)
         {
             var res = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
             if (res == null) throw new ArgumentException("Can not find!");
             return res;
         }
+        #endregion
 
+        #region Other
+        public async Task<bool> CheckTitle(string title, string userid)
+        {
+            var post = await _context.BoughtPosts.Where(i => i.UserId == userid).AsNoTracking().ToListAsync();
+            foreach (var item in post.Select(i => i.Titile))
+            {
+                if (!string.IsNullOrEmpty(item) && title.Equals(item))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public async Task<int> ApprovePost(int postType, List<string> id, int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
+        {
+            if (postType == 0)
+            {
+                var res = await _context.BoughtPosts.Where(i => id.Contains(i.Id)).ToListAsync();
+                foreach (var item in res)
+                {
+                    item.Status = status;
+                    item.Reason = reason;
+                    item.LastModifiedDate = modifiedDate;
+                    item.LastModifiedBy = modifiedBy;
+                }
+
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+            else
+            {
+                var res = await _context.SalePosts.Where(i => id.Contains(i.Id)).ToListAsync();
+                foreach (var item in res)
+                {
+                    item.Status = status;
+                    item.Reason = reason;
+                    item.LastModifiedDate = modifiedDate;
+                    item.LastModifiedBy = modifiedBy;
+                }
+                var result = await _context.SaveChangesAsync(cancellationToken);
+                foreach (var item2 in res)
+                {
+                    if (status == (int)PostStatus.Rejected)
+                    {
+                        var check = await CheckBalancePromotional(item2.UserId, (int)PostType.Normal);
+                        var dif = (item2.DueDate - item2.CreatedDate).Value.TotalDays;
+                        if (check)
+                        {
+                            await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
+                        }
+                        else
+                        {
+                            await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 1, cancellationToken);
+                        }
+                    }
+                }
+                return result;
+            }
+        }
         public async Task ReturnMoney(string? postid, decimal amount, int type, CancellationToken cancellationToken)
         {
             if (postid != null)
@@ -471,7 +466,6 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             }
         }
-
         public async Task SubtractMoney(string? postid, decimal amount, CancellationToken cancellationToken)
         {
             if (postid != null)
@@ -485,7 +479,6 @@ namespace Post.Infrastructure.Persistences.Repositories
                 await _wcontext.SaveChangesAsync(cancellationToken);
             }
         }
-
         public async Task<bool> CheckBalance(string userId, int type)
         {
             var check = false;
@@ -509,7 +502,6 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return check;
         }
-
         public async Task SubtractMoneyPromotional(string? postid, decimal amount, CancellationToken cancellationToken)
         {
             if (postid != null)
@@ -523,7 +515,6 @@ namespace Post.Infrastructure.Persistences.Repositories
                 await _wcontext.SaveChangesAsync(cancellationToken);
             }
         }
-
         public async Task<bool> CheckBalancePromotional(string userId, int type)
         {
             var check = false;
@@ -548,7 +539,6 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return check;
         }
-
         public async Task<List<PostDto>> GetAllRegion(int? type)
         {
             if (type == 0)
@@ -569,6 +559,28 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
         }
 
-        
+        public async Task<List<StatusDto>> GetAllStatus(int? type, string userId)
+        {
+            if (type == 0)
+            {
+                var statusBought = await _context.BoughtPosts.Where(i => i.UserId == userId)
+                .GroupBy(p => p.Status)
+                .Select(g => new StatusDto { Status = g.Key, Count = g.Count() })
+                .ToListAsync();
+                return statusBought;
+            }
+            else
+            {
+                var statusSale = await _context.SalePosts.Where(i => i.UserId == userId)
+                .GroupBy(p => p.Status)
+                .Select(g => new StatusDto { Status = g.Key, Count = g.Count() })
+                .ToListAsync();
+                return statusSale;
+            }
+        }
+        #endregion
+
+
+
     }
 }
