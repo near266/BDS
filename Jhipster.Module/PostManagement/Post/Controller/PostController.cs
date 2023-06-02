@@ -444,7 +444,7 @@ namespace Post.Controller
         /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
         [HttpGet("/post/getAllStatus")]
-        public async Task<IActionResult> GetStatusWithCount([FromQuery] GetStatusWithCountQuery rq)
+        public async Task<IActionResult> GetStatusWithCount([FromBody] GetStatusWithCountQuery rq)
         {
             _logger.LogInformation($"REST request to get status : {rq}");
             try
