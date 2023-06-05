@@ -2,6 +2,7 @@
 using Jhipster.Crosscutting.Utilities;
 using MediatR;
 using Post.Application.Contracts;
+using Post.Application.DTO;
 using Post.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Post.Application.Queries.SalePostQ
 {
-    public class GetAllShowingSalePostQuery : IRequest<PagedList<SalePost>>
+    public class GetAllShowingSalePostQuery : IRequest<PagedList<SearchSalePostDTO>>
     {
         public string? UserId { get; set; }
         public string? Keyword { get; set; }
@@ -23,7 +24,7 @@ namespace Post.Application.Queries.SalePostQ
         public int Page { get; set; }
         public int PageSize { get; set; }
     }
-    public class GetAllShowingSalePostQueryHandler : IRequestHandler<GetAllShowingSalePostQuery, PagedList<SalePost>>
+    public class GetAllShowingSalePostQueryHandler : IRequestHandler<GetAllShowingSalePostQuery, PagedList<SearchSalePostDTO>>
     {
         private readonly IPostRepository _repository;
         private readonly IMapper _mapper;
@@ -32,7 +33,7 @@ namespace Post.Application.Queries.SalePostQ
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<PagedList<SalePost>> Handle(GetAllShowingSalePostQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<SearchSalePostDTO>> Handle(GetAllShowingSalePostQuery request, CancellationToken cancellationToken)
         {
             return await _repository.GetShowingSalePost(request.UserId,request.Keyword,request.FromPrice, request.ToPrice, request.FromArea, request.ToArea, request.Region, request.Page, request.PageSize);
         }
