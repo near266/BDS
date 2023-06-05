@@ -30,6 +30,7 @@ namespace Wallet.Application.Configurations.Mapper
             CreateMap<WalletPromotional, AddWalletPromotionCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<WalletPromotional, UpdateWalletPromotionCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<WalletPromotional, WalletPromotionalDto>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<DetailCusDTO, Customer>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
 
         }
     }

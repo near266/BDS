@@ -43,7 +43,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             if (!string.IsNullOrEmpty(region))
             {
-                value = value.Where(i => i.Region.Contains(region)).ToList();
+                value = value.Where(i => i.Region.ToLower().Contains(region.ToLower())).ToList();
             }
 
             var random = new Random();
@@ -185,7 +185,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             if (!string.IsNullOrEmpty(region))
             {
-                value = value.Where(i => i.Region.Contains(region)).ToList();
+                value = value.Where(i => i.Region.ToLower().Contains(region.ToLower())).ToList();
             }
 
             var random = new Random();
@@ -630,7 +630,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         #endregion
         public string MaxSalePost(SearchSalePostDTO rq)
         {
-            var check = _context.SalePosts.Where(i => i.Region == rq.Region).OrderBy(i => i.Price)
+            var check = _context.SalePosts.Where(i => i.Region == rq.Region).OrderByDescending(i => i.Price)
                 .Select(i => i.Id).FirstOrDefault();
             if (check == rq.Id)
             {
@@ -644,7 +644,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public string MinSalePost(SearchSalePostDTO rq)
         {
-            var check = _context.SalePosts.Where(i => i.Region == rq.Region).OrderByDescending(i => i.Price)
+            var check = _context.SalePosts.Where(i => i.Region == rq.Region).OrderBy(i => i.Price)
                 .Select(i => i.Id).FirstOrDefault();
             if (check == rq.Id)
             {

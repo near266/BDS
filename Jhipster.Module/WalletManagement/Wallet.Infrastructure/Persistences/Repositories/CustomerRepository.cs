@@ -50,29 +50,33 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<Customer> GetById(Guid Id)
+        public async Task<DetailCusDTO> GetById(Guid Id)
         {
-            var check = await _context.Customers.FirstOrDefaultAsync(i => i.Id == Id);
+            var check = await _appcontext.Customers.FirstOrDefaultAsync(i => i.Id == Id);
             if (check == null) throw new ArgumentException("Not exists!");
-            return check;
+            var map = _mapper.Map<DetailCusDTO>(check);
+            var user = await _appcontext.Users.FirstOrDefaultAsync(i => i.Id == Id.ToString());
+            map.TotalBoughtPost= _appcontext.BoughtPosts.Where(i => i.CreatedBy == user.Login).Count();
+            map.TotalSalePost= _appcontext.SalePosts.Where(i => i.CreatedBy == user.Login).Count();
+            return map;
         }
 
         public async Task<SearchCustomerReponse> Search(string? keyword, string? phone, bool? isUnique, int page, int pagesize)
         {
-             var query = _context.Customers.AsQueryable();
+            var query = _context.Customers.AsQueryable();
             var listW = new List<WalletEntity>();
             var listWP = new List<WalletPromotional>();
             if (keyword != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.CustomerName) && i.CustomerName.ToLower().Contains(keyword.ToLower().Trim()));
             }
-            if(phone != null)
+            if (phone != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Phone) && i.Phone.ToLower().Contains(phone.ToLower().Trim()));
             }
-            if(isUnique != null)
+            if (isUnique != null)
             {
-                if(isUnique == true)
+                if (isUnique == true)
                 {
                     query = query.Where(i => i.IsUnique == true);
                 }
