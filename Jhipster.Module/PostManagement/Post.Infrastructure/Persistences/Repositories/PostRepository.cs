@@ -37,6 +37,28 @@ namespace Post.Infrastructure.Persistences.Repositories
         }
 
         #region BoughtPost
+        public async Task<List<BoughtPost>> GetRandomBoughtPost(int randomCount, string? region)
+        {
+            var value = await _context.BoughtPosts.ToListAsync();
+
+            if (!string.IsNullOrEmpty(region))
+            {
+                value = value.Where(i => i.Region.Contains(region)).ToList();
+            }
+
+            var random = new Random();
+            int n = value.Count;
+
+            for (int i = n - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                BoughtPost temp = value[i];
+                value[i] = value[j];
+                value[j] = temp;
+            }
+
+            return value.Take(randomCount).ToList();
+        }
         public async Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
         {
             rq.Status = (int)PostStatus.UnApproved;
@@ -157,6 +179,29 @@ namespace Post.Infrastructure.Persistences.Repositories
         #endregion
 
         #region SalePost
+        public async Task<List<SalePost>> GetRandomSalePost(int randomCount, string? region)
+        {
+            var value = await _context.SalePosts.ToListAsync();
+
+            if (!string.IsNullOrEmpty(region))
+            {
+                value = value.Where(i => i.Region.Contains(region)).ToList();
+            }
+
+            var random = new Random();
+            int n = value.Count;
+
+            for (int i = n - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                SalePost temp = value[i];
+                value[i] = value[j];
+                value[j] = temp;
+            }
+
+            return value.Take(randomCount).ToList();
+        }
+
         public async Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken)
         {
             switch (rq.Type)
@@ -312,11 +357,16 @@ namespace Post.Infrastructure.Persistences.Repositories
                 };
             }
         }
-        public async Task<PagedList<SalePost>> GetShowingSalePost(string? userid, string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
+        public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize)
         {
-            var query = _context.SalePosts.AsQueryable();
-
+            var result = await _context.SalePosts.ToListAsync();
+            var query = _mapper.Map<List<SearchSalePostDTO>>(result).AsEnumerable();
+            foreach (var item in query)
+            {
+                item.MaxSale = MaxSalePost(item);
+                item.MinSale = MinSalePost(item);
+            }
             if (keyword != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
@@ -352,18 +402,17 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)
                 .OrderByDescending(i => i.Type).ThenByDescending(i => i.CreatedDate);
-            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+            var sQuery1 = sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
-                                .ToListAsync();
+                                .ToList();
 
-            var reslist = await sQuery.ToListAsync();
-            return new PagedList<SalePost>
+            var reslist = sQuery.ToList();
+            return new PagedList<SearchSalePostDTO>
             {
                 Data = sQuery1,
                 TotalCount = reslist.Count,
             };
         }
-
         public async Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken)
         {
             var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
@@ -579,8 +628,32 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
         }
         #endregion
+        public string MaxSalePost(SearchSalePostDTO rq)
+        {
+            var check = _context.SalePosts.Where(i => i.Region == rq.Region).OrderBy(i => i.Price)
+                .Select(i => i.Id).FirstOrDefault();
+            if (check == rq.Id)
+            {
+                return "MaxSale";
+            }
+            else
+            {
+                return "NoMaxSale";
+            }
+        }
 
-
-
+        public string MinSalePost(SearchSalePostDTO rq)
+        {
+            var check = _context.SalePosts.Where(i => i.Region == rq.Region).OrderByDescending(i => i.Price)
+                .Select(i => i.Id).FirstOrDefault();
+            if (check == rq.Id)
+            {
+                return "MinSale";
+            }
+            else
+            {
+                return "NoMinSale";
+            }
+        }
     }
 }
