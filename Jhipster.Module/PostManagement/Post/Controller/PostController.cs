@@ -458,6 +458,48 @@ namespace Post.Controller
                 return StatusCode(500, ex.Message);
             }
         }
+        /// <summary>
+        /// Lấy ra 10 bài đăng sale theo Region
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/salepost/GetRandomSalePost")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetRandomSalePost([FromBody] GetRandomSalePostQ rq)
+        {
+            _logger.LogInformation($"REST request to get random sale post");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get random sale post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Lấy ra 10 bài đăng bought theo Region
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/salepost/GetRandomBoughtPost")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetRandomBoughtPost([FromBody] GetRandomBoughtPostQ rq)
+        {
+            _logger.LogInformation($"REST request to get random bought post");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get random bought post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
 

@@ -26,6 +26,8 @@ namespace Post.Application.Contracts
         Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize);
         Task<SalePost> ViewDetailSalePost(string id);
+        Task<List<SalePost>> GetRandomSalePost(int Random, string? Region);
+        Task<List<BoughtPost>> GetRandomBoughtPost(int randomCount, string? region);
 
         #endregion
 
