@@ -18,6 +18,7 @@ using Post.Application.Commands.AdminC;
 using Microsoft.EntityFrameworkCore;
 using Post.Domain.Abstractions;
 using Post.Application.Queries.CommonQ;
+using Post.Application.Commands.CommonC;
 
 namespace Post.Controller
 {
@@ -497,6 +498,29 @@ namespace Post.Controller
             catch (Exception ex)
             {
                 _logger.LogError($"REST request to get random bought post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Thay đổi trạng thái ở màn quản lý bài đăng (postType = 0 : Tin MUA, postType = 1 : Tin BÁN, 
+        /// statusType = 0 : Hạ tin, statusType = 1 : Đẩy tin, statusType = 2 : Đăng lại )
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/post/changeStatus")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ChangeStatus([FromBody] ChangeStatusCommand rq)
+        {
+            _logger.LogInformation($"REST request to get change status");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to change status fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }

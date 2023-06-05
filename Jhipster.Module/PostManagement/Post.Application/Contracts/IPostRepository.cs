@@ -43,8 +43,8 @@ namespace Post.Application.Contracts
         Task ReturnMoney(string? postid, decimal amount, int type, CancellationToken cancellationToken);
         Task<bool> CheckTitle(string title, string userid);
         Task<List<PostDto>> GetAllRegion(int? type);
-        Task<List<StatusDto>> GetAllStatus(int? type , string userId);
-
+        Task<List<StatusDto>> GetAllStatus(int? type, string userId);
+        Task<int> ChangeStatus(string postId, int postType, int statusType,DateTime? lastModifiedDate, string? lastModifiedBy, CancellationToken cancellationToken);
 
         #endregion
     }

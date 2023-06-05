@@ -3,6 +3,7 @@ using Jhipster.Crosscutting.Utilities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Post.Application.Contracts;
 using Post.Application.DTO;
 using Post.Domain.Abstractions;
@@ -654,6 +655,67 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 return "NoMinSale";
             }
+        }
+
+        public async Task<int> ChangeStatus(string postId, int postType, int statusType, DateTime? lastModifiedDate, string? lastModifiedBy, CancellationToken cancellationToken)
+        {
+            //statusType : 0-Hạ Tin, 1-Đẩy tin, 2-Đăng lại
+            if (postType == 0)
+            {
+                var post = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == postId);
+                if (post == null) throw new ArgumentException("Can not find post");
+                switch (statusType)
+                {
+                    case 0:
+                        post.Status = (int)PostStatus.Down;
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        if (post.Status == (int)PostStatus.Down)
+                        {
+                            post.Status = (int)PostStatus.UnApproved;
+                        }
+                        break;
+                }
+                post.LastModifiedDate = lastModifiedDate;
+                post.LastModifiedBy = lastModifiedBy;
+            }
+            else
+            {
+                var salePost = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
+                if (salePost == null) throw new ArgumentException("Can not find post");
+                switch (statusType)
+                {
+                    case 0:
+                        salePost.Status = (int)PostStatus.Down;
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        var checkp = await CheckBalancePromotional(salePost.UserId, salePost.Type);
+                        var check = await CheckBalance(salePost.UserId, salePost.Type);
+                        if (!checkp && !check) throw new ArgumentException("Not enough money");
+                        var dif = (salePost.DueDate - salePost.CreatedDate).Value.TotalDays;
+                        salePost.DueDate = salePost.DueDate.Value.AddDays(dif);
+                        string pt = "";
+                        if (salePost.Type == (int)PostType.Normal) pt = "Price:Normal";
+                        else if (salePost.Type == (int)PostType.Golden) pt = "Price:Vip";
+                        else if (salePost.Type == (int)PostType.Vip) pt = "Price:SuperVip";
+                        if (checkp)
+                        {
+                            await SubtractMoneyPromotional(salePost.Id, (decimal)(_configuration.GetValue<int>(pt) * dif), cancellationToken);
+                        }
+                        else
+                        {
+                            await SubtractMoney(salePost.Id, (decimal)(_configuration.GetValue<int>(pt) * dif), cancellationToken);
+                        }
+                        break;
+                }
+                salePost.LastModifiedDate = lastModifiedDate;
+                salePost.LastModifiedBy = lastModifiedBy;
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

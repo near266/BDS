@@ -69,6 +69,16 @@ namespace Jhipster.Configuration
                     LangKey = "en"
                 },
                 new User {
+                    Id = "56bea1ab-c711-47ee-9362-8cef4ed817bf",
+                    UserName = "xuanadmin",
+                    PasswordHash = "$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC",
+                    FirstName = "Xuân",
+                    LastName = "Administrator",
+                    Email = "admin-xuan@gmail.com",
+                    Activated = true,
+                    LangKey = "en"
+                },
+                new User {
                     Id = "adeaac3a-a71e-4ed8-86d9-3a1f898fe223",
                     UserName = "user",
                     PasswordHash = "$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K",
@@ -86,6 +96,7 @@ namespace Jhipster.Configuration
             return new Dictionary<string, string[]> {
                 {"e7502689-bec6-4462-beaf-9368d7a441e4", new[] {"ROLE_ADMIN", "ROLE_USER"}},
                 {"13347e15-8b5d-49a7-b7bf-c9f073e97967", new[] {"ROLE_ADMIN", "ROLE_USER"}},
+                {"56bea1ab-c711-47ee-9362-8cef4ed817bf", new[] {"ROLE_ADMIN", "ROLE_USER"}},
                 {"adeaac3a-a71e-4ed8-86d9-3a1f898fe223", new[] {"ROLE_USER"}}
             };
         }
