@@ -117,7 +117,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 };
             }
         }
-        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? userid, string? keyword, int? fromPrice, int? toPrice, string? region, int Page, int PageSize)
+        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? userid, string? keyword, double? fromPrice, double? toPrice, string? region, int Page, int PageSize)
         {
             var query = _context.BoughtPosts.AsQueryable();
 
@@ -358,7 +358,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 };
             }
         }
-        public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
+        public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize)
         {
             var result = await _context.SalePosts.ToListAsync();

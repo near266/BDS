@@ -153,6 +153,26 @@ namespace Post.Controller
 
         }
 
+        [Authorize(Roles = RolesConstants.USER)]
+        [HttpPost("/boughtpost/deleteBPost")]
+        public async Task<IActionResult> DeleteBoughtPost1([FromBody] DeleteBoughtPostCommand rq)
+        {
+
+            _logger.LogInformation($"REST request to delete bought post : {rq}");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to delete bought post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+
+
+        }
+
         /// <summary>
         /// [Yêu cầu đăng nhập] Lấy ra những danh sách tất cả tin MUA , nếu là User thì lấy ra những tin bán của User đó, nếu là ADMIN thì lấy ra tất cả
         /// </summary>
@@ -311,6 +331,25 @@ namespace Post.Controller
 
         }
 
+        [Authorize(Roles = RolesConstants.USER)]
+        [HttpDelete("/salepost/deleteSPost")]
+        public async Task<IActionResult> DeleteSalePost1([FromBody] DeleteSalePostCommand rq)
+        {
+
+            _logger.LogInformation($"REST request to delete sale post : {rq}");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to delete sale post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+
+
+        }
 
         /// <summary>
         /// Lấy ra những danh sách tất cả tin BÁN , nếu là User thì lấy ra những tin bán của User đó, nếu là ADMIN thì lấy ra tất cả

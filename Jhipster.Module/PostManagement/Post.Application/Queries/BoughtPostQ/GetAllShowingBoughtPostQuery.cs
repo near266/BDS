@@ -15,8 +15,8 @@ namespace Post.Application.Queries.BoughtPostQ
     {
         public string? UserId { get; set; }
         public string? Keyword { get; set; }
-        public int? FromPrice { get; set; }
-        public int? ToPrice { get; set; }
+        public double? FromPrice { get; set; }
+        public double? ToPrice { get; set; }
         public string? Region { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }

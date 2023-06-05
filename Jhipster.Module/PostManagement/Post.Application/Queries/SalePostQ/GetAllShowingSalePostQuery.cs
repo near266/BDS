@@ -16,8 +16,8 @@ namespace Post.Application.Queries.SalePostQ
     {
         public string? UserId { get; set; }
         public string? Keyword { get; set; }
-        public int? FromPrice { get; set; }
-        public int? ToPrice { get; set; }
+        public double? FromPrice { get; set; }
+        public double? ToPrice { get; set; }
         public double? FromArea { get; set; }
         public double? ToArea { get; set; }
         public string? Region { get; set; }
