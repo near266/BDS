@@ -484,7 +484,7 @@ namespace Post.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [HttpPost("/salepost/GetRandomBoughtPost")]
+        [HttpPost("/boughtpost/GetRandomBoughtPost")]
         [AllowAnonymous]
         public async Task<IActionResult> GetRandomBoughtPost([FromBody] GetRandomBoughtPostQ rq)
         {
