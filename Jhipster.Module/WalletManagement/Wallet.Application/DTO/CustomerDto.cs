@@ -34,4 +34,23 @@ namespace Wallet.Application.DTO
         public decimal Amount { get; set; }
         public string? Currency { get; set; }
     }
+    public class DetailCusDTO
+    {
+        public Guid Id { get; set; }
+        public string CustomerName { get; set; }
+        public string? Address { get; set; }
+        public string? Phone { get; set; }
+        public string? Company { get; set; }
+        public bool? IsUnique { get; set; }
+        public string? Avatar { get; set; }
+        //Sàn
+        public string? Exchange { get; set; }
+        public string? ExchangeDescription { get; set; }
+        public DateTime? MaintainFrom { get; set; }
+        public DateTime? MaintainTo { get; set; }
+        public double? Point { get; set; }
+        public bool? Status { get; set; }
+        public int? TotalSalePost { get; set; }
+        public int? TotalBoughtPost { get; set; }
+    }
 }
