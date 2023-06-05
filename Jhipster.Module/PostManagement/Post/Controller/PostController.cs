@@ -332,7 +332,7 @@ namespace Post.Controller
         }
 
         [Authorize(Roles = RolesConstants.USER)]
-        [HttpDelete("/salepost/deleteSPost")]
+        [HttpPost("/salepost/deleteSPost")]
         public async Task<IActionResult> DeleteSalePost1([FromBody] DeleteSalePostCommand rq)
         {
 
