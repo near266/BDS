@@ -19,12 +19,12 @@ using Microsoft.EntityFrameworkCore;
 using Post.Domain.Abstractions;
 using Post.Application.Queries.CommonQ;
 using Post.Application.Commands.CommonC;
-using Post.Application.Commands.DistrictC;
 using Post.Application.Commands.NewPostC;
-using Post.Application.Commands.WardC;
+using Post.Application.Commands.DistrictC;
 using Post.Application.Queries.DistrictQ;
-using Post.Application.Queries.NewPostQ;
+using Post.Application.Commands.WardC;
 using Post.Application.Queries.WardQ;
+using Post.Application.Queries.NewPostQ;
 
 namespace Post.Controller
 {
