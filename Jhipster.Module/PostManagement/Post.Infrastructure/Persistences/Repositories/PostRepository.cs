@@ -11,6 +11,7 @@ using Post.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Wallet.Domain.Abstractions;
@@ -564,7 +565,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<PagedList<NewPost>> SearchNewPost(string? title, int Page, int PageSize)
         {
-            throw new Exception();
+            throw new NotImplementedException();
             //var query = _context.NewPosts.AsQueryable();
             //if (title != null)
             //{
@@ -586,11 +587,124 @@ namespace Post.Infrastructure.Persistences.Repositories
             //else
             //{
             //    var sQuery = query.OrderByDescending(i => i.CreatedDate);
-            //    var sQuery1 = await sQuery.Skip(PageSize * (Page -1)) 
+            //    var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
             //                        .Take(PageSize)
             //                        .ToListAsync();
 
             //}
         }
+
+        public async Task<int> AddDistrict(District rq, CancellationToken cancellationToken)
+        {
+            await _context.Districts.AddAsync(rq);
+            return await _context.SaveChangesAsync(cancellationToken);
+            
+        }
+
+        public async Task<int> UpdateDistrict(District rq, CancellationToken cancellationToken)
+        {
+            var check = await _context.Districts.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            if (check == null) throw new ArgumentException("Can not find");
+            else
+            {
+                _mapper.Map(rq, check);
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task<int> DeleteDistrict(List<string> Id, CancellationToken cancellationToken)
+        {
+            var check = await _context.Districts.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach(var item in check)
+            {
+                _context.Districts.Remove(item);
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<PagedList<District>> SearchDistrict(string? name, int Page, int PageSize)
+        {
+            var query = _context.Districts.AsQueryable();
+            if (name != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Name) && i.Name.ToLower().Contains(name.ToLower().Trim()));
+            }
+            var sQuery = query.OrderByDescending(i => i.CreatedDate);
+            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                          .Take(PageSize)
+                          .ToListAsync();
+            var reslist = await sQuery.ToListAsync();
+            return new PagedList<District>
+            {
+                Data = sQuery1,
+                TotalCount = reslist.Count,
+            };
+        }
+
+
+        public async Task<int> AddWard(Ward rq, CancellationToken cancellationToken)
+        {
+            await _context.Wards.AddAsync(rq);
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<int> UpdateWard(Ward rq, CancellationToken cancellationToken)
+        {
+            var check = await _context.Wards.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            if (check == null) throw new ArgumentException("Can not find");
+            else
+            {
+                _mapper.Map(rq, check);
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task<int> DeleteWard(List<string> Id, CancellationToken cancellationToken)
+        {
+            var check = await _context.Wards.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach (var item in check)
+            {
+                _context.Wards.Remove(item);
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<PagedList<Ward>> SearchWard(string? districtId, string? name, int Page, int PageSize)
+        {
+            var query = _context.Wards.AsQueryable();
+            if (name != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Name) && i.Name.ToLower().Contains(name.ToLower().Trim()));
+            }
+            if (districtId != null)
+            {
+                var sQuery = query.Where(i => i.DistrictId == districtId).OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<Ward>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
+            }
+            else
+            {
+                var sQuery = query.OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<Ward>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
+            }
+
+        }
+
+        
     }
 }

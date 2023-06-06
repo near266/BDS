@@ -41,6 +41,19 @@ namespace Post.Application.Contracts
         Task<PagedList<NewPost>> SearchNewPost(string? title, int Page, int PageSize);
         Task<PagedList<NewPost>> GetShowingNewPost(string? title, int Page, int PageSize);
         #endregion
+        #region District
+        Task<int> AddDistrict(District rq,CancellationToken cancellationToken);
+        Task<int> UpdateDistrict(District rq,CancellationToken cancellationToken);
+        Task<int> DeleteDistrict(List<string> Id, CancellationToken cancellationToken);
+        Task<PagedList<District>> SearchDistrict(string? name,int Page, int PageSize);
+        #endregion
+        #region Ward
+        Task<int> AddWard (Ward rq,CancellationToken cancellationToken);
+        Task<int> UpdateWard(Ward rq,CancellationToken cancellationToken);
+        Task<int> DeleteWard(List<string>Id,CancellationToken cancellationToken);
+        //Task<PagedList<Ward>> GetShowingWard(string? districtId, string? name, int Page, int PageSize);
+        Task<PagedList<Ward>> SearchWard(string? districtId,string? name,int Page,int PageSize);
+        #endregion
 
         #region Admin
         Task<int> ApprovePost(int postType, List<string> id, int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken);

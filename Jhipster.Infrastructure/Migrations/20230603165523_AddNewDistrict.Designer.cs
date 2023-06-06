@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Jhipster.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Jhipster.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDatabaseContext))]
-    partial class ApplicationDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230603165523_AddNewDistrict")]
+    partial class AddNewDistrict
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -564,40 +566,6 @@ namespace Jhipster.Infrastructure.Migrations
                     b.ToTable("SalePosts");
                 });
 
-            modelBuilder.Entity("Post.Domain.Entities.Ward", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DistrictId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistrictId");
-
-                    b.ToTable("Wards");
-                });
-
             modelBuilder.Entity("Wallet.Domain.Entities.Customer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -802,17 +770,6 @@ namespace Jhipster.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Post.Domain.Entities.Ward", b =>
-                {
-                    b.HasOne("Post.Domain.Entities.District", "District")
-                        .WithMany("Wards")
-                        .HasForeignKey("DistrictId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("District");
-                });
-
             modelBuilder.Entity("Wallet.Domain.Entities.WalletEntity", b =>
                 {
                     b.HasOne("Wallet.Domain.Entities.Customer", "Customer")
@@ -843,11 +800,6 @@ namespace Jhipster.Infrastructure.Migrations
             modelBuilder.Entity("Jhipster.Domain.User", b =>
                 {
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Post.Domain.Entities.District", b =>
-                {
-                    b.Navigation("Wards");
                 });
 #pragma warning restore 612, 618
         }

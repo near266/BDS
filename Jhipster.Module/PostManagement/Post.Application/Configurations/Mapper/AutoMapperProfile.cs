@@ -1,8 +1,10 @@
 ﻿using System;
 using AutoMapper;
 using Post.Application.Commands.BoughtPostC;
+using Post.Application.Commands.DistrictC;
 using Post.Application.Commands.NewPostC;
 using Post.Application.Commands.SalePostC;
+using Post.Application.Commands.WardC;
 using Post.Domain.Entities;
 
 namespace Post.Application.Configurations.Mapper
@@ -25,6 +27,16 @@ namespace Post.Application.Configurations.Mapper
             CreateMap<NewPost,NewPost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<NewPost,UpdateNewPostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<NewPost,AddNewPostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            #endregion
+            #region District
+            CreateMap<District,District >().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<District, UpdateDistrictCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<District, AddDistrictCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            #endregion
+            #region Ward
+            CreateMap<Ward,Ward >().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<Ward, UpdateWardCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<Ward, AddWardCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             #endregion
         }
     }
