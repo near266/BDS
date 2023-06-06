@@ -598,7 +598,6 @@ namespace Post.Infrastructure.Persistences.Repositories
         {
             await _context.Districts.AddAsync(rq);
             return await _context.SaveChangesAsync(cancellationToken);
-            
         }
 
         public async Task<int> UpdateDistrict(District rq, CancellationToken cancellationToken)

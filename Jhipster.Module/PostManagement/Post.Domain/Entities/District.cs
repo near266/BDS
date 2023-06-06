@@ -12,7 +12,6 @@ namespace Post.Domain.Entities
         [Key]
         public string Id { get; set; } = RandomUtil.GenerateKey();
         public string? Name { get; set; }   
-        public List<Ward> Wards { get; set; }
         
     }
 }
