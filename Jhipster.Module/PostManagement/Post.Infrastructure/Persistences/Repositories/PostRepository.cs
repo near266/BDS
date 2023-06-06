@@ -3,7 +3,6 @@ using Jhipster.Crosscutting.Utilities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Post.Application.Contracts;
 using Post.Application.DTO;
 using Post.Domain.Abstractions;
@@ -12,6 +11,7 @@ using Post.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Wallet.Domain.Abstractions;
@@ -37,171 +37,11 @@ namespace Post.Infrastructure.Persistences.Repositories
             _configuration = configuration;
         }
 
-        #region BoughtPost
-        public async Task<List<BoughtPost>> GetRandomBoughtPost(int randomCount, string? region)
-        {
-            var value = await _context.BoughtPosts.ToListAsync();
-
-            if (!string.IsNullOrEmpty(region))
-            {
-                value = value.Where(i => i.Region.ToLower().Contains(region.ToLower())).ToList();
-            }
-
-            var random = new Random();
-            int n = value.Count;
-
-            for (int i = n - 1; i > 0; i--)
-            {
-                int j = random.Next(i + 1);
-                BoughtPost temp = value[i];
-                value[i] = value[j];
-                value[j] = temp;
-            }
-
-            return value.Take(randomCount).ToList();
-        }
         public async Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
         {
-            rq.Status = (int)PostStatus.UnApproved;
-            rq.Order = DateTime.UtcNow;
+            rq.Status = (int)PostStatus.Showing;
             await _context.BoughtPosts.AddAsync(rq);
             return await _context.SaveChangesAsync(cancellationToken);
-        }
-        public async Task<int> DeleteBoughtPost(List<string> Id, CancellationToken cancellationToken)
-        {
-            var check = await _context.BoughtPosts.Where(i => Id.Contains(i.Id)).ToListAsync();
-            foreach (var item in check)
-            {
-                _context.BoughtPosts.Remove(item);
-            }
-            return await _context.SaveChangesAsync(cancellationToken);
-        }
-        public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, string? title, int? status, int Page, int PageSize)
-        {
-            var query = _context.BoughtPosts.AsQueryable();
-
-            if (title != null)
-            {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim())
-                                    || !string.IsNullOrEmpty(i.Id) && i.Id.ToLower().Contains(title.ToLower().Trim()));
-            }
-
-            if (status != null)
-            {
-                query = query.Where(i => i.Status == status);
-            }
-
-            if (userid != null)
-            {
-                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
-                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-                                    .Take(PageSize)
-                                    .ToListAsync();
-                var reslist = await sQuery.ToListAsync();
-                return new PagedList<BoughtPost>
-                {
-                    Data = sQuery1,
-                    TotalCount = reslist.Count,
-                };
-            }
-            else
-            {
-                var sQuery = query.OrderByDescending(i => i.CreatedDate);
-                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-                                    .Take(PageSize)
-                                    .ToListAsync();
-                var reslist = await sQuery.ToListAsync();
-                return new PagedList<BoughtPost>
-                {
-                    Data = sQuery1,
-                    TotalCount = reslist.Count,
-                };
-            }
-        }
-        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? userid, string? keyword, double? fromPrice, double? toPrice, string? region, int Page, int PageSize)
-        {
-            var query = _context.BoughtPosts.AsQueryable();
-
-            if (keyword != null)
-            {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
-            }
-
-            if (fromPrice >= 0)
-            {
-                if (toPrice > 0)
-                {
-                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price <= toPrice));
-                }
-                else
-                {
-                    query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
-                }
-            }
-
-
-            if (region != null)
-            {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
-            }
-
-            if (userid != null)
-            {
-                query = query.Where(i => i.UserId == userid);
-            }
-
-            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
-            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-                                .Take(PageSize)
-                                .ToListAsync();
-
-            var reslist = await sQuery.ToListAsync();
-            return new PagedList<BoughtPost>
-            {
-                Data = sQuery1,
-                TotalCount = reslist.Count,
-            };
-        }
-        public async Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
-        {
-            var check = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
-            if (check == null) throw new ArgumentException("Can not find!");
-            else
-            {
-                _mapper.Map(rq, check);
-                return await _context.SaveChangesAsync(cancellationToken);
-            }
-        }
-        public async Task<BoughtPost> ViewDetailBoughtPost(string id)
-        {
-            var res = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == id);
-            if (res == null) throw new ArgumentException("Can not find!");
-            return res;
-        }
-        #endregion
-
-        #region SalePost
-        public async Task<List<SalePost>> GetRandomSalePost(int randomCount, string? region)
-        {
-            var value = await _context.SalePosts.ToListAsync();
-
-            if (!string.IsNullOrEmpty(region))
-            {
-                value = value.Where(i => i.Region.ToLower().Contains(region.ToLower())).ToList();
-            }
-
-            var random = new Random();
-            int n = value.Count;
-
-            for (int i = n - 1; i > 0; i--)
-            {
-                int j = random.Next(i + 1);
-                SalePost temp = value[i];
-                value[i] = value[j];
-                value[j] = temp;
-            }
-
-            return value.Take(randomCount).ToList();
         }
 
         public async Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken)
@@ -220,7 +60,6 @@ namespace Post.Infrastructure.Persistences.Repositories
                 default:
                     break;
             }
-            rq.Order = DateTime.UtcNow;
             await _context.SalePosts.AddAsync(rq);
             var res = await _context.SaveChangesAsync(cancellationToken);
             if (rq.Type == (int)PostType.Normal)
@@ -258,196 +97,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return res;
         }
-        public async Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken)
-        {
-            var check = await _context.SalePosts.Where(i => Id.Contains(i.Id)).ToListAsync();
-            foreach (var item in check)
-            {
-                _context.SalePosts.Remove(item);
-            }
-            return await _context.SaveChangesAsync(cancellationToken);
-        }
-        public async Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type,
-            DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize)
-        {
-            var query = _context.SalePosts.AsQueryable();
 
-            if (title != null)
-            {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim())
-                                     || !string.IsNullOrEmpty(i.Id) && i.Id.ToLower().Contains(title.ToLower().Trim()));
-            }
-
-            if (status != null)
-            {
-                query = query.Where(i => i.Status == status);
-            }
-
-            if (type != null)
-            {
-                query = query.Where(i => i.Type == type);
-            }
-
-            if (fromDate != null && toDate != null)
-            {
-                query = query.Where(i => i.CreatedDate >= fromDate && i.CreatedDate <= toDate);
-            }
-
-
-            if (!string.IsNullOrEmpty(sortFeild))
-            {
-                if (sortValue == true)
-                {
-                    query = query.OrderByDescending(i => EF.Property<object>(i, sortFeild));
-                }
-                else
-                {
-                    query = query.OrderBy(i => EF.Property<object>(i, sortFeild));
-                }
-
-                if (userid != null)
-                {
-                    var sQuery = query.Where(i => i.UserId == userid);
-                    var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-                                        .Take(PageSize)
-                                        .ToListAsync();
-                    var reslist = await sQuery.ToListAsync();
-                    return new PagedList<SalePost>
-                    {
-                        Data = sQuery1,
-                        TotalCount = reslist.Count,
-                    };
-                }
-                else
-                {
-                    var sQuery = query;
-                    var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-                                        .Take(PageSize)
-                                        .ToListAsync();
-                    var reslist = await sQuery.ToListAsync();
-                    return new PagedList<SalePost>
-                    {
-                        Data = sQuery1,
-                        TotalCount = reslist.Count,
-                    };
-                }
-            }
-
-            if (userid != null)
-            {
-                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
-                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-                                    .Take(PageSize)
-                                    .ToListAsync();
-                var reslist = await sQuery.ToListAsync();
-                return new PagedList<SalePost>
-                {
-                    Data = sQuery1,
-                    TotalCount = reslist.Count,
-                };
-            }
-            else
-            {
-                var sQuery = query.OrderByDescending(i => i.CreatedDate);
-                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-                                    .Take(PageSize)
-                                    .ToListAsync();
-                var reslist = await sQuery.ToListAsync();
-                return new PagedList<SalePost>
-                {
-                    Data = sQuery1,
-                    TotalCount = reslist.Count,
-                };
-            }
-        }
-        public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
-            string? region, int Page, int PageSize)
-        {
-            var result = await _context.SalePosts.ToListAsync();
-            var query = _mapper.Map<List<SearchSalePostDTO>>(result).AsEnumerable();
-            foreach (var item in query)
-            {
-                item.MaxSale = MaxSalePost(item);
-                item.MinSale = MinSalePost(item);
-            }
-            if (keyword != null)
-            {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
-            }
-
-            if (fromPrice >= 0)
-            {
-                if (toPrice > 0)
-                {
-                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price <= toPrice));
-                }
-                else
-                {
-                    query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
-                }
-            }
-
-            if (fromArea >= 0)
-            {
-                if (toArea > 0) query = query.Where(i => i.Area > 0 && (i.Area >= fromArea && i.Area <= toArea));
-                else query = query.Where(i => i.Area > 0 && i.Area >= fromArea);
-            }
-
-            if (region != null)
-            {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
-            }
-
-            if (userid != null)
-            {
-                query = query.Where(i => i.UserId == userid);
-            }
-
-            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)
-                .OrderByDescending(i => i.Type).ThenByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
-            var sQuery1 = sQuery.Skip(PageSize * (Page - 1))
-                                .Take(PageSize)
-                                .ToList();
-
-            var reslist = sQuery.ToList();
-            return new PagedList<SearchSalePostDTO>
-            {
-                Data = sQuery1,
-                TotalCount = reslist.Count,
-            };
-        }
-        public async Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken)
-        {
-            var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
-            if (check == null) throw new ArgumentException("Can not find!");
-            else
-            {
-                _mapper.Map(rq, check);
-                return await _context.SaveChangesAsync(cancellationToken);
-            }
-        }
-
-        public async Task<SalePost> ViewDetailSalePost(string id)
-        {
-            var res = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
-            if (res == null) throw new ArgumentException("Can not find!");
-            return res;
-        }
-        #endregion
-
-        #region Other
-        public async Task<bool> CheckTitle(string title, string userid)
-        {
-            var post = await _context.BoughtPosts.Where(i => i.UserId == userid).AsNoTracking().ToListAsync();
-            foreach (var item in post.Select(i => i.Titile))
-            {
-                if (!string.IsNullOrEmpty(item) && title.Equals(item))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
         public async Task<int> ApprovePost(int postType, List<string> id, int status, string? reason, DateTime? modifiedDate, string? modifiedBy, CancellationToken cancellationToken)
         {
             if (postType == 0)
@@ -493,6 +143,249 @@ namespace Post.Infrastructure.Persistences.Repositories
                 return result;
             }
         }
+
+        public async Task<int> DeleteBoughtPost(List<string> Id, CancellationToken cancellationToken)
+        {
+            var check = await _context.BoughtPosts.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach(var item in check)
+            {
+                _context.BoughtPosts.Remove(item);
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken)
+        {
+            var check = await _context.SalePosts.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach (var item in check)
+            {
+                _context.SalePosts.Remove(item);
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+
+        public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, string? title, int? status, int Page, int PageSize)
+        {
+            var query = _context.BoughtPosts.AsQueryable();
+
+            if (title != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim()));
+            }
+
+            if (status != null)
+            {
+                query = query.Where(i => i.Status == status);
+            }
+
+            if (userid != null)
+            {
+                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<BoughtPost>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
+            }
+            else
+            {
+                var sQuery = query.OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<BoughtPost>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
+            }
+        }
+        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? userid, string? keyword, int? fromPrice, int? toPrice, string? region, int Page, int PageSize)
+        {
+            var query = _context.BoughtPosts.AsQueryable();
+
+            if (keyword != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
+            }
+
+            if (fromPrice >= 0)
+            {
+                if (toPrice > 0)
+                {
+                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price <= toPrice));
+                }
+                else
+                {
+                    query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
+                }
+            }
+
+
+            if (region != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
+            }
+
+            if (userid != null)
+            {
+                query = query.Where(i => i.UserId == userid);
+            }
+
+            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.CreatedDate);
+            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                .Take(PageSize)
+                                .ToListAsync();
+
+            var reslist = await sQuery.ToListAsync();
+            return new PagedList<BoughtPost>
+            {
+                Data = sQuery1,
+                TotalCount = reslist.Count,
+            };
+        }
+
+        public async Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, int Page, int PageSize)
+        {
+            var query = _context.SalePosts.AsQueryable();
+
+            if (title != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim()));
+            }
+
+            if (status != null)
+            {
+                query = query.Where(i => i.Status == status);
+            }
+
+            if (type != null)
+            {
+                query = query.Where(i => i.Type == type);
+            }
+
+            if (userid != null)
+            {
+                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<SalePost>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
+            }
+            else
+            {
+                var sQuery = query.OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<SalePost>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
+            }
+        }
+
+        public async Task<PagedList<SalePost>> GetShowingSalePost(string? userid, string? keyword, int? fromPrice, int? toPrice, double? fromArea, double? toArea,
+            string? region, int Page, int PageSize)
+        {
+            var query = _context.SalePosts.AsQueryable();
+
+            if (keyword != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
+            }
+
+            if (fromPrice >= 0)
+            {
+                if (toPrice > 0)
+                {
+                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price <= toPrice));
+                }
+                else
+                {
+                    query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
+                }
+            }
+
+            if (fromArea >= 0)
+            {
+                if (toArea > 0) query = query.Where(i => i.Area > 0 && (i.Area >= fromArea && i.Area <= toArea));
+                else query = query.Where(i => i.Area > 0 && i.Area >= fromArea);
+            }
+
+            if (region != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
+            }
+
+            if (userid != null)
+            {
+                query = query.Where(i => i.UserId == userid);
+            }
+
+            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)
+                .OrderByDescending(i => i.Type).ThenByDescending(i => i.CreatedDate);
+            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                .Take(PageSize)
+                                .ToListAsync();
+
+            var reslist = await sQuery.ToListAsync();
+            return new PagedList<SalePost>
+            {
+                Data = sQuery1,
+                TotalCount = reslist.Count,
+            };
+        }
+
+        public async Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
+        {
+            var check = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            if (check == null) throw new ArgumentException("Can not find!");
+            else
+            {
+                _mapper.Map(rq, check);
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken)
+        {
+            var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            if (check == null) throw new ArgumentException("Can not find!");
+            else
+            {
+                _mapper.Map(rq, check);
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task<BoughtPost> ViewDetailBoughtPost(string id)
+        {
+            var res = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == id);
+            if (res == null) throw new ArgumentException("Can not find!");
+            return res;
+        }
+
+        public async Task<SalePost> ViewDetailSalePost(string id)
+        {
+            var res = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
+            if (res == null) throw new ArgumentException("Can not find!");
+            return res;
+        }
+
         public async Task ReturnMoney(string? postid, decimal amount, int type, CancellationToken cancellationToken)
         {
             if (postid != null)
@@ -518,6 +411,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             }
         }
+
         public async Task SubtractMoney(string? postid, decimal amount, CancellationToken cancellationToken)
         {
             if (postid != null)
@@ -531,6 +425,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 await _wcontext.SaveChangesAsync(cancellationToken);
             }
         }
+
         public async Task<bool> CheckBalance(string userId, int type)
         {
             var check = false;
@@ -554,6 +449,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return check;
         }
+
         public async Task SubtractMoneyPromotional(string? postid, decimal amount, CancellationToken cancellationToken)
         {
             if (postid != null)
@@ -567,6 +463,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 await _wcontext.SaveChangesAsync(cancellationToken);
             }
         }
+
         public async Task<bool> CheckBalancePromotional(string userId, int type)
         {
             var check = false;
@@ -591,6 +488,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return check;
         }
+
         public async Task<List<PostDto>> GetAllRegion(int? type)
         {
             if (type == 0)
@@ -611,116 +509,201 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
         }
 
-        public async Task<List<StatusDto>> GetAllStatus(int? type, string userId)
+        public async Task<int> AddNewPost(NewPost rq, CancellationToken cancellationToken)
         {
-            if (type == 0)
-            {
-                var statusBought = await _context.BoughtPosts.Where(i => i.UserId == userId)
-                .GroupBy(p => p.Status)
-                .Select(g => new StatusDto { Status = g.Key, Count = g.Count() })
-                .ToListAsync();
-                return statusBought;
-            }
-            else
-            {
-                var statusSale = await _context.SalePosts.Where(i => i.UserId == userId)
-                .GroupBy(p => p.Status)
-                .Select(g => new StatusDto { Status = g.Key, Count = g.Count() })
-                .ToListAsync();
-                return statusSale;
-            }
+            await _context.NewPosts.AddAsync(rq);
+            return await _context.SaveChangesAsync(cancellationToken);
         }
-        #endregion
-        public string MaxSalePost(SearchSalePostDTO rq)
+
+        public async Task<int> UpdateNewPost(NewPost rq, CancellationToken cancellationToken)
         {
-            var check = _context.SalePosts.Where(i => i.Region == rq.Region).OrderByDescending(i => i.Price)
-                .Select(i => i.Id).FirstOrDefault();
-            if (check == rq.Id)
-            {
-                return "MaxSale";
-            }
+            var check = await _context.NewPosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            if (check == null) throw new ArgumentException("Can not find");
             else
             {
-                return "NoMaxSale";
+                _mapper.Map(rq, check);
+                //check = _mapper.Map<NewPost,NewPost>(rq,check);
+                return await _context.SaveChangesAsync(cancellationToken);
             }
         }
 
-        public string MinSalePost(SearchSalePostDTO rq)
+        public async Task<int> DeleteNewPost(List<string> Id, CancellationToken cancellationToken)
         {
-            var check = _context.SalePosts.Where(i => i.Region == rq.Region).OrderBy(i => i.Price)
-                .Select(i => i.Id).FirstOrDefault();
-            if (check == rq.Id)
+            var check = await _context.NewPosts.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach (var item in check)
             {
-                return "MinSale";
-            }
-            else
-            {
-                return "NoMinSale";
-            }
-        }
-
-        public async Task<int> ChangeStatus(string postId, int postType, int statusType, DateTime? lastModifiedDate, string? lastModifiedBy, CancellationToken cancellationToken)
-        {
-            //statusType : 0-Hạ Tin, 1-Đẩy tin, 2-Đăng lại
-            if (postType == 0)
-            {
-                var post = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == postId);
-                if (post == null) throw new ArgumentException("Can not find post");
-                switch (statusType)
-                {
-                    case 0:
-                        post.Status = (int)PostStatus.Down;
-                        break;
-                    case 1:
-                        post.Order = DateTime.UtcNow;
-                        break;
-                    case 2:
-                        if (post.Status == (int)PostStatus.Down || post.Status == (int)PostStatus.Rejected)
-                        {
-                            post.Status = (int)PostStatus.UnApproved;
-                        }
-                        break;
-                }
-                post.LastModifiedDate = lastModifiedDate;
-                post.LastModifiedBy = lastModifiedBy;
-            }
-            else
-            {
-                var salePost = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
-                if (salePost == null) throw new ArgumentException("Can not find post");
-                switch (statusType)
-                {
-                    case 0:
-                        salePost.Status = (int)PostStatus.Down;
-                        break;
-                    case 1:
-                        salePost.Order = DateTime.UtcNow;
-                        break;
-                    case 2:
-                        var checkp = await CheckBalancePromotional(salePost.UserId, salePost.Type);
-                        var check = await CheckBalance(salePost.UserId, salePost.Type);
-                        if (!checkp && !check) throw new ArgumentException("Not enough money");
-                        var dif = (salePost.DueDate - salePost.CreatedDate).Value.TotalDays;
-                        salePost.DueDate = salePost.DueDate.Value.AddDays(dif);
-                        salePost.Status = (int)PostStatus.Showing;
-                        string pt = "";
-                        if (salePost.Type == (int)PostType.Normal) pt = "Price:Normal";
-                        else if (salePost.Type == (int)PostType.Golden) pt = "Price:Vip";
-                        else if (salePost.Type == (int)PostType.Vip) pt = "Price:SuperVip";
-                        if (checkp)
-                        {
-                            await SubtractMoneyPromotional(salePost.Id, (decimal)(_configuration.GetValue<int>(pt) * dif), cancellationToken);
-                        }
-                        else
-                        {
-                            await SubtractMoney(salePost.Id, (decimal)(_configuration.GetValue<int>(pt) * dif), cancellationToken);
-                        }
-                        break;
-                }
-                salePost.LastModifiedDate = lastModifiedDate;
-                salePost.LastModifiedBy = lastModifiedBy;
+                _context.NewPosts.Remove(item);
             }
             return await _context.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task<NewPost> ViewDetailNewPost(string id)
+        {
+            var res = await _context.NewPosts.FirstOrDefaultAsync(i => i.Id == id);
+            if (res == null) throw new ArgumentException("Can not find!");
+            return res;
+        }
+
+        public async Task<PagedList<NewPost>> GetShowingNewPost(string? title, int Page, int PageSize)
+        {
+            var query = _context.NewPosts.AsQueryable();
+            if(title != null) 
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Title) && i.Title.ToLower().Contains(title.ToLower().Trim()));
+            }
+            var sQuery = query.OrderByDescending(i => i.CreatedDate);
+            var sQuery1 =await sQuery.Skip(PageSize * (Page - 1))
+                          .Take(PageSize)
+                          .ToListAsync();
+            var reslist = await sQuery.ToListAsync();
+            return new PagedList<NewPost>
+            {
+                Data = sQuery1,
+                TotalCount = reslist.Count,
+            };
+        }
+
+        public async Task<PagedList<NewPost>> SearchNewPost(string? title, int Page, int PageSize)
+        {
+            throw new NotImplementedException();
+            //var query = _context.NewPosts.AsQueryable();
+            //if (title != null)
+            //{
+            //    query = query.Where(i => !string.IsNullOrEmpty(i.Title) && i.Title.ToLower().Contains(title.ToLower().Trim()));
+            //}
+            //if (userid != null)
+            //{
+            //    var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
+            //    var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+            //                   .Take(PageSize)
+            //                   .ToListAsync();
+            //    var reslist = await sQuery.ToListAsync();
+            //    return new PagedList<NewPost>
+            //    {
+            //        Data = sQuery1,
+            //        TotalCount = reslist.Count,
+            //    };
+            //}
+            //else
+            //{
+            //    var sQuery = query.OrderByDescending(i => i.CreatedDate);
+            //    var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+            //                        .Take(PageSize)
+            //                        .ToListAsync();
+
+            //}
+        }
+
+        public async Task<int> AddDistrict(District rq, CancellationToken cancellationToken)
+        {
+            await _context.Districts.AddAsync(rq);
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<int> UpdateDistrict(District rq, CancellationToken cancellationToken)
+        {
+            var check = await _context.Districts.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            if (check == null) throw new ArgumentException("Can not find");
+            else
+            {
+                _mapper.Map(rq, check);
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task<int> DeleteDistrict(List<string> Id, CancellationToken cancellationToken)
+        {
+            var check = await _context.Districts.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach(var item in check)
+            {
+                _context.Districts.Remove(item);
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<PagedList<District>> SearchDistrict(string? name, int Page, int PageSize)
+        {
+            var query = _context.Districts.AsQueryable();
+            if (name != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Name) && i.Name.ToLower().Contains(name.ToLower().Trim()));
+            }
+            var sQuery = query.OrderByDescending(i => i.CreatedDate);
+            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                          .Take(PageSize)
+                          .ToListAsync();
+            var reslist = await sQuery.ToListAsync();
+            return new PagedList<District>
+            {
+                Data = sQuery1,
+                TotalCount = reslist.Count,
+            };
+        }
+
+
+        public async Task<int> AddWard(Ward rq, CancellationToken cancellationToken)
+        {
+            await _context.Wards.AddAsync(rq);
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<int> UpdateWard(Ward rq, CancellationToken cancellationToken)
+        {
+            var check = await _context.Wards.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            if (check == null) throw new ArgumentException("Can not find");
+            else
+            {
+                _mapper.Map(rq, check);
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        public async Task<int> DeleteWard(List<string> Id, CancellationToken cancellationToken)
+        {
+            var check = await _context.Wards.Where(i => Id.Contains(i.Id)).ToListAsync();
+            foreach (var item in check)
+            {
+                _context.Wards.Remove(item);
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<PagedList<Ward>> SearchWard(string? districtId, string? name, int Page, int PageSize)
+        {
+            var query = _context.Wards.AsQueryable();
+            if (name != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.Name) && i.Name.ToLower().Contains(name.ToLower().Trim()));
+            }
+            if (districtId != null)
+            {
+                var sQuery = query.Where(i => i.DistrictId == districtId).OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<Ward>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
+            }
+            else
+            {
+                var sQuery = query.OrderByDescending(i => i.CreatedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<Ward>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
+            }
+
+        }
+
+        
     }
 }

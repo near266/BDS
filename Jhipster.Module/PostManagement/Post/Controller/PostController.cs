@@ -18,7 +18,12 @@ using Post.Application.Commands.AdminC;
 using Microsoft.EntityFrameworkCore;
 using Post.Domain.Abstractions;
 using Post.Application.Queries.CommonQ;
-using Post.Application.Commands.CommonC;
+using Post.Application.Commands.NewPostC;
+using Post.Application.Queries.NewPostQ;
+using Post.Application.Commands.DistrictC;
+using Post.Application.Commands.WardC;
+using Post.Application.Queries.WardQ;
+using Post.Application.Queries.DistrictQ;
 
 namespace Post.Controller
 {
@@ -80,6 +85,7 @@ namespace Post.Controller
             return User.FindFirst(ClaimsTypeConst.Username)?.Value;
         }
 
+        
         [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("/boughtpost/add")]
         public async Task<IActionResult> AddBoughtPost([FromBody] AddBoughtPostCommand rq)
@@ -136,26 +142,6 @@ namespace Post.Controller
         [Authorize(Roles = RolesConstants.USER)]
         [HttpDelete("/boughtpost/delete")]
         public async Task<IActionResult> DeleteBoughtPost([FromBody] DeleteBoughtPostCommand rq)
-        {
-
-            _logger.LogInformation($"REST request to delete bought post : {rq}");
-            try
-            {
-                var result = await _mediator.Send(rq);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to delete bought post fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-
-
-        }
-
-        [Authorize(Roles = RolesConstants.USER)]
-        [HttpPost("/boughtpost/deleteBPost")]
-        public async Task<IActionResult> DeleteBoughtPost1([FromBody] DeleteBoughtPostCommand rq)
         {
 
             _logger.LogInformation($"REST request to delete bought post : {rq}");
@@ -232,8 +218,8 @@ namespace Post.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpGet("/boughtpost/id")]
-        [AllowAnonymous]
         public async Task<IActionResult> ViewDetailBoughtPost([FromQuery] ViewDetailBoughtPostQuery rq)
         {
 
@@ -331,25 +317,6 @@ namespace Post.Controller
 
         }
 
-        [Authorize(Roles = RolesConstants.USER)]
-        [HttpPost("/salepost/deleteSPost")]
-        public async Task<IActionResult> DeleteSalePost1([FromBody] DeleteSalePostCommand rq)
-        {
-
-            _logger.LogInformation($"REST request to delete sale post : {rq}");
-            try
-            {
-                var result = await _mediator.Send(rq);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to delete sale post fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-
-
-        }
 
         /// <summary>
         /// Lấy ra những danh sách tất cả tin BÁN , nếu là User thì lấy ra những tin bán của User đó, nếu là ADMIN thì lấy ra tất cả
@@ -410,8 +377,8 @@ namespace Post.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
+        [Authorize(Roles = RolesConstants.USER)]
         [HttpGet("/salepost/id")]
-        [AllowAnonymous]
         public async Task<IActionResult> ViewDetailSalePost([FromQuery] ViewDetailSalePostQuery rq)
         {
 
@@ -456,7 +423,7 @@ namespace Post.Controller
         }
 
         /// <summary>
-        /// Lấy danh sách khu vực để thực hiện filter - màn hình end user (type = 0 : tin MUA, type = 1 : tin BÁN)
+        /// Lấy danh sách khu vực để thực hiện filter - màn hình end user
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
@@ -477,37 +444,57 @@ namespace Post.Controller
             }
         }
 
-        /// <summary>
-        /// Lấy danh sách trạng thái để hiển thị ở màn quản lý tin đăng - màn hình end user (type = 0 : tin MUA, type = 1 : tin BÁN)
-        /// </summary>
-        /// <param name="rq"></param>
-        /// <returns></returns>
-        [Authorize(Roles = RolesConstants.USER)]
-        [HttpGet("/post/getAllStatus")]
-        public async Task<IActionResult> GetStatusWithCount([FromBody] GetStatusWithCountQuery rq)
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPost("/newpost/add")]
+        public async Task<IActionResult> AddNewPost([FromBody] AddNewPostCommand rq)
         {
-            _logger.LogInformation($"REST request to get status : {rq}");
+            _logger.LogInformation($"Rest request to add new post : {rq}");
             try
             {
+                rq.CreatedDate = DateTime.Now;
+                rq.CreatedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
                 return Ok(res);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"REST request to get status fail: {ex.Message}");
+                _logger.LogError($"REST request to add new post fail:{ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }
         /// <summary>
-        /// Lấy ra 10 bài đăng sale theo Region
+        /// Chỉnh sửa tin tức
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [HttpPost("/salepost/GetRandomSalePost")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetRandomSalePost([FromBody] GetRandomSalePostQ rq)
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPut("/newpost/update")]
+        public async Task<IActionResult> UpdateNewPost([FromBody] UpdateNewPostCommand rq)
         {
-            _logger.LogInformation($"REST request to get random sale post");
+            _logger.LogInformation($"REST request to update bought post : {rq}");
+            try
+            {
+                rq.LastModifiedDate = DateTime.Now;
+                rq.LastModifiedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to update new post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// xóa tin tức
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpDelete("/newpost/delete")]
+        public async Task<IActionResult> DeleteNewPost([FromBody] DeleteNewPostCommand rq)
+        {
+            _logger.LogInformation($"REST request to delete new post :{rq}");
             try
             {
                 var result = await _mediator.Send(rq);
@@ -515,20 +502,40 @@ namespace Post.Controller
             }
             catch (Exception ex)
             {
-                _logger.LogError($"REST request to get random sale post fail: {ex.Message}");
+                _logger.LogError($"REST request to delete new post fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }
         /// <summary>
-        /// Lấy ra 10 bài đăng bought theo Region
+        /// Xem chi tiết bài tin tức
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [HttpPost("/boughtpost/GetRandomBoughtPost")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetRandomBoughtPost([FromBody] GetRandomBoughtPostQ rq)
+        [Authorize(Roles = RolesConstants.USER)]
+        [HttpGet("/newpost/id")]
+        public async Task<IActionResult> ViewDetailNewPost([FromQuery] ViewDetailNewPostQuery rq)
         {
-            _logger.LogInformation($"REST request to get random bought post");
+            _logger.LogInformation($"REST request to view detail new post : {rq}");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }catch(Exception ex)
+            {
+                _logger.LogError($" REST request to view detail new post fail: {ex.Message}");
+                return StatusCode(500,ex.Message);
+            }
+        }
+        /// <summary>
+        /// Lấy ra những tin tức đang được hiển thị trên trang chủ mà ko cần đăng nhập
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/newpost/getShowing")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetShowingnewPost([FromBody]GetAllShowingNewPostQuery rq)
+        {
+            _logger.LogInformation($"REST request to get showing new post");
             try
             {
                 var result = await _mediator.Send(rq);
@@ -536,32 +543,196 @@ namespace Post.Controller
             }
             catch (Exception ex)
             {
-                _logger.LogError($"REST request to get random bought post fail: {ex.Message}");
+                _logger.LogError($"REST request to get showing new post fail: {ex.Message}");
+                return StatusCode(500,ex.Message);
+            }
+        }
+        /// <summary>
+        /// [Yêu cầu đăng nhập-ADMIN] lấy ra danh sách tất cả những tin tức
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPost("/newpost/search")]
+        public async Task<IActionResult> SearchNewPost([FromBody] ViewAllNewPostQuery rq)
+        { 
+            _logger.LogInformation($"REST request to search new post");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }catch (Exception ex)
+            {
+                _logger.LogError($"REST request to search new post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPost("/district/add")]
+        public async Task<IActionResult> AddDistrict([FromBody] AddDistrictCommand rq)
+        {
+            _logger.LogInformation($"Rest request to add new district : {rq}");
+            try
+            {
+                rq.CreatedDate = DateTime.Now;
+                rq.CreatedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to add new district fail:{ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }
 
         /// <summary>
-        /// Thay đổi trạng thái ở màn quản lý bài đăng (postType = 0 : Tin MUA, postType = 1 : Tin BÁN, 
-        /// statusType = 0 : Hạ tin, statusType = 1 : Đẩy tin, statusType = 2 : Đăng lại )
+        /// Chỉnh sửa Quận,huyện
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [HttpPost("/post/changeStatus")]
-        [Authorize(Roles =RolesConstants.USER)]
-        public async Task<IActionResult> ChangeStatus([FromBody] ChangeStatusCommand rq)
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPut("/district/update")]
+        public async Task<IActionResult> UpdateDistrict([FromBody] UpdateDistrictCommand rq)
         {
-            _logger.LogInformation($"REST request to get change status");
+            _logger.LogInformation($"REST request to update district : {rq}");
             try
             {
-                rq.LastModifiedDate = DateTime.UtcNow;
+                rq.LastModifiedDate = DateTime.Now;
                 rq.LastModifiedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to update district fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// xóa Quận,Huyện
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpDelete("/district/delete")]
+        public async Task<IActionResult> DeleteDistrict([FromBody] DeleteDistrictCommand rq)
+        {
+            _logger.LogInformation($"REST request to delete district :{rq}");
+            try
+            {
                 var result = await _mediator.Send(rq);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"REST request to change status fail: {ex.Message}");
+                _logger.LogError($"REST request to delete district fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// [Yêu cầu đăng nhập-ADMIN] lấy ra danh sách tất cả Quận Huyện
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPost("/district/search")]
+        public async Task<IActionResult> SearchDistrict([FromBody] ViewAllDistrictQuery rq)
+        {
+            _logger.LogInformation($"REST request to search district");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to search district fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPost("/ward/add")]
+        public async Task<IActionResult> AddWard([FromBody] AddWardCommand rq)
+        {
+            _logger.LogInformation($"REST request to add ward : {rq}");
+            try
+            {
+                rq.CreatedDate = DateTime.Now;
+                rq.CreatedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to add ward fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Chỉnh sửa Phường,Xã
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPut("/ward/update")]
+        public async Task<IActionResult> UpdateWard([FromBody] UpdateWardCommand rq)
+        {
+            _logger.LogInformation($"REST request to update ward : {rq}");
+            try
+            {
+                rq.LastModifiedDate = DateTime.Now;
+                rq.LastModifiedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to update ward fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// xóa Phường,Xã
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpDelete("/ward/delete")]
+        public async Task<IActionResult> DeleteWard([FromBody] DeleteWardCommand rq)
+        {
+            _logger.LogInformation($"REST request to delete ward :{rq}");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to delete ward fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Lấy ra danh sách tất cả những Phường,Xã
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.USER)]
+        [HttpPost("/ward/search")]
+        public async Task<IActionResult> SearchWard([FromBody] ViewAllWardQuery rq)
+        {
+            _logger.LogInformation($"REST request to search ward");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to search ward fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }
