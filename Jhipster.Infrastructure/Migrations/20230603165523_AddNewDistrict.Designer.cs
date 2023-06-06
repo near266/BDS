@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Jhipster.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Jhipster.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDatabaseContext))]
-    partial class ApplicationDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230603165523_AddNewDistrict")]
+    partial class AddNewDistrict
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -366,9 +368,6 @@ namespace Jhipster.Infrastructure.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("text");
 
-                    b.Property<List<string>>("Image")
-                        .HasColumnType("text[]");
-
                     b.Property<bool?>("IsOpenFinance")
                         .HasColumnType("boolean");
 
@@ -380,9 +379,6 @@ namespace Jhipster.Infrastructure.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("Order")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PhoneNumber")
@@ -530,9 +526,6 @@ namespace Jhipster.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("Order")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
@@ -571,47 +564,6 @@ namespace Jhipster.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SalePosts");
-                });
-
-            modelBuilder.Entity("Post.Domain.Entities.Ward", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
-
-                    b.Property<string>("DistrictId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<int?>("Order")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistrictId");
-
-                    b.ToTable("Wards");
                 });
 
             modelBuilder.Entity("Wallet.Domain.Entities.Customer", b =>
@@ -673,9 +625,6 @@ namespace Jhipster.Infrastructure.Migrations
 
                     b.Property<double?>("Point")
                         .HasColumnType("double precision");
-
-                    b.Property<bool?>("Status")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -819,15 +768,6 @@ namespace Jhipster.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Post.Domain.Entities.Ward", b =>
-                {
-                    b.HasOne("Post.Domain.Entities.District", "District")
-                        .WithMany()
-                        .HasForeignKey("DistrictId");
-
-                    b.Navigation("District");
                 });
 
             modelBuilder.Entity("Wallet.Domain.Entities.WalletEntity", b =>
