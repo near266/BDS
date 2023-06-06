@@ -15,7 +15,7 @@ namespace Jhipster.Configuration
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v2", new OpenApiInfo { Title = "API", Version = "0.0.1" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "API", Version = "1.0.2" });
                 //c.OperationFilter<PageableModelFilter>();
 
                 var filePath = Path.Combine(System.AppContext.BaseDirectory, "Jhipster.xml");
