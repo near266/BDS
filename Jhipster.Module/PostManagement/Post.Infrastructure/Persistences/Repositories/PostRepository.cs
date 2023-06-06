@@ -150,7 +150,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 query = query.Where(i => i.UserId == userid);
             }
 
-            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
+            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.CreatedDate).ThenByDescending(i => i.Order);
             var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToListAsync();

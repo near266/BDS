@@ -548,12 +548,14 @@ namespace Post.Controller
         /// <param name="rq"></param>
         /// <returns></returns>
         [HttpPost("/post/changeStatus")]
-        [AllowAnonymous]
+        [Authorize(Roles =RolesConstants.USER)]
         public async Task<IActionResult> ChangeStatus([FromBody] ChangeStatusCommand rq)
         {
             _logger.LogInformation($"REST request to get change status");
             try
             {
+                rq.LastModifiedDate = DateTime.UtcNow;
+                rq.LastModifiedBy = GetUsernameFromContext();
                 var result = await _mediator.Send(rq);
                 return Ok(result);
             }
