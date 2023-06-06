@@ -11,6 +11,7 @@ namespace Post.Application.Commands.BoughtPostC
     {
         public string Titile { get; set; }
         public string? Description { get; set; }
+        public List<string>? Image { get; set; }
         public string? Region { get; set; }
         public string? Ward { get; set; }
         public double Price { get; set; }

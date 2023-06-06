@@ -63,6 +63,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken)
         {
             rq.Status = (int)PostStatus.UnApproved;
+            rq.Order = DateTime.UtcNow;
             await _context.BoughtPosts.AddAsync(rq);
             return await _context.SaveChangesAsync(cancellationToken);
         }
@@ -149,7 +150,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 query = query.Where(i => i.UserId == userid);
             }
 
-            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.CreatedDate);
+            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
             var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToListAsync();
@@ -219,6 +220,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 default:
                     break;
             }
+            rq.Order = DateTime.UtcNow;
             await _context.SalePosts.AddAsync(rq);
             var res = await _context.SaveChangesAsync(cancellationToken);
             if (rq.Type == (int)PostType.Normal)
@@ -402,7 +404,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
 
             var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)
-                .OrderByDescending(i => i.Type).ThenByDescending(i => i.CreatedDate);
+                .OrderByDescending(i => i.Type).ThenByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
             var sQuery1 = sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToList();
@@ -670,9 +672,10 @@ namespace Post.Infrastructure.Persistences.Repositories
                         post.Status = (int)PostStatus.Down;
                         break;
                     case 1:
+                        post.Order = DateTime.UtcNow;
                         break;
                     case 2:
-                        if (post.Status == (int)PostStatus.Down)
+                        if (post.Status == (int)PostStatus.Down || post.Status == (int)PostStatus.Rejected)
                         {
                             post.Status = (int)PostStatus.UnApproved;
                         }
@@ -691,6 +694,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         salePost.Status = (int)PostStatus.Down;
                         break;
                     case 1:
+                        salePost.Order = DateTime.UtcNow;
                         break;
                     case 2:
                         var checkp = await CheckBalancePromotional(salePost.UserId, salePost.Type);
@@ -698,6 +702,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         if (!checkp && !check) throw new ArgumentException("Not enough money");
                         var dif = (salePost.DueDate - salePost.CreatedDate).Value.TotalDays;
                         salePost.DueDate = salePost.DueDate.Value.AddDays(dif);
+                        salePost.Status = (int)PostStatus.Showing;
                         string pt = "";
                         if (salePost.Type == (int)PostType.Normal) pt = "Price:Normal";
                         else if (salePost.Type == (int)PostType.Golden) pt = "Price:Vip";

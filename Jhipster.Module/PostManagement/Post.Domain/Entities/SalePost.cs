@@ -43,6 +43,7 @@ namespace Post.Domain.Entities
         public DateTime? DueDate { get; set; }
         public string UserId { get; set; }
         public string? Reason { get; set; }
+        public DateTime? Order { get; set; }
     }
 
     public static class RandomUtil

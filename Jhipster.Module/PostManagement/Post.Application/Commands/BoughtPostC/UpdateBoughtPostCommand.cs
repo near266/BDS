@@ -16,6 +16,7 @@ namespace Post.Application.Commands.BoughtPostC
         public string Id { get; set; }
         public string? Titile { get; set; }
         public string? Description { get; set; }
+        public List<string>? Image { get; set; }
         public string? Region { get; set; }
         public double Price { get; set; }
         public string? LandToBuy { get; set; }

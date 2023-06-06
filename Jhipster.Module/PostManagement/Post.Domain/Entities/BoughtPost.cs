@@ -12,6 +12,7 @@ namespace Post.Domain.Entities
         public string? Titile { get; set; }
         [MaxLength(3000)]
         public string? Description { get; set; }
+        public List<string>? Image { get; set; }
         public string? LandToBuy { get; set; }
         public string? Criteria { get; set; }
         public string? FullName { get; set; }
@@ -30,6 +31,7 @@ namespace Post.Domain.Entities
         public int Status { get; set; }
         public string UserId { get; set; }
         public string? Reason { get; set; }
+        public DateTime? Order { get; set; }
     }
 }
 

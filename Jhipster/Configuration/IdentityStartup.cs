@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Jhipster.Domain;
@@ -72,7 +72,7 @@ namespace Jhipster.Configuration
                     Id = "56bea1ab-c711-47ee-9362-8cef4ed817bf",
                     UserName = "xuanadmin",
                     PasswordHash = "$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC",
-                    FirstName = "Xu�n",
+                    FirstName = "Doãn Thị Xuân",
                     LastName = "Administrator",
                     Email = "admin-xuan@gmail.com",
                     Activated = true,

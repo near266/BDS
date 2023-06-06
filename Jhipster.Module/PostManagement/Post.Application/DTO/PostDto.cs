@@ -44,6 +44,7 @@ namespace Post.Application.DTO
         public DateTime CreatedDate { get; set; }
         public string? LastModifiedBy { get; set; }
         public DateTime? LastModifiedDate { get; set; }
+        public DateTime? Order { get; set; }
         public string? MaxSale { get; set; }
         public string? MinSale { get; set; }
     }
