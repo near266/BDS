@@ -85,7 +85,7 @@ namespace Wallet.Controller
         /// <param name="rq"></param>
         /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
-        [HttpDelete("/customer/delete")]
+        [HttpPost("/customer/delete")]
         public async Task<IActionResult> DeleteCustomer([FromBody] DeleteCustomerCommand rq)
         {
 
