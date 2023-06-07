@@ -89,7 +89,7 @@ namespace Jhipster.Controllers
                 customer.Id = Guid.Parse(newUser.Id);
                 customer.CreatedDate = DateTime.Now;
                 customer.Avatar = newUser.ImageUrl;
-                customer.Status = false;
+                customer.Status = true;
                 var res = _mediator.Send(customer);
                 var wallet = new AddWalletsCommand
                 {
