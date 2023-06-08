@@ -135,8 +135,7 @@ namespace Wallet.Controller
         /// <param name="rq"></param>
         /// <returns></returns>
         [Authorize(Roles = RolesConstants.USER)]
-        [HttpPut("wallet/searchTransaction")]
-
+        [HttpPost("wallet/searchTransaction")]
         public async Task<ActionResult<int>> SearchTransaction([FromBody] SearchTransactionQuery request)
         { 
             _logger.LogInformation($"REST request Update search transaction: {JsonConvert.SerializeObject(request)}");
