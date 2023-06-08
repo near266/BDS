@@ -14,6 +14,7 @@ namespace Post.Application.Contracts
         Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? userid, string? keyword, double? fromPrice, double? toPrice,
             string? region, int Page, int PageSize);
         Task<BoughtPost> ViewDetailBoughtPost(string id);
+        Task<List<BoughtPost>> GetRandomBoughtPost(int randomCount, string? region);
 
         #endregion
 
@@ -27,7 +28,6 @@ namespace Post.Application.Contracts
             string? region, int Page, int PageSize);
         Task<SalePost> ViewDetailSalePost(string id);
         Task<List<SalePost>> GetRandomSalePost(int Random, string? Region);
-        Task<List<BoughtPost>> GetRandomBoughtPost(int randomCount, string? region);
 
         #endregion
 

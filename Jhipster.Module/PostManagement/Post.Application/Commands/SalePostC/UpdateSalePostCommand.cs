@@ -22,15 +22,16 @@ namespace Post.Application.Commands.SalePostC
         [MaxLength(3000)]
         public string? Description { get; set; }
         public string? Region { get; set; }
+        public string? Ward { get; set; }
         public List<string>? Image { get; set; }
         public double Price { get; set; }
-
+        public double? Area { get; set; }
         public int IsOwner { get; set; }
-
-        public string? Address { get; set; }
-
-        public string? PhoneNumber { get; set; }
+        public string? FullName { get; set; }
         public string? Email { get; set; }
+        public string? Address { get; set; }
+        public string? PhoneNumber { get; set; }
+        public double NumberOfDate { get; set; }
         [JsonIgnore]
         public DateTime? LastModifiedDate { get; set; }
         [JsonIgnore]
