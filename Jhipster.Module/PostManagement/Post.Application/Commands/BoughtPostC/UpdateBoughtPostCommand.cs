@@ -23,7 +23,7 @@ namespace Post.Application.Commands.BoughtPostC
         public bool? IsOpenFinance { get; set; }
         public string? LandToBuy { get; set; }
         public string? Criteria { get; set; }
-
+        public int? Status { get; set; }
         public string? FullName { get; set; }
 
         public string? Address { get; set; }
