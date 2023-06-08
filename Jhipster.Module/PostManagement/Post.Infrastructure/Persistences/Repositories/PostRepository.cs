@@ -397,8 +397,16 @@ namespace Post.Infrastructure.Persistences.Repositories
             var query = _mapper.Map<List<SearchSalePostDTO>>(result).AsEnumerable();
             foreach (var item in query)
             {
-                item.MaxSale = MaxSalePost(item);
-                item.MinSale = MinSalePost(item);
+                if (item.Status == 1)
+                {
+                    item.MaxSale = MaxSalePost(item);
+                    item.MinSale = MinSalePost(item);
+                }
+                else
+                {
+                    item.MaxSale = "NoMaxSale";
+                    item.MinSale = "NoMinSale";
+                }
             }
             if (keyword != null)
             {

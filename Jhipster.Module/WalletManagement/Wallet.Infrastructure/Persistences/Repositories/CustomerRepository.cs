@@ -56,8 +56,8 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             if (check == null) throw new ArgumentException("Not exists!");
             var map = _mapper.Map<DetailCusDTO>(check);
             var user = await _appcontext.Users.FirstOrDefaultAsync(i => i.Id == Id.ToString());
-            map.TotalBoughtPost= _appcontext.BoughtPosts.Where(i => i.UserId == user.Id).Count();
-            map.TotalSalePost= _appcontext.SalePosts.Where(i => i.UserId == user.Id).Count();
+            map.TotalBoughtPost = _appcontext.BoughtPosts.Where(i => i.UserId == user.Id && i.Status == 1).Count();
+            map.TotalSalePost = _appcontext.SalePosts.Where(i => i.UserId == user.Id && i.Status == 1).Count();
             return map;
         }
 
