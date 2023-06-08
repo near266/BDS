@@ -62,7 +62,7 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request GetWalletByUserId : {JsonConvert.SerializeObject(request)}");
             try
             {
-               
+                request.UserId = GetUserIdFromConext();
                 var result = await _mediator.Send(request);
                 return Ok(result);
             }
