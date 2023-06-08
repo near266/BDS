@@ -17,7 +17,8 @@ namespace Post.Application.Commands.SalePostC
         public string Id { get; set; }
         public int Type { get; set; }
 
-        [MaxLength(25)]
+        [MinLength(30)]
+        [MaxLength(100)]
         public string? Titile { get; set; }
         [MaxLength(3000)]
         public string? Description { get; set; }
