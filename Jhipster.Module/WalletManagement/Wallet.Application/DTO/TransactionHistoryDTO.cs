@@ -10,7 +10,6 @@ namespace Wallet.Application.DTO
     public class SearchTransactionResponse
     {
         public TransactionHistory TransactionHistory { get; set; }
-        public Customer Customer { get; set; }
         public WalletDto wallet { get; set; }
         public WalletPromotionalDto walletPromotional { get; set; }
 

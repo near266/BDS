@@ -57,7 +57,6 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             var res = listId.Select(item => new SearchTransactionResponse
             {
                 TransactionHistory = _context.TransactionHistorys.FirstOrDefault(x => x.CustomerId == item),
-                Customer = _context.Customers.FirstOrDefault(i => i.Id == item),
                 wallet = _mapper.Map<WalletDto>(_context.Wallets.FirstOrDefault(i => i.CustomerId == item)),
                 walletPromotional = _mapper.Map<WalletPromotionalDto>(_context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item))
             }).ToList();

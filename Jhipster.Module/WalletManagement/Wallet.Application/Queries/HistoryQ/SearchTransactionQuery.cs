@@ -14,12 +14,12 @@ namespace Wallet.Application.Queries.HistoryQ
 {
     public class SearchTransactionQuery : IRequest<PagedList<SearchTransactionResponse>>
     {
+        public string? UserId { get; set; }
         public int? Type { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
         public int page { get; set; }
         public int pageSize { get; set; }
-        public string? UserId { get; set; }
     }
     public class SearchTransactionQueryHandler : IRequestHandler<SearchTransactionQuery, PagedList<SearchTransactionResponse>>
     {
