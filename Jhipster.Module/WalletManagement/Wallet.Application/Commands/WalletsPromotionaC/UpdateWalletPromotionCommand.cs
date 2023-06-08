@@ -29,14 +29,28 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
     {
         private readonly IWalletPromotionalRepository _repo;
         private readonly IMapper _mapper;
-        public UpdateWalletPromotionCommandHandler(IWalletPromotionalRepository repo, IMapper mapper)
+        private readonly ITransactionHistoryRepository _tRepository;
+
+        public UpdateWalletPromotionCommandHandler(IWalletPromotionalRepository repo, ITransactionHistoryRepository tRepository, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
+            _tRepository = tRepository;
         }
         public async Task<int> Handle(UpdateWalletPromotionCommand rq, CancellationToken cancellationToken)
         {
             var obj = _mapper.Map<WalletPromotional>(rq);
+            var his = new TransactionHistory()
+            {
+                Id = Guid.NewGuid(),
+                Type = 0,
+                Content = "Nạp tiền",
+                TransactionAmount = (double?)rq.Amount,
+                WalletType = 1,
+                CustomerId = rq.CustomerId,
+                CreatedDate = DateTime.UtcNow
+            };
+            var res = await _tRepository.Add(his, cancellationToken);
             return await _repo.Update(obj, cancellationToken);
         }
     }

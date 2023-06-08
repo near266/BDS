@@ -760,7 +760,7 @@ namespace Post.Controller
         /// <param name="rq"></param>
         /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
-        [HttpDelete("/ward/delete")]
+        [HttpPost("/ward/delete")]
         public async Task<IActionResult> DeleteWard([FromBody] DeleteWardCommand rq)
         {
             _logger.LogInformation($"REST request to delete ward :{rq}");

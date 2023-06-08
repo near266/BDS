@@ -32,10 +32,10 @@ namespace Post.Application.Contracts
         #endregion
 
         #region NewPost
-        Task<int> AddNewPost(NewPost rq,CancellationToken cancellationToken);
-        Task<int> UpdateNewPost(NewPost rq,CancellationToken cancellationToken);
+        Task<int> AddNewPost(NewPost rq, CancellationToken cancellationToken);
+        Task<int> UpdateNewPost(NewPost rq, CancellationToken cancellationToken);
         Task<int> DeleteNewPost(List<string> Id, CancellationToken cancellationToken);
-        Task <NewPost> ViewDetailNewPost(string id);
+        Task<NewPost> ViewDetailNewPost(string id);
         Task<PagedList<NewPost>> SearchNewPost(string? title, int Page, int PageSize);
         Task<PagedList<NewPost>> GetShowingNewPost(string? title, int Page, int PageSize);
         #endregion
@@ -43,11 +43,11 @@ namespace Post.Application.Contracts
         Task<List<District>> SearchDistrict();
         #endregion
         #region Ward
-        Task<int> AddWard (Ward rq,CancellationToken cancellationToken);
-        Task<int> UpdateWard(Ward rq,CancellationToken cancellationToken);
-        Task<int> DeleteWard(List<string>Id,CancellationToken cancellationToken);
+        Task<int> AddWard(Ward rq, CancellationToken cancellationToken);
+        Task<int> UpdateWard(Ward rq, CancellationToken cancellationToken);
+        Task<int> DeleteWard(List<string> Id, CancellationToken cancellationToken);
         //Task<PagedList<Ward>> GetShowingWard(string? districtId, string? name, int Page, int PageSize);
-        Task<PagedList<Ward>> SearchWard(string? districtId,string? name,int Page,int PageSize);
+        Task<PagedList<Ward>> SearchWard(string? districtId, string? name, int Page, int PageSize);
         Task<List<Ward>> SearchWardByDistrict(string? districtId);
         #endregion
 
@@ -64,7 +64,8 @@ namespace Post.Application.Contracts
         Task<bool> CheckTitle(string title, string userid);
         Task<List<PostDto>> GetAllRegion(int? type);
         Task<List<StatusDto>> GetAllStatus(int? type, string userId);
-        Task<int> ChangeStatus(string postId, int postType, int statusType,DateTime? lastModifiedDate, string? lastModifiedBy, CancellationToken cancellationToken);
+        Task<int> ChangeStatus(string postId, int postType, int statusType, DateTime? lastModifiedDate, string? lastModifiedBy, CancellationToken cancellationToken);
+        Task SaveHistory(double? amount, int? walletType, Guid? cusId, string? type, CancellationToken cancellationToken);
 
         #endregion
     }

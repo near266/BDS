@@ -27,14 +27,28 @@ namespace Wallet.Application.Commands.WalletsC
     {
         private readonly IWalletRepository _repo;
         private readonly IMapper _mapper;
-        public UpdateWalletCommandHandler(IWalletRepository repo, IMapper mapper)
+        private readonly ITransactionHistoryRepository _tRepository;
+
+        public UpdateWalletCommandHandler(IWalletRepository repo,ITransactionHistoryRepository tRepository, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
+            _tRepository = tRepository;
         }
         public async Task<int> Handle(UpdateWalletCommand rq, CancellationToken cancellationToken)
         {
             var obj = _mapper.Map<WalletEntity>(rq);
+            var his = new TransactionHistory()
+            {
+                Id = Guid.NewGuid(),
+                Type = 0,
+                Content = "Nạp tiền",
+                TransactionAmount = (double?)rq.Amount,
+                WalletType = 0,
+                CustomerId = rq.CustomerId,
+                CreatedDate = DateTime.UtcNow
+            };
+            var res = await _tRepository.Add(his, cancellationToken);
             return await _repo.Update(obj, cancellationToken);
         }
     }
