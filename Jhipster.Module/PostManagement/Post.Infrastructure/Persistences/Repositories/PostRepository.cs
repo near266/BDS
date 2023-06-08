@@ -172,6 +172,8 @@ namespace Post.Infrastructure.Persistences.Repositories
             else
             {
                 _mapper.Map(rq, check);
+                check.Status = rq.Status;
+                check.Price = rq.Price;
                 return await _context.SaveChangesAsync(cancellationToken);
             }
         }
@@ -451,6 +453,9 @@ namespace Post.Infrastructure.Persistences.Repositories
             else
             {
                 _mapper.Map(rq, check);
+                check.Status = rq.Status;
+                check.Type = rq.Type;
+                check.Price = rq.Price;
                 return await _context.SaveChangesAsync(cancellationToken);
             }
         }

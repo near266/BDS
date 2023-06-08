@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
+using Wallet.Application.Queries.HistoryQ;
 using Wallet.Application.Queries.WalletsPromotionalQ;
 using Wallet.Application.Queries.WalletsQ;
 
@@ -48,28 +49,7 @@ namespace Wallet.Controller
         }
 
         #region Wallets
-        //api không cần thiết vì khi tạo tài khoản hoặc tạo khách hàng đã tạo luôn ví
-
-        /*[HttpPost("/walletpost")]
-        public async Task<ActionResult<int>> AddWallet([FromBody] AddWalletsCommand request)
-        {
-            _logger.LogInformation($"REST request add Wallet : {JsonConvert.SerializeObject(request)}");
-            try
-            {
-                request.Id = Guid.NewGuid();
-                request.CreatedDate = DateTime.Now;
-                request.CreatedBy = GetUserIdFromContext();
-                var result = await _mediator.Send(request);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to add Wallet fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }*/
-
-
+        
         /// <summary>
         /// Lấy số dư tài khoản theo đăng nhập
         /// </summary>
@@ -92,26 +72,6 @@ namespace Wallet.Controller
                 return StatusCode(500, ex.Message);
             }
         }
-
-        [HttpGet("/wallet/getall")]
-
-        public async Task<ActionResult<int>> GetAllWallet([FromQuery] GetAllWalletQuery request)
-        {
-            _logger.LogInformation($"REST request GetAllWallet : {JsonConvert.SerializeObject(request)}");
-            try
-            {
-
-
-                var result = await _mediator.Send(request);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to add Wallet fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }
-
 
         /// <summary>
         /// [ADMIN] Nạp tiền vào ví chính
@@ -138,65 +98,10 @@ namespace Wallet.Controller
             }
         }
 
-        [HttpPut("wallet/delete/{walletpost-id}")]
-
-        public async Task<ActionResult<int>> DeleteWallet ([FromBody] DeleteWalletCommand request)
-        {
-            _logger.LogInformation($"REST request  Delete Wallet : {JsonConvert.SerializeObject(request)}");
-            try
-            {
-                var result = await _mediator.Send(request);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to Delete Wallet fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }
-
         #endregion
 
         // WalletsPromotional
         #region WalletPromotional
-        //api không cần thiết vì khi tạo tài khoản hoặc tạo khách hàng đã tạo luôn ví
-
-        /*[HttpPost("WalletPromotional/Add")]
-        public async Task<ActionResult<int>> AddWalletPromotional([FromBody] AddWalletPromotionCommand request)
-        {
-            _logger.LogInformation($"REST request add Wallet : {JsonConvert.SerializeObject(request)}");
-            try
-            {
-                request.Id = Guid.NewGuid();
-                request.CreatedDate = DateTime.Now;
-                request.CreatedBy = GetUserIdFromContext();
-                var result = await _mediator.Send(request);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to add Wallet  Promotional fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }*/
-
-        [HttpGet("WalletPromotional/Get")]
-
-        public async Task<ActionResult<int>> GetAllWalletPromotional([FromQuery] GetAllWalletPromotionalQuery request)
-        {
-            _logger.LogInformation($"REST request GetAllWallet : {JsonConvert.SerializeObject(request)}");
-            try
-            {
-                var result = await _mediator.Send(request);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to add Wallet fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }
-
 
         /// <summary>
         /// [ADMIN] Nạp tiền vào ví khuyến mại
@@ -222,11 +127,19 @@ namespace Wallet.Controller
                 return StatusCode(500, ex.Message);
             }
         }
-        [HttpPut("WalletPromotional/Delete/{WalletPromotion-id}")]
 
-        public async Task<ActionResult<int>> DeleteWalletPromotional([FromBody] DeleteWalletPromotionalCommand request)
-        {
-            _logger.LogInformation($"REST request  Delete Wallet Promotional: {JsonConvert.SerializeObject(request)}");
+        #endregion
+        /// <summary>
+        /// [ADMIN] Xem biến động số dư (type : 0-Nạp Tiền, 1-Trừ tiền, 2-Hoàn tiền / walletType : 0-ví chính, 1:ví khuyến mại)
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.USER)]
+        [HttpPut("wallet/searchTransaction")]
+
+        public async Task<ActionResult<int>> SearchTransaction([FromBody] SearchTransactionQuery request)
+        { 
+            _logger.LogInformation($"REST request Update search transaction: {JsonConvert.SerializeObject(request)}");
             try
             {
                 var result = await _mediator.Send(request);
@@ -234,11 +147,9 @@ namespace Wallet.Controller
             }
             catch (Exception ex)
             {
-                _logger.LogError($"REST request to Delete Wallet Promotional fail: {ex.Message}");
+                _logger.LogError($"REST request to update search transaction fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }
-        #endregion
-
     }
 }
