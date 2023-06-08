@@ -698,70 +698,6 @@ namespace Post.Controller
             }
         }
 
-        [Authorize(Roles = RolesConstants.ADMIN)]
-        [HttpPost("/district/add")]
-        public async Task<IActionResult> AddDistrict([FromBody] AddDistrictCommand rq)
-        {
-            _logger.LogInformation($"Rest request to add new district : {rq}");
-            try
-            {
-                rq.CreatedDate = DateTime.Now;
-                rq.CreatedBy = GetUsernameFromContext();
-                var res = await _mediator.Send(rq);
-                return Ok(res);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to add new district fail:{ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Chỉnh sửa Quận,huyện
-        /// </summary>
-        /// <param name="rq"></param>
-        /// <returns></returns>
-        [Authorize(Roles = RolesConstants.ADMIN)]
-        [HttpPut("/district/update")]
-        public async Task<IActionResult> UpdateDistrict([FromBody] UpdateDistrictCommand rq)
-        {
-            _logger.LogInformation($"REST request to update district : {rq}");
-            try
-            {
-                rq.LastModifiedDate = DateTime.Now;
-                rq.LastModifiedBy = GetUsernameFromContext();
-                var res = await _mediator.Send(rq);
-                return Ok(res);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to update district fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// xóa Quận,Huyện
-        /// </summary>
-        /// <param name="rq"></param>
-        /// <returns></returns>
-        [Authorize(Roles = RolesConstants.ADMIN)]
-        [HttpDelete("/district/delete")]
-        public async Task<IActionResult> DeleteDistrict([FromBody] DeleteDistrictCommand rq)
-        {
-            _logger.LogInformation($"REST request to delete district :{rq}");
-            try
-            {
-                var result = await _mediator.Send(rq);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to delete district fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }
         /// <summary>
         /// [Yêu cầu đăng nhập-ADMIN] lấy ra danh sách tất cả Quận Huyện
         /// </summary>
@@ -769,12 +705,13 @@ namespace Post.Controller
         /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPost("/district/search")]
-        public async Task<IActionResult> SearchDistrict([FromBody] ViewAllDistrictQuery rq)
+        public async Task<IActionResult> SearchDistrict()
         {
             _logger.LogInformation($"REST request to search district");
             try
             {
-                var result = await _mediator.Send(rq);
+                var com = new ViewAllDistrictQuery();
+                var result = await _mediator.Send(com);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -866,7 +803,27 @@ namespace Post.Controller
                 return StatusCode(500, ex.Message);
             }
         }
-
+        /// <summary>
+        /// Lấy ra danh sách những Phường,Xã theo Quận Huyện
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/ward/searchByDistrictId")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SearchWardByDistrictId([FromBody] ViewWardByDistrictIdQuery rq)
+        {
+            _logger.LogInformation($"REST request to search ward by district");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to search ward by district fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
 

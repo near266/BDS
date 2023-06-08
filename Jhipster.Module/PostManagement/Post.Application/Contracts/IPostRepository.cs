@@ -40,10 +40,7 @@ namespace Post.Application.Contracts
         Task<PagedList<NewPost>> GetShowingNewPost(string? title, int Page, int PageSize);
         #endregion
         #region District
-        Task<int> AddDistrict(District rq,CancellationToken cancellationToken);
-        Task<int> UpdateDistrict(District rq,CancellationToken cancellationToken);
-        Task<int> DeleteDistrict(List<string> Id, CancellationToken cancellationToken);
-        Task<PagedList<District>> SearchDistrict(string? name,int Page, int PageSize);
+        Task<List<District>> SearchDistrict();
         #endregion
         #region Ward
         Task<int> AddWard (Ward rq,CancellationToken cancellationToken);
@@ -51,6 +48,7 @@ namespace Post.Application.Contracts
         Task<int> DeleteWard(List<string>Id,CancellationToken cancellationToken);
         //Task<PagedList<Ward>> GetShowingWard(string? districtId, string? name, int Page, int PageSize);
         Task<PagedList<Ward>> SearchWard(string? districtId,string? name,int Page,int PageSize);
+        Task<List<Ward>> SearchWardByDistrict(string? districtId);
         #endregion
 
         #region Admin

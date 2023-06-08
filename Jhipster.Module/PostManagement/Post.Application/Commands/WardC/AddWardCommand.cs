@@ -15,6 +15,8 @@ namespace Post.Application.Commands.WardC
     {
         public string? Name { get; set; }
         public string? DistrictId { get; set; }
+        public string? Description { get; set; }
+        public int? Order { get; set; }
 
         [JsonIgnore]
         public string? CreatedBy { get; set; }

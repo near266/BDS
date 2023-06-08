@@ -14,8 +14,10 @@ namespace Post.Application.Commands.WardC
     public class UpdateWardCommand : IRequest<int>
     {
         public string Id { get; set; }
-        public string Name { get; set; }
-
+        public string? Name { get; set; }
+        public string? DistrictId { get; set; }
+        public string? Description { get; set; }
+        public int? Order { get; set; }
         [JsonIgnore]
         public string? LastModifiedBy { get; set; }
 
