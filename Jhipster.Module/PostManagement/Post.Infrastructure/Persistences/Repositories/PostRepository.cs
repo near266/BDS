@@ -32,7 +32,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         private readonly IWalletDbContext _wcontext;
         private readonly IConfiguration _configuration;
 
-        public PostRepository(IPostDbContext context, IWalletDbContext wcontext,IMapper mapper, IConfiguration configuration)
+        public PostRepository(IPostDbContext context, IWalletDbContext wcontext, IMapper mapper, IConfiguration configuration)
         {
             _context = context;
             _mapper = mapper;
@@ -235,7 +235,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 if (isEnoughWalletPro == true)
                 {
                     await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numofDate, 1, Guid.Parse(rq.UserId),"Trừ tiền",cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numofDate, 1, Guid.Parse(rq.UserId), "Trừ tiền", cancellationToken);
                 }
                 else if (isEnoughWalletPro == false && isEnoughWallet == true)
                 {
@@ -253,7 +253,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 else if (isEnoughWalletPro == false && isEnoughWallet == true)
                 {
                     await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numofDate, 0, Guid.Parse(rq.UserId),"Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numofDate, 0, Guid.Parse(rq.UserId), "Trừ tiền", cancellationToken);
                 }
             }
             else if (rq.Type == (int)PostType.Vip)
@@ -261,12 +261,12 @@ namespace Post.Infrastructure.Persistences.Repositories
                 if (isEnoughWalletPro == true)
                 {
                     await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numofDate, 1, Guid.Parse(rq.UserId),"Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numofDate, 1, Guid.Parse(rq.UserId), "Trừ tiền", cancellationToken);
                 }
                 else if (isEnoughWalletPro == false && isEnoughWallet == true)
                 {
                     await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numofDate, 0, Guid.Parse(rq.UserId),"Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numofDate, 0, Guid.Parse(rq.UserId), "Trừ tiền", cancellationToken);
                 }
             }
             return res;
@@ -516,7 +516,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         if (check)
                         {
                             await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
-                            await SaveHistory(_configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId),"Hoàn tiền", cancellationToken);
+                            await SaveHistory(_configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId), "Hoàn tiền", cancellationToken);
 
                         }
                         else
@@ -799,7 +799,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 query = query.Where(i => i.DistrictId == districtId);
             }
-            var sQuery = query.Include(i => i.District).OrderByDescending(i => i.CreatedDate);
+            var sQuery = query.Include(i => i.District).OrderBy(i => i.Order);
             var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToListAsync();
@@ -814,12 +814,8 @@ namespace Post.Infrastructure.Persistences.Repositories
         }
         public async Task<List<Ward>> SearchWardByDistrict(string? districtId)
         {
-            if (districtId == null) throw new ArgumentException("District Not Found");
-            else
-            {
-                var wards = await _context.Wards.Where(i => i.DistrictId == districtId).ToListAsync();
-                return wards;
-            }
+            var wards = await _context.Wards.Where(i => i.DistrictId == districtId).OrderBy(i => i.Order).ToListAsync();
+            return wards;
         }
         #endregion
 
@@ -915,6 +911,6 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        
+
     }
 }
