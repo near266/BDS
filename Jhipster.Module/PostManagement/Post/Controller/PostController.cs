@@ -703,8 +703,8 @@ namespace Post.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPost("/district/search")]
+        [AllowAnonymous]
         public async Task<IActionResult> SearchDistrict()
         {
             _logger.LogInformation($"REST request to search district");
