@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Jhipster.Crosscutting.Utilities;
+using JHipsterNet.Core.Pagination;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -611,7 +612,27 @@ namespace Post.Infrastructure.Persistences.Repositories
                 return regionsSale;
             }
         }
-
+        public async Task<List<StatusDto>> GetAllStatus(int? type, string userId)
+        {
+            if (type == 0)
+            {
+                var statusBought = await _context.BoughtPosts.Where(i => i.UserId == userId)
+                .GroupBy(p => p.Status)
+                .Select(g => new StatusDto { Status = g.Key, Count = g.Count() })
+                .ToListAsync();
+                return statusBought;
+            }
+            else
+            {
+                var statusSale = await _context.SalePosts.Where(i => i.UserId == userId)
+                .GroupBy(p => p.Status)
+                .Select(g => new StatusDto { Status = g.Key, Count = g.Count() })
+                .ToListAsync();
+                return statusSale;
+            }
+        }
+        #endregion
+        #region NewPost
         public async Task<int> AddNewPost(NewPost rq, CancellationToken cancellationToken)
         {
             await _context.NewPosts.AddAsync(rq);
@@ -650,12 +671,12 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<PagedList<NewPost>> GetShowingNewPost(string? title, int Page, int PageSize)
         {
             var query = _context.NewPosts.AsQueryable();
-            if(title != null) 
+            if (title != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Title) && i.Title.ToLower().Contains(title.ToLower().Trim()));
             }
             var sQuery = query.OrderByDescending(i => i.CreatedDate);
-            var sQuery1 =await sQuery.Skip(PageSize * (Page - 1))
+            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                           .Take(PageSize)
                           .ToListAsync();
             var reslist = await sQuery.ToListAsync();
@@ -696,54 +717,16 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             //}
         }
+        #endregion
+        #region District
 
-        public async Task<int> AddDistrict(District rq, CancellationToken cancellationToken)
+        public async Task<List<District>> SearchDistrict()
         {
-            await _context.Districts.AddAsync(rq);
-            return await _context.SaveChangesAsync(cancellationToken);
+            var list = await _context.Districts.ToListAsync();
+            return list;
         }
-
-        public async Task<int> UpdateDistrict(District rq, CancellationToken cancellationToken)
-        {
-            var check = await _context.Districts.FirstOrDefaultAsync(i => i.Id == rq.Id);
-            if (check == null) throw new ArgumentException("Can not find");
-            else
-            {
-                _mapper.Map(rq, check);
-                return await _context.SaveChangesAsync(cancellationToken);
-            }
-        }
-
-        public async Task<int> DeleteDistrict(List<string> Id, CancellationToken cancellationToken)
-        {
-            var check = await _context.Districts.Where(i => Id.Contains(i.Id)).ToListAsync();
-            foreach(var item in check)
-            {
-                _context.Districts.Remove(item);
-            }
-            return await _context.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task<PagedList<District>> SearchDistrict(string? name, int Page, int PageSize)
-        {
-            var query = _context.Districts.AsQueryable();
-            if (name != null)
-            {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Name) && i.Name.ToLower().Contains(name.ToLower().Trim()));
-            }
-            var sQuery = query.OrderByDescending(i => i.CreatedDate);
-            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-                          .Take(PageSize)
-                          .ToListAsync();
-            var reslist = await sQuery.ToListAsync();
-            return new PagedList<District>
-            {
-                Data = sQuery1,
-                TotalCount = reslist.Count,
-            };
-        }
-
-
+        #endregion
+        #region Ward
         public async Task<int> AddWard(Ward rq, CancellationToken cancellationToken)
         {
             await _context.Wards.AddAsync(rq);
@@ -780,53 +763,32 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             if (districtId != null)
             {
-                var sQuery = query.Where(i => i.DistrictId == districtId).OrderByDescending(i => i.CreatedDate);
-                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-                                    .Take(PageSize)
-                                    .ToListAsync();
-                var reslist = await sQuery.ToListAsync();
-                return new PagedList<Ward>
-                {
-                    Data = sQuery1,
-                    TotalCount = reslist.Count,
-                };
+                query = query.Where(i => i.DistrictId == districtId);
             }
-            else
+            var sQuery = query.Include(i => i.District).OrderByDescending(i => i.CreatedDate);
+            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                .Take(PageSize)
+                                .ToListAsync();
+            var reslist = await sQuery.ToListAsync();
+            return new PagedList<Ward>
             {
-                var sQuery = query.OrderByDescending(i => i.CreatedDate);
-                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-                                    .Take(PageSize)
-                                    .ToListAsync();
-                var reslist = await sQuery.ToListAsync();
-                return new PagedList<Ward>
-                {
-                    Data = sQuery1,
-                    TotalCount = reslist.Count,
-                };
-            }
+                Data = sQuery1,
+                TotalCount = reslist.Count,
+            };
+
 
         }
-
-        public async Task<List<StatusDto>> GetAllStatus(int? type, string userId)
+        public async Task<List<Ward>> SearchWardByDistrict(string? districtId)
         {
-            if (type == 0)
-            {
-                var statusBought = await _context.BoughtPosts.Where(i => i.UserId == userId)
-                .GroupBy(p => p.Status)
-                .Select(g => new StatusDto { Status = g.Key, Count = g.Count() })
-                .ToListAsync();
-                return statusBought;
-            }
+            if (districtId == null) throw new ArgumentException("District Not Found");
             else
             {
-                var statusSale = await _context.SalePosts.Where(i => i.UserId == userId)
-                .GroupBy(p => p.Status)
-                .Select(g => new StatusDto { Status = g.Key, Count = g.Count() })
-                .ToListAsync();
-                return statusSale;
+                var wards = await _context.Wards.Where(i => i.DistrictId == districtId).ToListAsync();
+                return wards;
             }
         }
         #endregion
+
         public string MaxSalePost(SearchSalePostDTO rq)
         {
             var check = _context.SalePosts.Where(i => i.Region == rq.Region).OrderByDescending(i => i.Price)
@@ -918,5 +880,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return await _context.SaveChangesAsync(cancellationToken);
         }
+
+
     }
 }

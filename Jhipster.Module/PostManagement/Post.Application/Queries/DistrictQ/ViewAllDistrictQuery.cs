@@ -12,13 +12,10 @@ using System.Threading.Tasks;
 
 namespace Post.Application.Queries.DistrictQ
 {
-    public class ViewAllDistrictQuery : IRequest<PagedList<District>>
+    public class ViewAllDistrictQuery : IRequest<List<District>>
     {
-        public string? Name { get; set; }
-        public int Page { get; set; }
-        public int PageSize { get; set; }
     }
-    public class ViewAllDistrictQueryHandler : IRequestHandler<ViewAllDistrictQuery, PagedList<District>>
+    public class ViewAllDistrictQueryHandler : IRequestHandler<ViewAllDistrictQuery, List<District>>
     {
         private readonly IPostRepository _repository;
         private readonly IMapper _mapper;
@@ -28,9 +25,9 @@ namespace Post.Application.Queries.DistrictQ
             _mapper = mapper;
         }
 
-        public async Task<PagedList<District>> Handle(ViewAllDistrictQuery request, CancellationToken cancellationToken)
+        public async Task<List<District>> Handle(ViewAllDistrictQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.SearchDistrict(request.Name, request.Page, request.PageSize);
+            return await _repository.SearchDistrict();
         }
     }
 }

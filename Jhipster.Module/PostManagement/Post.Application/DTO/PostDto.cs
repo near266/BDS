@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Post.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,5 +49,19 @@ namespace Post.Application.DTO
         public DateTime? Order { get; set; }
         public string? MaxSale { get; set; }
         public string? MinSale { get; set; }
+    }
+
+    public class WardDTO
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public int? Order { get; set; }
+        public string? Description { get; set; }
+        public DistrictDTO? District { get; set; }
+    }
+
+    public class DistrictDTO
+    {
+        public string? Name { get; set; }
     }
 }
