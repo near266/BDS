@@ -96,7 +96,7 @@ namespace Wallet.Controller
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("/depositRequest")]
+        [HttpPost("/depositRequest/ViewAdmin")]
 
         public async Task<IActionResult> ViewDepositRequestByAdminQ([FromBody] ViewDepositRequestByAdminQ request)
         {
