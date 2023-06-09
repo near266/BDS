@@ -211,7 +211,7 @@ namespace Post.Controller
         /// <returns></returns>
         [HttpPost("/boughtpost/getShowing")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetShowingBoughtPost([FromBody]GetAllShowingBoughtPostQuery rq)
+        public async Task<IActionResult> GetShowingBoughtPost([FromBody] GetAllShowingBoughtPostQuery rq)
         {
             _logger.LogInformation($"REST request to get showing bought post");
             try
@@ -274,9 +274,8 @@ namespace Post.Controller
                 _logger.LogError($"REST request to add sale post fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
-
-
         }
+
 
         /// <summary>
         /// Chỉnh sửa bài đăng bán
@@ -389,7 +388,7 @@ namespace Post.Controller
         /// <returns></returns>
         [HttpPost("/salepost/getShowing")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetShowingSaletPost([FromBody]GetAllShowingSalePostQuery rq)
+        public async Task<IActionResult> GetShowingSaletPost([FromBody] GetAllShowingSalePostQuery rq)
         {
             _logger.LogInformation($"REST request to get showing sale post");
             try
@@ -547,7 +546,7 @@ namespace Post.Controller
         /// <param name="rq"></param>
         /// <returns></returns>
         [HttpPost("/post/changeStatus")]
-        [Authorize(Roles =RolesConstants.USER)]
+        [Authorize(Roles = RolesConstants.USER)]
         public async Task<IActionResult> ChangeStatus([FromBody] ChangeStatusCommand rq)
         {
             _logger.LogInformation($"REST request to get change status");
@@ -564,7 +563,27 @@ namespace Post.Controller
                 return StatusCode(500, ex.Message);
             }
         }
+        [Authorize(Roles = RolesConstants.USER)]
+        [HttpPost("/salepost/repost")]
+        public async Task<IActionResult> RepostSalePost([FromBody] RepostSalePostCommand rq)
+        {
+            _logger.LogInformation($"REST request to repost sale post : {rq}");
+            try
+            {
+                rq.Username = GetUsernameFromContext();
+                rq.UserId = GetUserIdFromConext();
+                rq.CreatedDate = DateTime.UtcNow;
+                rq.CreatedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to repost sale post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPost("/newpost/add")]
         public async Task<IActionResult> AddNewPost([FromBody] AddNewPostCommand rq)

@@ -274,61 +274,60 @@ namespace Post.Infrastructure.Persistences.Repositories
         }
         public async Task<int> RepostSalePost(string? postId, int type, double numberofDate, CancellationToken cancellationToken)
         {
-            throw new Exception();
-             
-            if (postId != null)
+            var post = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
+            if (post == null) throw new ArgumentException("No post found !!!");
+           
+
+            var check = await CheckBalancePromotional(post.UserId, post.Type);// tru tien vi km
+            var check1 = await CheckBalance(post.UserId, post.Type); // tru tien vi chinh
+            if (!check && !check1) throw new ArgumentException("Not enough money");
+            if (type == (int)PostType.Normal)
             {
-                var post = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
-                if (post == null) throw new ArgumentException("No post found !!!");
-                var user = await _wcontext.Wallets.FirstOrDefaultAsync(i => i.CustomerId.ToString() == post.UserId);
-                if (user == null) throw new ArgumentException("No user found !!!");
-                
-                var check = await CheckBalancePromotional(post.UserId, post.Type);// tru tien vi km
-                var check1 = await CheckBalance(post.UserId, post.Type); // tru` tien vi chinh
-
-                post.Order = DateTime.UtcNow;
-                if (type == (int)PostType.Normal)
+                if (check == true)
                 {
-                    if (check == true)
-                    {
-                        await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate), cancellationToken);
-                        await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
-                    }
-                    else if(check == false && check1 == true) {
-                        await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate), cancellationToken);
-                        await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
-                    }
+                    await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate), cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
                 }
-                else if (type == (int)PostType.Golden)
+                else if (check == false && check1 == true)
                 {
-                    if (check == true)
-                    {
-                        await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate), cancellationToken);
-                        await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
-                    }
-                    else if (check == false && check1 == true)
-                    {
-                        await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate), cancellationToken);
-                        await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
-                    }
+                    await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate), cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
                 }
-                else if (type == (int)PostType.Vip)
-                {
-                    if (check == true)
-                    {
-                        await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate), cancellationToken);
-                        await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
-                    }
-                    else if (check == false && check1 == true)
-                    {
-                        await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate), cancellationToken);
-                        await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
-                    }
-                }
+                post.Status = (int)PostStatus.UnApproved;
             }
-            
-            
-
+            else if (type == (int)PostType.Golden)
+            {
+                if (check == true)
+                {
+                    await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate), cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                }
+                else if (check == false && check1 == true)
+                {
+                    await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate), cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                }
+                post.Status = (int)PostStatus.Showing;
+            }
+            else if (type == (int)PostType.Vip)
+            {
+                if (check == true)
+                {
+                    await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate), cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                }
+                else if (check == false && check1 == true)
+                {
+                    await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate), cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                }
+                post.Status = (int)PostStatus.Showing;
+            }
+            post.Order = DateTime.UtcNow;
+            post.Type = type;
+            post.DueDate = post.DueDate.Value.AddDays(numberofDate);
+            var res = await _context.SaveChangesAsync(cancellationToken);
+            return res;
         }
 
         public async Task SaveHistory(double? amount, int? walletType, Guid? cusId, string? type, CancellationToken cancellationToken)
