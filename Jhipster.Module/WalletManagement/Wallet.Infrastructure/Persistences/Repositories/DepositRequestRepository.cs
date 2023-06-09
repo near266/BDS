@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Wallet.Application.Persistences;
 using Wallet.Domain.Abstractions;
 using Wallet.Domain.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Wallet.Infrastructure.Persistences.Repositories
 {
@@ -31,15 +32,25 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             return await _appcontext.SaveChangesAsync();
         }
 
-        public async Task<PagedList<DepositRequest>> GetByAdmin(int Page, int PageSize)
+        public async Task<PagedList<DepositRequest>> GetByAdmin(int Page, int PageSize, string? UserName, DateTime? DateTo, DateTime? DateFrom)
         {
             var value = new PagedList<DepositRequest>();
-            var data = await _context.DepositRequests
-                             .Include(i => i.Customer).ToListAsync();
-            value.TotalCount = data.Count;
-            value.Data = data.Skip(PageSize * (Page - 1))
+            var data = _context.DepositRequests
+                             .Include(i => i.Customer).AsQueryable();
+            if (UserName != null)
+            {
+                data = data.Where(i => i.Customer.CustomerName.Contains(UserName));
+            }
+            if (DateFrom != null && DateTo != null)
+            {
+                data = data.Where(i => i.CreatedDate >= DateFrom && i.CreatedDate <= DateTo);
+            }
+            var query = data.OrderByDescending(i => i.CreatedDate);
+            var query1 = await data.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
-                                .ToList();
+                                .ToListAsync();
+            value.TotalCount = query.Count();
+            value.Data = query1;
             return value;
         }
 

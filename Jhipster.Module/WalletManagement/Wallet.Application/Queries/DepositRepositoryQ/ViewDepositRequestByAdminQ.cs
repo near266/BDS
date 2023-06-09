@@ -14,6 +14,9 @@ namespace Wallet.Application.Queries.DepositRepositoryQ
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
+        public string? UserName { get; set; }
+        public DateTime? DateTo { get; set; }
+        public DateTime? DateFrom { get; set; }
     }
     public class ViewDepositRequestByAdminQHandler : IRequestHandler<ViewDepositRequestByAdminQ, PagedList<DepositRequest>>
     {
@@ -25,7 +28,7 @@ namespace Wallet.Application.Queries.DepositRepositoryQ
 
         public async Task<PagedList<DepositRequest>> Handle(ViewDepositRequestByAdminQ request, CancellationToken cancellationToken)
         {
-            return await _depositRequestRepository.GetByAdmin(request.Page, request.PageSize);
+            return await _depositRequestRepository.GetByAdmin(request.Page, request.PageSize,request.UserName,request.DateTo,request.DateFrom);
         }
     }
 }

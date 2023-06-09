@@ -52,7 +52,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                                 .Take(PageSize)
                                 .ToListAsync();
             var reslist = await sQuery.ToListAsync();
-
+                
             var listId = sQuery1.Select(i => i.CustomerId).ToList();
             var res = listId.Select(item => new SearchTransactionResponse
             {
