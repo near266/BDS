@@ -22,6 +22,7 @@ namespace Post.Application.Contracts
         #region SalePost
         Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken);
         Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken);
+        Task<int> RepostSalePost(string? postId, int type, double numberofDate,CancellationToken cancellationToken);
         Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken);
         Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize);
         Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
@@ -48,7 +49,7 @@ namespace Post.Application.Contracts
         Task<int> DeleteWard(List<string> Id, CancellationToken cancellationToken);
         //Task<PagedList<Ward>> GetShowingWard(string? districtId, string? name, int Page, int PageSize);
         Task<PagedList<Ward>> SearchWard(string? districtId, string? name, int Page, int PageSize);
-        Task<List<Ward>> SearchWardByDistrict(string? districtId);
+        Task<List<Ward>> SearchWardByDistrict(string? districtId,string? name);
         #endregion
 
         #region Admin

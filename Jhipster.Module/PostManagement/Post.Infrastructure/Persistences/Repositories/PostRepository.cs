@@ -2,6 +2,7 @@
 using Jhipster.Crosscutting.Utilities;
 using JHipsterNet.Core.Pagination;
 using MediatR;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -270,6 +271,64 @@ namespace Post.Infrastructure.Persistences.Repositories
                 }
             }
             return res;
+        }
+        public async Task<int> RepostSalePost(string? postId, int type, double numberofDate, CancellationToken cancellationToken)
+        {
+            throw new Exception();
+             
+            if (postId != null)
+            {
+                var post = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
+                if (post == null) throw new ArgumentException("No post found !!!");
+                var user = await _wcontext.Wallets.FirstOrDefaultAsync(i => i.CustomerId.ToString() == post.UserId);
+                if (user == null) throw new ArgumentException("No user found !!!");
+                
+                var check = await CheckBalancePromotional(post.UserId, post.Type);// tru tien vi km
+                var check1 = await CheckBalance(post.UserId, post.Type); // tru` tien vi chinh
+
+                post.Order = DateTime.UtcNow;
+                if (type == (int)PostType.Normal)
+                {
+                    if (check == true)
+                    {
+                        await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    }
+                    else if(check == false && check1 == true) {
+                        await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    }
+                }
+                else if (type == (int)PostType.Golden)
+                {
+                    if (check == true)
+                    {
+                        await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    }
+                    else if (check == false && check1 == true)
+                    {
+                        await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    }
+                }
+                else if (type == (int)PostType.Vip)
+                {
+                    if (check == true)
+                    {
+                        await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    }
+                    else if (check == false && check1 == true)
+                    {
+                        await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    }
+                }
+            }
+            
+            
+
         }
 
         public async Task SaveHistory(double? amount, int? walletType, Guid? cusId, string? type, CancellationToken cancellationToken)
@@ -820,10 +879,20 @@ namespace Post.Infrastructure.Persistences.Repositories
 
 
         }
-        public async Task<List<Ward>> SearchWardByDistrict(string? districtId)
+        public async Task<List<Ward>> SearchWardByDistrict(string? districtId,string? name)
         {
-            var wards = await _context.Wards.Where(i => i.DistrictId == districtId).OrderBy(i => i.Order).ToListAsync();
-            return wards;
+            var query = _context.Wards.AsQueryable();
+            if (name != null)
+            {
+                query = query.Where(i => !string.IsNullOrEmpty(i.District.Name) && i.District.Name.ToLower().Contains(name.ToLower().Trim()));
+            }
+            if (districtId != null)
+            {
+                query = query.Where(i => i.DistrictId == districtId);
+            }
+            var sQuery = query.OrderBy(i => i.Order);
+            var reslist = await sQuery.ToListAsync();
+            return reslist;
         }
         #endregion
 
@@ -919,6 +988,6 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-
+        
     }
 }
