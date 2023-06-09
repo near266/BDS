@@ -10,6 +10,7 @@ namespace Wallet.Domain.Abstractions
         public DbSet<WalletEntity> Wallets { get; set; }
         public DbSet<WalletPromotional> WalletPromotionals { get; set; }
         public DbSet<TransactionHistory> TransactionHistorys { get; set; }
+        public DbSet<DepositRequest> DepositRequests { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using Wallet.Application.Commands.CustomerC;
+using Wallet.Application.Commands.DepositRepositoryC;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
 using Wallet.Application.DTO;
@@ -31,7 +32,10 @@ namespace Wallet.Application.Configurations.Mapper
             CreateMap<WalletPromotional, UpdateWalletPromotionCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<WalletPromotional, WalletPromotionalDto>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<DetailCusDTO, Customer>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            #region DepositReques
+            CreateMap<DepositRequest, AddDepositRequestC>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
 
+            #endregion
         }
     }
 }

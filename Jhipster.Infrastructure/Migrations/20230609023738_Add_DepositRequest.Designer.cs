@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Jhipster.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Jhipster.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDatabaseContext))]
-    partial class ApplicationDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230609023738_Add_DepositRequest")]
+    partial class Add_DepositRequest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -718,8 +720,6 @@ namespace Jhipster.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
-
                     b.ToTable("DepositRequests");
                 });
 
@@ -912,17 +912,6 @@ namespace Jhipster.Infrastructure.Migrations
                         .HasForeignKey("DistrictId");
 
                     b.Navigation("District");
-                });
-
-            modelBuilder.Entity("Wallet.Domain.Entities.DepositRequest", b =>
-                {
-                    b.HasOne("Wallet.Domain.Entities.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Wallet.Domain.Entities.TransactionHistory", b =>

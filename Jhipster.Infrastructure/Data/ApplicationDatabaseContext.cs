@@ -37,6 +37,8 @@ namespace Jhipster.Infrastructure.Data
         public DbSet<Wallet.Domain.Entities.WalletEntity> Wallets { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<TransactionHistory> TransactionHistorys { get; set; }
+        public DbSet<DepositRequest> DepositRequests { get; set; }
+
 
         /// <summary>
         /// Post
