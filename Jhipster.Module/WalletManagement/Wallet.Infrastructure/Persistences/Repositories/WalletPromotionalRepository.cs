@@ -43,9 +43,14 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<int> Update(WalletPromotional request, CancellationToken cancellationToken)
         {
-            var res = await _context.WalletPromotionals.FirstOrDefaultAsync(u => u.Id == request.Id);
+            var res = await _context.WalletPromotionals.FirstOrDefaultAsync(u => u.CustomerId == request.CustomerId);
             if (res == null) throw new ArgumentException("walletPromotional not found");
-            _mapper.Map(request, res);
+            res.Currency = "VND";
+            res.CustomerId = request.CustomerId;
+            res.LastModifiedDate = request.LastModifiedDate;
+            res.LastModifiedBy = request.LastModifiedBy;
+            res.Username = "string";
+            res.Amount = res.Amount == 0 ? request.Amount : res.Amount + request.Amount;
             return await _context.SaveChangesAsync(cancellationToken);
         }
     }

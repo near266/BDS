@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
+using Wallet.Application.DTO;
 using Wallet.Application.Queries.HistoryQ;
 using Wallet.Application.Queries.WalletsPromotionalQ;
 using Wallet.Application.Queries.WalletsQ;
@@ -49,7 +50,7 @@ namespace Wallet.Controller
         }
 
         #region Wallets
-        
+
         /// <summary>
         /// Lấy số dư tài khoản theo đăng nhập
         /// </summary>
@@ -137,7 +138,7 @@ namespace Wallet.Controller
         [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("wallet/searchTransaction")]
         public async Task<ActionResult<int>> SearchTransaction([FromBody] SearchTransactionQuery request)
-        { 
+        {
             _logger.LogInformation($"REST request Update search transaction: {JsonConvert.SerializeObject(request)}");
             try
             {
@@ -147,6 +148,50 @@ namespace Wallet.Controller
             catch (Exception ex)
             {
                 _logger.LogError($"REST request to update search transaction fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// [ADMIN] Nạp tiền vào ví chính và phụ 
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPut("/wallet/updateAmount")]
+
+        public async Task<ActionResult<int>> UpdateWallets([FromBody] WalletDTO request)
+        {
+            _logger.LogInformation($"REST request  Update Wallet : {JsonConvert.SerializeObject(request)}");
+            try
+            {
+                request.LastModifiedBy = GetUserIdFromConext();
+                request.LastModifiedDate = DateTime.UtcNow;
+                var wallet = new UpdateWalletCommand
+                {
+                    Id = Guid.NewGuid(),
+                    CustomerId = request.CustomerId,
+                    Amount = request.AmountWallet,
+                    Currency = request.Currency,
+                    LastModifiedBy = request.LastModifiedBy,
+                    LastModifiedDate = DateTime.UtcNow,
+                };
+                var Promotional = new UpdateWalletPromotionCommand
+                {
+                    Id = Guid.NewGuid(),
+                    CustomerId = request.CustomerId,
+                    Amount = request.AmountWalletPromotional != null ? request.AmountWalletPromotional : 0,
+                    Currency = request.Currency,
+                    LastModifiedBy = request.LastModifiedBy,
+                    LastModifiedDate = DateTime.UtcNow,
+                };
+                var result = await _mediator.Send(wallet);
+                await _mediator.Send(Promotional);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to update Wallet fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }
