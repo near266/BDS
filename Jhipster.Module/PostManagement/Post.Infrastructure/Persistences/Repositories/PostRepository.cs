@@ -276,10 +276,10 @@ namespace Post.Infrastructure.Persistences.Repositories
         {
             var post = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
             if (post == null) throw new ArgumentException("No post found !!!");
-           
 
-            var check = await CheckBalancePromotional(post.UserId, post.Type);// tru tien vi km
-            var check1 = await CheckBalance(post.UserId, post.Type); // tru tien vi chinh
+
+            var check = await CheckBalancePromotional(post.UserId, post.Type, numberofDate);// tru tien vi km
+            var check1 = await CheckBalance(post.UserId, post.Type, numberofDate); // tru tien vi chinh
             if (!check && !check1) throw new ArgumentException("Not enough money");
             if (type == (int)PostType.Normal)
             {
@@ -525,8 +525,8 @@ namespace Post.Infrastructure.Persistences.Repositories
 
 
 
-                bool checkW = await CheckBalancePromotional(check.UserId,rq.Type);// tru tien vi km
-                bool checkWP = await CheckBalance(check.UserId, rq.Type); // tru tien vi chinh
+                bool checkWP = await CheckBalancePromotional(check.UserId, rq.Type, numberOfDate);// tru tien vi km
+                bool checkW = await CheckBalance(check.UserId, rq.Type, numberOfDate); // tru tien vi chinh
                 if (!checkW && !checkWP) throw new ArgumentException("Not enough money");
                 if (rq.Type == (int)PostType.Normal)
                 {
@@ -570,7 +570,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     }
                     rq.Status = (int)PostStatus.Showing;
                 }
-                
+
                 check.DueDate = check.DueDate.Value.AddDays((double)numberOfDate);
 
                 return await _context.SaveChangesAsync(cancellationToken);
@@ -628,19 +628,9 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     if (status == (int)PostStatus.Rejected)
                     {
-                        var check = await CheckBalancePromotional(item2.UserId, (int)PostType.Normal);
                         var dif = (item2.DueDate - item2.CreatedDate).Value.TotalDays;
-                        if (check)
-                        {
-                            await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
-                            await SaveHistory(_configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId), "Hoàn tiền", cancellationToken);
-
-                        }
-                        else
-                        {
-                            await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 1, cancellationToken);
-                            await SaveHistory(_configuration.GetValue<int>("Price:Normal") * dif, 1, Guid.Parse(item2.UserId), "Hoàn tiền", cancellationToken);
-                        }
+                        await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId), "Hoàn tiền", cancellationToken);
                     }
                 }
                 return result;
@@ -684,14 +674,29 @@ namespace Post.Infrastructure.Persistences.Repositories
                 await _wcontext.SaveChangesAsync(cancellationToken);
             }
         }
-        public async Task<bool> CheckBalance(string userId, int type)
+        public async Task<bool> CheckBalance(string userId, int type, double? num)
         {
             var check = false;
             var user = await _wcontext.Wallets.FirstOrDefaultAsync(i => i.CustomerId.ToString() == userId);
             if (user == null) throw new ArgumentException("User Not Found !!!");
-            var normalPrice = _configuration.GetValue<int>("Price:Normal");
-            var vipPrice = _configuration.GetValue<int>("Price:Vip");
-            var superVipPrice = _configuration.GetValue<int>("Price:SuperVip");
+
+            int normalPrice = 0;
+            int vipPrice = 0;
+            int superVipPrice = 0;
+
+            if (num > 0)
+            {
+                normalPrice = (int)(_configuration.GetValue<int>("Price:Normal") * num);
+                vipPrice = (int)(_configuration.GetValue<int>("Price:Vip") * num);
+                superVipPrice = (int)(_configuration.GetValue<int>("Price:SuperVip") * num);
+            }
+            else
+            {
+                normalPrice = _configuration.GetValue<int>("Price:Normal");
+                vipPrice = _configuration.GetValue<int>("Price:Vip");
+                superVipPrice = _configuration.GetValue<int>("Price:SuperVip");
+            }
+
 
             if (type == (int)PostType.Normal && user.Amount > 0 && user.Amount > normalPrice)
             {
@@ -720,15 +725,28 @@ namespace Post.Infrastructure.Persistences.Repositories
                 await _wcontext.SaveChangesAsync(cancellationToken);
             }
         }
-        public async Task<bool> CheckBalancePromotional(string userId, int type)
+        public async Task<bool> CheckBalancePromotional(string userId, int type, double? num)
         {
             var check = false;
             var user = await _wcontext.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId.ToString() == userId);
             if (user == null) throw new ArgumentException("User Not Found !!!");
 
-            var normalPrice = _configuration.GetValue<int>("Price:Normal");
-            var vipPrice = _configuration.GetValue<int>("Price:Vip");
-            var superVipPrice = _configuration.GetValue<int>("Price:SuperVip");
+            int normalPrice = 0;
+            int vipPrice = 0;
+            int superVipPrice = 0;
+
+            if (num > 0)
+            {
+                normalPrice = (int)(_configuration.GetValue<int>("Price:Normal") * num);
+                vipPrice = (int)(_configuration.GetValue<int>("Price:Vip") * num);
+                superVipPrice = (int)(_configuration.GetValue<int>("Price:SuperVip") * num);
+            }
+            else
+            {
+                normalPrice = _configuration.GetValue<int>("Price:Normal");
+                vipPrice = _configuration.GetValue<int>("Price:Vip");
+                superVipPrice = _configuration.GetValue<int>("Price:SuperVip");
+            }
 
             if (type == (int)PostType.Normal && user.Amount > 0 && user.Amount > normalPrice)
             {
@@ -929,7 +947,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
 
         }
-        public async Task<List<Ward>> SearchWardByDistrict(string? districtId,string? name)
+        public async Task<List<Ward>> SearchWardByDistrict(string? districtId, string? name)
         {
             var query = _context.Wards.AsQueryable();
             if (name != null)
@@ -1011,26 +1029,6 @@ namespace Post.Infrastructure.Persistences.Repositories
                     case 1:
                         salePost.Order = DateTime.UtcNow;
                         break;
-                    case 2:
-                        var checkp = await CheckBalancePromotional(salePost.UserId, salePost.Type);
-                        var check = await CheckBalance(salePost.UserId, salePost.Type);
-                        if (!checkp && !check) throw new ArgumentException("Not enough money");
-                        var dif = (salePost.DueDate - salePost.CreatedDate).Value.TotalDays;
-                        salePost.DueDate = salePost.DueDate.Value.AddDays(dif);
-                        salePost.Status = (int)PostStatus.Showing;
-                        string pt = "";
-                        if (salePost.Type == (int)PostType.Normal) pt = "Price:Normal";
-                        else if (salePost.Type == (int)PostType.Golden) pt = "Price:Vip";
-                        else if (salePost.Type == (int)PostType.Vip) pt = "Price:SuperVip";
-                        if (checkp)
-                        {
-                            await SubtractMoneyPromotional(salePost.Id, (decimal)(_configuration.GetValue<int>(pt) * dif), cancellationToken);
-                        }
-                        else
-                        {
-                            await SubtractMoney(salePost.Id, (decimal)(_configuration.GetValue<int>(pt) * dif), cancellationToken);
-                        }
-                        break;
                 }
                 salePost.LastModifiedDate = lastModifiedDate;
                 salePost.LastModifiedBy = lastModifiedBy;
@@ -1038,6 +1036,6 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        
+
     }
 }

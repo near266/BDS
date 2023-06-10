@@ -53,12 +53,12 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                                 .ToListAsync();
             var reslist = await sQuery.ToListAsync();
                 
-            var listId = sQuery1.Select(i => i.CustomerId).ToList();
-            var res = listId.Select(item => new SearchTransactionResponse
+            //var listId = sQuery1.Select(i => i.CustomerId).ToList();
+            var res = reslist.Select(item => new SearchTransactionResponse
             {
-                TransactionHistory = _context.TransactionHistorys.FirstOrDefault(x => x.CustomerId == item),
-                wallet = _mapper.Map<WalletDto>(_context.Wallets.FirstOrDefault(i => i.CustomerId == item)),
-                walletPromotional = _mapper.Map<WalletPromotionalDto>(_context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item))
+                TransactionHistory = _context.TransactionHistorys.FirstOrDefault(x => x.Id == item.Id),
+                wallet = _mapper.Map<WalletDto>(_context.Wallets.FirstOrDefault(i => i.CustomerId == item.CustomerId)),
+                walletPromotional = _mapper.Map<WalletPromotionalDto>(_context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId))
             }).ToList();
 
 

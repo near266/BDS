@@ -57,8 +57,8 @@ namespace Post.Application.Contracts
         #endregion
 
         #region Other
-        Task<bool> CheckBalance(string userId, int type);
-        Task<bool> CheckBalancePromotional(string userId, int type);
+        Task<bool> CheckBalance(string userId, int type, double? num);
+        Task<bool> CheckBalancePromotional(string userId, int type, double? num);
         Task SubtractMoney(string? postid, decimal amount, CancellationToken cancellationToken);
         Task SubtractMoneyPromotional(string? postid, decimal amount, CancellationToken cancellationToken);
         Task ReturnMoney(string? postid, decimal amount, int type, CancellationToken cancellationToken);
