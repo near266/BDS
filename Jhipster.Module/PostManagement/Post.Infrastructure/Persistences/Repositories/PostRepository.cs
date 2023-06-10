@@ -525,8 +525,8 @@ namespace Post.Infrastructure.Persistences.Repositories
 
 
 
-                bool checkW = await CheckBalancePromotional(rq.Id,rq.Type);// tru tien vi km
-                bool checkWP = await CheckBalance(rq.Id, rq.Type); // tru tien vi chinh
+                bool checkW = await CheckBalancePromotional(check.UserId,rq.Type);// tru tien vi km
+                bool checkWP = await CheckBalance(check.UserId, rq.Type); // tru tien vi chinh
                 if (!checkW && !checkWP) throw new ArgumentException("Not enough money");
                 if (rq.Type == (int)PostType.Normal)
                 {
