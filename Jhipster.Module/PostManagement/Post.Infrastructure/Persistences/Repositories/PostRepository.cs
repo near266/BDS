@@ -283,12 +283,12 @@ namespace Post.Infrastructure.Persistences.Repositories
             if (!check && !check1) throw new ArgumentException("Not enough money");
             if (type == (int)PostType.Normal)
             {
-                if (check == true)
+                if (check)
                 {
                     await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate), cancellationToken);
                     await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
                 }
-                else if (check == false && check1 == true)
+                else if (!check && check1)
                 {
                     await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate), cancellationToken);
                     await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
@@ -297,12 +297,12 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             else if (type == (int)PostType.Golden)
             {
-                if (check == true)
+                if (check)
                 {
                     await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate), cancellationToken);
                     await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
                 }
-                else if (check == false && check1 == true)
+                else if (!check && check1)
                 {
                     await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate), cancellationToken);
                     await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
@@ -311,19 +311,18 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             else if (type == (int)PostType.Vip)
             {
-                if (check == true)
+                if (check)
                 {
                     await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate), cancellationToken);
                     await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
                 }
-                else if (check == false && check1 == true)
+                else if (!check && check1)
                 {
                     await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate), cancellationToken);
                     await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
                 }
                 post.Status = (int)PostStatus.Showing;
             }
-            post.Order = DateTime.UtcNow;
             post.Type = type;
             post.DueDate = post.DueDate.Value.AddDays(numberofDate);
             var res = await _context.SaveChangesAsync(cancellationToken);
