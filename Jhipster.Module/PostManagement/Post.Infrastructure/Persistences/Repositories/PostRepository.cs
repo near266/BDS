@@ -135,7 +135,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 if (toPrice > 0)
                 {
-                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price <= toPrice));
+                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price < toPrice));
                 }
                 else
                 {
@@ -475,7 +475,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 if (toPrice > 0)
                 {
-                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price <= toPrice));
+                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price < toPrice));
                 }
                 else
                 {
