@@ -60,6 +60,7 @@
         <ProjectReference Include="..\Jhipster.Module\PostManagement\Post\Post.csproj">
           <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
         </ProjectReference>
+        <ProjectReference Include="..\Jhipster.Module\WorkerSvc\Worker\Worker.csproj" />
     </ItemGroup>
 
 </Project>
