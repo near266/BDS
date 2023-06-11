@@ -12,6 +12,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Jhipster.Domain.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Jhipster.Domain;
+using LanguageExt;
 
 namespace Jhipster.Security.Jwt
 {
@@ -29,7 +32,7 @@ namespace Jhipster.Security.Jwt
         private readonly SecuritySettings _securitySettings;
 
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
-
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<TokenProvider> _log;
 
         private SigningCredentials _key;
@@ -39,11 +42,12 @@ namespace Jhipster.Security.Jwt
         private long _tokenValidityInSecondsForRememberMe;
 
 
-        public TokenProvider(ILogger<TokenProvider> log, IOptions<SecuritySettings> securitySettings)
+        public TokenProvider(ILogger<TokenProvider> log, IOptions<SecuritySettings> securitySettings, UserManager<User> userManager)
         {
             _log = log;
             _securitySettings = securitySettings.Value;
             _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            _userManager = userManager;
             Init();
         }
 
@@ -51,9 +55,14 @@ namespace Jhipster.Security.Jwt
         {
             var roles = GetRoles(principal);
 
-            var authValue = string.Join(",",roles.Map(it => it.Value));
+            var authValue = string.Join(",", roles.Map(it => it.Value));
 
-            var subject = CreateSubject(principal);
+            var id = principal is ClaimsPrincipal user
+             ? user.FindFirst(it => it.Type == ClaimTypes.NameIdentifier)?.Value
+             : string.Empty;
+
+            var fullName = await GetFullName(id);
+            var subject = CreateSubject(principal, fullName);
             var validity =
                 DateTime.UtcNow.AddSeconds(rememberMe
                     ? _tokenValidityInSecondsForRememberMe
@@ -113,10 +122,9 @@ namespace Jhipster.Security.Jwt
                 _securitySettings.Authentication.Jwt.TokenValidityInSecondsForRememberMe;
         }
 
-        private static ClaimsIdentity CreateSubject(IPrincipal principal)
+        private static ClaimsIdentity CreateSubject(IPrincipal principal, string fullName)
         {
             var username = principal.Identity.Name;
-
             var userid = principal is ClaimsPrincipal user
               ? user.FindFirst(it => it.Type == ClaimTypes.NameIdentifier)?.Value
               : string.Empty;
@@ -124,9 +132,9 @@ namespace Jhipster.Security.Jwt
             var roles = GetRoles(principal);
             var authValue = string.Join(",", roles.Map(it => it.Value));
             return new ClaimsIdentity(new[] {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Sub, fullName),
                 new Claim(AuthoritiesKey, authValue),
-                new Claim(JwtRegisteredClaimNames.Sid,userid)
+                new Claim(JwtRegisteredClaimNames.Sid,userid),
             });
         }
 
@@ -137,5 +145,9 @@ namespace Jhipster.Security.Jwt
                 : Enumerable.Empty<Claim>();
         }
 
+        public async Task<string> GetFullName(string userId)
+        {
+            return await _userManager.FindByIdAsync(userId).Select(i => i.FirstName);
+        }
     }
 }

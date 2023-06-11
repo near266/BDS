@@ -541,7 +541,7 @@ namespace Post.Controller
 
         /// <summary>
         /// Thay đổi trạng thái ở màn quản lý bài đăng (postType = 0 : Tin MUA, postType = 1 : Tin BÁN, 
-        /// statusType = 0 : Hạ tin, statusType = 1 : Đẩy tin, statusType = 2 : Đăng lại )
+        /// statusType = 0 : Hạ tin, statusType = 1 : Đẩy tin, statusType = 2 : Đăng lại - Tin mua/statusType = 2: đã bán - tin bán, status = 3: đã mua ) 
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
