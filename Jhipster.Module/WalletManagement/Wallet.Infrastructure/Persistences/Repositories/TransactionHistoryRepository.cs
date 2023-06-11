@@ -62,13 +62,41 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             }).ToList();
             foreach (var item in res)
             {
-                if (item.TransactionHistory.Type != 1)
+                if (item.TransactionHistory.Type != 1 )
                 {
                     item.TransactionHistory.Status = "Up";
+                    if(item.TransactionHistory.WalletType==0)
+                    {
+                        item.wallet.IsVolatility = true;
+                        item.wallet.Status = "Up";
+                        item.walletPromotional.IsVolatility = false;
+                    }    
+                    else if(item.TransactionHistory.WalletType==1)
+                    {
+                        item.walletPromotional.Status = "Up";
+                        item.walletPromotional.IsVolatility= true;
+                        item.wallet.IsVolatility = false;
+
+                    }
+
+
                 }
                 else
                 {
                     item.TransactionHistory.Status = "Down";
+                    if (item.TransactionHistory.WalletType == 0)
+                    {
+                        item.wallet.IsVolatility = true;
+                        item.wallet.Status = "Down";
+                        item.walletPromotional.IsVolatility = false;
+                    }
+                    else if (item.TransactionHistory.WalletType == 1)
+                    {
+                        item.walletPromotional.Status = "Down";
+                        item.walletPromotional.IsVolatility = true;
+                        item.wallet.IsVolatility = false;
+
+                    }
                 }
 
             }
