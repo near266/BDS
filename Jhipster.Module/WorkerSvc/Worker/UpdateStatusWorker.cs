@@ -48,7 +48,7 @@ namespace Worker
                     {
                         try
                         {
-                            await _repository.UpdateStatus(item.Id, 4);
+                            await _repository.UpdateStatus(item.Id, 5);
 
                         }
                         catch (Exception ex)
