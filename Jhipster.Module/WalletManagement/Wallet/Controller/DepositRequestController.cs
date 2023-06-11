@@ -36,7 +36,7 @@ namespace Wallet.Controller
         }
         private string? GetUsernameFromContext()
         {
-            return User.FindFirst(ClaimsTypeConst.Username)?.Value;
+            return User.FindFirst(ClaimsTypeConst.Name)?.Value;
         }
         public DepositRequestController(IMediator mediator, ILogger<DepositRequestController> logger, IMapper mapper)
         {

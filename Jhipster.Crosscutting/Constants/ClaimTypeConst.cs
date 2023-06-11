@@ -11,5 +11,6 @@ namespace Jhipster.Crosscutting.Constants
         public const string Username = "sub";
         public const string Id = "sid";
         public const string Role = "auth";
+        public const string Name = "name";
     }
 }

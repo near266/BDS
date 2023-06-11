@@ -132,9 +132,10 @@ namespace Jhipster.Security.Jwt
             var roles = GetRoles(principal);
             var authValue = string.Join(",", roles.Map(it => it.Value));
             return new ClaimsIdentity(new[] {
-                new Claim(JwtRegisteredClaimNames.Sub, fullName),
+                new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(AuthoritiesKey, authValue),
                 new Claim(JwtRegisteredClaimNames.Sid,userid),
+                new Claim(JwtRegisteredClaimNames.Name,fullName)
             });
         }
 
