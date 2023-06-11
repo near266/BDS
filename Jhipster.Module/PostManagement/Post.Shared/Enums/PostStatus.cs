@@ -19,6 +19,9 @@ namespace Post.Shared.Enums
         UnApproved = 0,
         Rejected = 2,
         Sold = 3,
-        Down = 4
+        Down = 4,
+        OffDate = 5,
+        Bought = 6,
+
     }
 }
