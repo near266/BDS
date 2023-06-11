@@ -36,6 +36,11 @@ namespace Wallet.Application.Configurations.Mapper
             CreateMap<DepositRequest, AddDepositRequestC>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
 
             #endregion
+            #region Transaction
+            CreateMap<TransactionHistoryDTO, TransactionHistory>().ReverseMap()
+                .ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+
+            #endregion
         }
     }
 }
