@@ -14,7 +14,7 @@ using System.Reflection;
 using Serilog;
 using Wallet;
 using Post;
-
+using Worker;
 
 [assembly: ApiController]
 
@@ -84,7 +84,7 @@ namespace Jhipster
 
             services.AddWalletModule(Configuration);
             services.AddPostModule(Configuration);
-
+            services.AddWorkerSale(Configuration);
         }
 
     }
