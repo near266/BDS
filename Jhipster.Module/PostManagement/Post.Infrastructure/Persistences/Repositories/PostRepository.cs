@@ -996,6 +996,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             //statusType : 0-Hạ Tin, 1-Đẩy tin, 2-Đăng lại
             if (postType == 0)
             {
+                // 3: đã mua
                 var post = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == postId);
                 if (post == null) throw new ArgumentException("Can not find post");
                 switch (statusType)
@@ -1012,12 +1013,16 @@ namespace Post.Infrastructure.Persistences.Repositories
                             post.Status = (int)PostStatus.UnApproved;
                         }
                         break;
+                    case 3:
+                        post.Status = (int)PostStatus.Bought;   
+                        break;
                 }
                 post.LastModifiedDate = lastModifiedDate;
                 post.LastModifiedBy = lastModifiedBy;
             }
             else
             {
+                //2 : đã bán
                 var salePost = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
                 if (salePost == null) throw new ArgumentException("Can not find post");
                 switch (statusType)
@@ -1027,6 +1032,9 @@ namespace Post.Infrastructure.Persistences.Repositories
                         break;
                     case 1:
                         salePost.Order = DateTime.UtcNow;
+                        break;
+                    case 2:
+                        salePost.Status = (int)PostStatus.Sold;
                         break;
                 }
                 salePost.LastModifiedDate = lastModifiedDate;
