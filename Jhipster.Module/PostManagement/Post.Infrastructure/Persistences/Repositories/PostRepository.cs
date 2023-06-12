@@ -264,9 +264,9 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     var Deduct = (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate) - AmountPromotion;
                     await SubtractMoneyPromotional(rq.Id, AmountPromotion, cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numofDate, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
+                    await SaveHistory((double)AmountPromotion, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                     await SubtractMoney(rq.Id, Deduct, cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numofDate, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
+                    await SaveHistory((double)Deduct, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                 }    
             }
             else if (rq.Type == (int)PostType.Golden)
@@ -281,9 +281,9 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     var Deduct = (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate) - AmountPromotion;
                     await SubtractMoneyPromotional(rq.Id, AmountPromotion, cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numofDate, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
+                    await SaveHistory((double)AmountPromotion, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                     await SubtractMoney(rq.Id, Deduct, cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numofDate, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
+                    await SaveHistory((double)Deduct, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                 }
             }
             else if (rq.Type == (int)PostType.Vip)
@@ -298,9 +298,9 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     var Deduct = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate) - AmountPromotion;
                     await SubtractMoneyPromotional(rq.Id, AmountPromotion, cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numofDate, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
+                    await SaveHistory((double)AmountPromotion, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                     await SubtractMoney(rq.Id, Deduct, cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numofDate, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
+                    await SaveHistory((double)Deduct, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                 }
             }
             return res;
