@@ -189,6 +189,15 @@ namespace Jhipster.Domain.Services
                     if (!removed) throw new EmailAlreadyUsedException();
                 }
 
+            }if (!string.IsNullOrEmpty(userToRegister.PhoneNumber))
+            {
+                existingUser = _userManager.Users.FirstOrDefault(it => it.PhoneNumber == userToRegister.PhoneNumber);
+                if (existingUser != null)
+                {
+                    var removed = await RemoveNonActivatedUser(existingUser);
+                    if (!removed) throw new PhoneNumberAlreadyUsedException();
+                }
+
             }
             //if (!string.IsNullOrEmpty(userToRegister.ReferralCode))
             //{

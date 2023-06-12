@@ -10,6 +10,7 @@ namespace Jhipster.Crosscutting.Constants
         public static readonly string EntityNotFoundType = $"{ProblemBaseUrl}/entity-not-found";
         public static readonly string InvalidPasswordType = $"{ProblemBaseUrl}/invalid-password";
         public static readonly string EmailAlreadyUsedType = $"{ProblemBaseUrl}/email-already-used";
+        public static readonly string PhoneNumberAlreadyUsedType = $"{ProblemBaseUrl}/phonenumber-already-used";
         public static readonly string LoginAlreadyUsedType = $"{ProblemBaseUrl}/login-already-used";
         public static readonly string EmailNotFoundType = $"{ProblemBaseUrl}/email-not-found";
     }
