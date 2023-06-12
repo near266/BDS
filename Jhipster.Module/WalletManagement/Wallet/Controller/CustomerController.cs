@@ -52,7 +52,7 @@ namespace Wallet.Controller
         }
         private string? GetUsernameFromContext()
         {
-            return User.FindFirst(ClaimsTypeConst.Username)?.Value;
+            return User.FindFirst(ClaimsTypeConst.Name)?.Value;
         }
 
         /// <summary>

@@ -66,7 +66,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<int> Update(WalletEntity Wallet, CancellationToken cancellation)
         {
-            var res = await _context.Wallets.FirstOrDefaultAsync(u => u.Id == Wallet.Id);
+            var res = await _context.Wallets.FirstOrDefaultAsync(u => u.CustomerId == Wallet.CustomerId);
             if (res == null) throw new ArgumentException("wallet not found");
             res.Currency = "VND";
             res.CustomerId = Wallet.CustomerId;

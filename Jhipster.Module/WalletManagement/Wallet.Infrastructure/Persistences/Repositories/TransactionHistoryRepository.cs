@@ -34,15 +34,15 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         public async Task<PagedList<SearchTransactionResponse>> Search(string? userid, int? type, DateTime? from, DateTime? to, int Page, int PageSize)
         {
             var query = _context.TransactionHistorys.AsQueryable();
-            if(type != null)
+            if (type != null)
             {
                 query = query.Where(x => x.Type == type);
             }
-            if(from != null && to != null)
+            if (from != null && to != null)
             {
                 query = query.Where(i => i.CreatedDate >= from && i.CreatedDate <= to);
             }
-            if(userid != null)
+            if (userid != null)
             {
                 query = query.Where(i => i.CustomerId == Guid.Parse(userid));
             }
@@ -52,15 +52,54 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                                 .Take(PageSize)
                                 .ToListAsync();
             var reslist = await sQuery.ToListAsync();
-                
-            var listId = sQuery1.Select(i => i.CustomerId).ToList();
-            var res = listId.Select(item => new SearchTransactionResponse
-            {
-                TransactionHistory = _context.TransactionHistorys.FirstOrDefault(x => x.CustomerId == item),
-                wallet = _mapper.Map<WalletDto>(_context.Wallets.FirstOrDefault(i => i.CustomerId == item)),
-                walletPromotional = _mapper.Map<WalletPromotionalDto>(_context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item))
-            }).ToList();
 
+            //var listId = sQuery1.Select(i => i.CustomerId).ToList();
+            var res = reslist.Select(item => new SearchTransactionResponse
+            {
+                TransactionHistory = _mapper.Map<TransactionHistoryDTO>(_context.TransactionHistorys.FirstOrDefault(x => x.Id == item.Id)),
+                wallet = _mapper.Map<WalletDto>(_context.Wallets.FirstOrDefault(i => i.CustomerId == item.CustomerId)),
+                walletPromotional = _mapper.Map<WalletPromotionalDto>(_context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId))
+            }).ToList();
+            foreach (var item in res)
+            {
+                if (item.TransactionHistory.Type != 1 )
+                {
+                    item.TransactionHistory.Status = "Up";
+                    if(item.TransactionHistory.WalletType==0)
+                    {
+                        item.wallet.IsVolatility = true;
+                        item.wallet.Status = "Up";
+                        item.walletPromotional.IsVolatility = false;
+                    }    
+                    else if(item.TransactionHistory.WalletType==1)
+                    {
+                        item.walletPromotional.Status = "Up";
+                        item.walletPromotional.IsVolatility= true;
+                        item.wallet.IsVolatility = false;
+
+                    }
+
+
+                }
+                else
+                {
+                    item.TransactionHistory.Status = "Down";
+                    if (item.TransactionHistory.WalletType == 0)
+                    {
+                        item.wallet.IsVolatility = true;
+                        item.wallet.Status = "Down";
+                        item.walletPromotional.IsVolatility = false;
+                    }
+                    else if (item.TransactionHistory.WalletType == 1)
+                    {
+                        item.walletPromotional.Status = "Down";
+                        item.walletPromotional.IsVolatility = true;
+                        item.wallet.IsVolatility = false;
+
+                    }
+                }
+
+            }
 
             return new PagedList<SearchTransactionResponse>
             {

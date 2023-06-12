@@ -21,8 +21,8 @@ namespace Post.Application.Contracts
 
         #region SalePost
         Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken);
-        Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken);
-        Task<int> RepostSalePost(string? postId, int type, double numberofDate,CancellationToken cancellationToken);
+        Task<int> UpdateSalePost(SalePost rq, double? numberOfDate, CancellationToken cancellationToken);
+        Task<int> RepostSalePost(string? postId, int type, double numberofDate, CancellationToken cancellationToken);
         Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken);
         Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize);
         Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
@@ -49,7 +49,7 @@ namespace Post.Application.Contracts
         Task<int> DeleteWard(List<string> Id, CancellationToken cancellationToken);
         //Task<PagedList<Ward>> GetShowingWard(string? districtId, string? name, int Page, int PageSize);
         Task<PagedList<Ward>> SearchWard(string? districtId, string? name, int Page, int PageSize);
-        Task<List<Ward>> SearchWardByDistrict(string? districtId,string? name);
+        Task<List<Ward>> SearchWardByDistrict(string? districtId, string? name);
         #endregion
 
         #region Admin
@@ -57,8 +57,8 @@ namespace Post.Application.Contracts
         #endregion
 
         #region Other
-        Task<bool> CheckBalance(string userId, int type);
-        Task<bool> CheckBalancePromotional(string userId, int type);
+        Task<bool> CheckBalance(string userId, int type, double? num);
+        Task<bool> CheckBalancePromotional(string userId, int type, double? num);
         Task SubtractMoney(string? postid, decimal amount, CancellationToken cancellationToken);
         Task SubtractMoneyPromotional(string? postid, decimal amount, CancellationToken cancellationToken);
         Task ReturnMoney(string? postid, decimal amount, int type, CancellationToken cancellationToken);
@@ -66,7 +66,7 @@ namespace Post.Application.Contracts
         Task<List<PostDto>> GetAllRegion(int? type);
         Task<List<StatusDto>> GetAllStatus(int? type, string userId);
         Task<int> ChangeStatus(string postId, int postType, int statusType, DateTime? lastModifiedDate, string? lastModifiedBy, CancellationToken cancellationToken);
-        Task SaveHistory(double? amount, int? walletType, Guid? cusId, string? type, CancellationToken cancellationToken);
+        Task SaveHistory(double? amount, int? walletType, Guid? cusId, int? type, string? moneyType, CancellationToken cancellationToken);
 
         #endregion
     }

@@ -140,7 +140,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 if (toPrice > 0)
                 {
-                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price <= toPrice));
+                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price < toPrice));
                 }
                 else
                 {
@@ -241,12 +241,12 @@ namespace Post.Infrastructure.Persistences.Repositories
                 if (isEnoughWalletPro == true)
                 {
                     await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numofDate, 1, Guid.Parse(rq.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numofDate, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                 }
                 else if (isEnoughWalletPro == false && isEnoughWallet == true)
                 {
                     await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numofDate, 0, Guid.Parse(rq.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numofDate, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                 }
             }
             else if (rq.Type == (int)PostType.Golden)
@@ -254,12 +254,12 @@ namespace Post.Infrastructure.Persistences.Repositories
                 if (isEnoughWalletPro == true)
                 {
                     await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numofDate, 1, Guid.Parse(rq.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numofDate, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                 }
                 else if (isEnoughWalletPro == false && isEnoughWallet == true)
                 {
                     await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numofDate, 0, Guid.Parse(rq.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numofDate, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                 }
             }
             else if (rq.Type == (int)PostType.Vip)
@@ -267,12 +267,12 @@ namespace Post.Infrastructure.Persistences.Repositories
                 if (isEnoughWalletPro == true)
                 {
                     await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numofDate, 1, Guid.Parse(rq.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numofDate, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                 }
                 else if (isEnoughWalletPro == false && isEnoughWallet == true)
                 {
                     await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numofDate, 0, Guid.Parse(rq.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numofDate, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                 }
             }
             return res;
@@ -281,67 +281,66 @@ namespace Post.Infrastructure.Persistences.Repositories
         {
             var post = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
             if (post == null) throw new ArgumentException("No post found !!!");
-           
 
-            var check = await CheckBalancePromotional(post.UserId, post.Type);// tru tien vi km
-            var check1 = await CheckBalance(post.UserId, post.Type); // tru tien vi chinh
+
+            var check = await CheckBalancePromotional(post.UserId, post.Type, numberofDate);// tru tien vi km
+            var check1 = await CheckBalance(post.UserId, post.Type, numberofDate); // tru tien vi chinh
             if (!check && !check1) throw new ArgumentException("Not enough money");
             if (type == (int)PostType.Normal)
             {
-                if (check == true)
+                if (check)
                 {
                     await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), 1, "Trừ tiền", cancellationToken);
                 }
-                else if (check == false && check1 == true)
+                else if (!check && check1)
                 {
                     await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), 1, "Trừ tiền", cancellationToken);
                 }
                 post.Status = (int)PostStatus.UnApproved;
             }
             else if (type == (int)PostType.Golden)
             {
-                if (check == true)
+                if (check)
                 {
                     await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), 1, "Trừ tiền", cancellationToken);
                 }
-                else if (check == false && check1 == true)
+                else if (!check && check1)
                 {
                     await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), 1, "Trừ tiền", cancellationToken);
                 }
                 post.Status = (int)PostStatus.Showing;
             }
             else if (type == (int)PostType.Vip)
             {
-                if (check == true)
+                if (check)
                 {
                     await SubtractMoneyPromotional(postId, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), 1, "Trừ tiền", cancellationToken);
                 }
-                else if (check == false && check1 == true)
+                else if (!check && check1)
                 {
                     await SubtractMoney(postId, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate), cancellationToken);
-                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), "Trừ tiền", cancellationToken);
+                    await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), 1, "Trừ tiền", cancellationToken);
                 }
                 post.Status = (int)PostStatus.Showing;
             }
-            post.Order = DateTime.UtcNow;
             post.Type = type;
             post.DueDate = post.DueDate.Value.AddDays(numberofDate);
             var res = await _context.SaveChangesAsync(cancellationToken);
             return res;
         }
 
-        public async Task SaveHistory(double? amount, int? walletType, Guid? cusId, string? type, CancellationToken cancellationToken)
+        public async Task SaveHistory(double? amount, int? walletType, Guid? cusId, int? type, string? moneyType, CancellationToken cancellationToken)
         {
             var his = new TransactionHistory()
             {
                 Id = Guid.NewGuid(),
-                Type = 1,
-                Content = type,
+                Type = type,
+                Content = moneyType,
                 TransactionAmount = amount,
                 WalletType = walletType,
                 CustomerId = cusId,
@@ -480,7 +479,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 if (toPrice > 0)
                 {
-                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price <= toPrice));
+                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price < toPrice));
                 }
                 else
                 {
@@ -517,7 +516,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 TotalCount = reslist.Count,
             };
         }
-        public async Task<int> UpdateSalePost(SalePost rq, CancellationToken cancellationToken)
+        public async Task<int> UpdateSalePost(SalePost rq, double? numberOfDate, CancellationToken cancellationToken)
         {
             var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
             if (check == null) throw new ArgumentException("Can not find!");
@@ -527,6 +526,57 @@ namespace Post.Infrastructure.Persistences.Repositories
                 check.Status = rq.Status;
                 check.Type = rq.Type;
                 check.Price = rq.Price;
+
+
+
+                bool checkWP = await CheckBalancePromotional(check.UserId, rq.Type, numberOfDate);// tru tien vi km
+                bool checkW = await CheckBalance(check.UserId, rq.Type, numberOfDate); // tru tien vi chinh
+                if (!checkW && !checkWP) throw new ArgumentException("Not enough money");
+                if (rq.Type == (int)PostType.Normal)
+                {
+                    if (checkWP)
+                    {
+                        await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberOfDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberOfDate, 1, Guid.Parse(check.UserId), 1, "Trừ tiền", cancellationToken);
+                    }
+                    else if (!checkWP && checkW)
+                    {
+                        await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numberOfDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numberOfDate, 0, Guid.Parse(check.UserId), 1, "Trừ tiền", cancellationToken);
+                    }
+                    check.Status = (int)PostStatus.UnApproved;
+                }
+                else if (rq.Type == (int)PostType.Golden)
+                {
+                    if (checkWP)
+                    {
+                        await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberOfDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberOfDate, 1, Guid.Parse(check.UserId), 1, "Trừ tiền", cancellationToken);
+                    }
+                    else if (!checkWP && checkW)
+                    {
+                        await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numberOfDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:Vip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, "Trừ tiền", cancellationToken);
+                    }
+                    check.Status = (int)PostStatus.Showing;
+                }
+                else if (rq.Type == (int)PostType.Vip)
+                {
+                    if (checkWP)
+                    {
+                        await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberOfDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 1, Guid.Parse(check.UserId), 1, "Trừ tiền", cancellationToken);
+                    }
+                    else if (!checkWP && checkW)
+                    {
+                        await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberOfDate), cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, "Trừ tiền", cancellationToken);
+                    }
+                    rq.Status = (int)PostStatus.Showing;
+                }
+
+                check.DueDate = check.DueDate.Value.AddDays((double)numberOfDate);
+
                 return await _context.SaveChangesAsync(cancellationToken);
             }
         }
@@ -582,19 +632,9 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     if (status == (int)PostStatus.Rejected)
                     {
-                        var check = await CheckBalancePromotional(item2.UserId, (int)PostType.Normal);
                         var dif = (item2.DueDate - item2.CreatedDate).Value.TotalDays;
-                        if (check)
-                        {
-                            await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
-                            await SaveHistory(_configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId), "Hoàn tiền", cancellationToken);
-
-                        }
-                        else
-                        {
-                            await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 1, cancellationToken);
-                            await SaveHistory(_configuration.GetValue<int>("Price:Normal") * dif, 1, Guid.Parse(item2.UserId), "Hoàn tiền", cancellationToken);
-                        }
+                        await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
+                        await SaveHistory(_configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId), 2, "Hoàn tiền", cancellationToken);
                     }
                 }
                 return result;
@@ -638,14 +678,29 @@ namespace Post.Infrastructure.Persistences.Repositories
                 await _wcontext.SaveChangesAsync(cancellationToken);
             }
         }
-        public async Task<bool> CheckBalance(string userId, int type)
+        public async Task<bool> CheckBalance(string userId, int type, double? num)
         {
             var check = false;
             var user = await _wcontext.Wallets.FirstOrDefaultAsync(i => i.CustomerId.ToString() == userId);
             if (user == null) throw new ArgumentException("User Not Found !!!");
-            var normalPrice = _configuration.GetValue<int>("Price:Normal");
-            var vipPrice = _configuration.GetValue<int>("Price:Vip");
-            var superVipPrice = _configuration.GetValue<int>("Price:SuperVip");
+
+            int normalPrice = 0;
+            int vipPrice = 0;
+            int superVipPrice = 0;
+
+            if (num > 0)
+            {
+                normalPrice = (int)(_configuration.GetValue<int>("Price:Normal") * num);
+                vipPrice = (int)(_configuration.GetValue<int>("Price:Vip") * num);
+                superVipPrice = (int)(_configuration.GetValue<int>("Price:SuperVip") * num);
+            }
+            else
+            {
+                normalPrice = _configuration.GetValue<int>("Price:Normal");
+                vipPrice = _configuration.GetValue<int>("Price:Vip");
+                superVipPrice = _configuration.GetValue<int>("Price:SuperVip");
+            }
+
 
             if (type == (int)PostType.Normal && user.Amount > 0 && user.Amount > normalPrice)
             {
@@ -674,15 +729,28 @@ namespace Post.Infrastructure.Persistences.Repositories
                 await _wcontext.SaveChangesAsync(cancellationToken);
             }
         }
-        public async Task<bool> CheckBalancePromotional(string userId, int type)
+        public async Task<bool> CheckBalancePromotional(string userId, int type, double? num)
         {
             var check = false;
             var user = await _wcontext.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId.ToString() == userId);
             if (user == null) throw new ArgumentException("User Not Found !!!");
 
-            var normalPrice = _configuration.GetValue<int>("Price:Normal");
-            var vipPrice = _configuration.GetValue<int>("Price:Vip");
-            var superVipPrice = _configuration.GetValue<int>("Price:SuperVip");
+            int normalPrice = 0;
+            int vipPrice = 0;
+            int superVipPrice = 0;
+
+            if (num > 0)
+            {
+                normalPrice = (int)(_configuration.GetValue<int>("Price:Normal") * num);
+                vipPrice = (int)(_configuration.GetValue<int>("Price:Vip") * num);
+                superVipPrice = (int)(_configuration.GetValue<int>("Price:SuperVip") * num);
+            }
+            else
+            {
+                normalPrice = _configuration.GetValue<int>("Price:Normal");
+                vipPrice = _configuration.GetValue<int>("Price:Vip");
+                superVipPrice = _configuration.GetValue<int>("Price:SuperVip");
+            }
 
             if (type == (int)PostType.Normal && user.Amount > 0 && user.Amount > normalPrice)
             {
@@ -883,7 +951,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
 
         }
-        public async Task<List<Ward>> SearchWardByDistrict(string? districtId,string? name)
+        public async Task<List<Ward>> SearchWardByDistrict(string? districtId, string? name)
         {
             var query = _context.Wards.AsQueryable();
             if (name != null)
@@ -933,6 +1001,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             //statusType : 0-Hạ Tin, 1-Đẩy tin, 2-Đăng lại
             if (postType == 0)
             {
+                // 3: đã mua
                 var post = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == postId);
                 if (post == null) throw new ArgumentException("Can not find post");
                 switch (statusType)
@@ -949,12 +1018,16 @@ namespace Post.Infrastructure.Persistences.Repositories
                             post.Status = (int)PostStatus.UnApproved;
                         }
                         break;
+                    case 3:
+                        post.Status = (int)PostStatus.Bought;   
+                        break;
                 }
                 post.LastModifiedDate = lastModifiedDate;
                 post.LastModifiedBy = lastModifiedBy;
             }
             else
             {
+                //2 : đã bán
                 var salePost = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
                 if (salePost == null) throw new ArgumentException("Can not find post");
                 switch (statusType)
@@ -966,24 +1039,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         salePost.Order = DateTime.UtcNow;
                         break;
                     case 2:
-                        var checkp = await CheckBalancePromotional(salePost.UserId, salePost.Type);
-                        var check = await CheckBalance(salePost.UserId, salePost.Type);
-                        if (!checkp && !check) throw new ArgumentException("Not enough money");
-                        var dif = (salePost.DueDate - salePost.CreatedDate).Value.TotalDays;
-                        salePost.DueDate = salePost.DueDate.Value.AddDays(dif);
-                        salePost.Status = (int)PostStatus.Showing;
-                        string pt = "";
-                        if (salePost.Type == (int)PostType.Normal) pt = "Price:Normal";
-                        else if (salePost.Type == (int)PostType.Golden) pt = "Price:Vip";
-                        else if (salePost.Type == (int)PostType.Vip) pt = "Price:SuperVip";
-                        if (checkp)
-                        {
-                            await SubtractMoneyPromotional(salePost.Id, (decimal)(_configuration.GetValue<int>(pt) * dif), cancellationToken);
-                        }
-                        else
-                        {
-                            await SubtractMoney(salePost.Id, (decimal)(_configuration.GetValue<int>(pt) * dif), cancellationToken);
-                        }
+                        salePost.Status = (int)PostStatus.Sold;
                         break;
                 }
                 salePost.LastModifiedDate = lastModifiedDate;
@@ -992,6 +1048,6 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        
+
     }
 }

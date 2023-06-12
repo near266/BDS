@@ -26,6 +26,9 @@ namespace Wallet.Application.DTO
         public Guid Id { get; set; }
         public decimal Amount { get; set; }
         public string? Currency { get; set; }
+        public string? Status { get; set; }
+        public bool? IsVolatility { get; set; }
+
     }
 
     public class WalletDto
@@ -33,6 +36,9 @@ namespace Wallet.Application.DTO
         public Guid Id { get; set; }
         public decimal Amount { get; set; }
         public string? Currency { get; set; }
+        public string? Status { get; set; }
+        public bool? IsVolatility { get; set; }
+
     }
     public class DetailCusDTO
     {
