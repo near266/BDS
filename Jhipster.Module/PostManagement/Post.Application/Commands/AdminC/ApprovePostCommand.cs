@@ -15,10 +15,13 @@ namespace Post.Application.Commands.AdminC
         public List<string> listId { get; set; }
         public int status { get; set; }
         public string? reason { get; set; }
+
         [JsonIgnore]
         public DateTime? LastModifiedDate { get; set; }
         [JsonIgnore]
         public string? LastModifiedBy { get; set; }
+        
+
     }
     public class ApprovePostCommandHandler : IRequestHandler<ApprovePostCommand, int>
     {

@@ -66,7 +66,7 @@ namespace Post.Application.Contracts
         Task<bool> CheckTitle(string title, string userid);
         Task<List<PostDto>> GetAllRegion(int? type);
         Task<List<StatusDto>> GetAllStatus(int? type, string userId);
-        Task<int> ChangeStatus(string postId, int postType, int statusType, DateTime? lastModifiedDate, string? lastModifiedBy, CancellationToken cancellationToken);
+        Task<int> ChangeStatus(string postId, int postType, int statusType, DateTime? lastModifiedDate, string? lastModifiedBy,CancellationToken cancellationToken);
         Task SaveHistory(double? amount, int? walletType, Guid? cusId, int? type, string? moneyType, CancellationToken cancellationToken);
 
         #endregion

@@ -15,6 +15,7 @@ namespace Post.Application.Commands.CommonC
         public string PostId { get; set; }
         public int PostType { get; set; }
         public int StatusType { get; set; }
+
         [JsonIgnore]
         public DateTime? LastModifiedDate { get; set; }
         [JsonIgnore]
@@ -31,7 +32,7 @@ namespace Post.Application.Commands.CommonC
         }
         public async Task<int> Handle(ChangeStatusCommand request, CancellationToken cancellationToken)
         {
-            return await _repository.ChangeStatus(request.PostId, request.PostType, request.StatusType,request.LastModifiedDate,request.LastModifiedBy, cancellationToken);
+            return await _repository.ChangeStatus(request.PostId, request.PostType, request.StatusType,request.LastModifiedDate, request.LastModifiedBy,cancellationToken);
         }
     }
 }

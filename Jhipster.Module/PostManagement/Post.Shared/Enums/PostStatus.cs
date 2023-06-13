@@ -14,6 +14,10 @@ namespace Post.Shared.Enums
             2 : Từ chối
             3 : Đã bán
             4 : Hạ
+            5 : Hết hạn
+            6 : Đã mua
+
+            
        */
         Showing = 1,
         UnApproved = 0,

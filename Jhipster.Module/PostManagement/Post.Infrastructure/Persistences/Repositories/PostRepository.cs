@@ -642,6 +642,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     item.Reason = reason;
                     item.LastModifiedDate = modifiedDate;
                     item.LastModifiedBy = modifiedBy;
+                    item.ApprovalDate = DateTime.Now;
                 }
 
                 return await _context.SaveChangesAsync(cancellationToken);
@@ -655,6 +656,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     item.Reason = reason;
                     item.LastModifiedDate = modifiedDate;
                     item.LastModifiedBy = modifiedBy;
+                    item.ApprovalDate = DateTime.Now;
                 }
                 var result = await _context.SaveChangesAsync(cancellationToken);
                 foreach (var item2 in res)
@@ -1091,6 +1093,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         break;
                     case 3:
                         post.Status = (int)PostStatus.Bought;
+                        post.ChangeDate = DateTime.Now;
                         break;
                 }
                 post.LastModifiedDate = lastModifiedDate;
@@ -1111,6 +1114,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         break;
                     case 2:
                         salePost.Status = (int)PostStatus.Sold;
+                        salePost.ChangeDate = DateTime.Now;
                         break;
                 }
                 salePost.LastModifiedDate = lastModifiedDate;
