@@ -356,6 +356,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 }
                 post.Status = (int)PostStatus.Showing;
             }
+            post.Order = DateTime.Now;
             post.Type = type;
             post.DueDate = post.DueDate.Value.AddDays(numberofDate);
             var res = await _context.SaveChangesAsync(cancellationToken);
