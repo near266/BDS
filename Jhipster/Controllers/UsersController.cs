@@ -31,6 +31,8 @@ using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
 using Jhipster.Domain.Entities;
 using LanguageExt.Pipes;
+using Jhipster.Crosscutting.Utilities;
+using Wallet.Application.Queries.CustomerQ;
 
 namespace Jhipster.Controllers
 {
@@ -86,6 +88,8 @@ namespace Jhipster.Controllers
             try
             {
                 var customer = _mapper.Map<AddCustomerCommand>(userDto);
+                var maxCode = await _mediator.Send(new GetMaxCodeQuery());
+                customer.CustomerCode = CodeGenerator.GenerateCode(maxCode);
                 customer.Id = Guid.Parse(newUser.Id);
                 customer.CreatedDate = DateTime.Now;
                 customer.Avatar = newUser.ImageUrl;

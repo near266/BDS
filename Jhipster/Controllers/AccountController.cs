@@ -25,6 +25,7 @@ using Microsoft.Extensions.Configuration;
 using Jhipster.Infrastructure.Data;
 using Wallet.Application.Queries.CustomerQ;
 using RestSharp;
+using Jhipster.Crosscutting.Utilities;
 
 namespace Jhipster.Controllers
 {
@@ -70,7 +71,9 @@ namespace Jhipster.Controllers
             try
             {
                 var customer = _userMapper.Map<AddCustomerCommand>(managedUserDto);
+                var maxCode = await _mediator.Send(new GetMaxCodeQuery());
                 customer.Id = Guid.Parse(user.Id);
+                customer.CustomerCode = CodeGenerator.GenerateCode(maxCode);
                 customer.CreatedDate = DateTime.Now;
                 customer.Avatar = user.ImageUrl;
                 customer.Status = true;

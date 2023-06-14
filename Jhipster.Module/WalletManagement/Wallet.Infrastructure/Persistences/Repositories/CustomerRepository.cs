@@ -61,6 +61,8 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             return map;
         }
 
+        
+
         public async Task<SearchCustomerReponse> Search(string? keyword, string? phone, bool? isUnique, int page, int pagesize)
         {
             var query = _context.Customers.AsQueryable();
@@ -110,6 +112,14 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             if (res == null) throw new ArgumentException("Customer not found");
             _mapper.Map(cus, res);
             return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<string> GetMaxCode()
+        {
+            var maxCode = await _context.Customers.OrderByDescending(i => i.CustomerCode).Select(i => i.CustomerCode).FirstOrDefaultAsync();
+            if (maxCode == "" || maxCode == null) maxCode = "HL000000";
+            return maxCode;
+
         }
     }
 }

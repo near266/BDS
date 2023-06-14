@@ -16,5 +16,7 @@ namespace Wallet.Application.Persistences
         Task<int> Delete(List<Guid> Id,CancellationToken cancellationToken);
         Task<DetailCusDTO> GetById (Guid Id);
         Task<SearchCustomerReponse> Search(string? keyword, string? phone, bool? isUnique, int page, int pagesize);
+
+        Task<string> GetMaxCode ();
     }
 }

@@ -44,6 +44,7 @@ namespace Wallet.Application.DTO
     {
         public Guid Id { get; set; }
         public string CustomerName { get; set; }
+        public string CustomerCode { get; set; }
         public string? Address { get; set; }
         public string? Phone { get; set; }
         public string? Company { get; set; }

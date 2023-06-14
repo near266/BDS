@@ -11,6 +11,9 @@ namespace Wallet.Domain.Entities
     {
         [MaxLength(100)]
         public string CustomerName { get; set; }
+
+        public string CustomerCode { get; set; }
+
         [MaxLength(500)]
         public string? Address { get; set; }
         [Phone]
