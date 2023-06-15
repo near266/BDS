@@ -56,11 +56,11 @@ namespace Wallet.Controller
         }
 
         /// <summary>
-        /// [ADMIN] Chỉnh sửa thông tin khách hàng
+        /// Chỉnh sửa thông tin khách hàng
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [Authorize(Roles = RolesConstants.ADMIN)]
+        [Authorize]
         [HttpPut("/customer/update")]
         public async Task<IActionResult> UpdateCustomer([FromBody] UpdateCustomerCommand rq)
         {
