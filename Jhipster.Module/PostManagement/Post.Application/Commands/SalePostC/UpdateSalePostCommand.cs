@@ -33,6 +33,7 @@ namespace Post.Application.Commands.SalePostC
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
         public double? NumberOfDate { get; set; }
+        public string? Reason { get; set; }
         [JsonIgnore]
         public DateTime? LastModifiedDate { get; set; }
         [JsonIgnore]
