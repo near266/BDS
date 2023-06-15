@@ -836,6 +836,46 @@ namespace Post.Controller
                 return StatusCode(500, ex.Message);
             }
         }
+        /// <summary>
+        /// Update Admin Sale
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/sale/updateAdmin")]
+        public async Task<IActionResult> UpdateSalePostAdminC([FromBody] UpdateSalePostAdminC rq)
+        {
+            _logger.LogInformation($"REST request to update admin sale");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to update admin sale fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Update Admin Bought
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/bought/updateAdmin")]
+        public async Task<IActionResult> UpdateBoughtPostAdminC([FromBody] UpdateBoughtPostAdminC rq)
+        {
+            _logger.LogInformation($"REST request to update admin bought");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to update admin bought fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
 

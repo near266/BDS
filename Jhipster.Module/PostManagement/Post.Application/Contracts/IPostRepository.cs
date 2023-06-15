@@ -28,6 +28,9 @@ namespace Post.Application.Contracts
         Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize);
         Task<SalePost> ViewDetailSalePost(string id);
+        Task<int> UpdateSalePostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken);
+        Task<int> UpdateBoughtPostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken);
+
         Task<List<SalePost>> GetRandomSalePost(int Random, string? Region);
 
         #endregion
@@ -66,7 +69,7 @@ namespace Post.Application.Contracts
         Task<bool> CheckTitle(string title, string userid);
         Task<List<PostDto>> GetAllRegion(int? type);
         Task<List<StatusDto>> GetAllStatus(int? type, string userId);
-        Task<int> ChangeStatus(string postId, int postType, int statusType, DateTime? lastModifiedDate, string? lastModifiedBy,CancellationToken cancellationToken);
+        Task<int> ChangeStatus(string postId, int postType, int statusType, DateTime? lastModifiedDate, string? lastModifiedBy, CancellationToken cancellationToken);
         Task SaveHistory(double? amount, int? walletType, Guid? cusId, int? type, string? moneyType, CancellationToken cancellationToken);
 
         #endregion

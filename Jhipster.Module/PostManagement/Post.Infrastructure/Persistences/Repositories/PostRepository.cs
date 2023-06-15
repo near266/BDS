@@ -254,20 +254,20 @@ namespace Post.Infrastructure.Persistences.Repositories
                 //    await SubtractMoney(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate), cancellationToken);
                 //    await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numofDate, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                 //}
-                if(AmountPromotion>0&& AmountPromotion >= (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate))
+                if (AmountPromotion > 0 && AmountPromotion >= (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate))
                 {
-                    
+
                     await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate), cancellationToken);
                     await SaveHistory(_configuration.GetValue<int>("Price:Normal") * numofDate, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
-                }    
-                else if(AmountPromotion>0 && AmountPromotion < (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate))
+                }
+                else if (AmountPromotion > 0 && AmountPromotion < (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate))
                 {
                     var Deduct = (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate) - AmountPromotion;
                     await SubtractMoneyPromotional(rq.Id, AmountPromotion, cancellationToken);
                     await SaveHistory((double)AmountPromotion, 1, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
                     await SubtractMoney(rq.Id, Deduct, cancellationToken);
                     await SaveHistory((double)Deduct, 0, Guid.Parse(rq.UserId), 1, "Trừ tiền", cancellationToken);
-                }    
+                }
             }
             else if (rq.Type == (int)PostType.Golden)
             {
@@ -544,6 +544,32 @@ namespace Post.Infrastructure.Persistences.Repositories
                 Data = sQuery1,
                 TotalCount = reslist.Count,
             };
+        }
+        public async Task<int> UpdateSalePostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken)
+        {
+            var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == Id);
+            if (check != null)
+            {
+                check.Titile = Title != null ? Title : check.Titile;
+                check.Description = Description != null ? Description : check.Description;
+                check.Status = Status != null ? (int)Status : check.Status;
+                check.Image = (Image != null && Image.Count != 0) ? Image : check.Image;
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+            return 0;
+        }
+        public async Task<int> UpdateBoughtPostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken)
+        {
+            var check = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == Id);
+            if (check != null)
+            {
+                check.Titile = Title != null ? Title : check.Titile;
+                check.Description = Description != null ? Description : check.Description;
+                check.Status = Status != null ? (int)Status : check.Status;
+                check.Image = (Image != null && Image.Count != 0) ? Image : check.Image;
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+            return 0;
         }
         public async Task<int> UpdateSalePost(SalePost rq, double? numberOfDate, CancellationToken cancellationToken)
         {
