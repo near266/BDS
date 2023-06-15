@@ -30,6 +30,7 @@ namespace Post.Application.Commands.BoughtPostC
         
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
+        public DateTime? ChangeDate { get; set; }
         [JsonIgnore]
         public DateTime? LastModifiedDate { get; set; }
         [JsonIgnore]
