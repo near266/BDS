@@ -11,7 +11,7 @@ namespace Post.Application.Commands.BoughtPostC
     public class UpdateBoughtPostAdminC : IRequest<int>
     {
         public string Id { get; set; }
-        public string? Title { get; set; }
+        public string? titile { get; set; }
         public string? Description { get; set; }
         public int? Status { get; set; }
         public List<string>? Image { get; set; }
@@ -26,7 +26,7 @@ namespace Post.Application.Commands.BoughtPostC
         }
         public async Task<int> Handle(UpdateBoughtPostAdminC request, CancellationToken cancellationToken)
         {
-            return await _repository.UpdateBoughtPostAdmin(request.Id, request.Title, request.Description, request.Status, request.Image, cancellationToken);
+            return await _repository.UpdateBoughtPostAdmin(request.Id, request.titile, request.Description, request.Status, request.Image, cancellationToken);
         }
     }
 }

@@ -554,6 +554,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 check.Description = Description != null ? Description : check.Description;
                 check.Status = Status != null ? (int)Status : check.Status;
                 check.Image = (Image != null && Image.Count != 0) ? Image : check.Image;
+                check.ChangeDate = DateTime.Now;
                 return await _context.SaveChangesAsync(cancellationToken);
             }
             return 0;
@@ -567,6 +568,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 check.Description = Description != null ? Description : check.Description;
                 check.Status = Status != null ? (int)Status : check.Status;
                 check.Image = (Image != null && Image.Count != 0) ? Image : check.Image;
+                check.ChangeDate = DateTime.Now;
                 return await _context.SaveChangesAsync(cancellationToken);
             }
             return 0;
