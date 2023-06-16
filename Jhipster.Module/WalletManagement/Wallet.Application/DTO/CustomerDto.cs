@@ -59,5 +59,6 @@ namespace Wallet.Application.DTO
         public bool? Status { get; set; }
         public int? TotalSalePost { get; set; }
         public int? TotalBoughtPost { get; set; }
+        public string? ReferalCode { get; set; }
     }
 }

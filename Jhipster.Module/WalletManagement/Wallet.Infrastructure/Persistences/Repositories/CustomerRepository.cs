@@ -53,11 +53,14 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         public async Task<DetailCusDTO> GetById(Guid Id)
         {
             var check = await _appcontext.Customers.FirstOrDefaultAsync(i => i.Id == Id);
+            var mapStringId = Id.ToString();
+            var checkUser = await _appcontext.Users.FirstOrDefaultAsync(i => i.Id == mapStringId);
             if (check == null) throw new ArgumentException("Not exists!");
             var map = _mapper.Map<DetailCusDTO>(check);
             var user = await _appcontext.Users.FirstOrDefaultAsync(i => i.Id == Id.ToString());
             map.TotalBoughtPost = _appcontext.BoughtPosts.Where(i => i.UserId == user.Id && i.Status == 1).Count();
             map.TotalSalePost = _appcontext.SalePosts.Where(i => i.UserId == user.Id && i.Status == 1).Count();
+            map.ReferalCode = checkUser.ReferalCode;
             return map;
         }
 
