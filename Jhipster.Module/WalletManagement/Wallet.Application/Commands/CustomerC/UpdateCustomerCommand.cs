@@ -30,6 +30,7 @@ namespace Wallet.Application.Commands.CustomerC
         public DateTime? LastModifiedDate { get; set; }
         [JsonIgnore]
         public string? LastModifiedBy { get; set; }
+        public string? phoneNuber { get; set; }
     }
     public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, int>
     {
@@ -43,10 +44,14 @@ namespace Wallet.Application.Commands.CustomerC
         public async Task<int> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
             var map = _mapper.Map<Customer>(request);
-            if(request.firstName != null)
+            if (request.phoneNuber != null)
+            {
+                map.Phone = request.phoneNuber;
+            }
+            if (request.firstName != null)
             {
                 map.CustomerName = request.firstName;
-            }    
+            }
             var res = await _repo.Update(map, cancellationToken);
             return res;
         }
