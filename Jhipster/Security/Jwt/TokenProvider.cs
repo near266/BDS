@@ -15,6 +15,7 @@ using Jhipster.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Jhipster.Domain;
 using LanguageExt;
+using Jhipster.Infrastructure.Data;
 
 namespace Jhipster.Security.Jwt
 {
@@ -34,7 +35,7 @@ namespace Jhipster.Security.Jwt
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
         private readonly UserManager<User> _userManager;
         private readonly ILogger<TokenProvider> _log;
-
+        private readonly ApplicationDatabaseContext _context;
         private SigningCredentials _key;
 
         private long _tokenValidityInSeconds;
@@ -42,11 +43,12 @@ namespace Jhipster.Security.Jwt
         private long _tokenValidityInSecondsForRememberMe;
 
 
-        public TokenProvider(ILogger<TokenProvider> log, IOptions<SecuritySettings> securitySettings, UserManager<User> userManager)
+        public TokenProvider(ILogger<TokenProvider> log, IOptions<SecuritySettings> securitySettings, UserManager<User> userManager,ApplicationDatabaseContext applicationDatabaseContext)
         {
             _log = log;
             _securitySettings = securitySettings.Value;
             _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            _context = applicationDatabaseContext;
             _userManager = userManager;
             Init();
         }
@@ -61,7 +63,7 @@ namespace Jhipster.Security.Jwt
              ? user.FindFirst(it => it.Type == ClaimTypes.NameIdentifier)?.Value
              : string.Empty;
 
-            var fullName = await GetFullName(id);
+            var fullName = GetNameCus(id);
             var subject = CreateSubject(principal, fullName);
             var validity =
                 DateTime.UtcNow.AddSeconds(rememberMe
@@ -149,6 +151,15 @@ namespace Jhipster.Security.Jwt
         public async Task<string> GetFullName(string userId)
         {
             return await _userManager.FindByIdAsync(userId).Select(i => i.FirstName);
+        }
+        private string GetNameCus(string userId)
+        {
+            var check= _context.Customers.FirstOrDefault(i=>i.Id==Guid.Parse(userId));
+            if(check!=null)
+            {
+                return check.CustomerName;
+            }    
+            return _context.Users.FirstOrDefault(i=>i.Id==userId).FirstName;
         }
     }
 }
