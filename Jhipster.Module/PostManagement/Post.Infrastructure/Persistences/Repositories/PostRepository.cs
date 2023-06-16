@@ -130,9 +130,10 @@ namespace Post.Infrastructure.Persistences.Repositories
                 };
             }
         }
-        public async Task<PagedList<BoughtPost>> GetShowingBoughtPost(string? userid, string? keyword, double? fromPrice, double? toPrice, string? region, int Page, int PageSize)
+        public async Task<PagedList<SearchBoughtPostDTO>> GetShowingBoughtPost(string? userid, string? keyword, double? fromPrice, double? toPrice, string? region, int Page, int PageSize)
         {
-            var query = _context.BoughtPosts.AsQueryable();
+            var result = _databaseContext.BoughtPosts.AsQueryable();
+            var query = _mapper.Map<List<SearchBoughtPostDTO>>(result).AsEnumerable();
 
             if (keyword != null)
             {
@@ -163,12 +164,20 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
 
             var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
-            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+            var sQuery1 =  sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
-                                .ToListAsync();
+                                .ToList();
 
-            var reslist = await sQuery.ToListAsync();
-            return new PagedList<BoughtPost>
+            var reslist =  sQuery.ToList();
+            foreach (var item in sQuery)
+            {
+                var checkUser = await _databaseContext.Users.FirstOrDefaultAsync(i => i.Id == item.UserId);
+                if (checkUser != null)
+                {
+                    item.avatar = checkUser.ImageUrl;
+                }
+            }
+            return new PagedList<SearchBoughtPostDTO>
             {
                 Data = sQuery1,
                 TotalCount = reslist.Count,
