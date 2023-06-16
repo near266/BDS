@@ -14,6 +14,7 @@ namespace Wallet.Application.Commands.CustomerC
     public class UpdateCustomerCommand : IRequest<int>
     {
         public Guid Id { get; set; }
+        public string? firstName { get; set; }
         public string? CustomerName { get; set; }
         public string? Address { get; set; }
         public string? Phone { get; set; }
@@ -42,6 +43,10 @@ namespace Wallet.Application.Commands.CustomerC
         public async Task<int> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
             var map = _mapper.Map<Customer>(request);
+            if(request.firstName != null)
+            {
+                map.CustomerName = request.firstName;
+            }    
             var res = await _repo.Update(map, cancellationToken);
             return res;
         }
