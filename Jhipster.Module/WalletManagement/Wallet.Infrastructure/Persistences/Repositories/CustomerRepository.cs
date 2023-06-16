@@ -61,6 +61,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             map.TotalBoughtPost = _appcontext.BoughtPosts.Where(i => i.UserId == user.Id && i.Status == 1).Count();
             map.TotalSalePost = _appcontext.SalePosts.Where(i => i.UserId == user.Id && i.Status == 1).Count();
             map.ReferalCode = checkUser.ReferalCode;
+            map.firstName= check.CustomerName;
             return map;
         }
 
