@@ -61,11 +61,13 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             map.TotalBoughtPost = _appcontext.BoughtPosts.Where(i => i.UserId == user.Id && i.Status == 1).Count();
             map.TotalSalePost = _appcontext.SalePosts.Where(i => i.UserId == user.Id && i.Status == 1).Count();
             map.ReferalCode = checkUser.ReferalCode;
-            map.firstName= check.CustomerName;
+            map.firstName = check.CustomerName;
+            map.phoneNumber = checkUser.PhoneNumber;
+            map.email = checkUser.Email;
             return map;
         }
 
-        
+
 
         public async Task<SearchCustomerReponse> Search(string? keyword, string? phone, bool? isUnique, int page, int pagesize)
         {

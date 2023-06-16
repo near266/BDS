@@ -61,5 +61,7 @@ namespace Wallet.Application.DTO
         public int? TotalBoughtPost { get; set; }
         public string? ReferalCode { get; set; }
         public string? firstName { get; set; }
+        public string? phoneNumber { get; set; }
+        public string? email { get; set; }
     }
 }
