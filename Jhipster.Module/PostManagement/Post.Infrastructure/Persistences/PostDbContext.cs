@@ -1,4 +1,5 @@
 ﻿using System;
+using Jhipster.Domain;
 using Microsoft.EntityFrameworkCore;
 using Post.Domain.Abstractions;
 using Post.Domain.Entities;
@@ -13,6 +14,7 @@ namespace Post.Infrastructure.Persistences
         public DbSet<NewPost> NewPosts { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<Ward> Wards { get; set; }
+
         public PostDbContext(DbContextOptions<PostDbContext> options) : base(options)
         {
         }

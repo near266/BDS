@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Jhipster.Crosscutting.Utilities;
 using Jhipster.Domain;
+using Jhipster.Infrastructure.Data;
 using JHipsterNet.Core.Pagination;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -33,12 +34,13 @@ namespace Post.Infrastructure.Persistences.Repositories
         private readonly IMapper _mapper;
         private readonly IWalletDbContext _wcontext;
         private readonly IConfiguration _configuration;
-
-        public PostRepository(IPostDbContext context, IWalletDbContext wcontext, IMapper mapper, IConfiguration configuration)
+        private readonly ApplicationDatabaseContext _databaseContext;
+        public PostRepository(IPostDbContext context, IWalletDbContext wcontext, IMapper mapper, IConfiguration configuration, ApplicationDatabaseContext applicationDatabaseContext  )
         {
             _context = context;
             _mapper = mapper;
             _wcontext = wcontext;
+            _databaseContext= applicationDatabaseContext;
             _configuration = configuration;
         }
 
@@ -484,7 +486,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize)
         {
-            var result = await _context.SalePosts.ToListAsync();
+            var result = await _databaseContext.SalePosts.ToListAsync();
             var query = _mapper.Map<List<SearchSalePostDTO>>(result).AsEnumerable();
             foreach (var item in query)
             {
@@ -534,6 +536,14 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)
                 .OrderByDescending(i => i.Type).ThenByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
+            foreach(var item in sQuery)
+            {
+                var checkUser = await _databaseContext.Users.FirstOrDefaultAsync(i => i.Id == item.UserId);
+                if(checkUser != null)
+                {
+                    item.avatar = checkUser.ImageUrl;
+                }
+            }    
             var sQuery1 = sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToList();

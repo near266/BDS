@@ -49,6 +49,7 @@ namespace Post.Application.DTO
         public DateTime? Order { get; set; }
         public string? MaxSale { get; set; }
         public string? MinSale { get; set; }
+        public string? avatar { get; set; }
     }
 
     public class WardDTO
