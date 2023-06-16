@@ -171,10 +171,10 @@ namespace Post.Infrastructure.Persistences.Repositories
             var reslist =  sQuery.ToList();
             foreach (var item in sQuery)
             {
-                var checkUser = await _databaseContext.Users.FirstOrDefaultAsync(i => i.Id == item.UserId);
+                var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(item.UserId));
                 if (checkUser != null)
                 {
-                    item.avatar = checkUser.ImageUrl;
+                    item.avatar = checkUser.Avatar;
                 }
             }
             return new PagedList<SearchBoughtPostDTO>
@@ -547,10 +547,10 @@ namespace Post.Infrastructure.Persistences.Repositories
                 .OrderByDescending(i => i.Type).ThenByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
             foreach(var item in sQuery)
             {
-                var checkUser = await _databaseContext.Users.FirstOrDefaultAsync(i => i.Id == item.UserId);
+                var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id ==Guid.Parse( item.UserId));
                 if(checkUser != null)
                 {
-                    item.avatar = checkUser.ImageUrl;
+                    item.avatar = checkUser.Avatar;
                 }
             }    
             var sQuery1 = sQuery.Skip(PageSize * (Page - 1))
