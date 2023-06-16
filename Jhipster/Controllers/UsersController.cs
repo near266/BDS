@@ -94,6 +94,7 @@ namespace Jhipster.Controllers
                 customer.CreatedDate = DateTime.Now;
                 customer.Avatar = newUser.ImageUrl;
                 customer.Status = true;
+                customer.Poin = 0;
                 var res = _mediator.Send(customer);
                 var wallet = new AddWalletsCommand
                 {

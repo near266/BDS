@@ -27,6 +27,7 @@ namespace Wallet.Application.Commands.CustomerC
         public string? Avatar { get; set; }
         //Sàn
         public string? Exchange { get; set; }
+        public double? Poin { get; set; }
         public string? ExchangeDescription { get; set; }
         public DateTime? MaintainFrom { get; set; }
         public DateTime? MaintainTo { get; set; }
@@ -43,7 +44,7 @@ namespace Wallet.Application.Commands.CustomerC
         private readonly IWalletRepository _wRepo;
         private readonly IWalletPromotionalRepository _wpRepo;
         private readonly IMapper _mapper;
-        public AddCustomerCommandHandler(ICustomerRepository repo,IWalletRepository wRepo, IWalletPromotionalRepository wpRepo, IMapper mapper)
+        public AddCustomerCommandHandler(ICustomerRepository repo, IWalletRepository wRepo, IWalletPromotionalRepository wpRepo, IMapper mapper)
         {
             _repo = repo;
             _wRepo = wRepo;
@@ -53,7 +54,7 @@ namespace Wallet.Application.Commands.CustomerC
         public async Task<int> Handle(AddCustomerCommand request, CancellationToken cancellationToken)
         {
             var map = _mapper.Map<Customer>(request);
-            var res = await _repo.Add(map,cancellationToken);
+            var res = await _repo.Add(map, cancellationToken);
             return res;
         }
     }
