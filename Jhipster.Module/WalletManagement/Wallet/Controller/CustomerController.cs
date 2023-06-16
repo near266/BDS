@@ -115,6 +115,10 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request to view detail customer : {rq}");
             try
             {
+                if (rq.Id == null || rq.Id==Guid.Empty)
+                {
+                    rq.Id = Guid.Parse(GetUserIdFromConext());
+                }
                 var res = await _mediator.Send(rq);
                 return Ok(res);
             }
