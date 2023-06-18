@@ -35,12 +35,12 @@ namespace Post.Infrastructure.Persistences.Repositories
         private readonly IWalletDbContext _wcontext;
         private readonly IConfiguration _configuration;
         private readonly ApplicationDatabaseContext _databaseContext;
-        public PostRepository(IPostDbContext context, IWalletDbContext wcontext, IMapper mapper, IConfiguration configuration, ApplicationDatabaseContext applicationDatabaseContext  )
+        public PostRepository(IPostDbContext context, IWalletDbContext wcontext, IMapper mapper, IConfiguration configuration, ApplicationDatabaseContext applicationDatabaseContext)
         {
             _context = context;
             _mapper = mapper;
             _wcontext = wcontext;
-            _databaseContext= applicationDatabaseContext;
+            _databaseContext = applicationDatabaseContext;
             _configuration = configuration;
         }
 
@@ -164,11 +164,11 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
 
             var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
-            var sQuery1 =  sQuery.Skip(PageSize * (Page - 1))
+            var sQuery1 = sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToList();
 
-            var reslist =  sQuery.ToList();
+            var reslist = sQuery.ToList();
             foreach (var item in sQuery)
             {
                 var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(item.UserId));
@@ -545,14 +545,14 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)
                 .OrderByDescending(i => i.Type).ThenByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
-            foreach(var item in sQuery)
+            foreach (var item in sQuery)
             {
-                var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id ==Guid.Parse( item.UserId));
-                if(checkUser != null)
+                var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(item.UserId));
+                if (checkUser != null)
                 {
                     item.avatar = checkUser.Avatar;
                 }
-            }    
+            }
             var sQuery1 = sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToList();
@@ -890,19 +890,52 @@ namespace Post.Infrastructure.Persistences.Repositories
         {
             if (type == 0)
             {
-                var regionsBought = await _context.BoughtPosts.Where(i => i.Status == (int)PostStatus.Showing)
-                .GroupBy(p => p.Region)
-                .Select(g => new PostDto { Region = g.Key ?? "Unknown", Count = g.Count() })
-                .ToListAsync();
-                return regionsBought;
+                //var regionsBought = await _context.BoughtPosts.Where(i => i.Status == (int)PostStatus.Showing)
+                //.GroupBy(p => p.Region)
+                //.Select(g => new PostDto { Region = g.Key ?? "Unknown", Count = g.Count() })
+                //.ToListAsync();
+                //return regionsBought;
+                var value = new List<PostDto>();
+                var checkRegion = await _context.Wards.OrderBy(i=>i.Order).ToListAsync();
+                foreach (var item in checkRegion)
+                {
+                    var checkbought = await _context.BoughtPosts.Where(i => i.Region.Equals(item.Name)&& i.Status == (int)PostStatus.Showing).ToListAsync();
+                    var regionbought = new PostDto()
+                    {
+                        Region = item.Name ?? "Unknown",
+                        Count=checkbought.Count()
+                    };
+                    if (regionbought.Count > 0)
+                    {
+                        value.Add(regionbought);
+                    }
+                    value.Add(regionbought);
+                }
+                return value;
             }
             else
             {
-                var regionsSale = await _context.SalePosts.Where(i => i.Status == (int)PostStatus.Showing)
-                .GroupBy(p => p.Region)
-                .Select(g => new PostDto { Region = g.Key ?? "Unknown", Count = g.Count() })
-                .ToListAsync();
-                return regionsSale;
+                //var regionsSale = await _context.SalePosts.Where(i => i.Status == (int)PostStatus.Showing)
+                //.GroupBy(p => p.Region)
+                //.Select(g => new PostDto { Region = g.Key ?? "Unknown", Count = g.Count() })
+                //.ToListAsync();
+                //return regionsSale;
+                var value = new List<PostDto>();
+                var checkRegion = await _context.Wards.OrderBy(i => i.Order).ToListAsync();
+                foreach (var item in checkRegion)
+                {
+                    var checksale = await _context.SalePosts.Where(i => i.Region.Equals(item.Name)&& i.Status == (int)PostStatus.Showing).ToListAsync();
+                    var regionsale = new PostDto()
+                    {
+                        Region = item.Name ?? "Unknown",
+                        Count = checksale.Count()
+                    };
+                    if(regionsale.Count > 0)
+                    {
+                        value.Add(regionsale);
+                    }
+                }
+                return value;
             }
         }
         public async Task<List<StatusDto>> GetAllStatus(int? type, string userId)
@@ -1015,7 +1048,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<List<District>> SearchDistrict()
         {
-            var list = await _context.Districts.OrderBy(i=>i.Order).ToListAsync();
+            var list = await _context.Districts.OrderBy(i => i.Order).ToListAsync();
             return list;
         }
         #endregion
