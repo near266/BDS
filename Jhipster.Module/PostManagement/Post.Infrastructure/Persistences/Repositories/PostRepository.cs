@@ -1015,7 +1015,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<List<District>> SearchDistrict()
         {
-            var list = await _context.Districts.ToListAsync();
+            var list = await _context.Districts.OrderBy(i=>i.Order).ToListAsync();
             return list;
         }
         #endregion

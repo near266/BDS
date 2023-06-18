@@ -11,7 +11,9 @@ namespace Post.Domain.Entities
     {
         [Key]
         public string Id { get; set; } = RandomUtil.GenerateKey();
-        public string? Name { get; set; }   
-        
+        public string? Name { get; set; }
+        public int? Order { get; set; }
+
+
     }
 }
