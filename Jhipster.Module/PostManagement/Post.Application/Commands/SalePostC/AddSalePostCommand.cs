@@ -31,6 +31,8 @@ namespace Post.Application.Commands.SalePostC
         public string? Email { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
+        public List<string>? Documents { get; set; }
+
         public double NumberOfDate { get; set; }
         [JsonIgnore]
         public DateTime? CreatedDate { get; set; }

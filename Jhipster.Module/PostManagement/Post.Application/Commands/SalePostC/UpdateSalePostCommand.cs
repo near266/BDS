@@ -34,6 +34,8 @@ namespace Post.Application.Commands.SalePostC
         public string? PhoneNumber { get; set; }
         public double? NumberOfDate { get; set; }
         public string? Reason { get; set; }
+        public List<string>? Documents { get; set; }
+
         public DateTime? ChangeDate { get; set; }
         [JsonIgnore]
         public DateTime? LastModifiedDate { get; set; }

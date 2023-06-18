@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Post.Domain.Entities
 {
-	public class SalePost : AuditedEntityBase
-	{
+    public class SalePost : AuditedEntityBase
+    {
         [Key]
         public string Id { get; set; } = RandomUtil.GenerateKey();
-      
+
         public int Type { get; set; }
 
         [MaxLength(500)]
@@ -42,6 +42,7 @@ namespace Post.Domain.Entities
         public string? PhoneNumber { get; set; }
         public DateTime? DueDate { get; set; }
         public string UserId { get; set; }
+        public List<string>? Documents { get; set; }
         public string? Reason { get; set; }
         public DateTime? Order { get; set; }
         public DateTime? ApprovalDate { get; set; }
