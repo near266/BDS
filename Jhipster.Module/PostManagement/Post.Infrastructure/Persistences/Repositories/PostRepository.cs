@@ -909,7 +909,6 @@ namespace Post.Infrastructure.Persistences.Repositories
                     {
                         value.Add(regionbought);
                     }
-                    value.Add(regionbought);
                 }
                 return value;
             }
