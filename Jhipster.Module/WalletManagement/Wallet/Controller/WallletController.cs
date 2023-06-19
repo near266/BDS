@@ -142,6 +142,10 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request Update search transaction: {JsonConvert.SerializeObject(request)}");
             try
             {
+                if (request == null)
+                {
+                    request.UserId = GetUserIdFromConext();
+                }
                 var result = await _mediator.Send(request);
                 return Ok(result);
             }
