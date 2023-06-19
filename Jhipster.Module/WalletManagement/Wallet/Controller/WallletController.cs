@@ -142,7 +142,7 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request Update search transaction: {JsonConvert.SerializeObject(request)}");
             try
             {
-                if (request == null)
+                if (request.UserId == null || request.UserId.Length == 0)
                 {
                     request.UserId = GetUserIdFromConext();
                 }
