@@ -667,6 +667,26 @@ namespace Post.Controller
             }
         }
         /// <summary>
+        /// Random new post
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpGet("/newpost/random")]
+        public async Task<IActionResult> RandomNewPost([FromQuery] GetRandomNewPostQuery rq)
+        {
+            _logger.LogInformation($"REST request to random new post : {rq}");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($" REST request to random new post fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
         /// Lấy ra những tin tức đang được hiển thị trên trang chủ mà ko cần đăng nhập
         /// </summary>
         /// <param name="rq"></param>

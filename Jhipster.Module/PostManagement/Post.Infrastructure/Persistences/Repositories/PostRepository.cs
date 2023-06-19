@@ -985,7 +985,23 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return await _context.SaveChangesAsync(cancellationToken);
         }
+        public async Task<List<NewPost>> GetRandomNewPost(int randomCount)
+        {
+            var value = await _context.NewPosts.ToListAsync();
 
+            var random = new Random();
+            int n = value.Count;
+
+            for (int i = n - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                NewPost temp = value[i];
+                value[i] = value[j];
+                value[j] = temp;
+            }
+
+            return value.Take(randomCount).ToList();
+        }
         public async Task<NewPost> ViewDetailNewPost(string id)
         {
             var res = await _context.NewPosts.FirstOrDefaultAsync(i => i.Id == id);
