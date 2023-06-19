@@ -71,8 +71,8 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             foreach (var item in res)
             {
                 item.wallet.Amount = (decimal)item.TransactionHistorys.Amount;
-                item.walletPromotional.Amount = (decimal)item.TransactionHistorys.Amount;
-                item.TotalAmount = (decimal)item.TransactionHistorys.Amount + (decimal)item.TransactionHistorys.Amount;
+                item.walletPromotional.Amount = (decimal)item.TransactionHistorys.Walletamount;
+                item.TotalAmount = (decimal)item.WalletAmount + (decimal)item.WalletPromotion;
                 item.Poin = item.TransactionHistorys.Customer.Point;
                 if (item.TransactionHistorys.Type != 1)
                 {
