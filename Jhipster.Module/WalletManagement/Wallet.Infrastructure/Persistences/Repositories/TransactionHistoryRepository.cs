@@ -65,12 +65,15 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                 wallet = _mapper.Map<WalletDto>(_context.Wallets.FirstOrDefault(i => i.CustomerId == item.CustomerId)),
                 walletPromotional = _mapper.Map<WalletPromotionalDto>(_context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId)),
                 WalletAmount = _context.Wallets.FirstOrDefault(i => i.CustomerId == item.CustomerId).Amount,
-                WalletPromotion = _context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId).Amount
+                WalletPromotion = _context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId).Amount,
+                
             }).ToList();
             foreach (var item in res)
             {
                 item.wallet.Amount = (decimal)item.TransactionHistorys.Amount;
                 item.walletPromotional.Amount = (decimal)item.TransactionHistorys.Amount;
+                item.TotalAmount = (decimal)item.TransactionHistorys.Amount + (decimal)item.TransactionHistorys.Amount;
+                item.Poin = item.TransactionHistorys.Customer.Point;
                 if (item.TransactionHistorys.Type != 1)
                 {
                     item.TransactionHistorys.Status = "Up";

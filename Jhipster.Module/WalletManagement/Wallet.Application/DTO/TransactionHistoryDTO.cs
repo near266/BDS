@@ -16,6 +16,8 @@ namespace Wallet.Application.DTO
         public WalletPromotionalDto walletPromotional { get; set; }
         public decimal? WalletAmount { get; set; }
         public decimal? WalletPromotion { get; set; }
+        public double? Poin { get; set; }
+        public decimal? TotalAmount { get; set; }   
 
     }
     public class TransactionHistoryDTO
