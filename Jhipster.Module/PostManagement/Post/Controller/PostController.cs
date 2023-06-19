@@ -21,7 +21,6 @@ using Post.Application.Queries.NewPostQ;
 
 namespace Post.Controller
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class PostController : ControllerBase
@@ -671,8 +670,8 @@ namespace Post.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [HttpGet("/newpost/random")]
-        public async Task<IActionResult> RandomNewPost([FromQuery] GetRandomNewPostQuery rq)
+        [HttpPost("/newpost/random")]
+        public async Task<IActionResult> RandomNewPost([FromBody] GetRandomNewPostQuery rq)
         {
             _logger.LogInformation($"REST request to random new post : {rq}");
             try
