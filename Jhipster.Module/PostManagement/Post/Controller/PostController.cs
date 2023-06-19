@@ -651,7 +651,6 @@ namespace Post.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [Authorize(Roles = RolesConstants.USER)]
         [HttpGet("/newpost/id")]
         public async Task<IActionResult> ViewDetailNewPost([FromQuery] ViewDetailNewPostQuery rq)
         {
