@@ -29,6 +29,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         {
             if (rq.TransactionAmount != 0)
             {
+                rq.CreatedDate = DateTime.UtcNow;
                 await _context.TransactionHistorys.AddAsync(rq, cancellationToken);
                 return await _context.SaveChangesAsync(cancellationToken);
             }
