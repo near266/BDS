@@ -61,22 +61,26 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             //var listId = sQuery1.Select(i => i.CustomerId).ToList();
             var res = reslist.Select(item => new SearchTransactionResponse
             {
-                TransactionHistory = _mapper.Map<TransactionHistoryDTO>(_context.TransactionHistorys.FirstOrDefault(x => x.Id == item.Id)),
+                TransactionHistorys = _mapper.Map<TransactionHistoryDTO>(_context.TransactionHistorys.FirstOrDefault(x => x.Id == item.Id)),
                 wallet = _mapper.Map<WalletDto>(_context.Wallets.FirstOrDefault(i => i.CustomerId == item.CustomerId)),
-                walletPromotional = _mapper.Map<WalletPromotionalDto>(_context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId))
+                walletPromotional = _mapper.Map<WalletPromotionalDto>(_context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId)),
+                WalletAmount = _context.Wallets.FirstOrDefault(i => i.CustomerId == item.CustomerId).Amount,
+                WalletPromotion = _context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId).Amount
             }).ToList();
             foreach (var item in res)
             {
-                if (item.TransactionHistory.Type != 1)
+                item.wallet.Amount = (decimal)item.TransactionHistorys.Amount;
+                item.walletPromotional.Amount = (decimal)item.TransactionHistorys.Amount;
+                if (item.TransactionHistorys.Type != 1)
                 {
-                    item.TransactionHistory.Status = "Up";
-                    if (item.TransactionHistory.WalletType == 0)
+                    item.TransactionHistorys.Status = "Up";
+                    if (item.TransactionHistorys.WalletType == 0)
                     {
                         item.wallet.IsVolatility = true;
                         item.wallet.Status = "Up";
                         item.walletPromotional.IsVolatility = false;
                     }
-                    else if (item.TransactionHistory.WalletType == 1)
+                    else if (item.TransactionHistorys.WalletType == 1)
                     {
                         item.walletPromotional.Status = "Up";
                         item.walletPromotional.IsVolatility = true;
@@ -88,14 +92,14 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                 }
                 else
                 {
-                    item.TransactionHistory.Status = "Down";
-                    if (item.TransactionHistory.WalletType == 0)
+                    item.TransactionHistorys.Status = "Down";
+                    if (item.TransactionHistorys.WalletType == 0)
                     {
                         item.wallet.IsVolatility = true;
                         item.wallet.Status = "Down";
                         item.walletPromotional.IsVolatility = false;
                     }
-                    else if (item.TransactionHistory.WalletType == 1)
+                    else if (item.TransactionHistorys.WalletType == 1)
                     {
                         item.walletPromotional.Status = "Down";
                         item.walletPromotional.IsVolatility = true;
