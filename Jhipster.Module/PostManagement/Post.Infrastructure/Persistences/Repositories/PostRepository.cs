@@ -386,21 +386,24 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task SaveHistory(string? Title, decimal? Amount, decimal? Walletamount, double? amount, int? walletType, Guid? cusId, int? type, string? moneyType, CancellationToken cancellationToken)
         {
-            var his = new TransactionHistory()
+            if (amount != 0)
             {
-                Id = Guid.NewGuid(),
-                Type = type,
-                Content = moneyType,
-                TransactionAmount = amount,
-                WalletType = walletType,
-                CustomerId = cusId,
-                CreatedDate = DateTime.UtcNow,
-                Title = Title,
-                Amount = Amount,
-                Walletamount = Walletamount,
-            };
-            await _wcontext.TransactionHistorys.AddAsync(his);
-            await _wcontext.SaveChangesAsync(cancellationToken);
+                var his = new TransactionHistory()
+                {
+                    Id = Guid.NewGuid(),
+                    Type = type,
+                    Content = moneyType,
+                    TransactionAmount = amount,
+                    WalletType = walletType,
+                    CustomerId = cusId,
+                    CreatedDate = DateTime.UtcNow,
+                    Title = Title,
+                    Amount = Amount,
+                    Walletamount = Walletamount,
+                };
+                await _wcontext.TransactionHistorys.AddAsync(his);
+                await _wcontext.SaveChangesAsync(cancellationToken);
+            }
         }
 
         public async Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken)
