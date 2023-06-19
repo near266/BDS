@@ -19,6 +19,9 @@ namespace Wallet.Domain.Entities
         public int? WalletType { get; set; }
         [ForeignKey("CustomerId")]
         public Guid? CustomerId { get; set; }
+        public string? Title { get; set; }
+        public decimal? Amount { get; set; }
+        public decimal? Walletamount { get; set; }
         public Customer? Customer { get; set; }
     }
 }
