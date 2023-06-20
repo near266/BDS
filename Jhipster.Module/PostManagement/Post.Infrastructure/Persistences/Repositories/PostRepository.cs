@@ -269,15 +269,15 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate);
                     await SubtractMoneyPromotional(rq.Id, Fee, cancellationToken);
-                    await SaveHistory($"[{rq.Id}]{rq.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Normal") * numofDate, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Normal") * numofDate, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Fee}đ", cancellationToken);
                 }
                 else if (AmountPromotion >= 0 && AmountPromotion < (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate))
                 {
                     var Deduct = (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate) - AmountPromotion;
                     await SubtractMoneyPromotional(rq.Id, AmountPromotion, cancellationToken);
-                    await SaveHistory($"[{rq.Id}]{rq.Titile}", AmountWallets-Deduct, AmountPromotion, (double)AmountPromotion, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets, AmountPromotion - Deduct, (double)AmountPromotion, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
                     await SubtractMoney(rq.Id, Deduct, cancellationToken);
-                    await SaveHistory($"[{rq.Id}]{rq.Titile}",AmountWallets-Deduct,AmountPromotion,(double)Deduct, 0, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets - Deduct, AmountPromotion, (double)Deduct, 0, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
                 }
             }
             else if (rq.Type == (int)PostType.Golden)
@@ -286,15 +286,15 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate);
                     await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate), cancellationToken);
-                    await SaveHistory($"[{rq.Id}]{rq.Titile}", AmountWallets, AmountPromotion-Fee, _configuration.GetValue<int>("Price:Vip") * numofDate, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Vip") * numofDate, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Fee}đ", cancellationToken);
                 }
                 else if (AmountPromotion >= 0 && AmountPromotion < (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate))
                 {
                     var Deduct = (decimal)(_configuration.GetValue<int>("Price:Vip") * numofDate) - AmountPromotion;
                     await SubtractMoneyPromotional(rq.Id, AmountPromotion, cancellationToken);
-                    await SaveHistory($"[{rq.Id}]{rq.Titile}", AmountWallets - Deduct, AmountPromotion, (double)AmountPromotion, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets, AmountPromotion - Deduct, (double)AmountPromotion, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
                     await SubtractMoney(rq.Id, Deduct, cancellationToken);
-                    await SaveHistory($"[{rq.Id}]{rq.Titile}", AmountWallets - Deduct, AmountPromotion, (double)Deduct, 0, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets - Deduct, AmountPromotion, (double)Deduct, 0, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
                 }
             }
             else if (rq.Type == (int)PostType.Vip)
@@ -303,15 +303,15 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numofDate);
                     await SubtractMoneyPromotional(rq.Id, (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate), cancellationToken);
-                    await SaveHistory( $"[{rq.Id}]{rq.Titile}", AmountWallets, AmountPromotion-Fee, _configuration.GetValue<int>("Price:SuperVip") * numofDate, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:SuperVip") * numofDate, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Fee}đ", cancellationToken);
                 }
                 else if (AmountPromotion >= 0 && AmountPromotion < (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate))
                 {
                     var Deduct = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numofDate) - AmountPromotion;
                     await SubtractMoneyPromotional(rq.Id, AmountPromotion, cancellationToken);
-                    await SaveHistory($"[{rq.Id}]{rq.Titile}", AmountWallets - Deduct, AmountPromotion, (double)AmountPromotion, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets, AmountPromotion - Deduct, (double)AmountPromotion, 1, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
                     await SubtractMoney(rq.Id, Deduct, cancellationToken);
-                    await SaveHistory($"[{rq.Id}]{rq.Titile}", AmountWallets - Deduct, AmountPromotion, (double)Deduct, 0, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets - Deduct, AmountPromotion, (double)Deduct, 0, Guid.Parse(rq.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
                 }
             }
             return res;
@@ -335,13 +335,13 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate);
                     await SubtractMoneyPromotional(postId, Fee, cancellationToken);
-                    await SaveHistory($"[{post.Id}]{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
                 }
                 else if (!check && check1)
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate);
                     await SubtractMoney(postId, Fee, cancellationToken);
-                    await SaveHistory($"[{post.Id}]{post.Titile}",AmountWallets-Fee,AmountPromotion,_configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
                 }
                 post.Status = (int)PostStatus.UnApproved;
             }
@@ -350,14 +350,14 @@ namespace Post.Infrastructure.Persistences.Repositories
                 if (check)
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate);
-                    await SubtractMoneyPromotional(postId,Fee, cancellationToken);
-                    await SaveHistory($"[{post.Id}]{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    await SubtractMoneyPromotional(postId, Fee, cancellationToken);
+                    await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
                 }
                 else if (!check && check1)
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate);
-                    await SubtractMoney(postId,Fee, cancellationToken);
-                    await SaveHistory($"[{post.Id}]{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    await SubtractMoney(postId, Fee, cancellationToken);
+                    await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
                 }
                 post.Status = (int)PostStatus.Showing;
             }
@@ -366,14 +366,14 @@ namespace Post.Infrastructure.Persistences.Repositories
                 if (check)
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate);
-                    await SubtractMoneyPromotional(postId,Fee, cancellationToken);
-                    await SaveHistory($"[{post.Id}]{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    await SubtractMoneyPromotional(postId, Fee, cancellationToken);
+                    await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
                 }
                 else if (!check && check1)
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate);
-                    await SubtractMoney(postId,Fee, cancellationToken);
-                    await SaveHistory($"[{post.Id}]{post.Titile}", AmountWallets - Fee, AmountPromotion,_configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    await SubtractMoney(postId, Fee, cancellationToken);
+                    await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
                 }
                 post.Status = (int)PostStatus.Showing;
             }
@@ -402,6 +402,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     Walletamount = Walletamount,
                 };
                 await _wcontext.TransactionHistorys.AddAsync(his);
+                his.Title = $"[{his.TransactionCode}] {Title}";
                 await _wcontext.SaveChangesAsync(cancellationToken);
             }
         }
@@ -634,13 +635,13 @@ namespace Post.Infrastructure.Persistences.Repositories
                     {
                         var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberOfDate);
                         await SubtractMoneyPromotional(rq.Id, Fee, cancellationToken);
-                        await SaveHistory($"[{check.Id}]{check.Titile}", AmountWallets,AmountPromotion-Fee,_configuration.GetValue<int>("Price:Normal") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
+                        await SaveHistory($"{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Normal") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
                     }
                     else if (!checkWP && checkW)
                     {
                         var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberOfDate);
                         await SubtractMoney(rq.Id, Fee, cancellationToken);
-                        await SaveHistory($"[{check.Id}]{check.Titile}", AmountWallets-Fee,AmountPromotion,_configuration.GetValue<int>("Price:Normal") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
+                        await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Normal") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
                     }
                     check.Status = (int)PostStatus.UnApproved;
                 }
@@ -650,13 +651,13 @@ namespace Post.Infrastructure.Persistences.Repositories
                     {
                         var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberOfDate);
                         await SubtractMoneyPromotional(rq.Id, Fee, cancellationToken);
-                        await SaveHistory($"[{check.Id}]{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Vip") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
+                        await SaveHistory($"{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Vip") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
                     }
                     else if (!checkWP && checkW)
                     {
                         var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberOfDate);
                         await SubtractMoney(rq.Id, Fee, cancellationToken);
-                        await SaveHistory($"[{check.Id}]{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Vip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
+                        await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Vip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
                     }
                     check.Status = (int)PostStatus.UnApproved;
                 }
@@ -666,13 +667,13 @@ namespace Post.Infrastructure.Persistences.Repositories
                     {
                         var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberOfDate);
                         await SubtractMoneyPromotional(rq.Id, Fee, cancellationToken);
-                        await SaveHistory($"[{check.Id}]{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
+                        await SaveHistory($"{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
                     }
                     else if (!checkWP && checkW)
                     {
                         var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberOfDate);
                         await SubtractMoney(rq.Id, Fee, cancellationToken);
-                        await SaveHistory($"[{check.Id}]{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
+                        await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
                     }
                     check.Status = (int)PostStatus.UnApproved;
                 }
@@ -744,7 +745,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         var dif = (item2.DueDate - item2.CreatedDate).Value.TotalDays;
                         await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
                         var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * dif);
-                        await SaveHistory($"[{item2.Id}]{item2.Titile}",AmountWallets,AmountPromotion+Fee,_configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId), 2, $"Hoàn tiền khách hàng khi hủy đăng bài đăng, Giá bài đăng {Fee}đ", cancellationToken);
+                        await SaveHistory($"{item2.Titile}", AmountWallets, AmountPromotion + Fee, _configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId), 2, $"Hoàn tiền khách hàng khi hủy đăng bài đăng, Giá bài đăng {Fee}đ", cancellationToken);
                     }
                 }
                 return result;
