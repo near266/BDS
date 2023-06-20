@@ -64,6 +64,8 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             map.firstName = check.CustomerName;
             map.phoneNumber = checkUser.PhoneNumber;
             map.email = checkUser.Email;
+            var IdToString = Id.ToString();
+            map.Region = await _appcontext.SalePosts.Where(i => i.UserId == IdToString).Select(i => i.Region).ToListAsync();
             return map;
         }
 
