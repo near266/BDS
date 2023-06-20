@@ -12,6 +12,6 @@ namespace Wallet.Application.Persistences
     public interface ITransactionHistoryRepository
     {
         Task<int> Add(TransactionHistory rq, CancellationToken cancellationToken);
-        Task<PagedList<SearchTransactionResponse>> Search(string? userid, int? type, DateTime? from, DateTime? to, int Page, int PageSize);
+        Task<PagedList<SearchTransactionResponse>> Search(string? Code,string? userid, int? type, DateTime? from, DateTime? to, int Page, int PageSize);
     }
 }

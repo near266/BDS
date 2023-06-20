@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Post.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,5 +24,6 @@ namespace Wallet.Domain.Entities
         public decimal? Amount { get; set; }
         public decimal? Walletamount { get; set; }
         public Customer? Customer { get; set; }
+        public string? TransactionCode { get; set; } = RandomUtil.GenerateKey();
     }
 }

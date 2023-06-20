@@ -20,6 +20,7 @@ namespace Wallet.Application.Queries.HistoryQ
         public DateTime? To { get; set; }
         public int page { get; set; }
         public int pageSize { get; set; }
+        public string? Code { get; set; }
     }
     public class SearchTransactionQueryHandler : IRequestHandler<SearchTransactionQuery, PagedList<SearchTransactionResponse>>
     {
@@ -30,7 +31,7 @@ namespace Wallet.Application.Queries.HistoryQ
         }
         public async Task<PagedList<SearchTransactionResponse>> Handle(SearchTransactionQuery rq, CancellationToken cancellationToken)
         {
-            return await _repo.Search(rq.UserId,rq.Type, rq.From, rq.To,rq.page,rq.pageSize);
+            return await _repo.Search(rq.Code, rq.UserId, rq.Type, rq.From, rq.To, rq.page, rq.pageSize);
         }
     }
 }
