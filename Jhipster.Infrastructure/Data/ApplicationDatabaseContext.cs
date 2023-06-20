@@ -38,6 +38,8 @@ namespace Jhipster.Infrastructure.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<TransactionHistory> TransactionHistorys { get; set; }
         public DbSet<DepositRequest> DepositRequests { get; set; }
+        public DbSet<Banner> banners { get; set; }
+
 
 
         /// <summary>
