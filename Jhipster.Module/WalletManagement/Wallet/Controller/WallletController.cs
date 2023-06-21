@@ -175,7 +175,7 @@ namespace Wallet.Controller
                 request.LastModifiedBy = GetUserIdFromConext();
                 var Cus = new GetWalletByUserIdQuery()
                 {
-                    UserId = GetUserIdFromConext()
+                    UserId = request.CustomerId.ToString()
                 };
                 var CusDetail = await _mediator.Send(Cus);
                 request.LastModifiedDate = DateTime.UtcNow;
