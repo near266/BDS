@@ -98,7 +98,7 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request to view banner ");
             try
             {
-                return Ok(await _context.banners.Select(i => i.ListBanner).ToListAsync());
+                return Ok(await _context.banners.ToListAsync());
             }
             catch (Exception ex)
             {
