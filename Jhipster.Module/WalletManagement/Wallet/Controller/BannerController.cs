@@ -91,7 +91,6 @@ namespace Wallet.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpGet("/banner")]
         public async Task<IActionResult> ViewBanner()
         {
