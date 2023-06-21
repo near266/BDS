@@ -51,8 +51,8 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
                 WalletType = 1,
                 CustomerId = rq.CustomerId,
                 CreatedDate = DateTime.Now,
-                Amount = rq.CusAmount + rq.Amount,
-                Walletamount = rq.CusAmountPromotion,
+                Amount = rq.CusAmount,
+                Walletamount = rq.CusAmountPromotion + rq.Amount,
             };
             var res = await _tRepository.Add(his, cancellationToken);
             return await _repo.Update(obj, cancellationToken);

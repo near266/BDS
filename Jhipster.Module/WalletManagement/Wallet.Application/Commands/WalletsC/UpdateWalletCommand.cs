@@ -48,9 +48,9 @@ namespace Wallet.Application.Commands.WalletsC
                 TransactionAmount = (double?)rq.Amount,
                 WalletType = 0,
                 CustomerId = rq.CustomerId,
-                Amount = rq.Amount,
+                Amount = rq.CusAmount + rq.Amount,
                 CreatedDate = DateTime.Now,
-                Walletamount = rq.CusAmountPromotion + rq.Amount,
+                Walletamount = rq.CusAmountPromotion,
             };
             var res = await _tRepository.Add(his, cancellationToken);
             return await _repo.Update(obj, cancellationToken);
