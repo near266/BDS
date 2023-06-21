@@ -72,7 +72,7 @@ namespace Wallet.Controller
                 }
                 var value = new Banner()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = rq.Id,
                     ListBanner = rq.ListBanner
                 };
 
@@ -98,7 +98,7 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request to view banner ");
             try
             {
-                return Ok(await _context.banners.ToListAsync());
+                return Ok(await _context.banners.Select(i => i.ListBanner).ToListAsync());
             }
             catch (Exception ex)
             {
