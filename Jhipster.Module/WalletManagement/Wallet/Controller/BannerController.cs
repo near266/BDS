@@ -102,7 +102,7 @@ namespace Wallet.Controller
             catch (Exception ex)
             {
                 _logger.LogError($"REST request to view banner fail: {ex.Message}");
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, ex.Message); 
             }
         }
     }
