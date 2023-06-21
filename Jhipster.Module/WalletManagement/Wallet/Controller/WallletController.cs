@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
 using Wallet.Application.DTO;
+using Wallet.Application.Queries.CustomerQ;
 using Wallet.Application.Queries.HistoryQ;
 using Wallet.Application.Queries.WalletsPromotionalQ;
 using Wallet.Application.Queries.WalletsQ;
@@ -172,6 +173,11 @@ namespace Wallet.Controller
                 if (request.AmountWallet <= 0) throw new ArgumentException("Giá lớn hơn 0");
                 if (request.AmountWalletPromotional < 0) throw new ArgumentException("Giá khuyến mãi lớn hơn hoặc bằng 0");
                 request.LastModifiedBy = GetUserIdFromConext();
+                var Cus = new GetWalletByUserIdQuery()
+                {
+                    UserId = GetUserIdFromConext()
+                };
+                var CusDetail = await _mediator.Send(Cus);
                 request.LastModifiedDate = DateTime.UtcNow;
                 var wallet = new UpdateWalletCommand
                 {
@@ -181,6 +187,8 @@ namespace Wallet.Controller
                     Currency = request.Currency,
                     LastModifiedBy = request.LastModifiedBy,
                     LastModifiedDate = DateTime.UtcNow,
+                    CusAmount = CusDetail.wallet.Amount,
+                    CusAmountPromotion = CusDetail.walletPromotional.Amount,
                 };
                 var Promotional = new UpdateWalletPromotionCommand
                 {
@@ -190,6 +198,8 @@ namespace Wallet.Controller
                     Currency = request.Currency,
                     LastModifiedBy = request.LastModifiedBy,
                     LastModifiedDate = DateTime.UtcNow,
+                    CusAmount = CusDetail.wallet.Amount,
+                    CusAmountPromotion = CusDetail.walletPromotional.Amount,
                 };
                 var result = await _mediator.Send(wallet);
                 await _mediator.Send(Promotional);

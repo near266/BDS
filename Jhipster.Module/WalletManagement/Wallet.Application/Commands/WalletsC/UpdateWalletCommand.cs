@@ -1,4 +1,4 @@
-﻿    using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -22,6 +22,8 @@ namespace Wallet.Application.Commands.WalletsC
         [JsonIgnore]
 
         public DateTime? LastModifiedDate { get; set; }
+        public decimal? CusAmount { get; set; }
+        public decimal? CusAmountPromotion { get; set; }
     }
     public class UpdateWalletCommandHandler : IRequestHandler<UpdateWalletCommand, int>
     {
@@ -29,7 +31,7 @@ namespace Wallet.Application.Commands.WalletsC
         private readonly IMapper _mapper;
         private readonly ITransactionHistoryRepository _tRepository;
 
-        public UpdateWalletCommandHandler(IWalletRepository repo,ITransactionHistoryRepository tRepository, IMapper mapper)
+        public UpdateWalletCommandHandler(IWalletRepository repo, ITransactionHistoryRepository tRepository, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
@@ -46,7 +48,9 @@ namespace Wallet.Application.Commands.WalletsC
                 TransactionAmount = (double?)rq.Amount,
                 WalletType = 0,
                 CustomerId = rq.CustomerId,
-                CreatedDate = DateTime.UtcNow
+                Amount = rq.Amount,
+                CreatedDate = DateTime.Now,
+                Walletamount = rq.CusAmountPromotion + rq.Amount,
             };
             var res = await _tRepository.Add(his, cancellationToken);
             return await _repo.Update(obj, cancellationToken);

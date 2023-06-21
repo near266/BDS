@@ -12,7 +12,7 @@ using Wallet.Domain.Entities;
 
 namespace Wallet.Application.Commands.WalletsPromotionaC
 {
-    public class UpdateWalletPromotionCommand :IRequest<int>
+    public class UpdateWalletPromotionCommand : IRequest<int>
     {
         public Guid Id { get; set; }
         public Guid CustomerId { get; set; }
@@ -24,6 +24,8 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
         [JsonIgnore]
 
         public DateTime? LastModifiedDate { get; set; }
+        public decimal? CusAmount { get; set; }
+        public decimal? CusAmountPromotion { get; set; }
     }
     public class UpdateWalletPromotionCommandHandler : IRequestHandler<UpdateWalletPromotionCommand, int>
     {
@@ -48,7 +50,9 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
                 TransactionAmount = (double?)rq.Amount,
                 WalletType = 1,
                 CustomerId = rq.CustomerId,
-                CreatedDate = DateTime.UtcNow
+                CreatedDate = DateTime.Now,
+                Amount = rq.CusAmount + rq.Amount,
+                Walletamount = rq.CusAmountPromotion,
             };
             var res = await _tRepository.Add(his, cancellationToken);
             return await _repo.Update(obj, cancellationToken);
