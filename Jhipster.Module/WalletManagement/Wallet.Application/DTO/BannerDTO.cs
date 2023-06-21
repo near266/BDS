@@ -9,7 +9,6 @@ namespace Wallet.Application.DTO
 {
     public class BannerDTO
     {
-        [JsonIgnore]
         public Guid Id { get; set; }
         public List<string> ListBanner { get; set; }
 
