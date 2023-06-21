@@ -85,26 +85,27 @@ namespace Wallet.Controller
                 _logger.LogError($"REST request to update banner fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
-            /// <summary>
-            /// View Banner
-            /// </summary>
-            /// <param name="rq"></param>
-            /// <returns></returns>
-            [Authorize]
-            [HttpGet("/banner")]
-            public async Task<IActionResult> ViewBanner()
+        }
+        /// <summary>
+        /// View Banner
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("/banner")]
+        public async Task<IActionResult> ViewBanner()
+        {
+            _logger.LogInformation($"REST request to view banner ");
+            try
             {
-                _logger.LogInformation($"REST request to view banner ");
-                try
-                {
-                    return Ok(await _context.banners.ToListAsync());
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"REST request to view banner fail: {ex.Message}");
-                    return StatusCode(500, ex.Message);
-                }
+                return Ok(await _context.banners.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to view banner fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
             }
         }
     }
 }
+
