@@ -140,15 +140,15 @@ namespace Post.Infrastructure.Persistences.Repositories
                 query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
             }
 
-            if (fromPrice >= 0)
+            if (fromPrice >= 0 && fromPrice != null)
             {
-                if (toPrice > 0)
+                if (toPrice > 0 && toPrice != null && toPrice >= fromPrice)
                 {
-                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price < toPrice));
+                    query = query.Where(i => i.PriceTo != null && i.Price >= fromPrice && i.PriceTo >= toPrice || i.PriceTo == null && i.Price >= fromPrice && i.Price <= toPrice);
                 }
-                else
+                if (toPrice == null)
                 {
-                    query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
+                    query = query.Where(i => i.Price >= fromPrice && i.Price <= toPrice);
                 }
             }
 
