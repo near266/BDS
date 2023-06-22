@@ -14,6 +14,8 @@ namespace Wallet.Infrastructure.Persistences
         public DbSet<TransactionHistory> TransactionHistorys { get; set; }
         public DbSet<DepositRequest> DepositRequests { get; set; }
         public DbSet<Banner> banners { get; set; }
+        public DbSet<TypePrice> TypePrices { get; set; }
+        public DbSet<PriceConfiguration> PriceConfigurations { get; set; }
 
         public WalletDbContext(DbContextOptions<WalletDbContext> options) : base(options)
         {
