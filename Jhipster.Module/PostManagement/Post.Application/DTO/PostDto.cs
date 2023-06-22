@@ -90,6 +90,9 @@ namespace Post.Application.DTO
         public string Name { get; set; }
         public int? Order { get; set; }
         public string? Description { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public string? CreatedBy { get;set; }
         public DistrictDTO? District { get; set; }
     }
 
