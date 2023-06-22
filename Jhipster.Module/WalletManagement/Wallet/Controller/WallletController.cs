@@ -170,7 +170,7 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request  Update Wallet : {JsonConvert.SerializeObject(request)}");
             try
             {
-                if (request.AmountWallet <= 0) throw new ArgumentException("Giá lớn hơn 0");
+                if (request.AmountWallet < 0) throw new ArgumentException("Giá lớn hơn hoặc bằng 0");
                 if (request.AmountWalletPromotional < 0) throw new ArgumentException("Giá khuyến mãi lớn hơn hoặc bằng 0");
                 request.LastModifiedBy = GetUserIdFromConext();
                 var Cus = new GetWalletByUserIdQuery()
