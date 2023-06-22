@@ -13,10 +13,8 @@ namespace Wallet.Domain.Entities
         public DateTime? Day { get; set; }
         public decimal Price { get; set; }
         public string? Description { get; set; }
-
-        [ForeignKey("TypePriceId")]
-        public Guid? GroupId { get; set; }
-        
+        public Guid? TypePriceId { get; set; }
+        public TypePrice TypePrice { get; set; }
 
     }
 }
