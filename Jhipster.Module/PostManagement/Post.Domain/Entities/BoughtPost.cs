@@ -32,7 +32,8 @@ namespace Post.Domain.Entities
         public string UserId { get; set; }
         public string? Reason { get; set; }
         public DateTime? Order { get; set; }
-        
+        public double? PriceTo { get; set; }
+        public string? RangePrice { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public DateTime? ChangeDate { get; set; }
     }

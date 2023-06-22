@@ -22,7 +22,7 @@ namespace Post.Application.DTO
     }
     public class SearchBoughtPostDTO
     {
-        public string Id { get; set; } 
+        public string Id { get; set; }
         public string? Titile { get; set; }
         public string? Description { get; set; }
         public List<string>? Image { get; set; }
@@ -41,6 +41,8 @@ namespace Post.Application.DTO
         public string UserId { get; set; }
         public string? Reason { get; set; }
         public DateTime? Order { get; set; }
+        public double? PriceTo { get; set; }
+        public string? RangePrice { get; set; }
 
         public DateTime? ApprovalDate { get; set; }
         public DateTime? ChangeDate { get; set; }
@@ -92,7 +94,7 @@ namespace Post.Application.DTO
         public string? Description { get; set; }
         public DateTime? LastModifiedDate { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public string? CreatedBy { get;set; }
+        public string? CreatedBy { get; set; }
         public DistrictDTO? District { get; set; }
     }
 

@@ -27,8 +27,11 @@ namespace Post.Application.Commands.BoughtPostC
         public string? FullName { get; set; }
 
         public string? Address { get; set; }
-        
+
         public string? PhoneNumber { get; set; }
+        public double? PriceTo { get; set; }
+        public string? RangePrice { get; set; }
+
         public string? Email { get; set; }
         public DateTime? ChangeDate { get; set; }
         [JsonIgnore]

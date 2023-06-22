@@ -25,6 +25,9 @@ namespace Post.Application.Commands.BoughtPostC
         public string? UserId { get; set; }
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
+        public double? PriceTo { get; set; }
+        public string? RangePrice { get; set; }
+
         public string? Email { get; set; }
         [JsonIgnore]
         public DateTime? CreatedDate { get; set; }
@@ -45,7 +48,7 @@ namespace Post.Application.Commands.BoughtPostC
         {
             var map = _mapper.Map<BoughtPost>(request);
             var check = await _repository.CheckTitle(request.Titile, request.UserId);
-            if(!check) throw new ArgumentException("Can not have the same title !");
+            if (!check) throw new ArgumentException("Can not have the same title !");
             return await _repository.AddBoughtPost(map, cancellationToken);
         }
     }
