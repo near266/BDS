@@ -860,7 +860,7 @@ namespace Post.Controller
         /// <param name="rq"></param>
         /// <returns></returns>
         [HttpPost("/sale/updateAdmin")]
-        public async Task<IActionResult> UpdateSalePostAdminC([FromBody] UpdateSalePostAdminC rq)
+        public async Task<IActionResult> UpdateSalePostAdminC([FromBody] UpdateSalePostAdminV2C rq)
         {
             _logger.LogInformation($"REST request to update admin sale");
             try

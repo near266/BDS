@@ -595,6 +595,16 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return 0;
         }
+        public async Task<int> UpdateSaleAdminV2(SalePost rq, CancellationToken cancellationToken)
+        {
+            var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            if (check != null)
+            {
+                var map = _mapper.Map(rq, check);
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+            return 0;
+        }
         public async Task<int> UpdateBoughtPostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken)
         {
             var check = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == Id);

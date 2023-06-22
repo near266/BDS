@@ -29,6 +29,7 @@ namespace Post.Application.Contracts
             string? region, int Page, int PageSize);
         Task<SalePost> ViewDetailSalePost(string id);
         Task<int> UpdateSalePostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken);
+        Task<int> UpdateSaleAdminV2(SalePost rq, CancellationToken cancellationToken);
         Task<int> UpdateBoughtPostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken);
 
         Task<List<SalePost>> GetRandomSalePost(int Random, string? Region);
