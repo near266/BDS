@@ -1138,16 +1138,12 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<PagedList<Ward>> SearchWard(string? districtId, string? name, int Page, int PageSize)
+        public async Task<PagedList<Ward>> SearchWard(string? name, int Page, int PageSize)
         {
             var query = _context.Wards.AsQueryable();
             if (name != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Name) && i.Name.ToLower().Contains(name.ToLower().Trim()));
-            }
-            if (districtId != null)
-            {
-                query = query.Where(i => i.DistrictId == districtId);
             }
             var sQuery = query.Include(i => i.District).OrderBy(i => i.Order);
             var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
@@ -1162,7 +1158,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
 
         }
-        public async Task<List<Ward>> SearchWardByDistrict(string? districtId, string? name)
+        public async Task<PagedList<Ward>> SearchWardByDistrict(string? districtId, string? name, int Page, int PageSize)
         {
             var query = _context.Wards.AsQueryable();
             if (name != null)
@@ -1174,8 +1170,16 @@ namespace Post.Infrastructure.Persistences.Repositories
                 query = query.Where(i => i.DistrictId == districtId);
             }
             var sQuery = query.OrderBy(i => i.Order);
+            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                .Take(PageSize)
+                                .ToListAsync();
+
             var reslist = await sQuery.ToListAsync();
-            return reslist;
+            return new PagedList<Ward>
+            {
+                Data = sQuery1,
+                TotalCount = reslist.Count,
+            };
         }
         #endregion
 
