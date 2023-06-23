@@ -39,6 +39,12 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task<IEnumerable<TypePrice>> GetAll()
+        {
+            var list = await _context.TypePrices.ToListAsync();
+            return list;
+        }
+
         public async Task<int> Update(TypePrice typePrice, CancellationToken cancellationToken)
         {
             var check = await _context.TypePrices.FirstOrDefaultAsync(i => i.Id == typePrice.Id);

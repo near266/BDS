@@ -1,7 +1,10 @@
 ﻿using System;
 using AutoMapper;
+using Jhipster.Crosscutting.Utilities;
+using Post.Domain.Entities;
 using Wallet.Application.Commands.CustomerC;
 using Wallet.Application.Commands.DepositRepositoryC;
+using Wallet.Application.Commands.PriceConfigurationC;
 using Wallet.Application.Commands.TypePriceC;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
@@ -46,6 +49,13 @@ namespace Wallet.Application.Configurations.Mapper
             CreateMap<TypePrice, TypePrice>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<TypePrice, AddTypePriceCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<TypePrice, UpdateTypePriceCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<TypePrice, TypePriceDTO>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+
+            #endregion
+            #region PriceConfiguration
+            CreateMap<PriceConfiguration, AddPriceConfigurationCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<PriceConfiguration, PriceConfigurationDTO>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap(typeof(PagedList<PriceConfiguration>), typeof(PagedList<PriceConfigurationDTO>));
             #endregion
 
         }
