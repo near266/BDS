@@ -420,7 +420,7 @@ namespace Post.Controller
                     var role = GetRoleFromContext();
                     if (!CheckRoleList(role, RolesConstants.ADMIN))
                     {
-                        rq.UserId = GetUserIdFromConext();
+                        rq.UserId = role;
                     }
                     else
                     {

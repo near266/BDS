@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Jhipster.Crosscutting.Constants;
 using Jhipster.Crosscutting.Utilities;
 using Jhipster.Domain;
 using Jhipster.Infrastructure.Data;
@@ -698,9 +699,10 @@ namespace Post.Infrastructure.Persistences.Repositories
         {
             var res = await _databaseContext.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
             if (res == null) throw new ArgumentException("Can not find!");
-            if (UserId != null)
+            if (UserId != null && UserId == RolesConstants.ADMIN)
             {
-                var CusId = Guid.Parse(UserId);
+                var CusId = Guid.Parse(res.UserId);
+
                 var Cus = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == CusId);
                 res.Address = Cus.Address;
             }
