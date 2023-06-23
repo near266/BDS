@@ -699,7 +699,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         {
             var res = await _databaseContext.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
             if (res == null) throw new ArgumentException("Can not find!");
-            if (UserId != null && UserId == RolesConstants.ADMIN)
+            if (UserId != null && UserId.Contains(RolesConstants.ADMIN))
             {
                 var CusId = Guid.Parse(res.UserId);
 

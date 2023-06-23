@@ -418,7 +418,7 @@ namespace Post.Controller
                 try
                 {
                     var role = GetRoleFromContext();
-                    if (!CheckRoleList(role, RolesConstants.ADMIN))
+                    if (CheckRoleList(role, RolesConstants.ADMIN) == true)
                     {
                         rq.UserId = role;
                     }
