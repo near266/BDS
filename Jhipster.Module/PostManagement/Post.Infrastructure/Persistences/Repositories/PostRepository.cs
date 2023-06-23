@@ -1169,7 +1169,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 query = query.Where(i => i.DistrictId == districtId);
             }
-            var sQuery = query.OrderBy(i => i.Order);
+            var sQuery = query.Include(i => i.District).OrderBy(i => i.Order);
             var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToListAsync();
