@@ -2,6 +2,7 @@
 using AutoMapper;
 using Wallet.Application.Commands.CustomerC;
 using Wallet.Application.Commands.DepositRepositoryC;
+using Wallet.Application.Commands.TypePriceC;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
 using Wallet.Application.DTO;
@@ -41,6 +42,12 @@ namespace Wallet.Application.Configurations.Mapper
                 .ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
 
             #endregion
+            #region TypePrice
+            CreateMap<TypePrice, TypePrice>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<TypePrice, AddTypePriceCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<TypePrice, UpdateTypePriceCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            #endregion
+
         }
     }
 }
