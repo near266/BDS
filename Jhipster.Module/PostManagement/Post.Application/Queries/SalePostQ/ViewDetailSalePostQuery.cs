@@ -15,7 +15,7 @@ namespace Post.Application.Queries.SalePostQ
     {
         public string Id { get; set; }
         [JsonIgnore]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
     }
     public class ViewDeatailSalePostQueryHandler : IRequestHandler<ViewDetailSalePostQuery, SalePost>
     {
@@ -29,7 +29,7 @@ namespace Post.Application.Queries.SalePostQ
 
         public async Task<SalePost> Handle(ViewDetailSalePostQuery request, CancellationToken cancellationToken)
         {
-            return await _Repository.ViewDetailSalePost(request.Id,request.UserId);
+            return await _Repository.ViewDetailSalePost(request.Id, request.UserId);
         }
     }
 }
