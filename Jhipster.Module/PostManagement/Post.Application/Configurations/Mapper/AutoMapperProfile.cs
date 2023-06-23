@@ -7,6 +7,7 @@ using Post.Application.Commands.NewPostC;
 using Post.Application.Commands.SalePostC;
 using Post.Application.Commands.WardC;
 using Post.Application.DTO;
+using Post.Application.DTO.SalePostDtos;
 using Post.Application.Queries.WardQ;
 using Post.Domain.Entities;
 
@@ -33,6 +34,7 @@ namespace Post.Application.Configurations.Mapper
             CreateMap<SalePost, RepostSalePostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<SalePost, SalePost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<SalePost, UpdateSalePostAdminV2C>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<SalePost, DetailSalePost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             #endregion
             #region NewPost
             CreateMap<NewPost, NewPost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));

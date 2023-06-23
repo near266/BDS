@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Post.Application.Contracts;
 using Post.Application.DTO;
+using Post.Application.DTO.SalePostDtos;
 using Post.Domain.Abstractions;
 using Post.Domain.Entities;
 using Post.Shared.Enums;
@@ -695,18 +696,17 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
         }
 
-        public async Task<SalePost> ViewDetailSalePost(string id, string UserId)
+        public async Task<DetailSalePost> ViewDetailSalePost(string id, string UserId)
         {
             var res = await _databaseContext.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
             if (res == null) throw new ArgumentException("Can not find!");
-            if (UserId != null && UserId.Contains(RolesConstants.ADMIN))
-            {
-                var CusId = Guid.Parse(res.UserId);
+            var map = _mapper.Map<DetailSalePost>(res);
+            var CusId = Guid.Parse(res.UserId);
 
-                var Cus = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == CusId);
-                res.Address = Cus.Address;
-            }
-            return res;
+            var Cus = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == CusId);
+            map.AddressUser = Cus.Address;
+
+            return map;
         }
         #endregion
 
