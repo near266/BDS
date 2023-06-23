@@ -10,11 +10,10 @@ namespace Wallet.Domain.Entities
     public class PriceConfiguration : BaseEntity<Guid>
     {
         public int Type { get; set; }
-        public DateTime? Day { get; set; }
         public decimal Price { get; set; }
         public string? Description { get; set; }
         public Guid? TypePriceId { get; set; }
         public TypePrice TypePrice { get; set; }
-
+        public int Date { get; set; }
     }
 }
