@@ -38,6 +38,7 @@ namespace Wallet.Infrastructure.Extensions
             services.AddScoped(typeof(ICustomerRepository), typeof(CustomerRepository));
             services.AddScoped(typeof(ITransactionHistoryRepository), typeof(TransactionHistoryRepository));
             services.AddScoped(typeof(IDepositRequestRepository), typeof(DepositRequestRepository));
+            services.AddScoped(typeof(ITypePriceRepository), typeof(TypePriceRepository));
 
             return services;
         }

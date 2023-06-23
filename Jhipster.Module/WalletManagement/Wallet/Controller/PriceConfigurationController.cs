@@ -14,7 +14,7 @@ using Wallet.Application.Commands.TypePriceC;
 
 namespace Wallet.Controller
 {
-    
+
     [ApiController]
     [Route("[controller]")]
     public class PriceConfigurationController : ControllerBase
