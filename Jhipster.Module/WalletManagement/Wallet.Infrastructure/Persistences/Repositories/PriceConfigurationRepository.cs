@@ -34,30 +34,19 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<int> Delete(List<Guid> Id, CancellationToken cancellationToken)
         {
-            var check  = await _context.PriceConfigurations.Where(i => Id.Contains(i.Id)).ToListAsync();
+            var check = await _context.PriceConfigurations.Where(i => Id.Contains(i.Id)).ToListAsync();
             if (check == null) throw new ArgumentException("Can not find");
-            foreach(var item in check)
+            foreach (var item in check)
             {
                 _context.PriceConfigurations.Remove(item);
             }
             return await _context.SaveChangesAsync(cancellationToken);
 
-        }   
+        }
 
-
-
-        public async Task<List<PriceConfiguration>> GetPriceConfigurationByTypePriceId(Guid TypePriceId)
+        public async Task<PriceConfiguration> GetPriceConfigurationByTypePriceId(Guid TypePriceId)
         {
-            var query = _context.PriceConfigurations.AsQueryable();
-
-            if (TypePriceId != null)
-            {
-                query = query.Where(i => i.TypePriceId == TypePriceId);
-            }
-            var sQuery = query.Include(i => i.TypePrice).OrderBy(i => i.CreatedDate);
-            var reslist = await sQuery.ToListAsync();
-            return reslist;
-
+            return await _context.PriceConfigurations.FirstOrDefaultAsync(i => i.Id == TypePriceId);
         }
 
         public Task<int> Update(PriceConfiguration priceConfiguration, CancellationToken cancellationToken)

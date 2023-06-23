@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wallet.Application.DTO;
 using Wallet.Application.Persistences;
 using Wallet.Domain.Abstractions;
 using Wallet.Domain.Entities;
@@ -34,7 +35,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             var check = await _context.TypePrices.Where(i => Id.Contains(i.Id)).ToListAsync();
             foreach (var item in check)
             {
-                _context.TypePrices.Remove(item);   
+                _context.TypePrices.Remove(item);
             }
             return await _context.SaveChangesAsync(cancellationToken);
         }
@@ -45,6 +46,24 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             return list;
         }
 
+        public async Task<ViewDetailPriceDTO> GetPrice(Guid Id)
+        {
+            var list = await _context.TypePrices
+                                .FirstOrDefaultAsync(i => i.Id == Id);
+            if (list == null) throw new Exception("Fail");
+            var value = await _context.PriceConfigurations.Where(i => i.TypePriceId == Id).GroupBy(i => i.Type).Select(a => new PriceConfigDTO
+            {
+                Type = a.Key,
+                PriceConfig = _mapper.Map<List<PriceTypeDTO>>(a.ToList()),
+
+            }).ToListAsync();
+            var s = new ViewDetailPriceDTO()
+            {
+                TypePrice = list,
+                PriceConfiguration = value
+            };
+            return s;
+        }
         public async Task<int> Update(TypePrice typePrice, CancellationToken cancellationToken)
         {
             var check = await _context.TypePrices.FirstOrDefaultAsync(i => i.Id == typePrice.Id);

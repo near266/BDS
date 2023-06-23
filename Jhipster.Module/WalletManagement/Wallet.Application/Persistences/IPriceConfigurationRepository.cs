@@ -14,6 +14,6 @@ namespace Wallet.Application.Persistences
         Task<int> Add(PriceConfiguration priceConfiguration, CancellationToken cancellationToken);
         Task<int> Update(PriceConfiguration priceConfiguration, CancellationToken cancellationToken);
         Task<int> Delete(List<Guid> Id, CancellationToken cancellationToken);
-        Task<List<PriceConfiguration>> GetPriceConfigurationByTypePriceId(Guid TypePriceId);
+        Task<PriceConfiguration> GetPriceConfigurationByTypePriceId(Guid TypePriceId);
     }
 }

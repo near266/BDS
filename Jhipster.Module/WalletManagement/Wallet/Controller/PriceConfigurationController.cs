@@ -138,6 +138,27 @@ namespace Wallet.Controller
                 return StatusCode(500, ex.Message);
             }
         }
+        /// <summary>
+        /// Chi tiết gói
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/typeprice/id")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ViewDetailPrice([FromBody] ViewDetailTypePriceQ rq)
+        {
+            _logger.LogInformation($"REST request to get detail type price");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get detail type price fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
         #endregion
 
         #region PriceConfiguration

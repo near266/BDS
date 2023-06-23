@@ -50,6 +50,7 @@ namespace Wallet.Application.Configurations.Mapper
             CreateMap<TypePrice, AddTypePriceCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<TypePrice, UpdateTypePriceCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<TypePrice, TypePriceDTO>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<PriceTypeDTO, PriceConfiguration>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
 
             #endregion
             #region PriceConfiguration
