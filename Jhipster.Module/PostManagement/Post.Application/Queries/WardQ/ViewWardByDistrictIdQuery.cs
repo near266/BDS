@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Jhipster.Crosscutting.Utilities;
 using MediatR;
 using Post.Application.Contracts;
 using Post.Application.DTO;
@@ -12,13 +13,15 @@ using System.Threading.Tasks;
 
 namespace Post.Application.Queries.WardQ
 {
-    public class ViewWardByDistrictIdQuery : IRequest<List<WardDTO>>
+    public class ViewWardByDistrictIdQuery : IRequest<PagedList<WardDTO>>
     {
         public string? DistrictId { get; set; }
         public string? Name { get; set;}
-        
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+
     }
-    public class GetWardsByDistrictQHandler : IRequestHandler<ViewWardByDistrictIdQuery,List<WardDTO>>
+    public class GetWardsByDistrictQHandler : IRequestHandler<ViewWardByDistrictIdQuery, PagedList<WardDTO>>
     {
         private readonly IPostRepository _repository;
         private readonly IMapper _mapper;
@@ -28,10 +31,10 @@ namespace Post.Application.Queries.WardQ
             _mapper = mapper;
         }
 
-        public async Task<List<WardDTO>> Handle(ViewWardByDistrictIdQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<WardDTO>> Handle(ViewWardByDistrictIdQuery request, CancellationToken cancellationToken)
         {
-            var res =  await _repository.SearchWardByDistrict(request.DistrictId,request.Name);
-            var map = _mapper.Map<List<WardDTO>>(res);
+            var res =  await _repository.SearchWardByDistrict(request.DistrictId,request.Name, request.Page, request.PageSize);
+            var map = _mapper.Map<PagedList<WardDTO>>(res);
             return map;
         }
     }

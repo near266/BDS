@@ -16,8 +16,7 @@ namespace Post.Application.Queries.WardQ
     public class ViewAllWardQuery: IRequest<PagedList<WardDTO>>
     {
         public string? Name { get; set; }
-        [JsonIgnore]
-        public string? DistrictId { get; set; }
+        
         public int Page { get; set; }
         public int PageSize { get; set; }
     }
@@ -33,7 +32,7 @@ namespace Post.Application.Queries.WardQ
 
         public async Task<PagedList<WardDTO>> Handle(ViewAllWardQuery request, CancellationToken cancellationToken)
         {
-            var res = await _repository.SearchWard(request.DistrictId, request.Name, request.Page, request.PageSize);
+            var res = await _repository.SearchWard(request.Name, request.Page, request.PageSize);
             var map = _mapper.Map<PagedList<WardDTO>>(res);
             return map;
         }
