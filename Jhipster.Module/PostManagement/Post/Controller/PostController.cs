@@ -415,6 +415,22 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to view detail : {rq}");
             try
             {
+                try
+                {
+                    var role = GetRoleFromContext();
+                    if (!CheckRoleList(role, RolesConstants.ADMIN))
+                    {
+                        rq.UserId = GetUserIdFromConext();
+                    }
+                    else
+                    {
+                        rq.UserId = null;
+                    }
+                }
+                catch
+                {
+
+                }
                 var result = await _mediator.Send(rq);
                 return Ok(result);
             }

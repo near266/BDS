@@ -27,7 +27,7 @@ namespace Post.Application.Contracts
         Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize);
         Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize);
-        Task<SalePost> ViewDetailSalePost(string id);
+        Task<SalePost> ViewDetailSalePost(string id ,string UserId);
         Task<int> UpdateSalePostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken);
         Task<int> UpdateSaleAdminV2(SalePost rq, CancellationToken cancellationToken);
         Task<int> UpdateBoughtPostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken);

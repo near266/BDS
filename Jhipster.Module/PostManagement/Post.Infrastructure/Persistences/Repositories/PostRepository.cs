@@ -694,10 +694,16 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
         }
 
-        public async Task<SalePost> ViewDetailSalePost(string id)
+        public async Task<SalePost> ViewDetailSalePost(string id, string UserId)
         {
-            var res = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
+            var res = await _databaseContext.SalePosts.FirstOrDefaultAsync(i => i.Id == id);
             if (res == null) throw new ArgumentException("Can not find!");
+            if (UserId != null)
+            {
+                var CusId = Guid.Parse(UserId);
+                var Cus = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == CusId);
+                res.Address = Cus.Address;
+            }
             return res;
         }
         #endregion
