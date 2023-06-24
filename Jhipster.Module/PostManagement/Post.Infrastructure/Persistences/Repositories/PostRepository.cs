@@ -85,14 +85,18 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return await _context.SaveChangesAsync(cancellationToken);
         }
-        public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, string? title, int? status, DateTime? fromDate, DateTime? toDate, int Page, int PageSize)
+        public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? Id,string? userid, string? title, int? status, DateTime? fromDate, DateTime? toDate, int Page, int PageSize)
         {
             var query = _context.BoughtPosts.AsQueryable();
+            if (Id != null)
+            {
+                query = query.Where(i => i.Id.Equals(Id));
+            }
 
             if (title != null)
             {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim())
-                                    || !string.IsNullOrEmpty(i.Id) && i.Id.ToLower().Contains(title.ToLower().Trim()));
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim()));
+                                   
             }
 
             if (status != null)

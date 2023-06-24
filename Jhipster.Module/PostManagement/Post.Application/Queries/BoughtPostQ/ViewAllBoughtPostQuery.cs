@@ -16,6 +16,7 @@ namespace Post.Application.Queries.BoughtPostQ
     {
         [JsonIgnore]
         public string? UserId { get; set; }
+        public string? Id { get;set; }
         public string? Title { get; set; }
         public int? Status { get; set; }
         public DateTime? FromDate { get; set; }
@@ -34,7 +35,7 @@ namespace Post.Application.Queries.BoughtPostQ
         }
         public async Task<PagedList<BoughtPost>> Handle(ViewAllBoughtPostQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.SearchBoughtPost(request.UserId,request.Title,request.Status,request.FromDate,request.ToDate,request.Page,request.PageSize);
+            return await _repository.SearchBoughtPost(request.Id,request.UserId,request.Title,request.Status,request.FromDate,request.ToDate,request.Page,request.PageSize);
         }
     }
 }

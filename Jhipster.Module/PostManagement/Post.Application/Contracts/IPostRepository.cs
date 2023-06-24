@@ -11,7 +11,7 @@ namespace Post.Application.Contracts
         Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken);
         Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken);
         Task<int> DeleteBoughtPost(List<string> Id, CancellationToken cancellationToken);
-        Task<PagedList<BoughtPost>> SearchBoughtPost(string? userid, string? title, int? status, DateTime? fromDate, DateTime? toDate, int Page, int PageSize);
+        Task<PagedList<BoughtPost>> SearchBoughtPost(string? Id,string? userid, string? title, int? status, DateTime? fromDate, DateTime? toDate, int Page, int PageSize);
         Task<PagedList<SearchBoughtPostDTO>> GetShowingBoughtPost(string? userid, string? keyword, double? fromPrice, double? toPrice,
             string? region, int Page, int PageSize);
         Task<BoughtPost> ViewDetailBoughtPost(string id);
