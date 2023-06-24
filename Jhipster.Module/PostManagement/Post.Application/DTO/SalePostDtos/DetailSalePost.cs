@@ -18,6 +18,10 @@ namespace Post.Application.DTO.SalePostDtos
         public double Price { get; set; }
         public double? Area { get; set; }
         public string? Region { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string? LastModifiedBy { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
         public string? Ward { get; set; }
         public List<string>? Image { get; set; }
         public int IsOwner { get; set; }
