@@ -25,7 +25,7 @@ namespace Post.Application.Contracts
         Task<int> UpdateSalePost(SalePost rq, double? numberOfDate, CancellationToken cancellationToken);
         Task<int> RepostSalePost(string? postId, int type, double numberofDate, CancellationToken cancellationToken);
         Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken);
-        Task<PagedList<SalePost>> SearchSalePost(string? userid, string? title, int? status, int? type, DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize);
+        Task<PagedList<SalePost>> SearchSalePost(string? Id,string? userid, string? title, int? status, int? type, DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize);
         Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize);
         Task<DetailSalePost> ViewDetailSalePost(string id ,string UserId);

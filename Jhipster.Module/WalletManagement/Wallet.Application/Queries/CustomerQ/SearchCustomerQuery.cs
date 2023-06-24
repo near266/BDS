@@ -13,6 +13,7 @@ namespace Wallet.Application.Queries.CustomerQ
 {
     public class SearchCustomerQuery : IRequest<SearchCustomerReponse>
     {
+        public string? CustomerCode { get; set; }
         public string? keyword { get; set; }
         public string? phone { get; set; }
         public bool? isUnique { get; set; }
@@ -29,7 +30,7 @@ namespace Wallet.Application.Queries.CustomerQ
         }
         public async Task<SearchCustomerReponse> Handle(SearchCustomerQuery request, CancellationToken cancellationToken)
         {
-            var res = await _repo.Search(request.keyword,request.phone,request.isUnique,request.page, request.pagesize);
+            var res = await _repo.Search(request.CustomerCode,request.keyword,request.phone,request.isUnique,request.page, request.pagesize);
             return res;
         }
     }
