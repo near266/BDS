@@ -24,7 +24,9 @@ namespace Jhipster.Security.Jwt
         Task<string> CreateToken(IPrincipal principal, bool rememberMe);
 
         ClaimsPrincipal TransformPrincipal(ClaimsPrincipal principal);
+        Task<IEnumerable<Claim>> GetRole(IPrincipal principal);
     }
+
 
     public class TokenProvider : ITokenProvider
     {
@@ -160,6 +162,15 @@ namespace Jhipster.Security.Jwt
                 return check.CustomerName;
             }    
             return _context.Users.FirstOrDefault(i=>i.Id==userId).FirstName;
+        }
+
+        public async Task<IEnumerable<Claim>> GetRole(IPrincipal principal)
+        {
+
+            return principal is ClaimsPrincipal user
+            ? user.FindAll(it => it.Type == ClaimTypes.Role)
+            : Enumerable.Empty<Claim>();
+
         }
     }
 }

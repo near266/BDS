@@ -88,7 +88,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? Id,string? userid, string? title, int? status, DateTime? fromDate, DateTime? toDate, int Page, int PageSize)
         {
             var query = _context.BoughtPosts.AsQueryable();
-            if (Id != null)
+            if (!string.IsNullOrEmpty(Id))
             {
                 query = query.Where(i => i.Id.Equals(Id));
             }
@@ -426,12 +426,12 @@ namespace Post.Infrastructure.Persistences.Repositories
             DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize)
         {
             var query = _context.SalePosts.AsQueryable();
-            if (Id != null)
+            if (Id != null && Id.Length > 0)
             {
                 query = query.Where(i=>i.Id.Equals(Id));
                                    
             }
-            if (title != null)
+            if (title != null && title.Length>0)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim()));
             }
