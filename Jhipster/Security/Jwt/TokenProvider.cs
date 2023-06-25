@@ -24,7 +24,7 @@ namespace Jhipster.Security.Jwt
         Task<string> CreateToken(IPrincipal principal, bool rememberMe);
 
         ClaimsPrincipal TransformPrincipal(ClaimsPrincipal principal);
- 
+        Task<List<string>> GetRoleToken(IPrincipal principal);
     }
 
 
@@ -149,7 +149,22 @@ namespace Jhipster.Security.Jwt
                 ? user.FindAll(it => it.Type == ClaimTypes.Role)
                 : Enumerable.Empty<Claim>();
         }
-
+    public async Task<List<string>> GetRoleToken(IPrincipal principal)
+        {
+           var roles= principal is ClaimsPrincipal user
+                ? user.FindAll(it => it.Type == ClaimTypes.Role)
+                : Enumerable.Empty<Claim>();
+            var authValue = string.Join(",", roles.Map(it => it.Value));
+            string str = authValue;
+            List<string> parts = new List<string>();
+             string[] a = authValue.Split(',');
+            foreach (string rl in a)
+            {
+                parts.Add(rl);
+            }
+            return parts;
+        }
+        
         public async Task<string> GetFullName(string userId)
         {
             return await _userManager.FindByIdAsync(userId).Select(i => i.FirstName);
