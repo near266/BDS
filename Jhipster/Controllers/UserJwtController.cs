@@ -49,7 +49,7 @@ namespace Jhipster.Controllers
             var user = await _authenticationService.Authenticate(loginDto.Username, loginDto.Password);
             var rememberMe = loginDto.RememberMe;
             var jwt = await _tokenProvider.CreateToken(user, rememberMe);
-            var role = HttpContext.Response.GetHashCode();
+         
             
           
             var httpHeaders = new HeaderDictionary
