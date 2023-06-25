@@ -24,7 +24,9 @@ namespace Jhipster.Security.Jwt
         Task<string> CreateToken(IPrincipal principal, bool rememberMe);
 
         ClaimsPrincipal TransformPrincipal(ClaimsPrincipal principal);
+ 
     }
+
 
     public class TokenProvider : ITokenProvider
     {
@@ -161,5 +163,7 @@ namespace Jhipster.Security.Jwt
             }    
             return _context.Users.FirstOrDefault(i=>i.Id==userId).FirstName;
         }
+
+      
     }
 }

@@ -74,16 +74,16 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         public async Task<SearchCustomerReponse> Search(string? CustomerCode,string? keyword, string? phone, bool? isUnique, int page, int pagesize)
         {
             var query = _context.Customers.AsQueryable();
-            if(CustomerCode != null)
+            if(CustomerCode != null &&  CustomerCode.Length>0)
             {
                 query=query.Where(i=>i.CustomerCode.Equals(CustomerCode));
             }
             
-            if (keyword != null)
+            if (keyword != null && keyword.Length > 0)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.CustomerName) && i.CustomerName.ToLower().Contains(keyword.ToLower().Trim()));
             }
-            if (phone != null)
+            if (phone != null && phone.Length > 0)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Phone) && i.Phone.ToLower().Contains(phone.ToLower().Trim()));
             }

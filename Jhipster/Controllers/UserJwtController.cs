@@ -15,6 +15,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using RestSharp;
 using System;
+using System.Security.Claims;
 
 namespace Jhipster.Controllers
 {
@@ -48,6 +49,9 @@ namespace Jhipster.Controllers
             var user = await _authenticationService.Authenticate(loginDto.Username, loginDto.Password);
             var rememberMe = loginDto.RememberMe;
             var jwt = await _tokenProvider.CreateToken(user, rememberMe);
+         
+            
+          
             var httpHeaders = new HeaderDictionary
             {
                 [JwtConstants.AuthorizationHeader] = $"{JwtConstants.BearerPrefix} {jwt}",
@@ -56,13 +60,20 @@ namespace Jhipster.Controllers
         }
     }
 
+ 
+    
+
     public class JwtToken
     {
         public JwtToken(string idToken)
         {
             IdToken = idToken;
+
         }
 
+  
         [JsonProperty("id_token")] private string IdToken { get; }
+    
     }
+  
 }
