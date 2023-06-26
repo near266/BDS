@@ -38,5 +38,6 @@ namespace Post.Application.DTO.SalePostDtos
         public DateTime? ApprovalDate { get; set; }
         public DateTime? ChangeDate { get; set; }
         public string? AddressUser { get; set; }
+        public int Unit { get; set; }
     }
 }

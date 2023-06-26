@@ -47,6 +47,8 @@ namespace Post.Domain.Entities
         public DateTime? Order { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public DateTime? ChangeDate { get; set; }
+        public int Unit { get; set; }
+
     }
 
     public static class RandomUtil

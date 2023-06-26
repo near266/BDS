@@ -35,6 +35,7 @@ namespace Post.Application.Commands.SalePostC
         public double? NumberOfDate { get; set; }
         public string? Reason { get; set; }
         public List<string>? Documents { get; set; }
+        public int Unit { get; set; }
 
         public DateTime? ChangeDate { get; set; }
         [JsonIgnore]

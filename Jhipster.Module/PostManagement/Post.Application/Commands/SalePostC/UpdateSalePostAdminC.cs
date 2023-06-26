@@ -16,6 +16,8 @@ namespace Post.Application.Commands.SalePostC
         public string? Description { get; set; }
         public int? Status { get; set; }
         public List<string>? Image { get; set; }
+        public int Unit { get; set; }
+
 
     }
     public class UpdateSalePostAdminCHandler : IRequestHandler<UpdateSalePostAdminC, int>
