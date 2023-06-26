@@ -18,6 +18,7 @@ using Post.Application.Queries.DistrictQ;
 using Post.Application.Commands.WardC;
 using Post.Application.Queries.WardQ;
 using Post.Application.Queries.NewPostQ;
+using MimeKit.Cryptography;
 
 namespace Post.Controller
 {
@@ -773,6 +774,13 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to add ward : {rq}");
             try
             {
+                var check = new ViewAllWardQuery { Name=rq.Name,Page =1 ,PageSize =1000};
+                var result = await _mediator.Send(check);
+                if (result.TotalCount != 0)
+                {
+                    throw new Exception("Khu vực " + $"{rq.Name}" + " đã tồn tại");
+                    
+                }
                 rq.CreatedDate = DateTime.Now;
                 rq.CreatedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
@@ -869,6 +877,23 @@ namespace Post.Controller
                 _logger.LogError($"REST request to search ward by district fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
+        }
+        [HttpGet("/ward/ViewDetail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ViewDetailWard( [FromQuery] ViewDetailWardQuery request)
+        {
+            _logger.LogInformation($"REST request to ViewDetail");
+            try
+            {
+                var result = await _mediator.Send(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to ViewDetail fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+
         }
         /// <summary>
         /// Update Admin Sale

@@ -52,6 +52,7 @@ namespace Post.Application.Contracts
         #region Ward
         Task<int> AddWard(Ward rq, CancellationToken cancellationToken);
         Task<int> UpdateWard(Ward rq, CancellationToken cancellationToken);
+        Task<Ward> GetDetailWard(string id);
         Task<int> DeleteWard(List<string> Id, CancellationToken cancellationToken);
         //Task<PagedList<Ward>> GetShowingWard(string? districtId, string? name, int Page, int PageSize);
         Task<PagedList<Ward>> SearchWard(string? name, int Page, int PageSize);

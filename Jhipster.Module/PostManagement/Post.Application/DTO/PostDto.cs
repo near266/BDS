@@ -102,4 +102,5 @@ namespace Post.Application.DTO
     {
         public string? Name { get; set; }
     }
+   
 }
