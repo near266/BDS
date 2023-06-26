@@ -52,6 +52,8 @@ namespace Post.Application.Configurations.Mapper
             CreateMap<Ward, UpdateWardCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<Ward, AddWardCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap(typeof(PagedList<Ward>), typeof(PagedList<WardDTO>));
+            CreateMap<Ward, WardDtos>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+
             #endregion
         }
     }

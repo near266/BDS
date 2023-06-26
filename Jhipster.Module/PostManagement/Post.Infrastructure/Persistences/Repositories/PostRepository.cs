@@ -1280,6 +1280,11 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-
+        public async Task<Ward> GetDetailWard(string id)
+        {
+          var check = await _context.Wards.Where(i=>i.Id.Equals(id)).Include(i=>i.District).FirstOrDefaultAsync();
+            return check;
+            
+        }
     }
 }
