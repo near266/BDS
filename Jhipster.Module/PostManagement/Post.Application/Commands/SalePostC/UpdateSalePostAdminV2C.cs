@@ -31,6 +31,8 @@ namespace Post.Application.Commands.SalePostC
         public string? PhoneNumber { get; set; }
         public List<string>? Documents { get; set; }
         public string? Reason { get; set; }
+        public int Unit { get; set; }
+
 
     }
     public class UpdateSalePostAdminV2CHandler : IRequestHandler<UpdateSalePostAdminV2C, int>

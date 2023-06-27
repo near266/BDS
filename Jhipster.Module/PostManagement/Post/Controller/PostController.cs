@@ -264,7 +264,7 @@ namespace Post.Controller
             {
                 rq.Username = GetUsernameFromContext();
                 rq.UserId = GetUserIdFromConext();
-                rq.CreatedDate = DateTime.UtcNow;
+                rq.CreatedDate = DateTime.Now;
                 rq.CreatedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
                 return Ok(res);
@@ -774,12 +774,12 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to add ward : {rq}");
             try
             {
-                var check = new ViewAllWardQuery { Name=rq.Name,Page =1 ,PageSize =1000};
+                var check = new ViewAllWardQuery { Name = rq.Name, Page = 1, PageSize = 1000 };
                 var result = await _mediator.Send(check);
                 if (result.TotalCount != 0)
                 {
                     throw new Exception("Khu vực " + $"{rq.Name}" + " đã tồn tại");
-                    
+
                 }
                 rq.CreatedDate = DateTime.Now;
                 rq.CreatedBy = GetUsernameFromContext();

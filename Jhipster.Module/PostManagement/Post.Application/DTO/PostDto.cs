@@ -83,6 +83,8 @@ namespace Post.Application.DTO
         public string? MinSale { get; set; }
         public string? avatar { get; set; }
         public List<string>? Documents { get; set; }
+        public int Unit { get; set; }
+
 
     }
 
