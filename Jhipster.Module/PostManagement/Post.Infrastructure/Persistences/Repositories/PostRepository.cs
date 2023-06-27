@@ -1282,7 +1282,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<Ward> GetDetailWard(string id)
         {
-            var check = await _context.Wards.Where(i => i.Id.Equals(id)).Include(i => i.District).FirstOrDefaultAsync();
+          var check = await _context.Wards.Where(i=>i.Id.Trim().Equals(id)).Include(i=>i.District).FirstOrDefaultAsync();
             return check;
 
         }

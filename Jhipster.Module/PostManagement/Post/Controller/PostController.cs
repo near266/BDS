@@ -878,9 +878,9 @@ namespace Post.Controller
                 return StatusCode(500, ex.Message);
             }
         }
+        [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpGet("/ward/ViewDetail")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ViewDetailWard([FromQuery] ViewDetailWardQuery request)
+        public async Task<IActionResult> ViewDetailWard( [FromQuery] ViewDetailWardQuery request)
         {
             _logger.LogInformation($"REST request to ViewDetail");
             try
