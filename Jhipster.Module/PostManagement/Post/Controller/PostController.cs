@@ -880,7 +880,7 @@ namespace Post.Controller
         }
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpGet("/ward/ViewDetail")]
-        public async Task<IActionResult> ViewDetailWard( [FromQuery] ViewDetailWardQuery request)
+        public async Task<IActionResult> ViewDetailWard([FromQuery] ViewDetailWardQuery request)
         {
             _logger.LogInformation($"REST request to ViewDetail");
             try
@@ -912,6 +912,26 @@ namespace Post.Controller
             catch (Exception ex)
             {
                 _logger.LogError($"REST request to update admin sale fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// Update User Sale
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/sale/Userupdate")]
+        public async Task<IActionResult> UpdateSaleUserC([FromBody] UpdateSalePostAdminV2C rq)
+        {
+            _logger.LogInformation($"REST request to update user sale");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to update user sale fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }
