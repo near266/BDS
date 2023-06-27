@@ -32,6 +32,9 @@ namespace Wallet.Application.DTO
         public decimal Price { get; set; }
         public string? Description { get; set; }
         public int Date { get; set; }
+        public decimal? PriceDefault { get; set; }
+        public decimal? Discount { get; set; }
+        public int? Unit { get; set; }
     }
     public class ViewDetailPriceDTO
     {

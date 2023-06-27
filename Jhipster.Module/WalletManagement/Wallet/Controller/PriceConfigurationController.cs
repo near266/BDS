@@ -79,7 +79,7 @@ namespace Wallet.Controller
         /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPut("/typeprice/update")]
-        public async Task<IActionResult> UpdateNewPost([FromBody] UpdateTypePriceCommand rq)
+        public async Task<IActionResult> UpdateTypePrice([FromBody] UpdateTypePriceCommand rq)
         {
             _logger.LogInformation($"REST request to update type price : {rq}");
             try
@@ -145,7 +145,7 @@ namespace Wallet.Controller
         /// <returns></returns>
         [HttpPost("/typeprice/id")]
         [AllowAnonymous]
-        public async Task<IActionResult> ViewDetailPrice([FromBody] ViewDetailTypePriceQ rq)
+        public async Task<IActionResult> ViewDetailPrice([FromBody] ViewDetailTypePriceQuery rq)
         {
             _logger.LogInformation($"REST request to get detail type price");
             try
@@ -182,15 +182,38 @@ namespace Wallet.Controller
             }
         }
         /// <summary>
-        /// Lấy ra danh sách những cấu hình giá tiền theo tên gói
+        /// Chỉnh sửa  cấu hình giá 
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [HttpPost("/priceconfiguration/searchByTypePriceId")]
-        [Authorize(Roles = RolesConstants.USER)]
-        public async Task<IActionResult> GetPriceConfigByTypePriceId([FromBody] GetPriceConfigByTypePriceIdQuery rq)
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPut("/priceconfiguration/update")]
+        public async Task<IActionResult> Update([FromBody] UpdatePriceConfigurationCommand rq)
         {
-            _logger.LogInformation($"REST request to search price configuration by type priceId");
+            _logger.LogInformation($"REST request to update type price : {rq}");
+            try
+            {
+                rq.LastModifiedDate = DateTime.Now;
+                rq.LastModifiedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to update type price fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// xóa cấu hình giá 
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpDelete("/priceconfiguration/delete")]
+        public async Task<IActionResult> DeletePriceConfiguration([FromBody] DeletePriceConfigurationCommand rq)
+        {
+            _logger.LogInformation($"REST request to delete  price configuration :{rq}");
             try
             {
                 var result = await _mediator.Send(rq);
@@ -198,7 +221,29 @@ namespace Wallet.Controller
             }
             catch (Exception ex)
             {
-                _logger.LogError($"REST request to search price configuration by type priceId fail: {ex.Message}");
+                _logger.LogError($"REST request to delete price configuration fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
+        /// lấy ra danh sách tất cả các cấu hình giá
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/priceconfiguration/getall")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllPriceConfiguration()
+        {
+            _logger.LogInformation($"REST request to get all type price");
+            try
+            {
+                var com = new ViewAllPriceConfigurationQuery();
+                var result = await _mediator.Send(com);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get all type price fail: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }

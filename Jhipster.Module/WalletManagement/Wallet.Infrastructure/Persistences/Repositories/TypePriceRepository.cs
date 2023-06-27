@@ -33,6 +33,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         public async Task<int> Delete(List<Guid> Id, CancellationToken cancellationToken)
         {
             var check = await _context.TypePrices.Where(i => Id.Contains(i.Id)).ToListAsync();
+            if (check == null) throw new ArgumentException("Can not find");
             foreach (var item in check)
             {
                 _context.TypePrices.Remove(item);
@@ -48,8 +49,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<ViewDetailPriceDTO> GetPrice(Guid Id)
         {
-            var list = await _context.TypePrices
-                                .FirstOrDefaultAsync(i => i.Id == Id);
+            var list = await _context.TypePrices.FirstOrDefaultAsync(i => i.Id == Id);
             if (list == null) throw new Exception("Fail");
             var value = await _context.PriceConfigurations.Where(i => i.TypePriceId == Id).GroupBy(i => i.Type).Select(a => new PriceConfigDTO
             {
