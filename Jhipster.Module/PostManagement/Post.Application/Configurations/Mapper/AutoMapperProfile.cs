@@ -26,8 +26,7 @@ namespace Post.Application.Configurations.Mapper
 
             #endregion 
             #region SalePost
-            CreateMap<SalePost, SalePost>().ReverseMap().ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
-                .ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<SalePost, SalePost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<SalePost, UpdateSalePostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<SalePost, AddSalePostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<SalePost, SearchSalePostDTO>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));

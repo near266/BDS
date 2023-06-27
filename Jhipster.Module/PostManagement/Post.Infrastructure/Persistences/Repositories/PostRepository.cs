@@ -85,7 +85,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return await _context.SaveChangesAsync(cancellationToken);
         }
-        public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? Id,string? userid, string? title, int? status, DateTime? fromDate, DateTime? toDate, int Page, int PageSize)
+        public async Task<PagedList<BoughtPost>> SearchBoughtPost(string? Id, string? userid, string? title, int? status, DateTime? fromDate, DateTime? toDate, int Page, int PageSize)
         {
             var query = _context.BoughtPosts.AsQueryable();
             if (!string.IsNullOrEmpty(Id))
@@ -96,7 +96,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             if (title != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim()));
-                                   
+
             }
 
             if (status != null)
@@ -422,16 +422,16 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return await _context.SaveChangesAsync(cancellationToken);
         }
-        public async Task<PagedList<SalePost>> SearchSalePost(string? Id,string? userid, string? title, int? status, int? type,
+        public async Task<PagedList<SalePost>> SearchSalePost(string? Id, string? userid, string? title, int? status, int? type,
             DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize)
         {
             var query = _context.SalePosts.AsQueryable();
             if (Id != null && Id.Length > 0)
             {
-                query = query.Where(i=>i.Id.Equals(Id));
-                                   
+                query = query.Where(i => i.Id.Equals(Id));
+
             }
-            if (title != null && title.Length>0)
+            if (title != null && title.Length > 0)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(title.ToLower().Trim()));
             }
@@ -638,7 +638,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             if (check == null) throw new ArgumentException("Can not find!");
             else
             {
-                _mapper.Map(rq, check);
+                _mapper.Map<SalePost, SalePost>(rq, check);
                 check.Status = rq.Status;
                 check.Type = rq.Type;
                 check.Price = rq.Price;
@@ -1282,9 +1282,9 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<Ward> GetDetailWard(string id)
         {
-          var check = await _context.Wards.Where(i=>i.Id.Equals(id)).Include(i=>i.District).FirstOrDefaultAsync();
+            var check = await _context.Wards.Where(i => i.Id.Equals(id)).Include(i => i.District).FirstOrDefaultAsync();
             return check;
-            
+
         }
     }
 }
