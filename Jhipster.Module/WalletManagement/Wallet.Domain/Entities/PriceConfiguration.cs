@@ -18,7 +18,7 @@ namespace Wallet.Domain.Entities
 
         public decimal? PriceDefault { get; set; }  
         public decimal? Discount { get; set; }
-        public int? Unit { get; set; }
+        public int? Unit { get; set; }     // 0: vnd , 1:vnd/m2
 
     }
 }

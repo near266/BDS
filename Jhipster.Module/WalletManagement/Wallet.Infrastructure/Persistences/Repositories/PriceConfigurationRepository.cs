@@ -28,7 +28,16 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             _appcontext = appcontext;
         }
         public async Task<int> Add(PriceConfiguration priceConfiguration, CancellationToken cancellationToken)
-        { 
+        {
+            if (priceConfiguration.Unit == 0)
+            {
+                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault - priceConfiguration.Discount);
+
+            }
+            if (priceConfiguration.Unit == 1)
+            {
+                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault * (100 - priceConfiguration.Discount) / 100);
+            }
             await _context.PriceConfigurations.AddAsync(priceConfiguration);
             return await _context.SaveChangesAsync(cancellationToken);
         }
@@ -44,7 +53,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-       
+
 
         public async Task<int> Update(PriceConfiguration priceConfiguration, CancellationToken cancellationToken)
         {
