@@ -15,10 +15,16 @@ namespace Wallet.Application.Commands.PriceConfigurationC
     public class AddPriceConfigurationCommand : IRequest<int>
     {
         public int Type { get; set; }
+
+        [JsonIgnore]
         public decimal Price { get; set; }
         public string? Description { get; set; }
         public Guid? TypePriceId { get; set; }
         public int Date { get; set; }
+        public decimal? PriceDefault { get; set; }
+        public decimal? Discount { get; set; }
+        public int? Unit { get; set; }
+
         [JsonIgnore]
         public string? CreatedBy { get; set; }
         [JsonIgnore]

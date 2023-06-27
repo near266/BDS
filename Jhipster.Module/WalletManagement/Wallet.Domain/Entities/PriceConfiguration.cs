@@ -15,5 +15,10 @@ namespace Wallet.Domain.Entities
         public Guid? TypePriceId { get; set; }
         public TypePrice TypePrice { get; set; }
         public int Date { get; set; }
+
+        public decimal? PriceDefault { get; set; }  
+        public decimal? Discount { get; set; }
+        public int? Unit { get; set; }     // 0: vnd , 1:vnd/m2
+
     }
 }

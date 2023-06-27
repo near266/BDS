@@ -11,11 +11,11 @@ using Wallet.Domain.Entities;
 
 namespace Wallet.Application.Queries.TypePriceQ
 {
-    public class ViewDetailTypePriceQ : IRequest<ViewDetailPriceDTO>
+    public class ViewDetailTypePriceQuery : IRequest<ViewDetailPriceDTO>
     {
         public Guid Id { get; set; }
     }
-    public class ViewDetailTypePriceQHandler : IRequestHandler<ViewDetailTypePriceQ, ViewDetailPriceDTO>
+    public class ViewDetailTypePriceQHandler : IRequestHandler<ViewDetailTypePriceQuery, ViewDetailPriceDTO>
     {
         private readonly ITypePriceRepository _repo;
         private readonly IMapper _mapper;
@@ -26,7 +26,7 @@ namespace Wallet.Application.Queries.TypePriceQ
             _mapper = mapper;
         }
 
-        public async Task<ViewDetailPriceDTO> Handle(ViewDetailTypePriceQ request, CancellationToken cancellationToken)
+        public async Task<ViewDetailPriceDTO> Handle(ViewDetailTypePriceQuery request, CancellationToken cancellationToken)
         {
             return await _repo.GetPrice(request.Id);
         }

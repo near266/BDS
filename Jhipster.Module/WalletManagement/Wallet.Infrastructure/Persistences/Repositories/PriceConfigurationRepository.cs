@@ -6,6 +6,7 @@ using Post.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -28,6 +29,15 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         }
         public async Task<int> Add(PriceConfiguration priceConfiguration, CancellationToken cancellationToken)
         {
+            if (priceConfiguration.Unit == 0)
+            {
+                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault - priceConfiguration.Discount);
+
+            }
+            if (priceConfiguration.Unit == 1)
+            {
+                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault * (100 - priceConfiguration.Discount) / 100);
+            }
             await _context.PriceConfigurations.AddAsync(priceConfiguration);
             return await _context.SaveChangesAsync(cancellationToken);
         }
@@ -41,17 +51,25 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                 _context.PriceConfigurations.Remove(item);
             }
             return await _context.SaveChangesAsync(cancellationToken);
-
         }
 
-        public async Task<PriceConfiguration> GetPriceConfigurationByTypePriceId(Guid TypePriceId)
+
+
+        public async Task<int> Update(PriceConfiguration priceConfiguration, CancellationToken cancellationToken)
         {
-            return await _context.PriceConfigurations.FirstOrDefaultAsync(i => i.Id == TypePriceId);
+            var check = await _context.PriceConfigurations.FirstOrDefaultAsync(i => i.Id == priceConfiguration.Id);
+            if (check == null) throw new ArgumentException("Can not find");
+            else
+            {
+                _mapper.Map(priceConfiguration, check);
+                return await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+        public async Task<IEnumerable<PriceConfiguration>> GetAll()
+        {
+            var list = await _context.PriceConfigurations.ToListAsync();
+            return list;
         }
 
-        public Task<int> Update(PriceConfiguration priceConfiguration, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

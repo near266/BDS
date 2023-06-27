@@ -1,4 +1,5 @@
 ﻿using Jhipster.Crosscutting.Utilities;
+using Microsoft.EntityFrameworkCore;
 using Post.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,6 @@ namespace Wallet.Application.Persistences
         Task<int> Add(PriceConfiguration priceConfiguration, CancellationToken cancellationToken);
         Task<int> Update(PriceConfiguration priceConfiguration, CancellationToken cancellationToken);
         Task<int> Delete(List<Guid> Id, CancellationToken cancellationToken);
-        Task<PriceConfiguration> GetPriceConfigurationByTypePriceId(Guid TypePriceId);
+        Task<IEnumerable<PriceConfiguration>> GetAll();
     }
 }
