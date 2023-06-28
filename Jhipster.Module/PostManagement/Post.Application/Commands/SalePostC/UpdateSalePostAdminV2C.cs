@@ -14,7 +14,6 @@ namespace Post.Application.Commands.SalePostC
     public class UpdateSalePostAdminV2C : IRequest<int>
     {
         public string Id { get; set; }
-        public int? Type { get; set; }
         public string? Titile { get; set; }
         public string? Description { get; set; }
         public int? Status { get; set; }
@@ -46,7 +45,7 @@ namespace Post.Application.Commands.SalePostC
         }
         public async Task<int> Handle(UpdateSalePostAdminV2C request, CancellationToken cancellationToken)
         {
-                        return await _repository.UpdateSaleAdminV2(request, cancellationToken);
+            return await _repository.UpdateSaleAdminV2(request, cancellationToken);
         }
     }
 }

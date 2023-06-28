@@ -610,8 +610,8 @@ namespace Post.Infrastructure.Persistences.Repositories
             var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
             if (check != null)
             {
-                var map = _mapper.Map(rq, check);
-                map.LastModifiedDate = DateTime.Now;
+                var map = _mapper.Map<UpdateSalePostAdminV2C,SalePost>(rq, check);
+                map.LastModifiedDate=DateTime.Now;
                 return await _context.SaveChangesAsync(cancellationToken);
             }
             return 0;
