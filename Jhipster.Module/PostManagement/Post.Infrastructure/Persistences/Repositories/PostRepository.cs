@@ -112,7 +112,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             if (userid != null)
             {
-                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
+                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.LastModifiedDate);
                 var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                     .Take(PageSize)
                                     .ToListAsync();
@@ -125,7 +125,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             else
             {
-                var sQuery = query.OrderByDescending(i => i.CreatedDate);
+                var sQuery = query.OrderByDescending(i => i.LastModifiedDate);
                 var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                     .Take(PageSize)
                                     .ToListAsync();
@@ -170,7 +170,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 query = query.Where(i => i.UserId == userid);
             }
 
-            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
+            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing).OrderByDescending(i => i.Order).ThenByDescending(i => i.LastModifiedDate);
             var sQuery1 = sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToList();
@@ -250,7 +250,9 @@ namespace Post.Infrastructure.Persistences.Repositories
                 default:
                     break;
             }
-            rq.Order = DateTime.UtcNow;
+            rq.Order = DateTime.Now;
+            rq.LastModifiedDate = DateTime.Now;
+            rq.CreatedDate = DateTime.Now;
             await _context.SalePosts.AddAsync(rq);
             var res = await _context.SaveChangesAsync(cancellationToken);
             // Kiểm tra ví 
@@ -385,6 +387,8 @@ namespace Post.Infrastructure.Persistences.Repositories
                 post.Status = (int)PostStatus.Showing;
             }
             post.Order = DateTime.Now;
+            post.CreatedDate = DateTime.Now;
+            post.LastModifiedDate = DateTime.Now;
             post.Type = type;
             post.DueDate = post.DueDate.Value.AddDays(numberofDate);
             var res = await _context.SaveChangesAsync(cancellationToken);
@@ -403,7 +407,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     TransactionAmount = amount,
                     WalletType = walletType,
                     CustomerId = cusId,
-                    CreatedDate = DateTime.UtcNow,
+                    CreatedDate = DateTime.Now,
                     Title = Title,
                     Amount = Amount,
                     Walletamount = Walletamount,
@@ -494,7 +498,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             if (userid != null)
             {
-                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
+                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.LastModifiedDate);
                 var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                     .Take(PageSize)
                                     .ToListAsync();
@@ -507,7 +511,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             else
             {
-                var sQuery = query.OrderByDescending(i => i.CreatedDate);
+                var sQuery = query.OrderByDescending(i => i.LastModifiedDate);
                 var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                     .Take(PageSize)
                                     .ToListAsync();
@@ -571,7 +575,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
 
             var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)
-                .OrderByDescending(i => i.Type).ThenByDescending(i => i.Order).ThenByDescending(i => i.CreatedDate);
+                .OrderByDescending(i => i.Type).ThenByDescending(i => i.Order).ThenByDescending(i => i.LastModifiedDate);
             foreach (var item in sQuery)
             {
                 var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(item.UserId));
@@ -610,8 +614,8 @@ namespace Post.Infrastructure.Persistences.Repositories
             var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
             if (check != null)
             {
-                var map = _mapper.Map<UpdateSalePostAdminV2C,SalePost>(rq, check);
-                map.LastModifiedDate=DateTime.Now;
+                var map = _mapper.Map<UpdateSalePostAdminV2C, SalePost>(rq, check);
+                map.LastModifiedDate = DateTime.Now;
                 return await _context.SaveChangesAsync(cancellationToken);
             }
             return 0;
@@ -644,7 +648,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 check.Status = rq.Status;
                 check.Type = rq.Type;
                 check.Price = rq.Price;
-
+                check.LastModifiedDate = DateTime.Now;
 
 
                 bool checkWP = await CheckBalancePromotional(check.UserId, rq.Type, numberOfDate);// tru tien vi km
