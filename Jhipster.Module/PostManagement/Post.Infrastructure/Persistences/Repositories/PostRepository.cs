@@ -645,7 +645,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             else
             {
                 _mapper.Map<UpdateSalePostCommand, SalePost>(rq, check);
-               // check.Status = rq.Status;
+                check.Status = (int)rq.Status;
                 check.Type = rq.Type;
                 check.Price = rq.Price;
                 check.LastModifiedDate = DateTime.Now;
