@@ -15,7 +15,7 @@ namespace Post.Application.Commands.SalePostC
     public class UpdateSalePostCommand : IRequest<int>
     {
         public string Id { get; set; }
-        //public int Type { get; set; }
+        public int Type { get; set; }
         public int? Status { get; set; }
         [MinLength(30)]
         [MaxLength(100)]
