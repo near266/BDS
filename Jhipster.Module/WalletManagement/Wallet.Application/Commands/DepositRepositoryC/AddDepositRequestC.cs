@@ -15,7 +15,9 @@ namespace Wallet.Application.Commands.DepositRepositoryC
     {
         [JsonIgnore]
         public Guid CustomerId { get; set; }
-        public string PhoneNumber { get; set; }
+        public decimal? Amount { get; set; }
+
+        public string? PhoneNumber { get; set; }
         public string Image { get; set; }
         [JsonIgnore]
         public int Status { get; set; }
