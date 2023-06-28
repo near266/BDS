@@ -769,7 +769,7 @@ namespace Post.Controller
         }
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPost("/ward/add")]
-        public async Task<IActionResult> AddWard([FromBody] AddWardCommand rq)
+        public async Task<ActionResult<int>> AddWard([FromBody] AddWardCommand rq)
         {
             _logger.LogInformation($"REST request to add ward : {rq}");
             try
@@ -778,13 +778,13 @@ namespace Post.Controller
                 var result = await _mediator.Send(check);
                 if (result.TotalCount != 0)
                 {
-                    throw new Exception("Khu vực " + $"{rq.Name}" + " đã tồn tại");
+                    return Ok(0);
 
                 }
                 rq.CreatedDate = DateTime.Now;
                 rq.CreatedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
-                return Ok(res);
+                return Ok(1);
             }
             catch (Exception ex)
             {
