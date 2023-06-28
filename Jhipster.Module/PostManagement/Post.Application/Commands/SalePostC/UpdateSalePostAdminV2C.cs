@@ -46,8 +46,7 @@ namespace Post.Application.Commands.SalePostC
         }
         public async Task<int> Handle(UpdateSalePostAdminV2C request, CancellationToken cancellationToken)
         {
-            var map = _mapper.Map<SalePost>(request);
-            return await _repository.UpdateSaleAdminV2(map, cancellationToken);
+                        return await _repository.UpdateSaleAdminV2(request, cancellationToken);
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Post.Application.Commands.SalePostC;
 using Post.Application.Contracts;
 using Post.Application.DTO;
 using Post.Application.DTO.SalePostDtos;
@@ -604,12 +605,13 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return 0;
         }
-        public async Task<int> UpdateSaleAdminV2(SalePost rq, CancellationToken cancellationToken)
+        public async Task<int> UpdateSaleAdminV2(UpdateSalePostAdminV2C rq, CancellationToken cancellationToken)
         {
             var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
             if (check != null)
             {
                 var map = _mapper.Map(rq, check);
+                map.LastModifiedDate = DateTime.Now;
                 return await _context.SaveChangesAsync(cancellationToken);
             }
             return 0;
@@ -1282,7 +1284,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<Ward> GetDetailWard(string id)
         {
-          var check = await _context.Wards.Where(i=>i.Id.Trim().Equals(id)).Include(i=>i.District).FirstOrDefaultAsync();
+            var check = await _context.Wards.Where(i => i.Id.Trim().Equals(id)).Include(i => i.District).FirstOrDefaultAsync();
             return check;
 
         }

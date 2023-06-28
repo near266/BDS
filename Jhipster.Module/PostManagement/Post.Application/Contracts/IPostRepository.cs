@@ -1,4 +1,5 @@
 ﻿using Jhipster.Crosscutting.Utilities;
+using Post.Application.Commands.SalePostC;
 using Post.Application.DTO;
 using Post.Application.DTO.SalePostDtos;
 using Post.Domain.Entities;
@@ -30,7 +31,7 @@ namespace Post.Application.Contracts
             string? region, int Page, int PageSize);
         Task<DetailSalePost> ViewDetailSalePost(string id ,string UserId);
         Task<int> UpdateSalePostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken);
-        Task<int> UpdateSaleAdminV2(SalePost rq, CancellationToken cancellationToken);
+        Task<int> UpdateSaleAdminV2(UpdateSalePostAdminV2C rq, CancellationToken cancellationToken);
         Task<int> UpdateBoughtPostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken);
 
         Task<List<SalePost>> GetRandomSalePost(int Random, string? Region);
