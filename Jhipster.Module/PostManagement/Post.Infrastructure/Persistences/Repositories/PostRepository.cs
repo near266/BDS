@@ -634,7 +634,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return 0;
         }
-        public async Task<int> UpdateSalePost(SalePost rq, double? numberOfDate, CancellationToken cancellationToken)
+        public async Task<int> UpdateSalePost(UpdateSalePostCommand rq, double? numberOfDate, CancellationToken cancellationToken)
         {
             var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
             var user = await _wcontext.Wallets.FirstOrDefaultAsync(i => i.CustomerId.ToString() == check.UserId);
@@ -644,8 +644,8 @@ namespace Post.Infrastructure.Persistences.Repositories
             if (check == null) throw new ArgumentException("Can not find!");
             else
             {
-                _mapper.Map<SalePost, SalePost>(rq, check);
-                check.Status = rq.Status;
+                _mapper.Map<UpdateSalePostCommand, SalePost>(rq, check);
+               // check.Status = rq.Status;
                 check.Type = rq.Type;
                 check.Price = rq.Price;
                 check.LastModifiedDate = DateTime.Now;
