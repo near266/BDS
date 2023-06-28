@@ -36,7 +36,6 @@ namespace Post.Application.Commands.WardC
 
         public async Task<int> Handle(UpdateWardCommand request, CancellationToken cancellationToken)
         {
-            var map = _mapper.Map<Ward>(request);
             return await _repository.UpdateWard(map, cancellationToken);
         }
     }

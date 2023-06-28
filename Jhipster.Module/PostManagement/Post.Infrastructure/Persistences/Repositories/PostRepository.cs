@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Post.Application.Commands.SalePostC;
+using Post.Application.Commands.WardC;
 using Post.Application.Contracts;
 using Post.Application.DTO;
 using Post.Application.DTO.SalePostDtos;
@@ -1138,7 +1139,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<int> UpdateWard(Ward rq, CancellationToken cancellationToken)
+        public async Task<int> UpdateWard(UpdateWardCommand rq, CancellationToken cancellationToken)
         {
             var check = await _context.Wards.FirstOrDefaultAsync(i => i.Id == rq.Id);
             if (check == null) throw new ArgumentException("Can not find");

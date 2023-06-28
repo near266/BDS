@@ -1,5 +1,6 @@
 ﻿using Jhipster.Crosscutting.Utilities;
 using Post.Application.Commands.SalePostC;
+using Post.Application.Commands.WardC;
 using Post.Application.DTO;
 using Post.Application.DTO.SalePostDtos;
 using Post.Domain.Entities;
@@ -52,7 +53,7 @@ namespace Post.Application.Contracts
         #endregion
         #region Ward
         Task<int> AddWard(Ward rq, CancellationToken cancellationToken);
-        Task<int> UpdateWard(Ward rq, CancellationToken cancellationToken);
+        Task<int> UpdateWard(UpdateWardCommand rq, CancellationToken cancellationToken);
         Task<Ward> GetDetailWard(string id);
         Task<int> DeleteWard(List<string> Id, CancellationToken cancellationToken);
         //Task<PagedList<Ward>> GetShowingWard(string? districtId, string? name, int Page, int PageSize);
