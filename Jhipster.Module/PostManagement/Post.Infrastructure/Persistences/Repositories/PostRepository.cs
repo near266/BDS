@@ -645,7 +645,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             else
             {
                 _mapper.Map<UpdateSalePostCommand, SalePost>(rq, check);
-                check.Status = (int)rq.Status;
+                // check.Status = (int)rq.Status;
                 check.Type = rq.Type;
                 check.Price = rq.Price;
                 check.LastModifiedDate = DateTime.Now;
@@ -684,7 +684,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         await SubtractMoney(rq.Id, Fee, cancellationToken);
                         await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Vip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
                     }
-                    check.Status = (int)PostStatus.UnApproved;
+                    check.Status = (int)PostStatus.Showing;
                 }
                 else if (rq.Type == (int)PostType.Vip)
                 {
@@ -700,7 +700,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         await SubtractMoney(rq.Id, Fee, cancellationToken);
                         await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
                     }
-                    check.Status = (int)PostStatus.UnApproved;
+                    check.Status = (int)PostStatus.Showing;
                 }
 
                 check.DueDate = check.DueDate.Value.AddDays((double)numberOfDate);
