@@ -88,7 +88,7 @@ namespace Post.Controller
             {
                 rq.Username = GetUsernameFromContext();
                 rq.UserId = GetUserIdFromConext();
-                rq.CreatedDate = DateTime.UtcNow;
+                rq.CreatedDate = DateTime.Now;
                 rq.CreatedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
                 return Ok(res);
@@ -113,7 +113,7 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to update bought post : {rq}");
             try
             {
-                rq.LastModifiedDate = DateTime.UtcNow;
+                rq.LastModifiedDate = DateTime.Now;
                 rq.LastModifiedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
                 return Ok(res);
@@ -290,7 +290,7 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to update sale post : {rq}");
             try
             {
-                rq.LastModifiedDate = DateTime.UtcNow;
+                rq.LastModifiedDate = DateTime.Now;
                 rq.LastModifiedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
                 return Ok(res);
@@ -457,7 +457,7 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to approve post : {rq}");
             try
             {
-                rq.LastModifiedDate = DateTime.UtcNow;
+                rq.LastModifiedDate = DateTime.Now;
                 rq.LastModifiedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
                 return Ok(res);
@@ -568,7 +568,7 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to get change status");
             try
             {
-                rq.LastModifiedDate = DateTime.UtcNow;
+                rq.LastModifiedDate = DateTime.Now;
                 rq.LastModifiedBy = GetUsernameFromContext();
                 var result = await _mediator.Send(rq);
                 return Ok(result);
@@ -588,7 +588,7 @@ namespace Post.Controller
             {
                 rq.Username = GetUsernameFromContext();
                 rq.UserId = GetUserIdFromConext();
-                rq.CreatedDate = DateTime.UtcNow;
+                rq.CreatedDate = DateTime.Now;
                 rq.CreatedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
                 return Ok(res);

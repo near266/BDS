@@ -575,7 +575,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
 
             var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)
-                .OrderByDescending(i => i.Type).ThenByDescending(i => i.Order).ThenByDescending(i => i.LastModifiedDate);
+                .OrderByDescending(i => i.Type).ThenByDescending(i => i.LastModifiedDate);
             foreach (var item in sQuery)
             {
                 var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(item.UserId));
