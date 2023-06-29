@@ -54,7 +54,7 @@ namespace Jhipster.Infrastructure.Data
         public DbSet<NewPost> NewPosts { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<Ward> Wards { get; set; }
-
+        public DbSet<Notification> Notification { get; set; }
         public DbSet<DeliveryData> DeliveryDatas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
