@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Post.Application.Commands.NotificationC;
 using Post.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -190,6 +191,7 @@ namespace Wallet.Controller
                     CusAmount = CusDetail.wallet.Amount,
                     CusAmountPromotion = CusDetail.walletPromotional.Amount,
                 };
+
                 var Promotional = new UpdateWalletPromotionCommand
                 {
                     Id = Guid.NewGuid(),
@@ -202,7 +204,23 @@ namespace Wallet.Controller
                     CusAmountPromotion = CusDetail.walletPromotional.Amount,
                 };
                 var result = await _mediator.Send(wallet);
-                await _mediator.Send(Promotional);
+                var promotion = await _mediator.Send(Promotional);
+
+                if (result != 0)
+                {
+                    var notif = new CreateNotificationCommand();
+                    notif.Content = $"Nạp tiền tài khoản chính +{request.AmountWallet} VND ";
+                    notif.UserId = request.CustomerId.ToString();
+                    await _mediator.Send(notif);
+                }
+                if (promotion != 0 && request.AmountWalletPromotional != 0 && request.AmountWalletPromotional != null)
+                {
+                    var notif = new CreateNotificationCommand();
+                    notif.Content = $"Nạp tiền tài khoản khuyến mại +{request.AmountWalletPromotional} VND ";
+                    notif.UserId = request.CustomerId.ToString();
+                    await _mediator.Send(notif);
+                }
+
                 return Ok(result);
             }
             catch (Exception ex)

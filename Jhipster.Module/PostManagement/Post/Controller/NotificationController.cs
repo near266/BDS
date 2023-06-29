@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Jhipster.Crosscutting.Constants;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Post.Application.Commands.NotificationC;
@@ -23,12 +24,26 @@ namespace Post.Controller
             _logger = logger;
             _mediator = mediator;
         }
+        private string? GetUserIdFromConext()
+        {
+            return User.FindFirst(ClaimsTypeConst.Id)?.Value;
+        }
+
+        private string? GetRoleFromContext()
+        {
+            return User.FindFirst(ClaimsTypeConst.Role)?.Value;
+        }
+        private string? GetUsernameFromContext()
+        {
+            return User.FindFirst(ClaimsTypeConst.Name)?.Value;
+        }
         [HttpGet("id")]
         public async Task<IActionResult> ViewNotification([FromQuery] GetAllNotificationsQuery rq)
         {
             _logger.LogInformation($"REST view notification : {rq}");
             try
             {
+                rq.Id = GetUserIdFromConext();
                 var value = await _mediator.Send(rq);
                 return Ok(value);
             }

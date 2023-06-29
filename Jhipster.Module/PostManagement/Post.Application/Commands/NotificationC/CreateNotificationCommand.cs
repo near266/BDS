@@ -31,6 +31,7 @@ namespace Post.Application.Commands.NotificationC
         public async Task<int> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
         {
             var map = new Notification();
+            map.Id = Guid.NewGuid();
             map.Content = request.Content;
             map.IsSeen = request.IsSeen;
             map.UserId = request.UserId;

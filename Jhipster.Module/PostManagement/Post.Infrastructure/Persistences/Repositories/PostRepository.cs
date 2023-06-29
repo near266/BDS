@@ -346,12 +346,46 @@ namespace Post.Infrastructure.Persistences.Repositories
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate);
                     await SubtractMoneyPromotional(postId, Fee, cancellationToken);
                     await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    string body = "";
+                    if (post.Type == (int)PostType.Normal)
+                    {
+                        body = "Tin Thường";
+                    }
+                    if (post.Type == (int)PostType.Golden)
+                    {
+                        body = "Tin Vip";
+                    }
+                    if (post.Type == (int)PostType.Vip)
+                    {
+                        body = "Tin Vip đặc biệt";
+                    }
+                    var rqNotifi = new Notification();
+                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                    rqNotifi.UserId = post.UserId;
+                    await CreateNotification(rqNotifi, cancellationToken);
                 }
                 else if (!check && check1)
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate);
                     await SubtractMoney(postId, Fee, cancellationToken);
                     await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    string body = "";
+                    if (post.Type == (int)PostType.Normal)
+                    {
+                        body = "Tin Thường";
+                    }
+                    if (post.Type == (int)PostType.Golden)
+                    {
+                        body = "Tin Vip";
+                    }
+                    if (post.Type == (int)PostType.Vip)
+                    {
+                        body = "Tin Vip đặc biệt";
+                    }
+                    var rqNotifi = new Notification();
+                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                    rqNotifi.UserId = post.UserId;
+                    await CreateNotification(rqNotifi, cancellationToken);
                 }
                 post.Status = (int)PostStatus.UnApproved;
             }
@@ -362,12 +396,46 @@ namespace Post.Infrastructure.Persistences.Repositories
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate);
                     await SubtractMoneyPromotional(postId, Fee, cancellationToken);
                     await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    string body = "";
+                    if (post.Type == (int)PostType.Normal)
+                    {
+                        body = "Tin Thường";
+                    }
+                    if (post.Type == (int)PostType.Golden)
+                    {
+                        body = "Tin Vip";
+                    }
+                    if (post.Type == (int)PostType.Vip)
+                    {
+                        body = "Tin Vip đặc biệt";
+                    }
+                    var rqNotifi = new Notification();
+                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                    rqNotifi.UserId = post.UserId;
+                    await CreateNotification(rqNotifi, cancellationToken);
                 }
                 else if (!check && check1)
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate);
                     await SubtractMoney(postId, Fee, cancellationToken);
                     await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    string body = "";
+                    if (post.Type == (int)PostType.Normal)
+                    {
+                        body = "Tin Thường";
+                    }
+                    if (post.Type == (int)PostType.Golden)
+                    {
+                        body = "Tin Vip";
+                    }
+                    if (post.Type == (int)PostType.Vip)
+                    {
+                        body = "Tin Vip đặc biệt";
+                    }
+                    var rqNotifi = new Notification();
+                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                    rqNotifi.UserId = post.UserId;
+                    await CreateNotification(rqNotifi, cancellationToken);
                 }
                 post.Status = (int)PostStatus.Showing;
             }
@@ -378,12 +446,46 @@ namespace Post.Infrastructure.Persistences.Repositories
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate);
                     await SubtractMoneyPromotional(postId, Fee, cancellationToken);
                     await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    string body = "";
+                    if (post.Type == (int)PostType.Normal)
+                    {
+                        body = "Tin Thường";
+                    }
+                    if (post.Type == (int)PostType.Golden)
+                    {
+                        body = "Tin Vip";
+                    }
+                    if (post.Type == (int)PostType.Vip)
+                    {
+                        body = "Tin Vip đặc biệt";
+                    }
+                    var rqNotifi = new Notification();
+                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                    rqNotifi.UserId = post.UserId;
+                    await CreateNotification(rqNotifi, cancellationToken);
                 }
                 else if (!check && check1)
                 {
                     var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate);
                     await SubtractMoney(postId, Fee, cancellationToken);
                     await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                    string body = "";
+                    if (post.Type == (int)PostType.Normal)
+                    {
+                        body = "Tin Thường";
+                    }
+                    if (post.Type == (int)PostType.Golden)
+                    {
+                        body = "Tin Vip";
+                    }
+                    if (post.Type == (int)PostType.Vip)
+                    {
+                        body = "Tin Vip đặc biệt";
+                    }
+                    var rqNotifi = new Notification();
+                    rqNotifi.UserId=post.UserId;
+                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                    await CreateNotification(rqNotifi, cancellationToken);
                 }
                 post.Status = (int)PostStatus.Showing;
             }
@@ -778,10 +880,34 @@ namespace Post.Infrastructure.Persistences.Repositories
                         await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
                         var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * dif);
                         await SaveHistory($"{item2.Titile}", AmountWallets, AmountPromotion + Fee, _configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId), 2, $"Hoàn tiền khách hàng khi hủy đăng bài đăng, Giá bài đăng {Fee}đ", cancellationToken);
+                        var rqNotifi = new Notification();
+                        rqNotifi.UserId = item2.UserId;
+                        string body = "";
+                        if (item2.Type == (int)PostType.Normal)
+                        {
+                            body = "Tin Thường";
+                        }
+                        if (item2.Type == (int)PostType.Golden)
+                        {
+                            body = "Tin Vip";
+                        }
+                        if (item2.Type == (int)PostType.Vip)
+                        {
+                            body = "Tin Vip đặc biệt";
+                        }
+                        rqNotifi.Content = $"Hoàn tiền từ chối tin +{Fee} VND";
+                        await CreateNotification(rqNotifi, cancellationToken);
                     }
                 }
                 return result;
             }
+        }
+        public async Task<int> CreateNotification(Notification rq, CancellationToken cancellationToken)
+        {
+            rq.IsSeen = false;
+            rq.CreatedDate = DateTime.Now;
+            await _databaseContext.Notification.AddAsync(rq);
+            return await _databaseContext.SaveChangesAsync(cancellationToken);
         }
         public async Task ReturnMoney(string? postid, decimal amount, int type, CancellationToken cancellationToken)
         {

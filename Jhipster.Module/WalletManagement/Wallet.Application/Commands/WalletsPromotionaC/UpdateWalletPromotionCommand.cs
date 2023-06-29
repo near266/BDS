@@ -46,7 +46,7 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
             {
                 Id = Guid.NewGuid(),
                 Type = 0,
-                Content = "Cộng tiền vào ví khuyến mại",
+                Content = "Cộng tiền vào tài khoản khuyến mại",
                 TransactionAmount = (double?)rq.Amount,
                 WalletType = 1,
                 CustomerId = rq.CustomerId,

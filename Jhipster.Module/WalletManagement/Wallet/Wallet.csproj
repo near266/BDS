@@ -12,6 +12,7 @@
     <None Remove="Controller\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\PostManagement\Post.Application\Post.Application.csproj" />
     <ProjectReference Include="..\Wallet.Infrastructure\Wallet.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
