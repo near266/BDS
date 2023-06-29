@@ -206,7 +206,7 @@ namespace Wallet.Controller
                 var result = await _mediator.Send(wallet);
                 var promotion = await _mediator.Send(Promotional);
 
-                if (result != 0)
+                if (result != 0 && request.AmountWallet != 0 && request.AmountWallet != null)
                 {
                     var notif = new CreateNotificationCommand();
                     notif.Content = $"Nạp tiền tài khoản chính +{request.AmountWallet} VND ";
