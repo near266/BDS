@@ -483,7 +483,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         body = "Tin Vip đặc biệt";
                     }
                     var rqNotifi = new Notification();
-                    rqNotifi.UserId=post.UserId;
+                    rqNotifi.UserId = post.UserId;
                     rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
                     await CreateNotification(rqNotifi, cancellationToken);
                 }
@@ -1221,7 +1221,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
         public async Task<PagedList<NewPost>> SearchNewPost(string? title, int Page, int PageSize)
         {
-            throw new NotImplementedException();
+
             //var query = _context.NewPosts.AsQueryable();
             //if (title != null)
             //{
@@ -1248,6 +1248,18 @@ namespace Post.Infrastructure.Persistences.Repositories
             //                        .ToListAsync();
 
             //}
+            var data = _context.NewPosts.AsNoTracking();
+            if (!string.IsNullOrEmpty(title))
+            {
+                data = data.Where(i => i.Title.ToLower().Trim().Contains(title.ToLower().Trim()));
+            }
+            var value = data.ToList();
+            var reponse = new PagedList<NewPost>();
+            reponse.TotalCount = data.Count();
+            reponse.Data = value.Skip(PageSize * (Page - 1))
+                                     .Take(PageSize);
+            return reponse;
+
         }
         #endregion
         #region District
