@@ -44,7 +44,7 @@ namespace Wallet.Application.Commands.WalletsC
             {
                 Id = Guid.NewGuid(),
                 Type = 0,
-                Content = "Nạp tiền",
+                Content = "Nạp tiền ví chính",
                 TransactionAmount = (double?)rq.Amount,
                 WalletType = 0,
                 CustomerId = rq.CustomerId,
