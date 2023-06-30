@@ -35,7 +35,9 @@ namespace Post.Application.Configurations.Mapper
             CreateMap<SalePost, DetailSalePost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             #endregion
             #region NewPost
-            CreateMap<NewPost, NewPost>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<NewPost, NewPost>().ReverseMap()
+                .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
+                .ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<NewPost, UpdateNewPostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<NewPost, AddNewPostCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             #endregion
