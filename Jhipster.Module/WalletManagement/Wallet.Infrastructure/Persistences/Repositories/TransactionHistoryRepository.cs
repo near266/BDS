@@ -45,7 +45,9 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             }
             if (from != null && to != null)
             {
-                query = query.Where(i => i.CreatedDate >= from && i.CreatedDate <= to);
+                var StartPoint = new DateTime(from.Value.Year, from.Value.Month, from.Value.Day, 0, 0, 0);
+                var EndPoint = new DateTime(to.Value.Year, to.Value.Month, to.Value.Day, 23, 59, 59);
+                query = query.Where(i => i.CreatedDate >= StartPoint && i.CreatedDate <= EndPoint);
             }
             if (userid != null)
             {
@@ -54,8 +56,8 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             if (Code != null)
             {
                 query = query.Where(i => i.TransactionCode == Code);
-            }    
-                var sQuery = query.Include(i => i.Customer).OrderByDescending(i => i.CreatedDate);
+            }
+            var sQuery = query.Include(i => i.Customer).OrderByDescending(i => i.CreatedDate);
             var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToListAsync();
