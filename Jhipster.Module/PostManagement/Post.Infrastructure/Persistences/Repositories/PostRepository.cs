@@ -381,7 +381,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             return res;
         }
-        public async Task<int> RepostSalePost(string? postId, int type, double numberofDate, CancellationToken cancellationToken)
+        public async Task<int> RepostSalePost(string? postId, int type, double numberofDate, Guid GroupPriceId, CancellationToken cancellationToken)
         {
             var post = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
             if (post == null) throw new ArgumentException("No post found !!!");
@@ -393,156 +393,207 @@ namespace Post.Infrastructure.Persistences.Repositories
             var AmountPromotion = userpromotion.Amount;
             var check = await CheckBalancePromotional(post.UserId, post.Type, numberofDate);// tru tien vi km
             var check1 = await CheckBalance(post.UserId, post.Type, numberofDate); // tru tien vi chinh
-            if (!check && !check1) throw new ArgumentException("Not enough money");
-            if (type == (int)PostType.Normal)
+                                                                                   //if (!check && !check1) throw new ArgumentException("Not enough money");
+                                                                                   //if (type == (int)PostType.Normal)
+                                                                                   //{
+                                                                                   //    if (check)
+                                                                                   //    {
+                                                                                   //        var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate);
+                                                                                   //        await SubtractMoneyPromotional(postId, Fee, cancellationToken);
+                                                                                   //        await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                                                                                   //        string body = "";
+                                                                                   //        if (post.Type == (int)PostType.Normal)
+                                                                                   //        {
+                                                                                   //            body = "Tin Thường";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Golden)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Vip)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip đặc biệt";
+                                                                                   //        }
+                                                                                   //        var rqNotifi = new Notification();
+                                                                                   //        rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                                                                                   //        rqNotifi.UserId = post.UserId;
+                                                                                   //        await CreateNotification(rqNotifi, cancellationToken);
+                                                                                   //    }
+                                                                                   //    else if (!check && check1)
+                                                                                   //    {
+                                                                                   //        var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate);
+                                                                                   //        await SubtractMoney(postId, Fee, cancellationToken);
+                                                                                   //        await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                                                                                   //        string body = "";
+                                                                                   //        if (post.Type == (int)PostType.Normal)
+                                                                                   //        {
+                                                                                   //            body = "Tin Thường";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Golden)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Vip)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip đặc biệt";
+                                                                                   //        }
+                                                                                   //        var rqNotifi = new Notification();
+                                                                                   //        rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                                                                                   //        rqNotifi.UserId = post.UserId;
+                                                                                   //        await CreateNotification(rqNotifi, cancellationToken);
+                                                                                   //    }
+                                                                                   //    post.Status = (int)PostStatus.UnApproved;
+                                                                                   //}
+                                                                                   //else if (type == (int)PostType.Golden)
+                                                                                   //{
+                                                                                   //    if (check)
+                                                                                   //    {
+                                                                                   //        var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate);
+                                                                                   //        await SubtractMoneyPromotional(postId, Fee, cancellationToken);
+                                                                                   //        await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                                                                                   //        string body = "";
+                                                                                   //        if (post.Type == (int)PostType.Normal)
+                                                                                   //        {
+                                                                                   //            body = "Tin Thường";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Golden)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Vip)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip đặc biệt";
+                                                                                   //        }
+                                                                                   //        var rqNotifi = new Notification();
+                                                                                   //        rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                                                                                   //        rqNotifi.UserId = post.UserId;
+                                                                                   //        await CreateNotification(rqNotifi, cancellationToken);
+                                                                                   //    }
+                                                                                   //    else if (!check && check1)
+                                                                                   //    {
+                                                                                   //        var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate);
+                                                                                   //        await SubtractMoney(postId, Fee, cancellationToken);
+                                                                                   //        await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                                                                                   //        string body = "";
+                                                                                   //        if (post.Type == (int)PostType.Normal)
+                                                                                   //        {
+                                                                                   //            body = "Tin Thường";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Golden)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Vip)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip đặc biệt";
+                                                                                   //        }
+                                                                                   //        var rqNotifi = new Notification();
+                                                                                   //        rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                                                                                   //        rqNotifi.UserId = post.UserId;
+                                                                                   //        await CreateNotification(rqNotifi, cancellationToken);
+                                                                                   //    }
+                                                                                   //    post.Status = (int)PostStatus.Showing;
+                                                                                   //}
+                                                                                   //else if (type == (int)PostType.Vip)
+                                                                                   //{
+                                                                                   //    if (check)
+                                                                                   //    {
+                                                                                   //        var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate);
+                                                                                   //        await SubtractMoneyPromotional(postId, Fee, cancellationToken);
+                                                                                   //        await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                                                                                   //        string body = "";
+                                                                                   //        if (post.Type == (int)PostType.Normal)
+                                                                                   //        {
+                                                                                   //            body = "Tin Thường";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Golden)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Vip)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip đặc biệt";
+                                                                                   //        }
+                                                                                   //        var rqNotifi = new Notification();
+                                                                                   //        rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                                                                                   //        rqNotifi.UserId = post.UserId;
+                                                                                   //        await CreateNotification(rqNotifi, cancellationToken);
+                                                                                   //    }
+                                                                                   //    else if (!check && check1)
+                                                                                   //    {
+                                                                                   //        var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate);
+                                                                                   //        await SubtractMoney(postId, Fee, cancellationToken);
+                                                                                   //        await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
+                                                                                   //        string body = "";
+                                                                                   //        if (post.Type == (int)PostType.Normal)
+                                                                                   //        {
+                                                                                   //            body = "Tin Thường";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Golden)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip";
+                                                                                   //        }
+                                                                                   //        if (post.Type == (int)PostType.Vip)
+                                                                                   //        {
+                                                                                   //            body = "Tin Vip đặc biệt";
+                                                                                   //        }
+                                                                                   //        var rqNotifi = new Notification();
+                                                                                   //        rqNotifi.UserId = post.UserId;
+                                                                                   //        rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
+                                                                                   //        await CreateNotification(rqNotifi, cancellationToken);
+                                                                                   //    }
+                                                                                   //    post.Status = (int)PostStatus.Showing;
+                                                                                   //}
+
+            var PriceConfig = Price(GroupPriceId);
+            if (AmountPromotion > 0 && AmountPromotion >= PriceConfig)
             {
-                if (check)
+                await SubtractMoneyPromotional(post.Id, PriceConfig, cancellationToken);
+                await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - PriceConfig, (double)PriceConfig, 1, Guid.Parse(post.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {PriceConfig}đ", cancellationToken);
+                string body = "";
+                if (post.Type == (int)PostType.Normal)
                 {
-                    var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate);
-                    await SubtractMoneyPromotional(postId, Fee, cancellationToken);
-                    await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Normal") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
-                    string body = "";
-                    if (post.Type == (int)PostType.Normal)
-                    {
-                        body = "Tin Thường";
-                    }
-                    if (post.Type == (int)PostType.Golden)
-                    {
-                        body = "Tin Vip";
-                    }
-                    if (post.Type == (int)PostType.Vip)
-                    {
-                        body = "Tin Vip đặc biệt";
-                    }
-                    var rqNotifi = new Notification();
-                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
-                    rqNotifi.UserId = post.UserId;
-                    await CreateNotification(rqNotifi, cancellationToken);
+                    body = "Tin Thường";
                 }
-                else if (!check && check1)
+                if (post.Type == (int)PostType.Golden)
                 {
-                    var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberofDate);
-                    await SubtractMoney(postId, Fee, cancellationToken);
-                    await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Normal") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
-                    string body = "";
-                    if (post.Type == (int)PostType.Normal)
-                    {
-                        body = "Tin Thường";
-                    }
-                    if (post.Type == (int)PostType.Golden)
-                    {
-                        body = "Tin Vip";
-                    }
-                    if (post.Type == (int)PostType.Vip)
-                    {
-                        body = "Tin Vip đặc biệt";
-                    }
-                    var rqNotifi = new Notification();
-                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
-                    rqNotifi.UserId = post.UserId;
-                    await CreateNotification(rqNotifi, cancellationToken);
+                    body = "Tin Vip Đặc Biệt";
                 }
-                post.Status = (int)PostStatus.UnApproved;
+                if (post.Type == (int)PostType.Vip)
+                {
+                    body = "Tin Vip";
+                }
+                var rqNotifi = new Notification();
+                rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND";
+                rqNotifi.UserId = post.UserId;
+                await CreateNotification(rqNotifi, cancellationToken);
             }
-            else if (type == (int)PostType.Golden)
+            else if (AmountPromotion >= 0 && AmountPromotion < PriceConfig)
             {
-                if (check)
+                var Deduct = PriceConfig - AmountPromotion;
+                await SubtractMoneyPromotional(post.Id, AmountPromotion, cancellationToken);
+                await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Deduct,
+                    (double)AmountPromotion, 1, Guid.Parse(post.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {AmountPromotion}đ", cancellationToken);
+                await SubtractMoney(post.Id, Deduct, cancellationToken);
+                await SaveHistory($"{post.Titile}", AmountWallets - Deduct, AmountPromotion,
+                    (double)Deduct, 0, Guid.Parse(post.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
+                string body = "";
+                if (post.Type == (int)PostType.Normal)
                 {
-                    var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate);
-                    await SubtractMoneyPromotional(postId, Fee, cancellationToken);
-                    await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Vip") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
-                    string body = "";
-                    if (post.Type == (int)PostType.Normal)
-                    {
-                        body = "Tin Thường";
-                    }
-                    if (post.Type == (int)PostType.Golden)
-                    {
-                        body = "Tin Vip";
-                    }
-                    if (post.Type == (int)PostType.Vip)
-                    {
-                        body = "Tin Vip đặc biệt";
-                    }
-                    var rqNotifi = new Notification();
-                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
-                    rqNotifi.UserId = post.UserId;
-                    await CreateNotification(rqNotifi, cancellationToken);
+                    body = "Tin Thường";
                 }
-                else if (!check && check1)
+                if (post.Type == (int)PostType.Golden)
                 {
-                    var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberofDate);
-                    await SubtractMoney(postId, Fee, cancellationToken);
-                    await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Vip") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
-                    string body = "";
-                    if (post.Type == (int)PostType.Normal)
-                    {
-                        body = "Tin Thường";
-                    }
-                    if (post.Type == (int)PostType.Golden)
-                    {
-                        body = "Tin Vip";
-                    }
-                    if (post.Type == (int)PostType.Vip)
-                    {
-                        body = "Tin Vip đặc biệt";
-                    }
-                    var rqNotifi = new Notification();
-                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
-                    rqNotifi.UserId = post.UserId;
-                    await CreateNotification(rqNotifi, cancellationToken);
+                    body = "Tin Vip Đặc Biệt";
                 }
-                post.Status = (int)PostStatus.Showing;
-            }
-            else if (type == (int)PostType.Vip)
-            {
-                if (check)
+                if (post.Type == (int)PostType.Vip)
                 {
-                    var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate);
-                    await SubtractMoneyPromotional(postId, Fee, cancellationToken);
-                    await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:SuperVip") * numberofDate, 1, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
-                    string body = "";
-                    if (post.Type == (int)PostType.Normal)
-                    {
-                        body = "Tin Thường";
-                    }
-                    if (post.Type == (int)PostType.Golden)
-                    {
-                        body = "Tin Vip";
-                    }
-                    if (post.Type == (int)PostType.Vip)
-                    {
-                        body = "Tin Vip đặc biệt";
-                    }
-                    var rqNotifi = new Notification();
-                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
-                    rqNotifi.UserId = post.UserId;
-                    await CreateNotification(rqNotifi, cancellationToken);
+                    body = "Tin Vip";
                 }
-                else if (!check && check1)
-                {
-                    var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberofDate);
-                    await SubtractMoney(postId, Fee, cancellationToken);
-                    await SaveHistory($"{post.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:SuperVip") * numberofDate, 0, Guid.Parse(post.UserId), 1, $"Khách hàng đăng lại tin bán , Giá tin: {Fee}đ", cancellationToken);
-                    string body = "";
-                    if (post.Type == (int)PostType.Normal)
-                    {
-                        body = "Tin Thường";
-                    }
-                    if (post.Type == (int)PostType.Golden)
-                    {
-                        body = "Tin Vip";
-                    }
-                    if (post.Type == (int)PostType.Vip)
-                    {
-                        body = "Tin Vip đặc biệt";
-                    }
-                    var rqNotifi = new Notification();
-                    rqNotifi.UserId = post.UserId;
-                    rqNotifi.Content = $"Trừ tiền đăng tin {body}-{Fee} VND";
-                    await CreateNotification(rqNotifi, cancellationToken);
-                }
-                post.Status = (int)PostStatus.Showing;
+                var rqNotifi = new Notification();
+                rqNotifi.Content = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                rqNotifi.UserId = post.UserId;
+                await CreateNotification(rqNotifi, cancellationToken);
             }
             post.Order = DateTime.Now;
             post.CreatedDate = DateTime.Now;
