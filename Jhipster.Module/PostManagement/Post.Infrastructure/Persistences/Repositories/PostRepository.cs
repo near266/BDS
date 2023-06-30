@@ -320,7 +320,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     body = "Tin Vip";
                 }
                 var rqNotifi = new Notification();
-                rqNotifi.Content = $"Trừ tiền đăng tin -{AmountPromotion} vào tài khoản khuyến mại và -{Deduct} vào tài khoản chính VND";
+                rqNotifi.Content = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
                 rqNotifi.UserId = rq.UserId;
                 await CreateNotification(rqNotifi, cancellationToken);
             }
