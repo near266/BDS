@@ -4,7 +4,7 @@ namespace Jhipster.Crosscutting.Exceptions
 {
     public class InvalidPasswordException : BaseException
     {
-        public InvalidPasswordException() : base(ErrorConstants.InvalidPasswordType, "Mật khẩu không chính xác")
+        public InvalidPasswordException() : base(ErrorConstants.InvalidPasswordType, "Mật khẩu hiện tại không chính xác")
         {
             //Status = StatusCodes.Status400BadRequest
         }

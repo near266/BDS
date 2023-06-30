@@ -11,7 +11,7 @@ namespace Wallet.Domain.Entities
 {
     public class TransactionHistory : BaseEntity<Guid>
     {
-        //0: Nạp tiền, 1: Trừ tiền, 2: Hoàn tiền
+        //0: Nạp tiền, 1: Trừ tiền, 2: Hoàn tiền,3:Cộng tiền
         public int? Type { get; set; }
         [MaxLength(50)]
         public string? Content { get; set; }

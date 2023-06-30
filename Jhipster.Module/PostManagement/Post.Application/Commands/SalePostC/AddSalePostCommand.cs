@@ -38,6 +38,7 @@ namespace Post.Application.Commands.SalePostC
         public DateTime? CreatedDate { get; set; }
         [JsonIgnore]
         public string? CreatedBy { get; set; }
+        public Guid GroupPriceId { get; set; }
     }
     public class AddSalePostCommandHadler : IRequestHandler<AddSalePostCommand, int>
     {
@@ -55,9 +56,9 @@ namespace Post.Application.Commands.SalePostC
             map.DueDate = map.CreatedDate.AddDays(request.NumberOfDate);
             var check2 = await _repository.CheckBalancePromotional(request.UserId, request.Type, request.NumberOfDate);
             var check1 = await _repository.CheckBalance(request.UserId, request.Type, request.NumberOfDate);
-            var check = await _repository.CheckAmound(request.UserId, request.Type, request.NumberOfDate);
-            if (!check ) throw new ArgumentException("Not enough money");
-            return await _repository.AddSalePost(map, check1, check2, request.NumberOfDate, cancellationToken);
+            var check = await _repository.CheckAmound(request.UserId, request.Type, request.NumberOfDate,request.GroupPriceId);
+            if (!check) throw new ArgumentException("Not enough money");
+            return await _repository.AddSalePost(map, check1, check2, request.NumberOfDate, request.GroupPriceId, cancellationToken);
         }
     }
 }

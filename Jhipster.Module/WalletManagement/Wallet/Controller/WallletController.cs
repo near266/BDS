@@ -171,6 +171,7 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request  Update Wallet : {JsonConvert.SerializeObject(request)}");
             try
             {
+                if (request.AmountWallet % 1000 != 0 || request.AmountWalletPromotional % 1000 != 0) throw new ArgumentException("Giá không hợp lệ, giá chia hết cho 1000");
                 if (request.AmountWallet < 0) throw new ArgumentException("Giá lớn hơn hoặc bằng 0");
                 if (request.AmountWalletPromotional < 0) throw new ArgumentException("Giá khuyến mãi lớn hơn hoặc bằng 0");
                 request.LastModifiedBy = GetUserIdFromConext();

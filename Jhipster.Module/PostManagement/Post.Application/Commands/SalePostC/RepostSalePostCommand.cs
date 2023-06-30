@@ -24,8 +24,9 @@ namespace Post.Application.Commands.SalePostC
         public DateTime? CreatedDate { get; set; }
         [JsonIgnore]
         public string? CreatedBy { get; set; }
+        public Guid GroupPriceId { get; set; }
     }
-    public class RepostSalePostCommandHandler : IRequestHandler<RepostSalePostCommand,int>
+    public class RepostSalePostCommandHandler : IRequestHandler<RepostSalePostCommand, int>
     {
         private readonly IPostRepository _repository;
         private readonly IMapper _mapper;
@@ -38,8 +39,8 @@ namespace Post.Application.Commands.SalePostC
         public async Task<int> Handle(RepostSalePostCommand request, CancellationToken cancellationToken)
         {
             var map = _mapper.Map<SalePost>(request);
-            return await _repository.RepostSalePost(request.Id,request.Type,request.NumberOfDate,cancellationToken);
-            
+            return await _repository.RepostSalePost(request.Id, request.Type, request.NumberOfDate, request.GroupPriceId, cancellationToken);
+
         }
     }
 

@@ -15,7 +15,7 @@ namespace Post.Application.Queries.NotificationQ
     public class GetAllNotificationsQuery : IRequest<PagedList<Notification>>
     {
         [JsonIgnore]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
     }
@@ -31,7 +31,7 @@ namespace Post.Application.Queries.NotificationQ
 
         public async Task<PagedList<Notification>> Handle(GetAllNotificationsQuery request, CancellationToken cancellationToken)
         {
-            return await _notificationRepository.GetAllNotifications(request.Id, request.Page, request.Page);
+            return await _notificationRepository.GetAllNotifications(request.Id, request.Page, request.PageSize);
         }
     }
 }

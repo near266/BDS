@@ -45,7 +45,7 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
             var his = new TransactionHistory()
             {
                 Id = Guid.NewGuid(),
-                Type = 0,
+                Type = 3,
                 Content = "Cộng tiền vào tài khoản khuyến mại",
                 TransactionAmount = (double?)rq.Amount,
                 WalletType = 1,
