@@ -1065,10 +1065,10 @@ namespace Post.Infrastructure.Persistences.Repositories
                     var AmountPromotion = userpromotion.Amount;
                     if (status == (int)PostStatus.Rejected)
                     {
+                        var Fee = Price((Guid)item2.PriceId);
                         var dif = (item2.DueDate - item2.CreatedDate).Value.TotalDays;
-                        await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
-                        var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * dif);
-                        await SaveHistory($"{item2.Titile}", AmountWallets, AmountPromotion + Fee, _configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId), 2, $"Hoàn tiền khách hàng khi hủy đăng bài đăng, Giá bài đăng {Fee}đ", cancellationToken);
+                        await ReturnMoney(item2.Id, Fee, 0, cancellationToken);
+                        await SaveHistory($"{item2.Titile}", AmountWallets, AmountPromotion + Fee, (double)Fee, 0, Guid.Parse(item2.UserId), 2, $"Hoàn tiền khách hàng khi hủy đăng bài đăng, Giá bài đăng {Fee}đ", cancellationToken);
                         var rqNotifi = new Notification();
                         rqNotifi.UserId = item2.UserId;
                         string body = "";
