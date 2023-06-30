@@ -23,7 +23,7 @@ namespace Post.Application.Contracts
 
 
         #region SalePost
-        Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, CancellationToken cancellationToken);
+        Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, Guid GroupPriceId, CancellationToken cancellationToken);
         Task<int> UpdateSalePost(UpdateSalePostCommand rq, double? numberOfDate, CancellationToken cancellationToken);
         Task<int> RepostSalePost(string? postId, int type, double numberofDate, CancellationToken cancellationToken);
         Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken);
@@ -66,7 +66,7 @@ namespace Post.Application.Contracts
         #endregion
 
         #region Other
-        Task<bool> CheckAmound(string userId, int type, double? num);
+        Task<bool> CheckAmound(string userId, int type, double? num, Guid GroupPriceId);
         Task<bool> CheckBalance(string userId, int type, double? num);
         Task<bool> CheckBalancePromotional(string userId, int type, double? num);
         Task SubtractMoney(string? postid, decimal amount, CancellationToken cancellationToken);
