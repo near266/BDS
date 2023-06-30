@@ -609,25 +609,24 @@ namespace Post.Controller
                 return StatusCode(500, ex.Message);
             }
         }
-        [Authorize(Roles = RolesConstants.ADMIN)]
-        [HttpPost("/newpost/add")]
-        [DisableRequestSizeLimit]
-        public async Task<IActionResult> AddNewPost([FromBody] AddNewPostCommand rq)
-        {
-            _logger.LogInformation($"Rest request to add new post : {rq}");
-            try
+            [Authorize(Roles = RolesConstants.ADMIN)]
+            [HttpPost("/newpost/add")]
+            public async Task<IActionResult> AddNewPost([FromBody] AddNewPostCommand rq)
             {
-                rq.CreatedDate = DateTime.Now;
-                rq.CreatedBy = GetUsernameFromContext();
-                var res = await _mediator.Send(rq);
-                return Ok(res);
+                _logger.LogInformation($"Rest request to add new post : {rq}");
+                try
+                {
+                    rq.CreatedDate = DateTime.Now;
+                    rq.CreatedBy = GetUsernameFromContext();
+                    var res = await _mediator.Send(rq);
+                    return Ok(res);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"REST request to add new post fail:{ex.Message}");
+                    return StatusCode(500, ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                _logger.LogError($"REST request to add new post fail:{ex.Message}");
-                return StatusCode(500, ex.Message);
-            }
-        }
         /// <summary>
         /// Chỉnh sửa tin tức
         /// </summary>
