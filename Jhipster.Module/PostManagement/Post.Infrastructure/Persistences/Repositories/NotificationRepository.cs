@@ -34,6 +34,8 @@ namespace Post.Infrastructure.Persistences.Repositories
             reponse.Data = data.Skip(PageSize * (Page - 1))
                                     .Take(PageSize)
                                     .ToList();
+            reponse.TotalTrue = data.Where(i => i.IsSeen == true).ToList().Count;
+            reponse.TotalFalse = data.Where(i => i.IsSeen == false).ToList().Count;
             return reponse;
         }
 

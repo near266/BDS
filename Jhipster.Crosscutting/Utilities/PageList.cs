@@ -13,12 +13,16 @@ namespace Jhipster.Crosscutting.Utilities
             Data = new List<T>();
         }
 
-        public PagedList(IEnumerable<T> _Data, int _TotalCount)
+        public PagedList(IEnumerable<T> _Data, int _TotalCount, int totalTrue, int totalFalse)
         {
             Data = _Data;
             TotalCount = _TotalCount;
+            TotalTrue = totalTrue;
+            TotalFalse = totalFalse;
         }
         public IEnumerable<T> Data { get; set; }
         public int TotalCount { get; set; }
+        public int TotalTrue { get; set; }
+        public int TotalFalse { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace Post.Application.Queries.NotificationQ
 
         public async Task<PagedList<Notification>> Handle(GetAllNotificationsQuery request, CancellationToken cancellationToken)
         {
-            return await _notificationRepository.GetAllNotifications(request.Id, request.Page, request.Page);
+            return await _notificationRepository.GetAllNotifications(request.Id, request.Page, request.PageSize);
         }
     }
 }
