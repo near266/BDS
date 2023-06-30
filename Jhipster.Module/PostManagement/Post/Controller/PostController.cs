@@ -611,6 +611,7 @@ namespace Post.Controller
         }
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPost("/newpost/add")]
+        [DisableRequestSizeLimit]
         public async Task<IActionResult> AddNewPost([FromBody] AddNewPostCommand rq)
         {
             _logger.LogInformation($"Rest request to add new post : {rq}");
