@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Post.Application.Commands.NotificationC;
+using Post.Application.Queries.FakeNewQ;
 using Post.Application.Queries.NotificationQ;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,12 @@ namespace Post.Controller
                 return StatusCode(500, ex.Message);
             }
         }
-
+        [HttpGet("FakeNew")]
+        public async Task<IActionResult> ViewFakeNew()
+        {
+            var rq = new ViewFakeNewQuery();
+            var value = await _mediator.Send(rq);
+            return Ok(value);
+        }
     }
 }

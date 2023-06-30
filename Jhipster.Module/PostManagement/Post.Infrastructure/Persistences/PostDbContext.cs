@@ -15,6 +15,7 @@ namespace Post.Infrastructure.Persistences
         public DbSet<District> Districts { get; set; }
         public DbSet<Ward> Wards { get; set; }
         public DbSet<Notification> Notification { get; set; }
+        public DbSet<FakeNew> FakeNew { get; set; }
         public PostDbContext(DbContextOptions<PostDbContext> options) : base(options)
         {
         }

@@ -12,6 +12,7 @@ namespace Post.Domain.Abstractions
         public DbSet<District> Districts { get; set; }
         public DbSet<Ward> Wards { get; set; }
         public DbSet<Notification> Notification { get; set; }
+        public DbSet<FakeNew> FakeNew { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
