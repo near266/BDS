@@ -844,13 +844,15 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return 0;
         }
-        public async Task<int> UpdateSalePost(UpdateSalePostCommand rq, double? numberOfDate,Guid GroupPriceId, CancellationToken cancellationToken)
+        public async Task<int> UpdateSalePost(UpdateSalePostCommand rq, double? numberOfDate, Guid GroupPriceId, CancellationToken cancellationToken)
         {
             var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
             var user = await _wcontext.Wallets.FirstOrDefaultAsync(i => i.CustomerId.ToString() == check.UserId);
             var AmountWallets = user.Amount;
             var userpromotion = await _wcontext.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId.ToString() == check.UserId);
             var AmountPromotion = userpromotion.Amount;
+            var PriceConfig = Price(GroupPriceId);
+            if (AmountWallets + AmountPromotion < PriceConfig) throw new Exception("Not enought money");
             if (check == null) throw new ArgumentException("Can not find!");
             else
             {
@@ -912,7 +914,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 //    }
                 //    check.Status = (int)PostStatus.Showing;
                 //}
-                var PriceConfig = Price(GroupPriceId);
+
                 if (AmountPromotion > 0 && AmountPromotion >= PriceConfig)
                 {
                     await SubtractMoneyPromotional(rq.Id, PriceConfig, cancellationToken);
