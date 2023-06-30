@@ -595,11 +595,12 @@ namespace Post.Infrastructure.Persistences.Repositories
                 rqNotifi.UserId = post.UserId;
                 await CreateNotification(rqNotifi, cancellationToken);
             }
+            var Date = DateTime.Now;
             post.Order = DateTime.Now;
             post.CreatedDate = DateTime.Now;
             post.LastModifiedDate = DateTime.Now;
             post.Type = type;
-            post.DueDate = post.DueDate.Value.AddDays(numberofDate);
+            post.DueDate = Date.AddDays(numberofDate);
             var res = await _context.SaveChangesAsync(cancellationToken);
             return res;
         }
