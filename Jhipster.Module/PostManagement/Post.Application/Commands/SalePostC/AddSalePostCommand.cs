@@ -53,10 +53,11 @@ namespace Post.Application.Commands.SalePostC
         public async Task<int> Handle(AddSalePostCommand request, CancellationToken cancellationToken)
         {
             var map = _mapper.Map<SalePost>(request);
+            map.PriceId = request.GroupPriceId;
             map.DueDate = map.CreatedDate.AddDays(request.NumberOfDate);
             var check2 = await _repository.CheckBalancePromotional(request.UserId, request.Type, request.NumberOfDate);
             var check1 = await _repository.CheckBalance(request.UserId, request.Type, request.NumberOfDate);
-            var check = await _repository.CheckAmound(request.UserId, request.Type, request.NumberOfDate,request.GroupPriceId);
+            var check = await _repository.CheckAmound(request.UserId, request.Type, request.NumberOfDate, request.GroupPriceId);
             if (!check) throw new ArgumentException("Not enough money");
             return await _repository.AddSalePost(map, check1, check2, request.NumberOfDate, request.GroupPriceId, cancellationToken);
         }

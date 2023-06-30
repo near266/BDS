@@ -620,6 +620,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             post.LastModifiedDate = DateTime.Now;
             post.Type = type;
             post.DueDate = Date.AddDays(numberofDate);
+            post.PriceId = GroupPriceId;
             var res = await _context.SaveChangesAsync(cancellationToken);
             return res;
         }
@@ -880,7 +881,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 check.Type = rq.Type;
                 check.Price = rq.Price;
                 check.LastModifiedDate = DateTime.Now;
-
+                check.PriceId = GroupPriceId;
 
                 //bool checkWP = await CheckBalancePromotional(check.UserId, rq.Type, numberOfDate);// tru tien vi km
                 //bool checkW = await CheckBalance(check.UserId, rq.Type, numberOfDate); // tru tien vi chinh
