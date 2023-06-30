@@ -152,7 +152,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 if (toPrice > 0 && toPrice != null && toPrice >= fromPrice)
                 {
-                    query = query.Where(i => i.PriceTo != null && i.Price >= fromPrice && i.PriceTo >= toPrice || i.PriceTo == null && i.Price >= fromPrice && i.Price <= toPrice);
+                    query = query.Where(i => i.PriceTo != null && i.Price >= fromPrice && i.PriceTo <= toPrice);
                 }
                 if (toPrice == null)
                 {
