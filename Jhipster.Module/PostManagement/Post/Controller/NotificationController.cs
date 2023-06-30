@@ -75,7 +75,13 @@ namespace Post.Controller
         {
             var rq = new ViewFakeNewQuery();
             var value = await _mediator.Send(rq);
-            return Ok(value);
+            var reponse = new ViewFakeNewDTO();
+            reponse.data = value;
+            return Ok(reponse);
+        }
+        public class ViewFakeNewDTO
+        {
+            public string data { get; set; }
         }
     }
 }
