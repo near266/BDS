@@ -293,7 +293,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     body = "Tin Vip";
                 }
                 var rqNotifi = new Notification();
-                rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND";
+                rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND vào tài khoản khuyến mãi";
                 rqNotifi.UserId = rq.UserId;
                 await CreateNotification(rqNotifi, cancellationToken);
             }
@@ -319,8 +319,17 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     body = "Tin Vip";
                 }
+                var contentNotif = "";
+                if (AmountPromotion == 0)
+                {
+                    contentNotif = $"Trừ tiền đăng tin -{Deduct} VND vào tài khoản chính";
+                }
+                else
+                {
+                    contentNotif = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                }
                 var rqNotifi = new Notification();
-                rqNotifi.Content = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                rqNotifi.Content = contentNotif;
                 rqNotifi.UserId = rq.UserId;
                 await CreateNotification(rqNotifi, cancellationToken);
             }
@@ -563,8 +572,9 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     body = "Tin Vip";
                 }
+
                 var rqNotifi = new Notification();
-                rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND";
+                rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND vào tài khoản khuyến mãi";
                 rqNotifi.UserId = post.UserId;
                 await CreateNotification(rqNotifi, cancellationToken);
             }
@@ -591,7 +601,16 @@ namespace Post.Infrastructure.Persistences.Repositories
                     body = "Tin Vip";
                 }
                 var rqNotifi = new Notification();
-                rqNotifi.Content = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                var contentNotif = "";
+                if (AmountPromotion == 0)
+                {
+                    contentNotif = $"Trừ tiền đăng tin -{Deduct} VND vào tài khoản chính";
+                }
+                else
+                {
+                    contentNotif = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                }
+                rqNotifi.Content = contentNotif;
                 rqNotifi.UserId = post.UserId;
                 await CreateNotification(rqNotifi, cancellationToken);
             }
@@ -933,7 +952,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         body = "Tin Vip";
                     }
                     var rqNotifi = new Notification();
-                    rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND";
+                    rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND vào tài khoản khuyến mãi";
                     rqNotifi.UserId = check.UserId;
                     await CreateNotification(rqNotifi, cancellationToken);
                 }
@@ -959,8 +978,17 @@ namespace Post.Infrastructure.Persistences.Repositories
                     {
                         body = "Tin Vip";
                     }
+                    var contentNotif = "";
+                    if (AmountPromotion == 0)
+                    {
+                        contentNotif = $"Trừ tiền đăng tin -{Deduct} VND vào tài khoản chính";
+                    }
+                    else
+                    {
+                        contentNotif = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                    }
                     var rqNotifi = new Notification();
-                    rqNotifi.Content = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                    rqNotifi.Content = contentNotif;
                     rqNotifi.UserId = check.UserId;
                     await CreateNotification(rqNotifi, cancellationToken);
                 }
