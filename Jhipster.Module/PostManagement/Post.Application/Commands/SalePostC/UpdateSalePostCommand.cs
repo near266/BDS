@@ -42,6 +42,7 @@ namespace Post.Application.Commands.SalePostC
         public DateTime? LastModifiedDate { get; set; }
         [JsonIgnore]
         public string? LastModifiedBy { get; set; }
+        public Guid GroupPriceId { get; set; }
     }
     public class UpdateSalePostCommandHandler : IRequestHandler<UpdateSalePostCommand, int>
     {
@@ -56,7 +57,7 @@ namespace Post.Application.Commands.SalePostC
         public async Task<int> Handle(UpdateSalePostCommand request, CancellationToken cancellationToken)
         {
             //var map = _mapper.Map<SalePost>(request);
-            return await _repository.UpdateSalePost(request, request.NumberOfDate, cancellationToken);
+            return await _repository.UpdateSalePost(request, request.NumberOfDate, request.GroupPriceId, cancellationToken);
         }
     }
 }
