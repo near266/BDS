@@ -297,26 +297,11 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to update sale post : {rq}");
             try
             {
-                string body = "";
-                if (rq.Type == (int)PostType.Normal)
-                {
-                    body = "Tin Thường";
-                }
-                if (rq.Type == (int)PostType.Golden)
-                {
-                    body = "Tin Vip";
-                }
-                if (rq.Type == (int)PostType.Vip)
-                {
-                    body = "Tin Vip đặc biệt";
-                }
+                
                 rq.LastModifiedDate = DateTime.Now;
                 rq.LastModifiedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
-                var notif = new CreateNotificationCommand();
-                notif.Content = $"Trừ tiền đăng {body} -{rq.Price * rq.NumberOfDate} VND ";
-                notif.UserId = GetUserIdFromConext();
-                await _mediator.Send(notif);
+               
                 return Ok(res);
             }
             catch (Exception ex)
