@@ -964,8 +964,9 @@ namespace Post.Infrastructure.Persistences.Repositories
                     rqNotifi.UserId = check.UserId;
                     await CreateNotification(rqNotifi, cancellationToken);
                 }
-
-                check.DueDate = check.DueDate.Value.AddDays((double)numberOfDate);
+                var Date = DateTime.Now;
+                check.CreatedDate = Date;
+                check.DueDate = Date.AddDays((double)numberOfDate);
 
                 return await _context.SaveChangesAsync(cancellationToken);
             }
