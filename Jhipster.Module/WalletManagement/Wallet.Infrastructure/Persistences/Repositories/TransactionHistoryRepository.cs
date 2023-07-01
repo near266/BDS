@@ -35,7 +35,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                     Id = Guid.NewGuid(),
                     Type = rq.Type,
                     Content = rq.Content,
-                    TransactionAmount = (double?)rq.Amount,
+                    TransactionAmount = rq.TransactionAmount,
                     WalletType = rq.WalletType,
                     CustomerId = rq.CustomerId,
                     CreatedDate = DateTime.Now,
