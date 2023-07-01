@@ -33,10 +33,10 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                 var his = new TransactionHistory()
                 {
                     Id = Guid.NewGuid(),
-                    Type = 3,
+                    Type = rq.Type,
                     Content = rq.Content,
                     TransactionAmount = (double?)rq.Amount,
-                    WalletType = 1,
+                    WalletType = rq.WalletType,
                     CustomerId = rq.CustomerId,
                     CreatedDate = DateTime.Now,
                     Amount = rq.Amount,
