@@ -26,6 +26,7 @@ namespace Post.Infrastructure.Extensions
             //services.AddScoped(typeof(IBrandRepository), typeof(BrandRepository));
 
             services.AddScoped(typeof(IPostRepository), typeof(Persistences.Repositories.PostRepository));
+            services.AddScoped(typeof(IFakeNewRepository), typeof(Persistences.Repositories.FakeNewRepository));
             services.AddScoped(typeof(INotificationRepository), typeof(Persistences.Repositories.NotificationRepository));
 
             return services;

@@ -11,15 +11,16 @@ using System.Threading.Tasks;
 
 namespace Post.Application.Commands.NewPostC
 {
-    public class AddNewPostCommand:IRequest<int>
+    public class AddNewPostCommand : IRequest<int>
     {
         public string Title { get; set; }
         public string Description { get; set; }
+        public string? descriptionForList { get; set; }
 
         public List<string>? Image { get; set; }
 
         [JsonIgnore]
-        public string ?CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         [JsonIgnore]
         public DateTime? CreatedDate { get; set; }
     }

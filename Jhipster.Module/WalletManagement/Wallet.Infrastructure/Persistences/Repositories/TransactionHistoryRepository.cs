@@ -2,6 +2,7 @@
 using Jhipster.Crosscutting.Utilities;
 using Jhipster.Domain;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Post.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -29,9 +30,22 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         {
             if (rq.TransactionAmount != 0)
             {
-                rq.CreatedDate = DateTime.Now;
-                await _context.TransactionHistorys.AddAsync(rq, cancellationToken);
-                return await _context.SaveChangesAsync(cancellationToken);
+                var his = new TransactionHistory()
+                {
+                    Id = Guid.NewGuid(),
+                    Type = rq.Type,
+                    Content = rq.Content,
+                    TransactionAmount = (double?)rq.Amount,
+                    WalletType = rq.WalletType,
+                    CustomerId = rq.CustomerId,
+                    CreatedDate = DateTime.Now,
+                    Amount = rq.Amount,
+                    Walletamount = rq.Walletamount,
+                    Title = rq.Title,
+                };
+                await _context.TransactionHistorys.AddAsync(his);
+                his.Title = $"[{his.TransactionCode}] {his.Title}";
+                await _context.SaveChangesAsync(cancellationToken);
             }
             return 0;
         }
@@ -45,7 +59,9 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             }
             if (from != null && to != null)
             {
-                query = query.Where(i => i.CreatedDate >= from && i.CreatedDate <= to);
+                var StartPoint = new DateTime(from.Value.Year, from.Value.Month, from.Value.Day, 0, 0, 0);
+                var EndPoint = new DateTime(to.Value.Year, to.Value.Month, to.Value.Day, 23, 59, 59);
+                query = query.Where(i => i.CreatedDate >= StartPoint && i.CreatedDate <= EndPoint);
             }
             if (userid != null)
             {
@@ -54,8 +70,8 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             if (Code != null)
             {
                 query = query.Where(i => i.TransactionCode == Code);
-            }    
-                var sQuery = query.Include(i => i.Customer).OrderByDescending(i => i.CreatedDate);
+            }
+            var sQuery = query.Include(i => i.Customer).OrderByDescending(i => i.CreatedDate);
             var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToListAsync();

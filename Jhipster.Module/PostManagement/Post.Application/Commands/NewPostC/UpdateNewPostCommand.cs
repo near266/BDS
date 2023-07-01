@@ -11,17 +11,18 @@ using System.Threading.Tasks;
 
 namespace Post.Application.Commands.NewPostC
 {
-    public class UpdateNewPostCommand:IRequest<int>
+    public class UpdateNewPostCommand : IRequest<int>
     {
         public string Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string? descriptionForList { get; set; }
 
         public List<string>? Image { get; set; }
-       
+
         [JsonIgnore]
         public string? LastModifiedBy { get; set; }
-        
+
         [JsonIgnore]
         public DateTime? LastModifiedDate { get; set; }
     }
@@ -30,7 +31,7 @@ namespace Post.Application.Commands.NewPostC
         private readonly IPostRepository _repository;
         private readonly IMapper _mapper;
 
-        public UpdateNewPostCommandHandler(IPostRepository repository,IMapper mapper)
+        public UpdateNewPostCommandHandler(IPostRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

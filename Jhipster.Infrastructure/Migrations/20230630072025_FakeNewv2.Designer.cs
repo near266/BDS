@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Jhipster.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Jhipster.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDatabaseContext))]
-    partial class ApplicationDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230630072025_FakeNewv2")]
+    partial class FakeNewv2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -532,9 +534,6 @@ namespace Jhipster.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("descriptionForList")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
                     b.ToTable("NewPosts");
@@ -639,9 +638,6 @@ namespace Jhipster.Infrastructure.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
-
-                    b.Property<Guid?>("PriceId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("Reason")
                         .HasColumnType("text");

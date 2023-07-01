@@ -152,11 +152,11 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 if (toPrice > 0 && toPrice != null && toPrice >= fromPrice)
                 {
-                    query = query.Where(i => i.PriceTo != null && i.Price >= fromPrice && i.PriceTo >= toPrice || i.PriceTo == null && i.Price >= fromPrice && i.Price <= toPrice);
+                    query = query.Where(i => i.PriceTo != null && i.Price >= fromPrice && i.PriceTo <= toPrice);
                 }
                 if (toPrice == null)
                 {
-                    query = query.Where(i => i.Price >= fromPrice && i.Price <= toPrice);
+                    query = query.Where(i => i.Price == 1);
                 }
             }
 
@@ -293,7 +293,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     body = "Tin Vip";
                 }
                 var rqNotifi = new Notification();
-                rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND";
+                rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND vào tài khoản khuyến mãi";
                 rqNotifi.UserId = rq.UserId;
                 await CreateNotification(rqNotifi, cancellationToken);
             }
@@ -319,8 +319,17 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     body = "Tin Vip";
                 }
+                var contentNotif = "";
+                if (AmountPromotion == 0)
+                {
+                    contentNotif = $"Trừ tiền đăng tin -{Deduct} VND vào tài khoản chính";
+                }
+                else
+                {
+                    contentNotif = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                }
                 var rqNotifi = new Notification();
-                rqNotifi.Content = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                rqNotifi.Content = contentNotif;
                 rqNotifi.UserId = rq.UserId;
                 await CreateNotification(rqNotifi, cancellationToken);
             }
@@ -563,8 +572,9 @@ namespace Post.Infrastructure.Persistences.Repositories
                 {
                     body = "Tin Vip";
                 }
+
                 var rqNotifi = new Notification();
-                rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND";
+                rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND vào tài khoản khuyến mãi";
                 rqNotifi.UserId = post.UserId;
                 await CreateNotification(rqNotifi, cancellationToken);
             }
@@ -591,7 +601,16 @@ namespace Post.Infrastructure.Persistences.Repositories
                     body = "Tin Vip";
                 }
                 var rqNotifi = new Notification();
-                rqNotifi.Content = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                var contentNotif = "";
+                if (AmountPromotion == 0)
+                {
+                    contentNotif = $"Trừ tiền đăng tin -{Deduct} VND vào tài khoản chính";
+                }
+                else
+                {
+                    contentNotif = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                }
+                rqNotifi.Content = contentNotif;
                 rqNotifi.UserId = post.UserId;
                 await CreateNotification(rqNotifi, cancellationToken);
             }
@@ -601,6 +620,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             post.LastModifiedDate = DateTime.Now;
             post.Type = type;
             post.DueDate = Date.AddDays(numberofDate);
+            post.PriceId = GroupPriceId;
             var res = await _context.SaveChangesAsync(cancellationToken);
             return res;
         }
@@ -861,7 +881,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 check.Type = rq.Type;
                 check.Price = rq.Price;
                 check.LastModifiedDate = DateTime.Now;
-
+                check.PriceId = GroupPriceId;
 
                 //bool checkWP = await CheckBalancePromotional(check.UserId, rq.Type, numberOfDate);// tru tien vi km
                 //bool checkW = await CheckBalance(check.UserId, rq.Type, numberOfDate); // tru tien vi chinh
@@ -933,7 +953,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                         body = "Tin Vip";
                     }
                     var rqNotifi = new Notification();
-                    rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND";
+                    rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND vào tài khoản khuyến mãi";
                     rqNotifi.UserId = check.UserId;
                     await CreateNotification(rqNotifi, cancellationToken);
                 }
@@ -959,13 +979,23 @@ namespace Post.Infrastructure.Persistences.Repositories
                     {
                         body = "Tin Vip";
                     }
+                    var contentNotif = "";
+                    if (AmountPromotion == 0)
+                    {
+                        contentNotif = $"Trừ tiền đăng tin -{Deduct} VND vào tài khoản chính";
+                    }
+                    else
+                    {
+                        contentNotif = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                    }
                     var rqNotifi = new Notification();
-                    rqNotifi.Content = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                    rqNotifi.Content = contentNotif;
                     rqNotifi.UserId = check.UserId;
                     await CreateNotification(rqNotifi, cancellationToken);
                 }
-
-                check.DueDate = check.DueDate.Value.AddDays((double)numberOfDate);
+                var Date = DateTime.Now;
+                check.CreatedDate = Date;
+                check.DueDate = Date.AddDays((double)numberOfDate);
 
                 return await _context.SaveChangesAsync(cancellationToken);
             }
@@ -1035,10 +1065,10 @@ namespace Post.Infrastructure.Persistences.Repositories
                     var AmountPromotion = userpromotion.Amount;
                     if (status == (int)PostStatus.Rejected)
                     {
+                        var Fee = Price((Guid)item2.PriceId);
                         var dif = (item2.DueDate - item2.CreatedDate).Value.TotalDays;
-                        await ReturnMoney(item2.Id, (decimal)(_configuration.GetValue<int>("Price:Normal") * dif), 0, cancellationToken);
-                        var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * dif);
-                        await SaveHistory($"{item2.Titile}", AmountWallets, AmountPromotion + Fee, _configuration.GetValue<int>("Price:Normal") * dif, 0, Guid.Parse(item2.UserId), 2, $"Hoàn tiền khách hàng khi hủy đăng bài đăng, Giá bài đăng {Fee}đ", cancellationToken);
+                        await ReturnMoney(item2.Id, Fee, 0, cancellationToken);
+                        await SaveHistory($"{item2.Titile}", AmountWallets, AmountPromotion + Fee, (double)Fee, 0, Guid.Parse(item2.UserId), 2, $"Hoàn tiền khách hàng khi hủy đăng bài đăng, Giá bài đăng {Fee}đ", cancellationToken);
                         var rqNotifi = new Notification();
                         rqNotifi.UserId = item2.UserId;
                         string body = "";

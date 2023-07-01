@@ -13,8 +13,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="Persistences\" />
-    <Folder Include="Persistences\Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Jhipster.Infrastructure\Jhipster.Infrastructure.csproj" />
