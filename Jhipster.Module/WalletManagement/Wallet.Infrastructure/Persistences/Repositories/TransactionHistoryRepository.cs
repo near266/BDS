@@ -2,6 +2,7 @@
 using Jhipster.Crosscutting.Utilities;
 using Jhipster.Domain;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Post.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -29,9 +30,21 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         {
             if (rq.TransactionAmount != 0)
             {
-                rq.CreatedDate = DateTime.Now;
-                await _context.TransactionHistorys.AddAsync(rq, cancellationToken);
-                return await _context.SaveChangesAsync(cancellationToken);
+                var his = new TransactionHistory()
+                {
+                    Id = Guid.NewGuid(),
+                    Type = 3,
+                    Content = "Cộng tiền vào tài khoản khuyến mại",
+                    TransactionAmount = (double?)rq.Amount,
+                    WalletType = 1,
+                    CustomerId = rq.CustomerId,
+                    CreatedDate = DateTime.Now,
+                    Amount = rq.Amount,
+                    Walletamount = rq.Walletamount,
+                };
+                await _context.TransactionHistorys.AddAsync(his);
+                his.Title = $"[{his.TransactionCode}] {his.Title}";
+                await _context.SaveChangesAsync(cancellationToken);
             }
             return 0;
         }
