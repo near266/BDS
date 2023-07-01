@@ -41,6 +41,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                     CreatedDate = DateTime.Now,
                     Amount = rq.Amount,
                     Walletamount = rq.Walletamount,
+                    Title = rq.Title,
                 };
                 await _context.TransactionHistorys.AddAsync(his);
                 his.Title = $"[{his.TransactionCode}] {his.Title}";
