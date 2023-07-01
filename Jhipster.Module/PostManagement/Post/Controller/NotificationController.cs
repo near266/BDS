@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Post.Application.Commands.FakeNewC;
 using Post.Application.Commands.NotificationC;
 using Post.Application.Queries.FakeNewQ;
 using Post.Application.Queries.NotificationQ;
@@ -82,6 +83,26 @@ namespace Post.Controller
         public class ViewFakeNewDTO
         {
             public string data { get; set; }
+        }
+        [HttpDelete("FakeNew/id")]
+        public async Task<IActionResult> DeleteFakeNew([FromBody] DeleteFakeNewCommand rq)
+        {
+            return Ok(await _mediator.Send(rq));
+        }
+        [HttpPost("FakeNew/add")]
+        public async Task<IActionResult> AddFakeNew([FromBody] AddFakeNewCommand rq)
+        {
+            return Ok(await _mediator.Send(rq));
+        }
+        [HttpPut("FakeNew/update")]
+        public async Task<IActionResult> UpdateFakeNew([FromBody] UpdateFakeNewCommand rq)
+        {
+            return Ok(await _mediator.Send(rq));
+        }
+        [HttpGet("FakeNew/viewall")]
+        public async Task<IActionResult> GetAllFake([FromQuery] ViewAllFakeQuery rq)
+        {
+            return Ok(await _mediator.Send(rq));
         }
     }
 }

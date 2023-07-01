@@ -20,6 +20,10 @@ namespace Post.Infrastructure.Persistences.Repositories
         {
             _dbContext = dbContext;
         }
+        public async Task<List<FakeNew>> ViewAllFake()
+        {
+            return await _dbContext.FakeNew.ToListAsync();
+        }
         public async Task<int> AddFakeNew(FakeNew rq, CancellationToken cancellationToken)
         {
             rq.CreatedDate = DateTime.Now;

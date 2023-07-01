@@ -13,5 +13,6 @@ namespace Post.Application.Contracts
         Task<int> Update(Guid Id, string? Title, CancellationToken cancellationToken);
         Task<int> DeleteFakeNew(Guid Id, CancellationToken cancellationToken);
         Task<int> AddFakeNew(FakeNew rq, CancellationToken cancellationToken);
+        Task<List<FakeNew>> ViewAllFake();
     }
 }
