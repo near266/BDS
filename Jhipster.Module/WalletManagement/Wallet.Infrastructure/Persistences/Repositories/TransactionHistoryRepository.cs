@@ -34,7 +34,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                 {
                     Id = Guid.NewGuid(),
                     Type = 3,
-                    Content = "Cộng tiền vào tài khoản khuyến mại",
+                    Content = rq.Content,
                     TransactionAmount = (double?)rq.Amount,
                     WalletType = 1,
                     CustomerId = rq.CustomerId,
