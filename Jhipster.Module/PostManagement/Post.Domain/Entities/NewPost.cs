@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace Post.Domain.Entities
 {
-    public class NewPost:AuditedEntityBase
+    public class NewPost : AuditedEntityBase
     {
         [Key]
         public string Id { get; set; } = RandomUtil.GenerateKey();
         public string Title { get; set; }
         public string Description { get; set; }
         public List<string>? Image { get; set; }
-        
-
+        public string? descriptionForList { get; set; }
     }
 }
