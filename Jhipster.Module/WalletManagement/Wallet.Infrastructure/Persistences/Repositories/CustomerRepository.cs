@@ -32,6 +32,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         }
         public async Task<int> Add(Customer cus, CancellationToken cancellationToken)
         {
+            cus.Point = 0;
             await _context.Customers.AddAsync(cus);
             return await _context.SaveChangesAsync(cancellationToken);
         }
@@ -71,14 +72,14 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
 
 
-        public async Task<SearchCustomerReponse> Search(string? CustomerCode,string? keyword, string? phone, bool? isUnique, int page, int pagesize)
+        public async Task<SearchCustomerReponse> Search(string? CustomerCode, string? keyword, string? phone, bool? isUnique, int page, int pagesize)
         {
             var query = _context.Customers.AsQueryable();
-            if(CustomerCode != null &&  CustomerCode.Length>0)
+            if (CustomerCode != null && CustomerCode.Length > 0)
             {
-                query=query.Where(i=>i.CustomerCode.Equals(CustomerCode));
+                query = query.Where(i => i.CustomerCode.Equals(CustomerCode));
             }
-            
+
             if (keyword != null && keyword.Length > 0)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.CustomerName) && i.CustomerName.ToLower().Contains(keyword.ToLower().Trim()));
