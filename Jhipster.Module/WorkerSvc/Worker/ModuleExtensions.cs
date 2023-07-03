@@ -11,9 +11,10 @@ namespace Worker
             services
                 .AddBaseCore()
                 .AddBaseInfrastructure(configuration);
-           // services.AddScoped<UpdateStatusWorker>();
+            // services.AddScoped<UpdateStatusWorker>();
 
-           services.AddHostedService<UpdateStatusWorker>();
+            services.AddHostedService<UpdateStatusWorker>();
+            services.AddHostedService<UpdateOrderFakeNewWorker>();
             return services;
         }
     }

@@ -14,4 +14,8 @@
     <Folder Include="Commands\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\PostManagement\Post.Domain\Post.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
