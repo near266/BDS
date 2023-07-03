@@ -43,6 +43,9 @@ namespace Jhipster.Infrastructure.Data
         public DbSet<TypePrice> TypePrices { get; set; }
         public DbSet<PriceConfiguration> PriceConfigurations { get; set; }
 
+        public DbSet<TypeTerm> TypeTerms { get; set; }
+        public DbSet<TermConditionConfiguration> TermConditionConfigurations { get; set; }
+
 
 
         /// <summary>

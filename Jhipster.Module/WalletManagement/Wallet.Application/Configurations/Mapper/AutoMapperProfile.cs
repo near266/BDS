@@ -5,6 +5,7 @@ using Post.Domain.Entities;
 using Wallet.Application.Commands.CustomerC;
 using Wallet.Application.Commands.DepositRepositoryC;
 using Wallet.Application.Commands.PriceConfigurationC;
+using Wallet.Application.Commands.TermConditionConfigurationC;
 using Wallet.Application.Commands.TypePriceC;
 using Wallet.Application.Commands.WalletsC;
 using Wallet.Application.Commands.WalletsPromotionaC;
@@ -57,6 +58,17 @@ namespace Wallet.Application.Configurations.Mapper
             CreateMap<PriceConfiguration, AddPriceConfigurationCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<PriceConfiguration, PriceConfigurationDTO>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap(typeof(PagedList<PriceConfiguration>), typeof(PagedList<PriceConfigurationDTO>));
+            #endregion
+            #region TypeTerm
+            CreateMap<TypeTerm, TypeTerm>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<TypeTerm, TypeTermDTO>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            #endregion
+            #region TermConditionConfiguration
+            CreateMap<TermConditionConfiguration, TermConditionConfiguration>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<TermConditionConfiguration, AddTermConditionConfigurationCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<TermConditionConfiguration, UpdateTermConditionConfigurationCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<TermConditionConfiguration, TermConditionDTO>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<TermConditionConfiguration, TermConditionConfigurationDTO>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             #endregion
 
         }
