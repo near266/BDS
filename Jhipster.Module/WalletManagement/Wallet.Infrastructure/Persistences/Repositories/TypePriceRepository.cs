@@ -40,7 +40,49 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             }
             return await _context.SaveChangesAsync(cancellationToken);
         }
+        public async Task<int> AddPri(PriceConfiguration priceConfiguration, CancellationToken cancellationToken)
+        {
+            if (priceConfiguration.Unit == 0)
+            {
+                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault - priceConfiguration.Discount);
 
+            }
+            if (priceConfiguration.Unit == 1)
+            {
+                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault * (100 - priceConfiguration.Discount) / 100);
+            }
+            await _context.PriceConfigurations.AddAsync(priceConfiguration);
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+        public async Task<int> AddListPrice(AddPriceDTO rq, CancellationToken cancellationToken)
+        {
+            var AddType = new TypePrice()
+            {
+                Name = rq.Name
+            };
+            var s = await Add(AddType, cancellationToken);
+            foreach (var item in rq.Config)
+            {
+                foreach (var item2 in item.TypePri)
+                {
+                    var config = new PriceConfiguration()
+                    {
+                        Type = item.Type,
+                        PriceDefault = item.PriceDefault,
+                        Description = item2.Description,
+                        Discount = item2.Discount,
+                        Unit = item2.Unit,
+                        TypePriceId = AddType.Id,
+                        Date = item2.Date,
+                    };
+
+                    await AddPri(config, cancellationToken);
+                }
+
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
+
+        }
         public async Task<IEnumerable<TypePrice>> GetAll()
         {
             var list = await _context.TypePrices.Include(i => i.priceConfigurations).ToListAsync();

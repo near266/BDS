@@ -13,7 +13,8 @@ namespace Wallet.Application.Persistences
         Task<int> Add(TypePrice typePrice, CancellationToken cancellationToken);
         Task<int> Update(TypePrice typePrice, CancellationToken cancellationToken);
         Task<int> Delete(List<Guid> Id, CancellationToken cancellationToken);
-        Task <IEnumerable<TypePrice>> GetAll();
+        Task<IEnumerable<TypePrice>> GetAll();
         Task<ViewDetailPriceDTO> GetPrice(Guid Id);
+        Task<int> AddListPrice(AddPriceDTO rq, CancellationToken cancellationToken);
     }
 }

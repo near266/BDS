@@ -247,6 +247,28 @@ namespace Wallet.Controller
                 return StatusCode(500, ex.Message);
             }
         }
+        /// <summary>
+        /// add list price
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/priceconfiguration/addlist")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddList([FromBody]AddListPriceCommand rq)
+        {
+            _logger.LogInformation($"REST request to get all type price");
+            try
+            {
+               
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get all type price fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
         #endregion
     }
 }
