@@ -16,5 +16,6 @@ namespace Wallet.Application.Persistences
         Task<IEnumerable<TypePrice>> GetAll();
         Task<ViewDetailPriceDTO> GetPrice(Guid Id);
         Task<int> AddListPrice(AddPriceDTO rq, CancellationToken cancellationToken);
+        Task<List<ViewDetailPriceDTO>> GetAllPri();
     }
 }

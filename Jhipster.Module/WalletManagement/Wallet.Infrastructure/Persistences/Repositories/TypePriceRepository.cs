@@ -88,7 +88,28 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             var list = await _context.TypePrices.Include(i => i.priceConfigurations).ToListAsync();
             return list;
         }
+        public async Task<List<ViewDetailPriceDTO>> GetAllPri()
+        {
+            var repo = new List<ViewDetailPriceDTO>();
+            var list = await _context.TypePrices.ToListAsync();
+            foreach (var item in list)
+            {
+                var value = await _context.PriceConfigurations.Where(i => i.TypePriceId == item.Id).GroupBy(i => i.Type).Select(a => new PriceConfigDTO
+                {
+                    Type = a.Key,
+                    PriceConfig = _mapper.Map<List<PriceTypeDTO>>(a.ToList()),
 
+                }).ToListAsync();
+                var s = new ViewDetailPriceDTO()
+                {
+                    TypePrice = item,
+                    PriceConfiguration = value
+                };
+                repo.Add(s);
+            }
+            return repo;
+
+        }
         public async Task<ViewDetailPriceDTO> GetPrice(Guid Id)
         {
             var list = await _context.TypePrices.FirstOrDefaultAsync(i => i.Id == Id);

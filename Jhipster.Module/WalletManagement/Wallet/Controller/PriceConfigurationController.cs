@@ -248,18 +248,40 @@ namespace Wallet.Controller
             }
         }
         /// <summary>
+        /// lấy ra danh sách tất cả các cấu hình giá của admin
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        [HttpPost("/admin/priceconfiguration/getall")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllAdmin()
+        {
+            _logger.LogInformation($"REST request to get all type price");
+            try
+            {
+                var com = new GetAllPriceQuery();
+                var result = await _mediator.Send(com);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get all type price fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
+        /// <summary>
         /// add list price
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
         [HttpPost("/priceconfiguration/addlist")]
         [AllowAnonymous]
-        public async Task<IActionResult> AddList([FromBody]AddListPriceCommand rq)
+        public async Task<IActionResult> AddList([FromBody] AddListPriceCommand rq)
         {
             _logger.LogInformation($"REST request to get all type price");
             try
             {
-               
+
                 var result = await _mediator.Send(rq);
                 return Ok(result);
             }
