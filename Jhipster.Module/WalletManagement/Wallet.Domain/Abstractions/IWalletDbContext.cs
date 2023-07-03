@@ -14,6 +14,8 @@ namespace Wallet.Domain.Abstractions
         public DbSet<Banner> banners { get; set; }
         public DbSet<TypePrice> TypePrices { get; set; }
         public DbSet<PriceConfiguration> PriceConfigurations { get; set; }
+        public DbSet<TypeTerm> TypeTerms { get; set; }
+        public DbSet<TermConditionConfiguration> TermConditionConfigurations { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
