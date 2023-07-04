@@ -49,6 +49,7 @@ namespace Post.Domain.Entities
         public DateTime? ChangeDate { get; set; }
         public int Unit { get; set; }     // 0:VND , 1:VND/m2
         public Guid? PriceId { get; set; }
+        public bool? IsRepost { get; set; }
 
     }
 

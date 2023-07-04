@@ -39,5 +39,7 @@ namespace Post.Application.DTO.SalePostDtos
         public DateTime? ChangeDate { get; set; }
         public string? AddressUser { get; set; }
         public int Unit { get; set; }
+        public bool? IsRepost { get; set; }
+
     }
 }
