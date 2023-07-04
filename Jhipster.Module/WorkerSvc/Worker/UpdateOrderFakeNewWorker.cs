@@ -20,6 +20,7 @@ namespace Worker
         private readonly IConfiguration _configuration;
         private readonly ApplicationDatabaseContext _context;
 
+
         public UpdateOrderFakeNewWorker(IConfiguration configuration,
             IServiceProvider serviceProvider, ILogger<UpdateOrderFakeNewWorker> logger)
         {
@@ -33,7 +34,14 @@ namespace Worker
             while (!stoppingToken.IsCancellationRequested)
             {
                 await UpdateFake();
-                await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
+                var currentTime = DateTime.Now;
+                var endOfDay = currentTime.Date.AddDays(1).AddTicks(-1);
+                var delayTime = endOfDay - currentTime;
+
+                if (delayTime.TotalMilliseconds > 0)
+                {
+                    await Task.Delay(delayTime, stoppingToken);
+                }
             }
         }
         private async Task UpdateFake()
