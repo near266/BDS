@@ -10,6 +10,5 @@ namespace Wallet.Domain.Entities
     public class TypePrice : BaseEntity<Guid>
     {
         public string Name { get; set; }
-        public IEnumerable<PriceConfiguration> priceConfigurations { get; set; }
     }
 }

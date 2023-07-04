@@ -85,7 +85,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         }
         public async Task<IEnumerable<TypePrice>> GetAll()
         {
-            var list = await _context.TypePrices.Include(i => i.priceConfigurations).ToListAsync();
+            var list = await _context.TypePrices.ToListAsync();
             return list;
         }
         public async Task<List<ViewDetailPriceDTO>> GetAllPri()
