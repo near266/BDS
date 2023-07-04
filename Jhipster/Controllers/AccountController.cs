@@ -78,7 +78,7 @@ namespace Jhipster.Controllers
                 customer.Avatar = user.ImageUrl;
                 customer.Status = true;
                 customer.Poin = 0;
-                var res = _mediator.Send(customer);
+                var res = await _mediator.Send(customer);
                 var wallet = new AddWalletsCommand
                 {
                     Id = Guid.NewGuid(),
@@ -98,8 +98,8 @@ namespace Jhipster.Controllers
                     CustomerId = customer.Id,
                     CreatedDate = DateTime.UtcNow,
                 };
-                var resWallet = _mediator.Send(wallet);
-                var resWalletPro = _mediator.Send(walletPro);
+                var resWallet = await _mediator.Send(wallet);
+                var resWalletPro = await _mediator.Send(walletPro);
 
                 /* var requestData = new
                  {

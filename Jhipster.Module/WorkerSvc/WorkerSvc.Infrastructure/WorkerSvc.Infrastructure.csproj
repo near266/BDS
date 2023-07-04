@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Jhipster.Infrastructure\Jhipster.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\PostManagement\Post.Shared\Post.Shared.csproj" />
     <ProjectReference Include="..\WorkerSvc.Application\WorkerSvc.Application.csproj" />
     <ProjectReference Include="..\WorrkerSvc.Domain\WorrkerSvc.Domain.csproj" />
   </ItemGroup>

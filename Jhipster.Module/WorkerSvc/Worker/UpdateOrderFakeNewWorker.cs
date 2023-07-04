@@ -19,6 +19,7 @@ namespace Worker
         private readonly ILogger<UpdateOrderFakeNewWorker> _logger;
         private readonly IConfiguration _configuration;
         private readonly ApplicationDatabaseContext _context;
+
         public UpdateOrderFakeNewWorker(IConfiguration configuration,
             IServiceProvider serviceProvider, ILogger<UpdateOrderFakeNewWorker> logger)
         {

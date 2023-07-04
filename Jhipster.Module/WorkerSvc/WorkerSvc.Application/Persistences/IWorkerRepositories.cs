@@ -11,5 +11,6 @@ namespace WorkerSvc.Application.Persistences
     {
         Task<int> UpdateStatus(string Id, int Status);
         Task<int> UpdateOrderFakeNew(Guid Id);
+        Task<int> RepostSalePost(string? postId, int type, CancellationToken cancellationToken);
     }
 }
