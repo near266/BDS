@@ -641,8 +641,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 var map = _mapper.Map<UpdateSalePostAdminV2C, SalePost>(rq, check);
                 map.LastModifiedDate = DateTime.Now;
                 map.Status = check.Status;
-                map.Price = rq.Price != 0 ? (double)rq.Price : check.Price;
-                map.Unit = rq.Unit != 0 ? rq.Unit : check.Unit;
+                map.Price = map.Price != 0 ? (double)map.Price : check.Price;
                 return await _context.SaveChangesAsync(cancellationToken);
             }
             return 0;
