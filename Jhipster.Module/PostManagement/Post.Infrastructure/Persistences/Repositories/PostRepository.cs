@@ -347,7 +347,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             var userpromotion = await _wcontext.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId.ToString() == post.UserId);
             var AmountPromotion = userpromotion.Amount;
             var check = await CheckBalancePromotional(post.UserId, post.Type, numberofDate);// tru tien vi km
-            var check1 = await CheckBalance(post.UserId, post.Type, numberofDate); 
+            var check1 = await CheckBalance(post.UserId, post.Type, numberofDate);
             var PriceConfig = Price(GroupPriceId);
             if (AmountPromotion > 0 && AmountPromotion >= PriceConfig)
             {
@@ -640,6 +640,9 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 var map = _mapper.Map<UpdateSalePostAdminV2C, SalePost>(rq, check);
                 map.LastModifiedDate = DateTime.Now;
+                map.Status = check.Status;
+                map.Price = rq.Price != 0 ? (double)rq.Price : check.Price;
+                map.Unit = rq.Unit != 0 ? rq.Unit : check.Unit;
                 return await _context.SaveChangesAsync(cancellationToken);
             }
             return 0;
