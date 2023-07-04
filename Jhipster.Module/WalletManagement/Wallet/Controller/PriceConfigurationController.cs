@@ -188,13 +188,12 @@ namespace Wallet.Controller
         /// <returns></returns>
         [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPut("/priceconfiguration/update")]
-        public async Task<IActionResult> Update([FromBody] UpdatePriceConfigurationCommand rq)
+        public async Task<IActionResult> Update([FromBody] UpdateListPriceCommand rq)
         {
             _logger.LogInformation($"REST request to update type price : {rq}");
             try
             {
-                rq.LastModifiedDate = DateTime.Now;
-                rq.LastModifiedBy = GetUsernameFromContext();
+
                 var res = await _mediator.Send(rq);
                 return Ok(res);
             }

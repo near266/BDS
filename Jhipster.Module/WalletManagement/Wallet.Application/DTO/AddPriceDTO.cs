@@ -11,6 +11,12 @@ namespace Wallet.Application.DTO
         public string Name { get; set; }
         public List<TypeDTO> Config { get; set; }
     }
+    public class UpdatePriceDTO
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public List<TypeDTO> Config { get; set; }
+    }
     public class TypeDTO
     {
         public List<TypePriDTO> TypePri { get; set; }

@@ -83,6 +83,35 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             return await _context.SaveChangesAsync(cancellationToken);
 
         }
+        public async Task<int> UpdateListPrice(UpdatePriceDTO rq, CancellationToken cancellationToken)
+        {
+            var check = await _context.TypePrices.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            check.Name = rq.Name;
+            var checkType = await _context.PriceConfigurations.Where(i => i.TypePriceId == rq.Id).ToListAsync();
+            _context.PriceConfigurations.RemoveRange(checkType);
+            await _context.SaveChangesAsync(cancellationToken);
+            foreach (var item in rq.Config)
+            {
+                foreach (var item2 in item.TypePri)
+                {
+                    var config = new PriceConfiguration()
+                    {
+                        Type = item.Type,
+                        PriceDefault = item.PriceDefault,
+                        Description = item2.Description,
+                        Discount = item2.Discount,
+                        Unit = item2.Unit,
+                        TypePriceId = rq.Id,
+                        Date = item2.Date,
+                    };
+
+                    await AddPri(config, cancellationToken);
+                }
+
+            }
+            return await _context.SaveChangesAsync(cancellationToken);
+
+        }
         public async Task<IEnumerable<TypePrice>> GetAll()
         {
             var list = await _context.TypePrices.ToListAsync();
