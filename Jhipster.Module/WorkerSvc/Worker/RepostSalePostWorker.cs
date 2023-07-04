@@ -19,7 +19,7 @@ namespace Worker
         private readonly ApplicationDatabaseContext _context;
         private readonly ILogger<RepostSalePostWorker> _logger;
 
-        public RepostSalePostWorker(IWorkerRepositories repository, IServiceProvider serviceProvider, ApplicationDatabaseContext applicationDatabaseContext, ILogger<RepostSalePostWorker> logger)
+        public RepostSalePostWorker( IServiceProvider serviceProvider,  ILogger<RepostSalePostWorker> logger)
         {
             _context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ApplicationDatabaseContext>();
             _repository = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IWorkerRepositories>();

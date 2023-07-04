@@ -15,8 +15,8 @@ namespace Worker
 
             services.AddHostedService<UpdateStatusWorker>();
             services.AddHostedService<UpdateOrderFakeNewWorker>();
-          //  services.AddHostedService<RepostSalePostWorker>();
+            services.AddHostedService<RepostSalePostWorker>();
             return services;
         }
-    } 
+    }
 }
