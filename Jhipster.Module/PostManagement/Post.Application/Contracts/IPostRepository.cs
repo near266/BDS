@@ -47,7 +47,7 @@ namespace Post.Application.Contracts
         Task<int> DeleteNewPost(List<string> Id, CancellationToken cancellationToken);
         Task<NewPost> ViewDetailNewPost(string id);
         Task<List<NewPoDTO>> GetRandomNewPost(int randomCount);
-        Task<PagedList<NewPost>> SearchNewPost(string? title, int Page, int PageSize);
+        Task<PagedList<NewPoDTO>> SearchNewPost(string? title, int Page, int PageSize);
         Task<PagedList<NewPoDTO>> GetShowingNewPost(string? title, int Page, int PageSize);
         #endregion
         #region District

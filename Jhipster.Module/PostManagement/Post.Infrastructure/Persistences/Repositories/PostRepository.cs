@@ -1213,42 +1213,25 @@ namespace Post.Infrastructure.Persistences.Repositories
             };
         }
 
-        public async Task<PagedList<NewPost>> SearchNewPost(string? title, int Page, int PageSize)
+        public async Task<PagedList<NewPoDTO>> SearchNewPost(string? title, int Page, int PageSize)
         {
 
-            //var query = _context.NewPosts.AsQueryable();
-            //if (title != null)
-            //{
-            //    query = query.Where(i => !string.IsNullOrEmpty(i.Title) && i.Title.ToLower().Contains(title.ToLower().Trim()));
-            //}
-            //if (userid != null)
-            //{
-            //    var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.CreatedDate);
-            //    var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-            //                   .Take(PageSize)
-            //                   .ToListAsync();
-            //    var reslist = await sQuery.ToListAsync();
-            //    return new PagedList<NewPost>
-            //    {
-            //        Data = sQuery1,
-            //        TotalCount = reslist.Count,
-            //    };
-            //}
-            //else
-            //{
-            //    var sQuery = query.OrderByDescending(i => i.CreatedDate);
-            //    var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-            //                        .Take(PageSize)
-            //                        .ToListAsync();
 
-            //}
-            var data = _context.NewPosts.AsNoTracking();
+            var data = _context.NewPosts.Select(i => new NewPoDTO()
+            {
+                CreatedBy = i.CreatedBy,
+                CreatedDate = i.CreatedDate,
+                Id = i.Id,
+                Title = i.Title,
+                Image = i.Image,
+                descriptionForList = i.descriptionForList,
+            });
             if (!string.IsNullOrEmpty(title))
             {
                 data = data.Where(i => i.Title.ToLower().Trim().Contains(title.ToLower().Trim()));
             }
             var value = data.ToList();
-            var reponse = new PagedList<NewPost>();
+            var reponse = new PagedList<NewPoDTO>();
             reponse.TotalCount = data.Count();
             reponse.Data = value.Skip(PageSize * (Page - 1))
                                      .Take(PageSize);
