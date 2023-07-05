@@ -10,6 +10,6 @@ namespace Wallet.Domain.Entities
     {
         public string Name { get; set; }
         public string? DetailTerm { get;set; }
-        public TermConditionConfiguration? TermConfig { get; set; }
+        public IEnumerable <TermConditionConfiguration>? TermConfig { get; set; }
     }
 }
