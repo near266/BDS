@@ -143,7 +143,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         {
             var list = await _context.TypePrices.FirstOrDefaultAsync(i => i.Id == Id);
             if (list == null) throw new Exception("Fail");
-            var value = await _context.PriceConfigurations.Where(i => i.TypePriceId == Id).GroupBy(i => i.Type).Select(a => new PriceConfigDTO
+            var value = await _context.PriceConfigurations.Where(i => i.TypePriceId == Id).OrderBy(i=>i.Date).GroupBy(i => i.Type).Select(a => new PriceConfigDTO
             {
                 Type = a.Key,
                 PriceConfig = _mapper.Map<List<PriceTypeDTO>>(a.ToList()),
