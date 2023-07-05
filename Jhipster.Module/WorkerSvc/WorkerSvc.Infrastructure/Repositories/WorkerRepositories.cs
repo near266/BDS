@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Jhipster.Infrastructure.Data;
+using JHipsterNet.Core.Pagination;
 using Microsoft.EntityFrameworkCore;
 using Post.Domain.Entities;
 using Post.Shared.Enums;
@@ -58,6 +59,7 @@ namespace WorkerSvc.Infrastructure.Repositories
             var AmountWallets = user.Amount;
             var userpromotion = await _databaseContext.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId.ToString() == post.UserId);
             var AmountPromotion = userpromotion.Amount;
+           
             var PriceConfig = Price((Guid)post.PriceId);
             if (PriceConfig >= AmountPromotion + AmountWallets)
             {
@@ -70,6 +72,18 @@ namespace WorkerSvc.Infrastructure.Repositories
             }
             else
             {
+                if (post.Type == (int)PostType.Normal)
+                {
+                    post.Status = (int)PostStatus.UnApproved;
+                }
+                else if (post.Type == (int)PostType.Golden)
+                {
+                    post.Status = (int)PostStatus.Showing;
+                }
+                else if (post.Type == (int)PostType.Vip)
+                {
+                    post.Status = (int)PostStatus.Showing;
+                }
                 if (AmountPromotion > 0 && AmountPromotion >= PriceConfig)
                 {
                     await SubtractMoneyPromotional(post.Id, PriceConfig, cancellationToken);
