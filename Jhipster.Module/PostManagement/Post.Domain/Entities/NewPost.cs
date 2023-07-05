@@ -13,7 +13,7 @@ namespace Post.Domain.Entities
         public string Id { get; set; } = RandomUtil.GenerateKey();
         public string Title { get; set; }
         public string Description { get; set; }
-        public List<string>? Image { get; set; }
+        public string? Image { get; set; }
         public string? descriptionForList { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace Post.Application.Commands.NewPostC
         public string Description { get; set; }
         public string? descriptionForList { get; set; }
 
-        public List<string>? Image { get; set; }
+        public string? Image { get; set; }
 
         [JsonIgnore]
         public string? CreatedBy { get; set; }
