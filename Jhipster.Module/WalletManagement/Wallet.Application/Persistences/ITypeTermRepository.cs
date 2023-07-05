@@ -10,5 +10,7 @@ namespace Wallet.Application.Persistences
     public interface ITypeTermRepository
     {
         Task<IEnumerable<TypeTerm>> GetAll();
+        Task<TypeTerm> GetById(Guid? Id);
+        Task<int> AddTypeTerm(TypeTerm typeTerm, CancellationToken cancellationToken);
     }
 }

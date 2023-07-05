@@ -78,6 +78,22 @@ namespace Wallet.Controller
                 return StatusCode(500, ex.Message);
             }
         }
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPost("/typeterm/getdetail")]
+        public async Task<IActionResult> GetDetail([FromBody] GetTermDetailQuery rq)
+        {
+            _logger.LogInformation($"REST request to get detail type term");
+            try
+            {
+                var result = await _mediator.Send(rq);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to get all detail term fail: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
         #endregion
         #region TermConditionConfiguration
         [Authorize(Roles = RolesConstants.ADMIN)]

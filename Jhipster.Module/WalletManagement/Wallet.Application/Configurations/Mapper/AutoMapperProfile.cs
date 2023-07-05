@@ -64,6 +64,7 @@ namespace Wallet.Application.Configurations.Mapper
             #region TypeTerm
             CreateMap<TypeTerm, TypeTerm>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<TypeTerm, TypeTermDTO>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<TypeTerm, AddTypeTermCommand>().ReverseMap();
             #endregion
             #region TermConditionConfiguration
             CreateMap<TermConditionConfiguration, TermConditionConfiguration>().ReverseMap()
