@@ -25,6 +25,8 @@ namespace Post.Application.Commands.SalePostC
         [JsonIgnore]
         public string? CreatedBy { get; set; }
         public Guid GroupPriceId { get; set; }
+        public bool? IsRepost { get; set; }
+
     }
     public class RepostSalePostCommandHandler : IRequestHandler<RepostSalePostCommand, int>
     {
