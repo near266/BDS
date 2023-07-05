@@ -1154,9 +1154,17 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             return await _context.SaveChangesAsync(cancellationToken);
         }
-        public async Task<List<NewPost>> GetRandomNewPost(int randomCount)
+        public async Task<List<NewPoDTO>> GetRandomNewPost(int randomCount)
         {
-            var value = await _context.NewPosts.ToListAsync();
+            var value = await _context.NewPosts.Select(i => new NewPoDTO()
+            {
+                CreatedBy = i.CreatedBy,
+                CreatedDate = i.CreatedDate,
+                Id = i.Id,
+                Title = i.Title,
+                Image = i.Image,
+                descriptionForList = i.descriptionForList,
+            }).ToListAsync();
 
             var random = new Random();
             int n = value.Count;
@@ -1164,7 +1172,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             for (int i = n - 1; i > 0; i--)
             {
                 int j = random.Next(i + 1);
-                NewPost temp = value[i];
+                NewPoDTO temp = value[i];
                 value[i] = value[j];
                 value[j] = temp;
             }
