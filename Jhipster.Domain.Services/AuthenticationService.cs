@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
@@ -37,7 +37,7 @@ namespace Jhipster.Domain.Services
 
             var user = await LoadUserByUsername(username);
 
-            if (!user.Activated) throw new UserNotActivatedException($"User {user.UserName} was not activated.");
+            if (!user.Activated) throw new UserNotActivatedException($"Tài khoản {user.UserName} đã bị chặn, vui lòng liên hệ admin để mở khóa tài khoản.");
 
             if (await _userManager.CheckPasswordAsync(user, password)) return await CreatePrincipal(user);
 
