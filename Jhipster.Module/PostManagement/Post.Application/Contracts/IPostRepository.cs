@@ -1,4 +1,5 @@
 ﻿using Jhipster.Crosscutting.Utilities;
+using MediatR;
 using Post.Application.Commands.SalePostC;
 using Post.Application.Commands.WardC;
 using Post.Application.DTO;
@@ -13,7 +14,7 @@ namespace Post.Application.Contracts
         Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken);
         Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken);
         Task<int> DeleteBoughtPost(List<string> Id, CancellationToken cancellationToken);
-        Task<PagedList<BoughtPost>> SearchBoughtPost(string? Id,string? userid, string? title, int? status, DateTime? fromDate, DateTime? toDate, int Page, int PageSize);
+        Task<PagedList<BoughtPost>> SearchBoughtPost(string? Id, string? userid, string? title, int? status, DateTime? fromDate, DateTime? toDate, int Page, int PageSize);
         Task<PagedList<SearchBoughtPostDTO>> GetShowingBoughtPost(string? userid, string? keyword, double? fromPrice, double? toPrice,
             string? region, int Page, int PageSize);
         Task<BoughtPost> ViewDetailBoughtPost(string id);
@@ -24,13 +25,13 @@ namespace Post.Application.Contracts
 
         #region SalePost
         Task<int> AddSalePost(SalePost rq, bool? isEnoughWallet, bool? isEnoughWalletPro, double numofDate, Guid GroupPriceId, CancellationToken cancellationToken);
-        Task<int> UpdateSalePost(UpdateSalePostCommand rq, double? numberOfDate,Guid GroupPriceId, CancellationToken cancellationToken);
-        Task<int> RepostSalePost(string? postId, int type, double numberofDate, Guid GroupPriceId, CancellationToken cancellationToken);
+        Task<int> UpdateSalePost(UpdateSalePostCommand rq, double? numberOfDate, Guid GroupPriceId, CancellationToken cancellationToken);
+        Task<int> RepostSalePost(string? postId, int type, double numberofDate, Guid GroupPriceId, bool? IsRepost, CancellationToken cancellationToken);
         Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken);
-        Task<PagedList<SalePost>> SearchSalePost(string? Id,string? userid, string? title, int? status, int? type, DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize);
+        Task<PagedList<SalePost>> SearchSalePost(string? Id, string? userid, string? title, int? status, int? type, DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize);
         Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize);
-        Task<DetailSalePost> ViewDetailSalePost(string id ,string UserId);
+        Task<DetailSalePost> ViewDetailSalePost(string id, string UserId);
         Task<int> UpdateSalePostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken);
         Task<int> UpdateSaleAdminV2(UpdateSalePostAdminV2C rq, CancellationToken cancellationToken);
         Task<int> UpdateBoughtPostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken);
@@ -58,7 +59,7 @@ namespace Post.Application.Contracts
         Task<int> DeleteWard(List<string> Id, CancellationToken cancellationToken);
         //Task<PagedList<Ward>> GetShowingWard(string? districtId, string? name, int Page, int PageSize);
         Task<PagedList<Ward>> SearchWard(string? name, int Page, int PageSize);
-        Task<PagedList<Ward>> SearchWardByDistrict(string? districtId, string? name,int Page, int PageSize);
+        Task<PagedList<Ward>> SearchWardByDistrict(string? districtId, string? name, int Page, int PageSize);
         #endregion
 
         #region Admin

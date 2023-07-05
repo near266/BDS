@@ -41,7 +41,7 @@ namespace Post.Application.Commands.SalePostC
         public async Task<int> Handle(RepostSalePostCommand request, CancellationToken cancellationToken)
         {
             var map = _mapper.Map<SalePost>(request);
-            return await _repository.RepostSalePost(request.Id, request.Type, request.NumberOfDate, request.GroupPriceId, cancellationToken);
+            return await _repository.RepostSalePost(request.Id, request.Type, request.NumberOfDate, request.GroupPriceId,request.IsRepost, cancellationToken);
 
         }
     }

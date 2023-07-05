@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Post.Application.Commands.SalePostC;
 using Post.Application.Commands.WardC;
 using Post.Application.Contracts;
@@ -336,7 +337,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 
             return res;
         }
-        public async Task<int> RepostSalePost(string? postId, int type, double numberofDate, Guid GroupPriceId, CancellationToken cancellationToken)
+        public async Task<int> RepostSalePost(string? postId, int type, double numberofDate, Guid GroupPriceId, bool? IsRepost, CancellationToken cancellationToken)
         {
             var post = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == postId);
             if (post == null) throw new ArgumentException("No post found !!!");
@@ -415,6 +416,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             post.Type = type;
             post.DueDate = Date.AddDays(numberofDate);
             post.PriceId = GroupPriceId;
+            post.IsRepost = IsRepost;
             var res = await _context.SaveChangesAsync(cancellationToken);
             return res;
         }
