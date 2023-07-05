@@ -32,7 +32,7 @@ namespace Worker
             while (!stoppingToken.IsCancellationRequested)
             {
                 await CheckStatus();
-                await Task.Delay(_configuration.GetValue<int>("TimeSend"), stoppingToken);
+               // await Task.Delay(_configuration.GetValue<int>("TimeSend"), stoppingToken);
             }
         }
         private async Task CheckStatus()
