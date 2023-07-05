@@ -59,7 +59,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<TermConditionConfiguration> ViewDetail(Guid Id)
         {
-            var check = await _context.TermConditionConfigurations.Where(i => i.Id.Equals(Id)).FirstOrDefaultAsync();
+            var check = await _context.TermConditionConfigurations.Where(i => i.Id.Equals(Id)).Include(i=>i.TypeTerm).FirstOrDefaultAsync();
             return check;
         }
     }
