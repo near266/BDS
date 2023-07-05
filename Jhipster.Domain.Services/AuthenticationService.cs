@@ -42,7 +42,7 @@ namespace Jhipster.Domain.Services
             if (await _userManager.CheckPasswordAsync(user, password)) return await CreatePrincipal(user);
 
             _log.LogDebug("Authentication failed: password does not match stored value");
-            throw new InvalidCredentialException("Authentication failed: password does not match stored value");
+            throw new InvalidCredentialException($"Tài khoản hoặc mật khẩu không đúng, vui lòng thử lại");
         }
 
         private async Task<User> LoadUserByUsername(string username)
