@@ -14,6 +14,7 @@ using Post.Application.Commands.SalePostC;
 using Post.Application.Commands.WardC;
 using Post.Application.Contracts;
 using Post.Application.DTO;
+using Post.Application.DTO.NewPostDTO;
 using Post.Application.DTO.SalePostDtos;
 using Post.Domain.Abstractions;
 using Post.Domain.Entities;
@@ -29,6 +30,7 @@ using Wallet.Domain.Abstractions;
 using Wallet.Domain.Entities;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Post.Infrastructure.Persistences.Repositories
 {
@@ -1176,9 +1178,17 @@ namespace Post.Infrastructure.Persistences.Repositories
             return res;
         }
 
-        public async Task<PagedList<NewPost>> GetShowingNewPost(string? title, int Page, int PageSize)
+        public async Task<PagedList<NewPoDTO>> GetShowingNewPost(string? title, int Page, int PageSize)
         {
-            var query = _context.NewPosts.AsQueryable();
+            var query = _context.NewPosts.Select(i => new NewPoDTO()
+            {
+                CreatedBy = i.CreatedBy,
+                CreatedDate = i.CreatedDate,
+                Id = i.Id,
+                Title = i.Title,
+                Image = i.Image,
+                descriptionForList = i.descriptionForList,
+            });
             if (title != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Title) && i.Title.ToLower().Contains(title.ToLower().Trim()));
@@ -1188,7 +1198,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                           .Take(PageSize)
                           .ToListAsync();
             var reslist = await sQuery.ToListAsync();
-            return new PagedList<NewPost>
+            return new PagedList<NewPoDTO>
             {
                 Data = sQuery1,
                 TotalCount = reslist.Count,

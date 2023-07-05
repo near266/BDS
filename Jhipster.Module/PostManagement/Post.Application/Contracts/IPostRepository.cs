@@ -3,6 +3,7 @@ using MediatR;
 using Post.Application.Commands.SalePostC;
 using Post.Application.Commands.WardC;
 using Post.Application.DTO;
+using Post.Application.DTO.NewPostDTO;
 using Post.Application.DTO.SalePostDtos;
 using Post.Domain.Entities;
 
@@ -47,7 +48,7 @@ namespace Post.Application.Contracts
         Task<NewPost> ViewDetailNewPost(string id);
         Task<List<NewPost>> GetRandomNewPost(int randomCount);
         Task<PagedList<NewPost>> SearchNewPost(string? title, int Page, int PageSize);
-        Task<PagedList<NewPost>> GetShowingNewPost(string? title, int Page, int PageSize);
+        Task<PagedList<NewPoDTO>> GetShowingNewPost(string? title, int Page, int PageSize);
         #endregion
         #region District
         Task<List<District>> SearchDistrict();
