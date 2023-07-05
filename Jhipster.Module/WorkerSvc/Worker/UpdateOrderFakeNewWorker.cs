@@ -4,10 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NCrontab;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WorkerSvc.Application.Persistences;
 
@@ -18,33 +20,51 @@ namespace Worker
         private readonly IWorkerRepositories _repository;
         private readonly ILogger<UpdateOrderFakeNewWorker> _logger;
         private readonly IConfiguration _configuration;
-        private readonly ApplicationDatabaseContext _context;
-
+        private readonly ApplicationDatabaseContext _context; 
+        private const string Schedule = "59 59 23 * * *";
+        private readonly CrontabSchedule _crontabSchedule;
+        private DateTime _nextRun;
 
         public UpdateOrderFakeNewWorker(IConfiguration configuration,
             IServiceProvider serviceProvider, ILogger<UpdateOrderFakeNewWorker> logger)
         {
             _repository = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IWorkerRepositories>();
             _logger = logger;
+            _crontabSchedule = CrontabSchedule.Parse(Schedule, new CrontabSchedule.ParseOptions { IncludingSeconds = true });
             _configuration = configuration;
+            _nextRun = _crontabSchedule.GetNextOccurrence(DateTime.Now);
             _context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ApplicationDatabaseContext>();
         }
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await UpdateFake();
-                var currentTime = DateTime.Now;
-                var endOfDay = currentTime.Date.AddDays(1).AddTicks(-1);
-                var delayTime = endOfDay - currentTime;
-
-                if (delayTime.TotalMilliseconds > 0)
+                try
                 {
-                    await Task.Delay(delayTime, stoppingToken);
+                    await Task.Run(async () =>
+                    {
+                        while (!stoppingToken.IsCancellationRequested)
+                        {
+                            await Task.Delay(UntilNextExecution(), stoppingToken);
+
+                            /// do something
+                            _nextRun = _crontabSchedule.GetNextOccurrence(DateTime.Now);
+                        }
+                    }, stoppingToken);
+
                 }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Stop handler: Immediately - {exception}", ex.Message);
+                }
+
+
             }
         }
-        private async Task UpdateFake()
+        private int UntilNextExecution() => Math.Max(0, (int)_nextRun.Subtract(DateTime.Now).TotalMilliseconds);
+
+    
+    private async Task UpdateFake()
         {
             try
             {
