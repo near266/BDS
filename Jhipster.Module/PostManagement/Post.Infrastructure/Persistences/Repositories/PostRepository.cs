@@ -244,7 +244,8 @@ namespace Post.Infrastructure.Persistences.Repositories
                 var price = priceconfig.Price;
                 var date = priceconfig.Date;
                 var priceUser = price * date;
-                return priceUser;
+                decimal roundedPriceUser = Math.Round(priceUser, 0);
+                return roundedPriceUser;
             }
 
         }
