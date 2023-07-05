@@ -66,7 +66,7 @@ namespace Jhipster.Domain.Services
             var lowerCaseLogin = username.ToLower(CultureInfo.GetCultureInfo("en-US"));
             var userByLogin = await _userManager.FindByNameAsync(username.ToLower());
             if (userByLogin == null)
-                throw new UsernameNotFoundException($"User {lowerCaseLogin} was not found in the database");
+                throw new UsernameNotFoundException($"Tài khoản  {lowerCaseLogin} sai mật khẩu hoặc tài khoản, vui lòng thử lại");
             return userByLogin;
         }
 
