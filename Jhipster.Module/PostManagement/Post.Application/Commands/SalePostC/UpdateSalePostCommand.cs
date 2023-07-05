@@ -43,6 +43,8 @@ namespace Post.Application.Commands.SalePostC
         [JsonIgnore]
         public string? LastModifiedBy { get; set; }
         public Guid GroupPriceId { get; set; }
+        public bool? IsRepost { get; set; }
+
     }
     public class UpdateSalePostCommandHandler : IRequestHandler<UpdateSalePostCommand, int>
     {

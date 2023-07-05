@@ -31,6 +31,7 @@ namespace Post.Application.Commands.SalePostC
         public List<string>? Documents { get; set; }
         public string? Reason { get; set; }
         public int Unit { get; set; }
+        public bool? IsRepost { get; set; }
 
 
     }
