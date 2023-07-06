@@ -35,7 +35,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<IEnumerable<TypeTerm>> GetAll()
         {
-            var list = await _context.TypeTerms.Include(i=>i.TermConfig).AsNoTracking().IgnoreAutoIncludes().ToListAsync();
+            var list = await _context.TypeTerms.Include(i=>i.TermConfig).AsNoTracking().IgnoreAutoIncludes().OrderBy(i => i.CreatedDate).ToListAsync();
             return list;
         }
 
