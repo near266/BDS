@@ -9,5 +9,7 @@ namespace Wallet.Domain.Entities
     public class TypeTerm : BaseEntity<Guid>
     {
         public string Name { get; set; }
+        public string? DetailTerm { get;set; }
+        public IEnumerable <TermConditionConfiguration>? TermConfig { get; set; }
     }
 }
