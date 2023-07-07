@@ -47,9 +47,13 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                 priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault - priceConfiguration.Discount);
 
             }
-            if (priceConfiguration.Unit == 1)
+            else if (priceConfiguration.Unit == 1)
             {
                 priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault * (100 - priceConfiguration.Discount) / 100);
+            }
+            else
+            {
+                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault);
             }
             await _context.PriceConfigurations.AddAsync(priceConfiguration);
             return await _context.SaveChangesAsync(cancellationToken);
