@@ -44,12 +44,11 @@ namespace Wallet.Infrastructure.Persistences.Repositories
         {
             if (priceConfiguration.Unit == 0)
             {
-                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault - priceConfiguration.Discount);
-
+                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault - priceConfiguration.Discount > 0 ? priceConfiguration.PriceDefault - priceConfiguration.Discount : 0);
             }
             else if (priceConfiguration.Unit == 1)
             {
-                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault * (100 - priceConfiguration.Discount) / 100);
+                priceConfiguration.Price = (decimal)(priceConfiguration.PriceDefault * (100 - priceConfiguration.Discount) / 100 > 0 ? priceConfiguration.PriceDefault * (100 - priceConfiguration.Discount) / 100 : 0);
             }
             else
             {
