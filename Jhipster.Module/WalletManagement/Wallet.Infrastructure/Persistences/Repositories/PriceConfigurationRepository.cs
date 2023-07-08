@@ -44,13 +44,21 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<int> Delete(List<Guid> Id, CancellationToken cancellationToken)
         {
-            var check = await _context.PriceConfigurations.Where(i => Id.Contains(i.Id)).ToListAsync();
+            var check = await _context.TypePrices.FirstOrDefaultAsync(i => Id.Contains(i.Id));
             if (check == null) throw new ArgumentException("Can not find");
-            foreach (var item in check)
+            else
             {
-                _context.PriceConfigurations.Remove(item);
+                _context.TypePrices.Remove(check);
+                var checkitem = await _context.PriceConfigurations.Where(i => i.TypePriceId == check.Id).ToListAsync();
+                if (checkitem != null)
+                {
+                    foreach (var item in checkitem)
+                    {
+                        _context.PriceConfigurations.Remove(item);
+                    }
+                }
+                return await _context.SaveChangesAsync(cancellationToken);
             }
-            return await _context.SaveChangesAsync(cancellationToken);
         }
 
 
