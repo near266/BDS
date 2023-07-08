@@ -129,7 +129,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                 var value = await _context.PriceConfigurations.Where(i => i.TypePriceId == item.Id).GroupBy(i => i.Type).Select(a => new PriceConfigDTO
                 {
                     Type = a.Key,
-                    PriceConfig = _mapper.Map<List<PriceTypeDTO>>(a.ToList()),
+                    PriceConfig = _mapper.Map<List<PriceTypeDTO>>(a.OrderBy(i => i.Date).ToList()),
 
                 }).ToListAsync();
                 var s = new ViewDetailPriceDTO()
