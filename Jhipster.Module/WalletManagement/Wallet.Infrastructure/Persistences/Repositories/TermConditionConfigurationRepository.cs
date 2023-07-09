@@ -42,7 +42,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<IEnumerable<TermConditionConfiguration>> GetAll()
         {
-            var list = await _context.TermConditionConfigurations.ToListAsync();
+            var list = await _context.TermConditionConfigurations.OrderBy(i => i.CreatedDate).ToListAsync();
             return list;
         }
 
