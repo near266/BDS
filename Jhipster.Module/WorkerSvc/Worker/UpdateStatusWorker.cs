@@ -32,7 +32,7 @@ namespace Worker
             while (!stoppingToken.IsCancellationRequested)
             {
                 await CheckStatus();
-               // await Task.Delay(_configuration.GetValue<int>("TimeSend"), stoppingToken);
+                // await Task.Delay(_configuration.GetValue<int>("TimeSend"), stoppingToken);
             }
         }
         private async Task CheckStatus()
@@ -40,7 +40,7 @@ namespace Worker
             try
             {
                 var TimeNow = DateTime.Now;
-                var check = await _context.SalePosts.Where(i => i.DueDate <= TimeNow).ToListAsync();
+                var check = await _context.SalePosts.Where(i => i.DueDate <= TimeNow && i.Status != 2).ToListAsync();
                 if (check.Any())
                 {
                     _logger.LogInformation("[WORKER] Update Sale Post running at: {time}", DateTimeOffset.Now);
