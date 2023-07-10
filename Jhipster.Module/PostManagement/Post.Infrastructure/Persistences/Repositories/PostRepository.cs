@@ -1215,6 +1215,7 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<int> UpdateNewPost(NewPost rq, CancellationToken cancellationToken)
         {
             var check = await _context.NewPosts.FirstOrDefaultAsync(i => i.Id == rq.Id);
+            rq.Description = rq.Description != null ? rq.Description : check.Description;
             if (check == null) throw new ArgumentException("Can not find");
             else
             {

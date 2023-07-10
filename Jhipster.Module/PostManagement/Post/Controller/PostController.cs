@@ -632,7 +632,7 @@ namespace Post.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [Authorize(Roles = RolesConstants.ADMIN)]
+       // [Authorize(Roles = RolesConstants.ADMIN)]
         [HttpPut("/newpost/update")]
         public async Task<IActionResult> UpdateNewPost([FromBody] UpdateNewPostCommand rq)
         {
