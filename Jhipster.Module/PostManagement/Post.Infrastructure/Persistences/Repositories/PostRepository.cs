@@ -555,21 +555,9 @@ namespace Post.Infrastructure.Persistences.Repositories
         public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize)
         {
-            var result = await _databaseContext.SalePosts.ToListAsync();
+            var result = await _databaseContext.SalePosts.Where(i => i.Status == (int)PostStatus.Showing)
+                .OrderByDescending(i => i.Type).ThenByDescending(i => i.LastModifiedDate).ToListAsync();
             var query = _mapper.Map<List<SearchSalePostDTO>>(result).AsEnumerable();
-            foreach (var item in query)
-            {
-                if (item.Status == 1)
-                {
-                    item.MaxSale = MaxSalePost(item);
-                    item.MinSale = MinSalePost(item);
-                }
-                else
-                {
-                    item.MaxSale = "NoMaxSale";
-                    item.MinSale = "NoMinSale";
-                }
-            }
             if (keyword != null)
             {
                 query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
@@ -602,22 +590,30 @@ namespace Post.Infrastructure.Persistences.Repositories
             {
                 query = query.Where(i => i.UserId == userid);
             }
-
-            var sQuery = query.Where(i => i.Status == (int)PostStatus.Showing)
-                .OrderByDescending(i => i.Type).ThenByDescending(i => i.LastModifiedDate);
-            foreach (var item in sQuery)
+            foreach (var item in query)
             {
+                if (item.Status == 1)
+                {
+                    item.MaxSale = MaxSalePost(item);
+                    item.MinSale = MinSalePost(item);
+                }
+                else
+                {
+                    item.MaxSale = "NoMaxSale";
+                    item.MinSale = "NoMinSale";
+                }
                 var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(item.UserId));
                 if (checkUser != null)
                 {
                     item.avatar = checkUser.Avatar;
                 }
             }
-            var sQuery1 = sQuery.Skip(PageSize * (Page - 1))
+
+            var sQuery1 = query.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToList();
 
-            var reslist = sQuery.ToList();
+            var reslist = query.ToList();
             return new PagedList<SearchSalePostDTO>
             {
                 Data = sQuery1,
