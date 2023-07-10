@@ -552,45 +552,131 @@ namespace Post.Infrastructure.Persistences.Repositories
                 };
             }
         }
-        public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
-            string? region, int Page, int PageSize)
+        #region GetShowingOld
+        //public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
+        //    string? region, int Page, int PageSize)
+        //{
+        //    var result = await _databaseContext.SalePosts.Where(i => i.Status == (int)PostStatus.Showing)
+        //        .OrderByDescending(i => i.Type).ThenByDescending(i => i.LastModifiedDate).ToListAsync();
+        //    var query = _mapper.Map<List<SearchSalePostDTO>>(result).AsEnumerable();
+        //    if (keyword != null)
+        //    {
+        //        query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
+        //    }
+
+        //    if (fromPrice >= 0)
+        //    {
+        //        if (toPrice > 0)
+        //        {
+        //            query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price < toPrice));
+        //        }
+        //        else
+        //        {
+        //            query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
+        //        }
+        //    }
+
+        //    if (fromArea >= 0)
+        //    {
+        //        if (toArea > 0) query = query.Where(i => i.Area > 0 && (i.Area >= fromArea && i.Area <= toArea));
+        //        else query = query.Where(i => i.Area > 0 && i.Area >= fromArea);
+        //    }
+
+        //    if (region != null)
+        //    {
+        //        query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
+        //    }
+
+        //    if (userid != null)
+        //    {
+        //        query = query.Where(i => i.UserId == userid);
+        //    }
+        //    foreach (var item in query)
+        //    {
+        //        if (item.Status == 1)
+        //        {
+        //            item.MaxSale = MaxSalePost(item);
+        //            item.MinSale = MinSalePost(item);
+        //        }
+        //        else
+        //        {
+        //            item.MaxSale = "NoMaxSale";
+        //            item.MinSale = "NoMinSale";
+        //        }
+        //        var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(item.UserId));
+        //        if (checkUser != null)
+        //        {
+        //            item.avatar = checkUser.Avatar;
+        //        }
+        //    }
+
+        //    var sQuery1 = query.Skip(PageSize * (Page - 1))
+        //                        .Take(PageSize)
+        //                        .ToList();
+
+        //    var reslist = query.ToList();
+        //    return new PagedList<SearchSalePostDTO>
+        //    {
+        //        Data = sQuery1,
+        //        TotalCount = reslist.Count,
+        //    };
+        //}
+        #endregion
+        public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea, string? region, int Page, int PageSize)
         {
-            var result = await _databaseContext.SalePosts.Where(i => i.Status == (int)PostStatus.Showing)
-                .OrderByDescending(i => i.Type).ThenByDescending(i => i.LastModifiedDate).ToListAsync();
-            var query = _mapper.Map<List<SearchSalePostDTO>>(result).AsEnumerable();
+            var query = _databaseContext.SalePosts.AsQueryable();
+
+            query = query.Where(i => i.Status == (int)PostStatus.Showing);
+
             if (keyword != null)
             {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
+                var trimmedKeyword = keyword.ToLower().Trim();
+                query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(trimmedKeyword));
             }
 
             if (fromPrice >= 0)
             {
-                if (toPrice > 0)
-                {
-                    query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price < toPrice));
-                }
-                else
-                {
-                    query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
-                }
+                query = query.Where(i => i.Price >= fromPrice);
+            }
+
+            if (toPrice > 0)
+            {
+                query = query.Where(i => i.Price < toPrice);
             }
 
             if (fromArea >= 0)
             {
-                if (toArea > 0) query = query.Where(i => i.Area > 0 && (i.Area >= fromArea && i.Area <= toArea));
-                else query = query.Where(i => i.Area > 0 && i.Area >= fromArea);
+                query = query.Where(i => i.Area >= fromArea);
+            }
+
+            if (toArea > 0)
+            {
+                query = query.Where(i => i.Area <= toArea);
             }
 
             if (region != null)
             {
-                query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
+                var trimmedRegion = region.ToLower().Trim();
+                query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(trimmedRegion));
             }
 
             if (userid != null)
             {
                 query = query.Where(i => i.UserId == userid);
             }
-            foreach (var item in query)
+
+            var totalCount = await query.CountAsync();
+
+            var pagedQuery = query.OrderByDescending(i => i.Type)
+                                  .ThenByDescending(i => i.LastModifiedDate)
+                                  .Skip((Page - 1) * PageSize)
+                                  .Take(PageSize);
+
+            var result = await pagedQuery.ToListAsync();
+
+            var mappedResult = _mapper.Map<List<SearchSalePostDTO>>(result);
+
+            foreach (var item in mappedResult)
             {
                 if (item.Status == 1)
                 {
@@ -602,6 +688,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     item.MaxSale = "NoMaxSale";
                     item.MinSale = "NoMinSale";
                 }
+
                 var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(item.UserId));
                 if (checkUser != null)
                 {
@@ -609,17 +696,13 @@ namespace Post.Infrastructure.Persistences.Repositories
                 }
             }
 
-            var sQuery1 = query.Skip(PageSize * (Page - 1))
-                                .Take(PageSize)
-                                .ToList();
-
-            var reslist = query.ToList();
             return new PagedList<SearchSalePostDTO>
             {
-                Data = sQuery1,
-                TotalCount = reslist.Count,
+                Data = mappedResult,
+                TotalCount = totalCount
             };
         }
+
         public async Task<int> UpdateSalePostAdmin(string Id, string? Title, string? Description, int? Status, List<string>? Image, CancellationToken cancellationToken)
         {
             var check = await _context.SalePosts.FirstOrDefaultAsync(i => i.Id == Id);
