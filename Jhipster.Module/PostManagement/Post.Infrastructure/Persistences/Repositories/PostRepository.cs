@@ -417,6 +417,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             post.CreatedDate = DateTime.Now;
             post.LastModifiedDate = DateTime.Now;
             post.Type = type;
+            post.Status = (int)PostStatus.Showing;
             post.DueDate = Date.AddDays(numberofDate);
             post.PriceId = GroupPriceId;
             post.IsRepost = IsRepost;
@@ -552,76 +553,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                 };
             }
         }
-        #region GetShowingOld
-        //public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
-        //    string? region, int Page, int PageSize)
-        //{
-        //    var result = await _databaseContext.SalePosts.Where(i => i.Status == (int)PostStatus.Showing)
-        //        .OrderByDescending(i => i.Type).ThenByDescending(i => i.LastModifiedDate).ToListAsync();
-        //    var query = _mapper.Map<List<SearchSalePostDTO>>(result).AsEnumerable();
-        //    if (keyword != null)
-        //    {
-        //        query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
-        //    }
-
-        //    if (fromPrice >= 0)
-        //    {
-        //        if (toPrice > 0)
-        //        {
-        //            query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price < toPrice));
-        //        }
-        //        else
-        //        {
-        //            query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
-        //        }
-        //    }
-
-        //    if (fromArea >= 0)
-        //    {
-        //        if (toArea > 0) query = query.Where(i => i.Area > 0 && (i.Area >= fromArea && i.Area <= toArea));
-        //        else query = query.Where(i => i.Area > 0 && i.Area >= fromArea);
-        //    }
-
-        //    if (region != null)
-        //    {
-        //        query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
-        //    }
-
-        //    if (userid != null)
-        //    {
-        //        query = query.Where(i => i.UserId == userid);
-        //    }
-        //    foreach (var item in query)
-        //    {
-        //        if (item.Status == 1)
-        //        {
-        //            item.MaxSale = MaxSalePost(item);
-        //            item.MinSale = MinSalePost(item);
-        //        }
-        //        else
-        //        {
-        //            item.MaxSale = "NoMaxSale";
-        //            item.MinSale = "NoMinSale";
-        //        }
-        //        var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(item.UserId));
-        //        if (checkUser != null)
-        //        {
-        //            item.avatar = checkUser.Avatar;
-        //        }
-        //    }
-
-        //    var sQuery1 = query.Skip(PageSize * (Page - 1))
-        //                        .Take(PageSize)
-        //                        .ToList();
-
-        //    var reslist = query.ToList();
-        //    return new PagedList<SearchSalePostDTO>
-        //    {
-        //        Data = sQuery1,
-        //        TotalCount = reslist.Count,
-        //    };
-        //}
-        #endregion
+      
         public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea, string? region, int Page, int PageSize)
         {
             var query = _databaseContext.SalePosts.AsQueryable();
@@ -760,58 +692,6 @@ namespace Post.Infrastructure.Persistences.Repositories
                 check.Price = rq.Price;
                 check.LastModifiedDate = DateTime.Now;
                 check.PriceId = GroupPriceId;
-
-                //bool checkWP = await CheckBalancePromotional(check.UserId, rq.Type, numberOfDate);// tru tien vi km
-                //bool checkW = await CheckBalance(check.UserId, rq.Type, numberOfDate); // tru tien vi chinh
-                //if (!checkW && !checkWP) throw new ArgumentException("Not enough money");
-                //if (rq.Type == (int)PostType.Normal)
-                //{
-                //    if (checkWP)
-                //    {
-                //        var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberOfDate);
-                //        await SubtractMoneyPromotional(rq.Id, Fee, cancellationToken);
-                //        await SaveHistory($"{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Normal") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-                //    }
-                //    else if (!checkWP && checkW)
-                //    {
-                //        var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberOfDate);
-                //        await SubtractMoney(rq.Id, Fee, cancellationToken);
-                //        await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Normal") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-                //    }
-                //    check.Status = (int)PostStatus.UnApproved;
-                //}
-                //else if (rq.Type == (int)PostType.Golden)
-                //{
-                //    if (checkWP)
-                //    {
-                //        var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberOfDate);
-                //        await SubtractMoneyPromotional(rq.Id, Fee, cancellationToken);
-                //        await SaveHistory($"{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Vip") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-                //    }
-                //    else if (!checkWP && checkW)
-                //    {
-                //        var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberOfDate);
-                //        await SubtractMoney(rq.Id, Fee, cancellationToken);
-                //        await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Vip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-                //    }
-                //    check.Status = (int)PostStatus.Showing;
-                //}
-                //else if (rq.Type == (int)PostType.Vip)
-                //{
-                //    if (checkWP)
-                //    {
-                //        var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberOfDate);
-                //        await SubtractMoneyPromotional(rq.Id, Fee, cancellationToken);
-                //        await SaveHistory($"{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-                //    }
-                //    else if (!checkWP && checkW)
-                //    {
-                //        var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberOfDate);
-                //        await SubtractMoney(rq.Id, Fee, cancellationToken);
-                //        await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-                //    }
-                //    check.Status = (int)PostStatus.Showing;
-                //}
 
                 if (AmountPromotion > 0 && AmountPromotion >= PriceConfig)
                 {
