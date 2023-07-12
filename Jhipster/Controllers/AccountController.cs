@@ -140,9 +140,14 @@ namespace Jhipster.Controllers
             try
             {
                 var user = await _context.Users.FirstOrDefaultAsync(i => i.Id == key);
+
                 if (user == null) throw new InternalServerErrorException("Tài khoản không tồn tại");
+
                 if (user.Activated == true) throw new Exception("Tài khoản đã kích hoạt");
+                var Id = Guid.Parse(key);
+                var cus = await _context.Customers.FirstOrDefaultAsync(i => i.Id == Id);
                 user.Activated = true;
+                cus.Status = true;
                 await _context.SaveChangesAsync();
                 return Ok(1);
             }
