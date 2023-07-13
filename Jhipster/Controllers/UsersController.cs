@@ -183,20 +183,20 @@ namespace Jhipster.Controllers
         /// <returns></returns>
         [HttpPost("GetAllUser")]
         [Authorize(Roles = RolesConstants.ADMIN)]
-        public async Task<IActionResult> GetAllUsers(string phone, string username, int page, int pagesize)
+        public async Task<IActionResult> GetAllUsers([FromBody] RqGetAllUserDTO rq)
         {
             _log.LogDebug("REST request to get a page of Users");
             List<User> listUser;
-            if(phone != null)
+            if(rq.phone != null)
             {
-                listUser = await _userManager.Users.Where(i => i.PhoneNumber == phone)
+                listUser = await _userManager.Users.Where(i => i.PhoneNumber == rq.phone)
                 .Include(it => it.UserRoles)
                 .ThenInclude(r => r.Role)
                 .OrderBy(p => p.CreatedDate)
                 .ToListAsync();
-            }else if(username != null)
+            }else if(rq.username != null)
             {
-                listUser = await _userManager.Users.Where(i => i.UserName.Contains(username))
+                listUser = await _userManager.Users.Where(i => i.UserName.Contains(rq.username))
                 .Include(it => it.UserRoles)
                 .ThenInclude(r => r.Role)
                 .OrderBy(p => p.CreatedDate)
@@ -216,8 +216,8 @@ namespace Jhipster.Controllers
             {
                 TotalCount = userDtos.Count(),
                 userDtos = userDtos
-                .Skip((page - 1) * pagesize)
-                .Take(pagesize)
+                .Skip((rq.page - 1) * rq.pagesize)
+                .Take(rq.pagesize)
                 .ToList()
             };
             return Ok(value);
