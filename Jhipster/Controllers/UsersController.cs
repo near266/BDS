@@ -187,14 +187,15 @@ namespace Jhipster.Controllers
         {
             _log.LogDebug("REST request to get a page of Users");
             List<User> listUser;
-            if(rq.phone != null)
+            if (rq.phone != null)
             {
                 listUser = await _userManager.Users.Where(i => i.PhoneNumber == rq.phone)
                 .Include(it => it.UserRoles)
                 .ThenInclude(r => r.Role)
                 .OrderBy(p => p.CreatedDate)
                 .ToListAsync();
-            }else if(rq.username != null)
+            }
+            else if (rq.username != null)
             {
                 listUser = await _userManager.Users.Where(i => i.UserName.Contains(rq.username))
                 .Include(it => it.UserRoles)
@@ -210,7 +211,7 @@ namespace Jhipster.Controllers
                 .OrderBy(p => p.CreatedDate)
                 .ToListAsync();
             }
-            
+
             var userDtos = listUser.Select(user => _mapper.Map<UserDto>(user));
             UserDtoAdmin value = new()
             {
@@ -242,7 +243,7 @@ namespace Jhipster.Controllers
         /// <returns></returns>
         [HttpPost("searchUser")]
         [Authorize(Roles = RolesConstants.ADMIN)]
-        public async Task<IActionResult> SearchUser([FromBody] SearchUserDto dto, int page, int pagesize)
+        public async Task<IActionResult> SearchUser([FromBody] SearchUserDto dto)
         {
             _log.LogDebug($"REST request to search User : {dto}");
 

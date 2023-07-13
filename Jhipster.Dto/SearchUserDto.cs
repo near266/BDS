@@ -10,6 +10,8 @@ namespace Jhipster.Dto
         public string? IsActived { get; set; }
         public string? Role { get; set; }
         public DateTime CreateDate { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
         //public DateTime? ActiveDate { get; set; }
     }
 }
