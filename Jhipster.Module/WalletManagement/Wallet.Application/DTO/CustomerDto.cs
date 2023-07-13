@@ -64,5 +64,9 @@ namespace Wallet.Application.DTO
         public string? phoneNumber { get; set; }
         public string? email { get; set; }
         public List<string>? Region { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string? LastModifiedBy { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
     }
 }

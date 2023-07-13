@@ -14,10 +14,10 @@ using Wallet.Domain.Entities;
 
 namespace Wallet.Application.Configurations.Mapper
 {
-	public class AutoMapperProfile : Profile
+    public class AutoMapperProfile : Profile
     {
-		public AutoMapperProfile()
-		{
+        public AutoMapperProfile()
+        {
             //Customer
             CreateMap<Customer, Customer>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<Customer, AddCustomerCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
