@@ -389,81 +389,83 @@ namespace Post.Infrastructure.Persistences.Repositories
 					body = "Tin Vip";
 				}
 
-				var rqNotifi = new Notification();
-				rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND vào tài khoản khuyến mãi";
-				rqNotifi.UserId = post.UserId;
-				await CreateNotification(rqNotifi, cancellationToken);
-			}
-			else if (AmountPromotion >= 0 && AmountPromotion < PriceConfig)
-			{
-				var Deduct = PriceConfig - AmountPromotion;
-				await SubtractMoneyPromotional(post.Id, AmountPromotion, cancellationToken);
-				await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Deduct,
-					(double)AmountPromotion, 1, Guid.Parse(post.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {AmountPromotion}đ", cancellationToken);
-				await SubtractMoney(post.Id, Deduct, cancellationToken);
-				await SaveHistory($"{post.Titile}", AmountWallets - Deduct, AmountPromotion,
-					(double)Deduct, 0, Guid.Parse(post.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
-				string body = "";
-				if (post.Type == (int)PostType.Normal)
-				{
-					body = "Tin Thường";
-				}
-				if (post.Type == (int)PostType.Golden)
-				{
-					body = "Tin Vip Đặc Biệt";
-				}
-				if (post.Type == (int)PostType.Vip)
-				{
-					body = "Tin Vip";
-				}
-				var rqNotifi = new Notification();
-				var contentNotif = "";
-				if (AmountPromotion == 0)
-				{
-					contentNotif = $"Trừ tiền đăng tin -{Deduct} VND vào tài khoản chính";
-				}
-				else
-				{
-					contentNotif = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
-				}
-				rqNotifi.Content = contentNotif;
-				rqNotifi.UserId = post.UserId;
-				await CreateNotification(rqNotifi, cancellationToken);
-			}
-			var Date = DateTime.Now;
-			post.Order = DateTime.Now;
-			post.CreatedDate = DateTime.Now;
-			post.LastModifiedDate = DateTime.Now;
-			post.Type = type;
-			post.DueDate = Date.AddDays(numberofDate);
-			post.PriceId = GroupPriceId;
-			post.IsRepost = IsRepost;
-			var res = await _context.SaveChangesAsync(cancellationToken);
-			return res;
-		}
+                var rqNotifi = new Notification();
+                rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND vào tài khoản khuyến mãi";
+                rqNotifi.UserId = post.UserId;
+                await CreateNotification(rqNotifi, cancellationToken);
+            }
+            else if (AmountPromotion >= 0 && AmountPromotion < PriceConfig)
+            {
+                var Deduct = PriceConfig - AmountPromotion;
+                await SubtractMoneyPromotional(post.Id, AmountPromotion, cancellationToken);
+                await SaveHistory($"{post.Titile}", AmountWallets, AmountPromotion - Deduct,
+                    (double)AmountPromotion, 1, Guid.Parse(post.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {AmountPromotion}đ", cancellationToken);
+                await SubtractMoney(post.Id, Deduct, cancellationToken);
+                await SaveHistory($"{post.Titile}", AmountWallets - Deduct, AmountPromotion,
+                    (double)Deduct, 0, Guid.Parse(post.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
+                string body = "";
+                if (post.Type == (int)PostType.Normal)
+                {
+                    body = "Tin Thường";
+                }
+                if (post.Type == (int)PostType.Golden)
+                {
+                    body = "Tin Vip Đặc Biệt";
+                }
+                if (post.Type == (int)PostType.Vip)
+                {
+                    body = "Tin Vip";
+                }
+                var rqNotifi = new Notification();
+                var contentNotif = "";
+                if (AmountPromotion == 0)
+                {
+                    contentNotif = $"Trừ tiền đăng tin -{Deduct} VND vào tài khoản chính";
+                }
+                else
+                {
+                    contentNotif = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                }
+                rqNotifi.Content = contentNotif;
+                rqNotifi.UserId = post.UserId;
+                await CreateNotification(rqNotifi, cancellationToken);
+            }
+            var Date = DateTime.Now;
+            post.Order = DateTime.Now;
+            post.CreatedDate = DateTime.Now;
+            post.LastModifiedDate = DateTime.Now;
+            post.Type = type;
+            post.Status = (int)PostStatus.Showing;
+            post.DueDate = Date.AddDays(numberofDate);
+            post.PriceId = GroupPriceId;
+            post.IsRepost = IsRepost;
+            var res = await _context.SaveChangesAsync(cancellationToken);
+            return res;
+        }
 
-		public async Task SaveHistory(string? Title, decimal? Amount, decimal? Walletamount, double? amount, int? walletType, Guid? cusId, int? type, string? moneyType, CancellationToken cancellationToken)
-		{
-			if (amount != 0)
-			{
-				var his = new TransactionHistory()
-				{
-					Id = Guid.NewGuid(),
-					Type = type,
-					Content = moneyType,
-					TransactionAmount = amount,
-					WalletType = walletType,
-					CustomerId = cusId,
-					CreatedDate = DateTime.Now,
-					Title = Title,
-					Amount = Amount,
-					Walletamount = Walletamount,
-				};
-				await _wcontext.TransactionHistorys.AddAsync(his);
-				his.Title = $"[{his.TransactionCode}] {Title}";
-				await _wcontext.SaveChangesAsync(cancellationToken);
-			}
-		}
+        public async Task SaveHistory(string? Title, decimal? Amount, decimal? Walletamount, double? amount, int? walletType, Guid? cusId, int? type, string? moneyType, CancellationToken cancellationToken)
+        {
+            if (amount != 0)
+            {
+                var his = new TransactionHistory()
+                {
+                    Id = Guid.NewGuid(),
+                    Type = type,
+                    Content = moneyType,
+                    TransactionAmount = amount,
+                    WalletType = walletType,
+                    CustomerId = cusId,
+                    CreatedDate = DateTime.Now,
+                    Title = Title,
+                    Amount = Amount,
+                    Walletamount = Walletamount,
+                    Point = 0
+                };
+                await _wcontext.TransactionHistorys.AddAsync(his);
+                his.Title = $"[{his.TransactionCode}] {Title}";
+                await _wcontext.SaveChangesAsync(cancellationToken);
+            }
+        }
 
 		public async Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken)
 		{
@@ -570,106 +572,37 @@ namespace Post.Infrastructure.Persistences.Repositories
 				}
 			}
 
-			if (userid != null)
-			{
-				var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.LastModifiedDate);
-				var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-									.Take(PageSize)
-									.ToListAsync();
-				var reslist = await sQuery.ToListAsync();
-				return new PagedList<SalePost>
-				{
-					Data = sQuery1,
-					TotalCount = reslist.Count,
-				};
-			}
-			else
-			{
-				var sQuery = query.OrderByDescending(i => i.LastModifiedDate);
-				var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
-									.Take(PageSize)
-									.ToListAsync();
-				var reslist = await sQuery.ToListAsync();
-				return new PagedList<SalePost>
-				{
-					Data = sQuery1,
-					TotalCount = reslist.Count,
-				};
-			}
-		}
-		#region GetShowingOld
-		//public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
-		//    string? region, int Page, int PageSize)
-		//{
-		//    var result = await _databaseContext.SalePosts.Where(i => i.Status == (int)PostStatus.Showing)
-		//        .OrderByDescending(i => i.Type).ThenByDescending(i => i.LastModifiedDate).ToListAsync();
-		//    var query = _mapper.Map<List<SearchSalePostDTO>>(result).AsEnumerable();
-		//    if (keyword != null)
-		//    {
-		//        query = query.Where(i => !string.IsNullOrEmpty(i.Titile) && i.Titile.ToLower().Contains(keyword.ToLower().Trim()));
-		//    }
-
-		//    if (fromPrice >= 0)
-		//    {
-		//        if (toPrice > 0)
-		//        {
-		//            query = query.Where(i => i.Price > 0 && (i.Price >= fromPrice && i.Price < toPrice));
-		//        }
-		//        else
-		//        {
-		//            query = query.Where(i => i.Price > 0 && i.Price >= fromPrice);
-		//        }
-		//    }
-
-		//    if (fromArea >= 0)
-		//    {
-		//        if (toArea > 0) query = query.Where(i => i.Area > 0 && (i.Area >= fromArea && i.Area <= toArea));
-		//        else query = query.Where(i => i.Area > 0 && i.Area >= fromArea);
-		//    }
-
-		//    if (region != null)
-		//    {
-		//        query = query.Where(i => !string.IsNullOrEmpty(i.Region) && i.Region.ToLower().Contains(region.ToLower().Trim()));
-		//    }
-
-		//    if (userid != null)
-		//    {
-		//        query = query.Where(i => i.UserId == userid);
-		//    }
-		//    foreach (var item in query)
-		//    {
-		//        if (item.Status == 1)
-		//        {
-		//            item.MaxSale = MaxSalePost(item);
-		//            item.MinSale = MinSalePost(item);
-		//        }
-		//        else
-		//        {
-		//            item.MaxSale = "NoMaxSale";
-		//            item.MinSale = "NoMinSale";
-		//        }
-		//        var checkUser = await _databaseContext.Customers.FirstOrDefaultAsync(i => i.Id == Guid.Parse(item.UserId));
-		//        if (checkUser != null)
-		//        {
-		//            item.avatar = checkUser.Avatar;
-		//        }
-		//    }
-
-		//    var sQuery1 = query.Skip(PageSize * (Page - 1))
-		//                        .Take(PageSize)
-		//                        .ToList();
-
-		//    var reslist = query.ToList();
-		//    return new PagedList<SearchSalePostDTO>
-		//    {
-		//        Data = sQuery1,
-		//        TotalCount = reslist.Count,
-		//    };
-		//}
-		#endregion
-		public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea, string? region, int Page, int PageSize)
-		{
-			var query = _databaseContext.SalePosts.AsQueryable();
+            if (userid != null)
+            {
+                var sQuery = query.Where(i => i.UserId == userid).OrderByDescending(i => i.LastModifiedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<SalePost>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
+            }
+            else
+            {
+                var sQuery = query.OrderByDescending(i => i.LastModifiedDate);
+                var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+                                    .Take(PageSize)
+                                    .ToListAsync();
+                var reslist = await sQuery.ToListAsync();
+                return new PagedList<SalePost>
+                {
+                    Data = sQuery1,
+                    TotalCount = reslist.Count,
+                };
+            }
+        }
+      
+        public async Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea, string? region, int Page, int PageSize)
+        {
+            var query = _databaseContext.SalePosts.AsQueryable();
 
 			query = query.Where(i => i.Status == (int)PostStatus.Showing);
 
@@ -806,119 +739,67 @@ namespace Post.Infrastructure.Persistences.Repositories
 				check.LastModifiedDate = DateTime.Now;
 				check.PriceId = GroupPriceId;
 
-				//bool checkWP = await CheckBalancePromotional(check.UserId, rq.Type, numberOfDate);// tru tien vi km
-				//bool checkW = await CheckBalance(check.UserId, rq.Type, numberOfDate); // tru tien vi chinh
-				//if (!checkW && !checkWP) throw new ArgumentException("Not enough money");
-				//if (rq.Type == (int)PostType.Normal)
-				//{
-				//    if (checkWP)
-				//    {
-				//        var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberOfDate);
-				//        await SubtractMoneyPromotional(rq.Id, Fee, cancellationToken);
-				//        await SaveHistory($"{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Normal") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-				//    }
-				//    else if (!checkWP && checkW)
-				//    {
-				//        var Fee = (decimal)(_configuration.GetValue<int>("Price:Normal") * numberOfDate);
-				//        await SubtractMoney(rq.Id, Fee, cancellationToken);
-				//        await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Normal") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-				//    }
-				//    check.Status = (int)PostStatus.UnApproved;
-				//}
-				//else if (rq.Type == (int)PostType.Golden)
-				//{
-				//    if (checkWP)
-				//    {
-				//        var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberOfDate);
-				//        await SubtractMoneyPromotional(rq.Id, Fee, cancellationToken);
-				//        await SaveHistory($"{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:Vip") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-				//    }
-				//    else if (!checkWP && checkW)
-				//    {
-				//        var Fee = (decimal)(_configuration.GetValue<int>("Price:Vip") * numberOfDate);
-				//        await SubtractMoney(rq.Id, Fee, cancellationToken);
-				//        await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:Vip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-				//    }
-				//    check.Status = (int)PostStatus.Showing;
-				//}
-				//else if (rq.Type == (int)PostType.Vip)
-				//{
-				//    if (checkWP)
-				//    {
-				//        var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberOfDate);
-				//        await SubtractMoneyPromotional(rq.Id, Fee, cancellationToken);
-				//        await SaveHistory($"{check.Titile}", AmountWallets, AmountPromotion - Fee, _configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-				//    }
-				//    else if (!checkWP && checkW)
-				//    {
-				//        var Fee = (decimal)(_configuration.GetValue<int>("Price:SuperVip") * numberOfDate);
-				//        await SubtractMoney(rq.Id, Fee, cancellationToken);
-				//        await SaveHistory($"{check.Titile}", AmountWallets - Fee, AmountPromotion, _configuration.GetValue<int>("Price:SuperVip") * numberOfDate, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thay đổi gói cho bài bán, Giá bài bán {Fee}", cancellationToken);
-				//    }
-				//    check.Status = (int)PostStatus.Showing;
-				//}
-
-				if (AmountPromotion > 0 && AmountPromotion >= PriceConfig)
-				{
-					await SubtractMoneyPromotional(rq.Id, PriceConfig, cancellationToken);
-					await SaveHistory($"{rq.Titile}", AmountWallets, AmountPromotion - PriceConfig, (double)PriceConfig, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {PriceConfig}đ", cancellationToken);
-					string body = "";
-					if (rq.Type == (int)PostType.Normal)
-					{
-						body = "Tin Thường";
-					}
-					if (rq.Type == (int)PostType.Golden)
-					{
-						body = "Tin Vip Đặc Biệt";
-					}
-					if (rq.Type == (int)PostType.Vip)
-					{
-						body = "Tin Vip";
-					}
-					var rqNotifi = new Notification();
-					rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND vào tài khoản khuyến mãi";
-					rqNotifi.UserId = check.UserId;
-					await CreateNotification(rqNotifi, cancellationToken);
-				}
-				else if (AmountPromotion >= 0 && AmountPromotion < PriceConfig)
-				{
-					var Deduct = PriceConfig - AmountPromotion;
-					await SubtractMoneyPromotional(rq.Id, AmountPromotion, cancellationToken);
-					await SaveHistory($"{rq.Titile}", AmountWallets, AmountPromotion - Deduct,
-						(double)AmountPromotion, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {AmountPromotion}đ", cancellationToken);
-					await SubtractMoney(rq.Id, Deduct, cancellationToken);
-					await SaveHistory($"{rq.Titile}", AmountWallets - Deduct, AmountPromotion,
-						(double)Deduct, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
-					string body = "";
-					if (rq.Type == (int)PostType.Normal)
-					{
-						body = "Tin Thường";
-					}
-					if (rq.Type == (int)PostType.Golden)
-					{
-						body = "Tin Vip Đặc Biệt";
-					}
-					if (rq.Type == (int)PostType.Vip)
-					{
-						body = "Tin Vip";
-					}
-					var contentNotif = "";
-					if (AmountPromotion == 0)
-					{
-						contentNotif = $"Trừ tiền đăng tin -{Deduct} VND vào tài khoản chính";
-					}
-					else
-					{
-						contentNotif = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
-					}
-					var rqNotifi = new Notification();
-					rqNotifi.Content = contentNotif;
-					rqNotifi.UserId = check.UserId;
-					await CreateNotification(rqNotifi, cancellationToken);
-				}
-				var Date = DateTime.Now;
-				check.CreatedDate = Date;
-				check.DueDate = Date.AddDays((double)numberOfDate);
+                if (AmountPromotion > 0 && AmountPromotion >= PriceConfig)
+                {
+                    await SubtractMoneyPromotional(rq.Id, PriceConfig, cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets, AmountPromotion - PriceConfig, (double)PriceConfig, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {PriceConfig}đ", cancellationToken);
+                    string body = "";
+                    if (rq.Type == (int)PostType.Normal)
+                    {
+                        body = "Tin Thường";
+                    }
+                    if (rq.Type == (int)PostType.Golden)
+                    {
+                        body = "Tin Vip Đặc Biệt";
+                    }
+                    if (rq.Type == (int)PostType.Vip)
+                    {
+                        body = "Tin Vip";
+                    }
+                    var rqNotifi = new Notification();
+                    rqNotifi.Content = $"Trừ tiền đăng tin -{PriceConfig} VND vào tài khoản khuyến mãi";
+                    rqNotifi.UserId = check.UserId;
+                    await CreateNotification(rqNotifi, cancellationToken);
+                }
+                else if (AmountPromotion >= 0 && AmountPromotion < PriceConfig)
+                {
+                    var Deduct = PriceConfig - AmountPromotion;
+                    await SubtractMoneyPromotional(rq.Id, AmountPromotion, cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets, AmountPromotion - Deduct,
+                        (double)AmountPromotion, 1, Guid.Parse(check.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {AmountPromotion}đ", cancellationToken);
+                    await SubtractMoney(rq.Id, Deduct, cancellationToken);
+                    await SaveHistory($"{rq.Titile}", AmountWallets - Deduct, AmountPromotion,
+                        (double)Deduct, 0, Guid.Parse(check.UserId), 1, $"Khách hàng thêm mới tin bán , Giá tin: {Deduct}đ", cancellationToken);
+                    string body = "";
+                    if (rq.Type == (int)PostType.Normal)
+                    {
+                        body = "Tin Thường";
+                    }
+                    if (rq.Type == (int)PostType.Golden)
+                    {
+                        body = "Tin Vip Đặc Biệt";
+                    }
+                    if (rq.Type == (int)PostType.Vip)
+                    {
+                        body = "Tin Vip";
+                    }
+                    var contentNotif = "";
+                    if (AmountPromotion == 0)
+                    {
+                        contentNotif = $"Trừ tiền đăng tin -{Deduct} VND vào tài khoản chính";
+                    }
+                    else
+                    {
+                        contentNotif = $"Trừ tiền đăng tin -{AmountPromotion} VND vào tài khoản khuyến mại và -{Deduct} VND vào tài khoản chính";
+                    }
+                    var rqNotifi = new Notification();
+                    rqNotifi.Content = contentNotif;
+                    rqNotifi.UserId = check.UserId;
+                    await CreateNotification(rqNotifi, cancellationToken);
+                }
+                var Date = DateTime.Now;
+                check.CreatedDate = Date;
+                check.DueDate = Date.AddDays((double)numberOfDate);
 
 				return await _context.SaveChangesAsync(cancellationToken);
 			}

@@ -26,6 +26,7 @@ using Jhipster.Infrastructure.Data;
 using Wallet.Application.Queries.CustomerQ;
 using RestSharp;
 using Jhipster.Crosscutting.Utilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Jhipster.Controllers
 {
@@ -134,10 +135,27 @@ namespace Jhipster.Controllers
         /// <exception cref="InternalServerErrorException"></exception>
         [HttpGet("activate")]
         [ValidateModel]
-        public async Task ActivateAccount([FromQuery(Name = "key")] string key)
+        public async Task<IActionResult> ActivateAccount([FromQuery(Name = "Id")] string key)
         {
-            var user = await _userService.ActivateRegistration(key);
-            if (user == null) throw new InternalServerErrorException("Not user was found for this activation key");
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(i => i.Id == key);
+
+                if (user == null) throw new InternalServerErrorException("Tài khoản không tồn tại");
+
+                if (user.Activated == true) throw new Exception("Tài khoản đã kích hoạt");
+                var Id = Guid.Parse(key);
+                var cus = await _context.Customers.FirstOrDefaultAsync(i => i.Id == Id);
+                user.Activated = true;
+                cus.Status = true;
+                await _context.SaveChangesAsync();
+                return Ok(1);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
         /// <summary>

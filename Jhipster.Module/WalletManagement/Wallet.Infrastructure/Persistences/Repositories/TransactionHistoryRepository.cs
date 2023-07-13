@@ -42,6 +42,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                     Amount = rq.Amount,
                     Walletamount = rq.Walletamount,
                     Title = rq.Title,
+                    Point = rq.Point
                 };
                 await _context.TransactionHistorys.AddAsync(his);
                 his.Title = $"[{his.TransactionCode}] {his.Title}";
@@ -52,7 +53,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
 
         public async Task<PagedList<SearchTransactionResponse>> Search(string? Code, string? userid, int? type, DateTime? from, DateTime? to, int Page, int PageSize)
         {
-            var query = _context.TransactionHistorys.AsQueryable();
+            var query = _context.TransactionHistorys.Where(i => i.CustomerId == Guid.Parse(userid)).AsQueryable();
             if (type != null)
             {
                 query = query.Where(x => x.Type == type);
@@ -75,18 +76,30 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
                                 .Take(PageSize)
                                 .ToListAsync();
-            var reslist = await sQuery.ToListAsync();
+            var reslist = sQuery1.ToList();
 
             //var listId = sQuery1.Select(i => i.CustomerId).ToList();
+            //var res = reslist.Select(item => new SearchTransactionResponse
+            //{
+            //    TransactionHistorys = _mapper.Map<TransactionHistoryDTO>(_context.TransactionHistorys.FirstOrDefault(x => x.Id == item.Id)),
+            //    wallet = _mapper.Map<WalletDto>(_context.Wallets.FirstOrDefault(i => i.CustomerId == item.CustomerId)),
+            //    walletPromotional = _mapper.Map<WalletPromotionalDto>(_context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId)),
+            //    WalletAmount = _context.Wallets.FirstOrDefault(i => i.CustomerId == item.CustomerId).Amount,
+            //    WalletPromotion = _context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId).Amount,
+
+            //}).ToList();
+            var wallets = _context.Wallets.FirstOrDefault(i => i.CustomerId == Guid.Parse(userid));
+            var walletPromotionals = _context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == Guid.Parse(userid));
+
             var res = reslist.Select(item => new SearchTransactionResponse
             {
                 TransactionHistorys = _mapper.Map<TransactionHistoryDTO>(_context.TransactionHistorys.FirstOrDefault(x => x.Id == item.Id)),
-                wallet = _mapper.Map<WalletDto>(_context.Wallets.FirstOrDefault(i => i.CustomerId == item.CustomerId)),
-                walletPromotional = _mapper.Map<WalletPromotionalDto>(_context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId)),
-                WalletAmount = _context.Wallets.FirstOrDefault(i => i.CustomerId == item.CustomerId).Amount,
-                WalletPromotion = _context.WalletPromotionals.FirstOrDefault(i => i.CustomerId == item.CustomerId).Amount,
-
+                wallet = _mapper.Map<WalletDto>(wallets),
+                walletPromotional = _mapper.Map<WalletPromotionalDto>(walletPromotionals),
+                WalletAmount = wallets?.Amount,
+                WalletPromotion = walletPromotionals?.Amount,
             }).ToList();
+
             foreach (var item in res)
             {
                 item.wallet.Amount = (decimal)item.TransactionHistorys.Amount;
@@ -137,7 +150,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                 Data = res.Skip(PageSize * (Page - 1))
                                 .Take(PageSize),
 
-                TotalCount = reslist.Count,
+                TotalCount = sQuery.Count(),
             };
         }
     }
