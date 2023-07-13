@@ -25,5 +25,6 @@ namespace Wallet.Domain.Entities
         public decimal? Walletamount { get; set; }
         public Customer? Customer { get; set; }
         public string? TransactionCode { get; set; } = RandomUtil.GenerateKey();
+        public decimal? Point { get; set; }
     }
 }

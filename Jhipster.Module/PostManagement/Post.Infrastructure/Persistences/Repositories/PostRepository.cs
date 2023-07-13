@@ -441,6 +441,7 @@ namespace Post.Infrastructure.Persistences.Repositories
                     Title = Title,
                     Amount = Amount,
                     Walletamount = Walletamount,
+                    Point = 0
                 };
                 await _wcontext.TransactionHistorys.AddAsync(his);
                 his.Title = $"[{his.TransactionCode}] {Title}";

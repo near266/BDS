@@ -40,5 +40,6 @@ namespace Wallet.Application.DTO
         public string? LastModifiedBy { get; set; }
         public DateTime? LastModifiedDate { get; set; }
         public string Status { get; set; }
+        public decimal? Point { get; set; }
     }
 }
