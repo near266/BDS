@@ -33,6 +33,7 @@ using Jhipster.Domain.Entities;
 using LanguageExt.Pipes;
 using Jhipster.Crosscutting.Utilities;
 using Wallet.Application.Queries.CustomerQ;
+using Jhipster.Infrastructure.Data;
 
 namespace Jhipster.Controllers
 {
@@ -48,9 +49,9 @@ namespace Jhipster.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
-
+        private readonly ApplicationDatabaseContext _context;
         public UsersController(ILogger<UsersController> log, UserManager<User> userManager, IUserService userService,
-            IMapper mapper, IMailService mailService, IConfiguration configuration, IMediator mediator)
+            IMapper mapper, IMailService mailService, IConfiguration configuration, IMediator mediator, ApplicationDatabaseContext context)
         {
             _log = log;
             _userManager = userManager;
@@ -58,6 +59,7 @@ namespace Jhipster.Controllers
             _mailService = mailService;
             _mapper = mapper;
             _mediator = mediator;
+            _context = context;
             _configuration = configuration;
         }
 
@@ -328,8 +330,17 @@ namespace Jhipster.Controllers
         public async Task<IActionResult> DeleteUser([FromRoute] string login)
         {
             _log.LogDebug($"REST request to delete User : {login}");
+            var UserId = await _context.Users.FirstOrDefaultAsync(i => i.Login == login);
+            var Id = Guid.Parse(UserId.Id);
             await _userService.DeleteUser(login);
-            return NoContent().WithHeaders(HeaderUtil.CreateEntityDeletionAlert("userManagement.deleted", login));
+            var checkCus = await _context.Customers.FirstOrDefaultAsync(i => i.Id == Id);
+            _context.Customers.Remove(checkCus);
+            var checkWallet = await _context.Wallets.FirstOrDefaultAsync(i => i.CustomerId == Id);
+            _context.Wallets.Remove(checkWallet);
+            var checkPromotion = await _context.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId == Id);
+            _context.WalletPromotionals.Remove(checkPromotion);
+            var reponse = await _context.SaveChangesAsync();
+            return Ok(reponse);
         }
 
         /// <summary>
