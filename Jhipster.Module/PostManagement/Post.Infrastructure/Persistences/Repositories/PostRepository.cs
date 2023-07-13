@@ -509,6 +509,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 			if (type != null)
 			{
 				query = query.Where(i => i.Type == type);
+
 			}
 
 			if (createDate != null)
@@ -519,6 +520,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 			{
 				var StartDueDate = new DateTime(dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day, 0, 0, 0);
 				var EndDueDate = new DateTime(dueDate.Value.Year, dueDate.Value.Month, dueDate.Value.Day, 23, 59, 59);
+
 
 				query = query.Where(i => i.DueDate >= StartDueDate && i.DueDate <= EndDueDate);
 			}
