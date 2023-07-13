@@ -290,8 +290,8 @@ namespace Jhipster.Controllers
             {
                 TotalCount = userDto.Count(),
                 userDtos = userDto
-                    .Skip((page - 1) * pagesize)
-                    .Take(pagesize)
+                    .Skip((dto.page - 1) * dto.pagesize)
+                    .Take(dto.pagesize)
                     .ToList()
             };
             return ActionResultUtil.WrapOrNotFound(value);
