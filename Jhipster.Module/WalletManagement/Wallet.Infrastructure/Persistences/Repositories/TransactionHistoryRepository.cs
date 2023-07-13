@@ -42,7 +42,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
                     Amount = rq.Amount,
                     Walletamount = rq.Walletamount,
                     Title = rq.Title,
-                    Point=rq.Amount/100
+                    Point = rq.Point
                 };
                 await _context.TransactionHistorys.AddAsync(his);
                 his.Title = $"[{his.TransactionCode}] {his.Title}";

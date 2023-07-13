@@ -55,7 +55,7 @@ namespace Wallet.Application.Commands.WalletsPromotionaC
                 Walletamount = rq.CusAmountPromotion + rq.Amount,
             };
             his.Title = $"Cộng tiền vào tài khoản phụ";
-
+            his.Point = 0;
             var res = await _tRepository.Add(his, cancellationToken);
             return await _repo.Update(obj, cancellationToken);
         }
