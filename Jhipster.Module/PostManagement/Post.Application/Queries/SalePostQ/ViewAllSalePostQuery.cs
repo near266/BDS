@@ -19,8 +19,15 @@ namespace Post.Application.Queries.SalePostQ
         public string? Id { get; set; }
         public string? Title { get; set; }
         public int? Status { get; set; }
-        public int? Type { get; set; }
-        public DateTime? FromDate { get; set; }
+		public string? CreatedBy { get; set; }
+		public string? Ward { get; set; }
+		public string? Region { get; set; }
+
+		public int? Type { get; set; }
+		public DateTime? CreatedDate { get; set; }
+		public DateTime? DueDate { get; set; }
+
+		public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
         public string? SortFeild { get; set; }
         public bool? SortValue { get; set; }
@@ -38,7 +45,8 @@ namespace Post.Application.Queries.SalePostQ
         }
         public async Task<PagedList<SalePost>> Handle(ViewAllSalePostQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.SearchSalePost(request.Id,request.UserId, request.Title, request.Status,request.Type,request.FromDate,
+            return await _repository.SearchSalePost(request.Id,request.UserId, request.Title,request.CreatedBy,
+                request.Ward,request.Region,request.Status,request.Type,request.CreatedDate,request.DueDate,request.FromDate,
                 request.ToDate,request.SortFeild,request.SortValue, request.Page, request.PageSize);
         }
     }

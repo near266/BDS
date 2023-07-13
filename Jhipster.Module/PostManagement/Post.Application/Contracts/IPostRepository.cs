@@ -15,7 +15,7 @@ namespace Post.Application.Contracts
         Task<int> AddBoughtPost(BoughtPost rq, CancellationToken cancellationToken);
         Task<int> UpdateBoughtPost(BoughtPost rq, CancellationToken cancellationToken);
         Task<int> DeleteBoughtPost(List<string> Id, CancellationToken cancellationToken);
-        Task<PagedList<BoughtPost>> SearchBoughtPost(string? Id, string? userid, string? title, int? status, DateTime? fromDate, DateTime? toDate, int Page, int PageSize);
+        Task<PagedList<BoughtPost>> SearchBoughtPost(string? Id, string? userid, string? title, string? createBy, string? ward, string? region, int? status, DateTime? createDate, DateTime? fromDate, DateTime? toDate, int Page, int PageSize);
         Task<PagedList<SearchBoughtPostDTO>> GetShowingBoughtPost(string? userid, string? keyword, double? fromPrice, double? toPrice,
             string? region, int Page, int PageSize);
         Task<BoughtPost> ViewDetailBoughtPost(string id);
@@ -29,7 +29,7 @@ namespace Post.Application.Contracts
         Task<int> UpdateSalePost(UpdateSalePostCommand rq, double? numberOfDate, Guid GroupPriceId, CancellationToken cancellationToken);
         Task<int> RepostSalePost(string? postId, int type, double numberofDate, Guid GroupPriceId, bool? IsRepost, CancellationToken cancellationToken);
         Task<int> DeleteSalePost(List<string> Id, CancellationToken cancellationToken);
-        Task<PagedList<SalePost>> SearchSalePost(string? Id, string? userid, string? title, int? status, int? type, DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize);
+        Task<PagedList<SalePost>> SearchSalePost(string? Id, string? userid, string? title, string? createBy, string? ward,string? region, int? status, int? type,DateTime? dueDate, DateTime? createDate, DateTime? fromDate, DateTime? toDate, string? sortFeild, bool? sortValue, int Page, int PageSize);
         Task<PagedList<SearchSalePostDTO>> GetShowingSalePost(string? userid, string? keyword, double? fromPrice, double? toPrice, double? fromArea, double? toArea,
             string? region, int Page, int PageSize);
         Task<DetailSalePost> ViewDetailSalePost(string id, string UserId);

@@ -18,8 +18,14 @@ namespace Post.Application.Queries.BoughtPostQ
         public string? UserId { get; set; }
         public string? Id { get;set; }
         public string? Title { get; set; }
-        public int? Status { get; set; }
-        public DateTime? FromDate { get; set; }
+		public string? CreatedBy { get; set; }
+		public string? Ward { get; set; }
+		public string? Region { get; set; }
+
+		public int? Status { get; set; }
+		public DateTime? CreatedDate { get; set; }
+
+		public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
         public int Page { get;set; }
         public int PageSize { get; set; }
@@ -35,7 +41,7 @@ namespace Post.Application.Queries.BoughtPostQ
         }
         public async Task<PagedList<BoughtPost>> Handle(ViewAllBoughtPostQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.SearchBoughtPost(request.Id,request.UserId,request.Title,request.Status,request.FromDate,request.ToDate,request.Page,request.PageSize);
+            return await _repository.SearchBoughtPost(request.Id,request.UserId,request.Title,request.CreatedBy,request.Ward,request.Region,request.Status,request.CreatedDate,request.FromDate,request.ToDate,request.Page,request.PageSize);
         }
     }
 }
