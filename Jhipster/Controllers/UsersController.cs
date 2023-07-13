@@ -33,6 +33,7 @@ using Jhipster.Domain.Entities;
 using LanguageExt.Pipes;
 using Jhipster.Crosscutting.Utilities;
 using Wallet.Application.Queries.CustomerQ;
+using Jhipster.Infrastructure.Data;
 
 namespace Jhipster.Controllers
 {
@@ -48,9 +49,9 @@ namespace Jhipster.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
-
+        private readonly ApplicationDatabaseContext _context;
         public UsersController(ILogger<UsersController> log, UserManager<User> userManager, IUserService userService,
-            IMapper mapper, IMailService mailService, IConfiguration configuration, IMediator mediator)
+            IMapper mapper, IMailService mailService, IConfiguration configuration, IMediator mediator, ApplicationDatabaseContext context)
         {
             _log = log;
             _userManager = userManager;
@@ -58,6 +59,7 @@ namespace Jhipster.Controllers
             _mailService = mailService;
             _mapper = mapper;
             _mediator = mediator;
+            _context = context;
             _configuration = configuration;
         }
 
@@ -187,14 +189,15 @@ namespace Jhipster.Controllers
         {
             _log.LogDebug("REST request to get a page of Users");
             List<User> listUser;
-            if(rq.phone != null)
+            if (rq.phone != null)
             {
                 listUser = await _userManager.Users.Where(i => i.PhoneNumber == rq.phone)
                 .Include(it => it.UserRoles)
                 .ThenInclude(r => r.Role)
                 .OrderBy(p => p.CreatedDate)
                 .ToListAsync();
-            }else if(rq.username != null)
+            }
+            else if (rq.username != null)
             {
                 listUser = await _userManager.Users.Where(i => i.UserName.Contains(rq.username))
                 .Include(it => it.UserRoles)
@@ -210,7 +213,7 @@ namespace Jhipster.Controllers
                 .OrderBy(p => p.CreatedDate)
                 .ToListAsync();
             }
-            
+
             var userDtos = listUser.Select(user => _mapper.Map<UserDto>(user));
             UserDtoAdmin value = new()
             {
@@ -242,7 +245,7 @@ namespace Jhipster.Controllers
         /// <returns></returns>
         [HttpPost("searchUser")]
         [Authorize(Roles = RolesConstants.ADMIN)]
-        public async Task<IActionResult> SearchUser([FromBody] SearchUserDto dto, int page, int pagesize)
+        public async Task<IActionResult> SearchUser([FromBody] SearchUserDto dto)
         {
             _log.LogDebug($"REST request to search User : {dto}");
 
@@ -289,8 +292,8 @@ namespace Jhipster.Controllers
             {
                 TotalCount = userDto.Count(),
                 userDtos = userDto
-                    .Skip((page - 1) * pagesize)
-                    .Take(pagesize)
+                    .Skip((dto.page - 1) * dto.pagesize)
+                    .Take(dto.pagesize)
                     .ToList()
             };
             return ActionResultUtil.WrapOrNotFound(value);
@@ -327,8 +330,17 @@ namespace Jhipster.Controllers
         public async Task<IActionResult> DeleteUser([FromRoute] string login)
         {
             _log.LogDebug($"REST request to delete User : {login}");
+            var UserId = await _context.Users.FirstOrDefaultAsync(i => i.Login == login);
+            var Id = Guid.Parse(UserId.Id);
             await _userService.DeleteUser(login);
-            return NoContent().WithHeaders(HeaderUtil.CreateEntityDeletionAlert("userManagement.deleted", login));
+            var checkCus = await _context.Customers.FirstOrDefaultAsync(i => i.Id == Id);
+            _context.Customers.Remove(checkCus);
+            var checkWallet = await _context.Wallets.FirstOrDefaultAsync(i => i.CustomerId == Id);
+            _context.Wallets.Remove(checkWallet);
+            var checkPromotion = await _context.WalletPromotionals.FirstOrDefaultAsync(i => i.CustomerId == Id);
+            _context.WalletPromotionals.Remove(checkPromotion);
+            var reponse = await _context.SaveChangesAsync();
+            return Ok(reponse);
         }
 
         /// <summary>
