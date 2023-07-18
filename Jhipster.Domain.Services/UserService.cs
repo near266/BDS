@@ -49,7 +49,7 @@ namespace Jhipster.Domain.Services
                 LastName = userToCreate.LastName,
                 Email = userToCreate.Email.ToLower(),
                 PhoneNumber = userToCreate.PhoneNumber,
-                ImageUrl = "https://cdn.eztek.net/TrueConnect/Images/Avatar_638204593411929755_ORIGIN.png",
+                ImageUrl = _configuration.GetValue<string>("Avatar"),
                 LangKey = userToCreate.LangKey ?? Constants.DefaultLangKey,
                 PasswordHash = _userManager.PasswordHasher.HashPassword(null, password),
                 ResetKey = password,
