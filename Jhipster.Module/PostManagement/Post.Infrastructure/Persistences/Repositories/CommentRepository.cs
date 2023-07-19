@@ -1,4 +1,5 @@
-﻿using Jhipster.Crosscutting.Utilities;
+﻿using AutoMapper;
+using Jhipster.Crosscutting.Utilities;
 using Jhipster.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -16,14 +17,16 @@ namespace Post.Infrastructure.Persistences.Repositories
 	public class CommentRepository : ICommentRepository
 	{
 		private readonly ApplicationDatabaseContext _databaseContext;
-		public CommentRepository(ApplicationDatabaseContext databaseContext)
+		private readonly IMapper _mapper;
+
+		public CommentRepository(ApplicationDatabaseContext databaseContext,IMapper mapper)
 		{
 			_databaseContext = databaseContext;
+			_mapper = mapper;
 		}
 		public async Task<int> CreateComment(Comment rq, CancellationToken cancellationToken)
 		{
 			rq.IsLike = 0;
-			rq.CreatedDate = DateTime.Now;
 			await _databaseContext.Comment.AddAsync(rq);
 			return await _databaseContext.SaveChangesAsync(cancellationToken);
 		}
@@ -40,24 +43,40 @@ namespace Post.Infrastructure.Persistences.Repositories
 			
 		}
 
-		public async Task<PagedList<Comment>> GetAllComment(string Id, int Page, int PageSize)
+		public async Task<PagedList<Comment>> GetAllComment(string? Id, string? boughtpostId, string? salepostId, int Page, int PageSize)
 		{
-			var respone = new PagedList<Comment>();
-			var data = await _databaseContext.Comment.Where(i => i.UserId == Id).OrderByDescending(i => i.CreatedDate).ToListAsync();
-			respone.TotalCount = data.Count;
-			respone.Data = data.Skip(PageSize * (Page - 1))
-									.Take(PageSize)
-									.ToList();
-			return respone;
+			var query = _databaseContext.Comment.AsQueryable();
+			if (Id != null)
+			{
+				query = query.Where(i => i.Id.Equals(Id));
+			}
+			if (boughtpostId != null)
+			{
+				query = query.Where(i => i.BoughtPostId.Equals(boughtpostId));
+			}
+			if (salepostId != null)
+			{
+				query = query.Where(i => i.BoughtPostId.Equals(boughtpostId));
+			}
+			var sQuery = query.OrderByDescending(i => i.CreatedDate);
+			var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+										.Take(PageSize)
+										.ToListAsync();
+			var reslist = await sQuery.ToListAsync();
+			return new PagedList<Comment>
+			{
+				Data = sQuery1,
+				TotalCount = reslist.Count,
+			};
 		}
 
-		public async Task<int> UpdateComment(Guid Id, CancellationToken cancellationToken)
+		public async Task<int> UpdateComment(Comment rq, CancellationToken cancellationToken)
 		{
-			var check = await _databaseContext.Comment.FirstOrDefaultAsync(i => i.Id == Id);
+			var check = await _databaseContext.Comment.FirstOrDefaultAsync(i => i.Id == rq.Id);
 			if (check == null) throw new Exception("Fail");
 			else
 			{
-				_databaseContext.Comment.Update(check);
+				_mapper.Map(rq, check);
 				return await _databaseContext.SaveChangesAsync(cancellationToken);
 			}
 		}

@@ -3,6 +3,7 @@ using System.Threading.Channels;
 using AutoMapper;
 using Jhipster.Crosscutting.Utilities;
 using Post.Application.Commands.BoughtPostC;
+using Post.Application.Commands.CommentC;
 using Post.Application.Commands.NewPostC;
 using Post.Application.Commands.SalePostC;
 using Post.Application.Commands.WardC;
@@ -54,8 +55,14 @@ namespace Post.Application.Configurations.Mapper
             CreateMap(typeof(PagedList<Ward>), typeof(PagedList<WardDTO>));
             CreateMap<Ward, WardDtos>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
 
-            #endregion
-        }
-    }
+			#endregion
+			#region comment 
+			CreateMap<Comment, Comment>().ReverseMap().ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
+				.ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+			CreateMap<Comment, AddCommentCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+			CreateMap<Comment, UpdateCommentCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+			#endregion
+		}
+	}
 }
 

@@ -11,8 +11,8 @@ namespace Post.Application.Contracts
 	public interface ICommentRepository
 	{
 		Task<int> CreateComment(Comment rq,CancellationToken cancellationToken);
-		Task<int> UpdateComment(Guid Id,CancellationToken cancellationToken);
+		Task<int> UpdateComment(Comment rq,CancellationToken cancellationToken);
 		Task<int> DeleteComment(Guid Id, CancellationToken cancellationToken);
-		Task<PagedList<Comment>> GetAllComment(string Id, int Page, int PageSize);
+		Task<PagedList<Comment>> GetAllComment(string? Id,string? boughtpostId,string? salepostId, int Page, int PageSize);
 	}
 }

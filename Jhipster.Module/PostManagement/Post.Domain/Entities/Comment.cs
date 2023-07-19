@@ -11,6 +11,8 @@ namespace Post.Domain.Entities
 		public string Content { get; set; }
 		public int IsLike { get; set; }	
 		public string UserId { get; set; }	
+		public string? BoughtPostId { get; set; }	
+		public string? SalePostId { get; set; }
 
 	}
 }
