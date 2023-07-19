@@ -56,7 +56,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 			}
 			if (salepostId != null)
 			{
-				query = query.Where(i => i.BoughtPostId.Equals(boughtpostId));
+				query = query.Where(i => i.SalePostId.Equals(salepostId));
 			}
 			var sQuery = query.OrderByDescending(i => i.CreatedDate);
 			var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
