@@ -76,10 +76,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 			{
 				query = query.Where(i => i.BoughtPostId.Equals(boughtpostId));
 			}
-			if(Userid != null)
-			{
-
-			}
+		
 			var sQuery = query.OrderByDescending(i => i.CreatedDate).Select(i=>new ComentDTO
 			{
 				BoughtPostId = i.BoughtPostId,

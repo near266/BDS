@@ -19,7 +19,8 @@ namespace Post.Application.Commands.CommentC
 		public string? SalePostId { get; set; }
 		[JsonIgnore]
 		public int LikeCount { get; set; }
-		public string? UserId { get; set; }
+        [JsonIgnore]
+        public string? UserId { get; set; }
 		[JsonIgnore]
 		public string? CreatedBy { get; set; }
 		[JsonIgnore]
