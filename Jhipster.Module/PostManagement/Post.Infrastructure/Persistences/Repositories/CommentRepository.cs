@@ -76,18 +76,23 @@ namespace Post.Infrastructure.Persistences.Repositories
 			{
 				query = query.Where(i => i.BoughtPostId.Equals(boughtpostId));
 			}
-		
-			var sQuery = query.OrderByDescending(i => i.CreatedDate).Select(i=>new ComentDTO
+
+		if(Userid == null)
+			{
+                query = query;
+
+            }
+            var sQuery = query.OrderByDescending(i => i.CreatedDate).Select(i=>new ComentDTO
 			{
 				BoughtPostId = i.BoughtPostId,
 				UserId= Userid.ToString(),
 				LikeCount=i.LikeCount,
 				Content=i.Content,
-                Avatar = Userid !=null? _databaseContext.Customers.Where(a=>a.Id.ToString()==i.UserId).Select(a=>a.Avatar).FirstOrDefault() : "",
-				CustomerName= Userid !=null? _databaseContext.Customers.Where(a=>a.Id.ToString() == i.UserId).Select(a=>a.CustomerName).FirstOrDefault() : "",
+                Avatar = _databaseContext.Customers.Where(a=>a.Id.ToString()==i.UserId).Select(a=>a.Avatar).FirstOrDefault() ,
+				CustomerName= _databaseContext.Customers.Where(a=>a.Id.ToString() == i.UserId).Select(a=>a.CustomerName).FirstOrDefault(),
 
 
-			});;
+			});
 			var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
 										.Take(PageSize)
 										.ToListAsync();
