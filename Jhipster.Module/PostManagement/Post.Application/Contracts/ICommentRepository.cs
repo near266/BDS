@@ -1,5 +1,6 @@
 ﻿using Jhipster.Crosscutting.Utilities;
 using Post.Domain.Entities;
+using Post.Shared.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace Post.Application.Contracts
 		Task<int> CreateComment(Comment rq,CancellationToken cancellationToken);
 		Task<int> UpdateComment(Comment rq,CancellationToken cancellationToken);
 		Task<int> DeleteComment(Guid Id, CancellationToken cancellationToken);
-		Task<PagedList<Comment>> GetAllComment(string? Id,string? boughtpostId,string? salepostId, int Page, int PageSize);
+		Task<PagedList<ComentDTO>> GetAllComment(string? Id,string? boughtpostId,string? salepostId, int Page, int PageSize,Guid? Userid);
+		Task<List<string>> AddLike(string? userId, string? postId,string? boughtId);
+		
 	}
 }
