@@ -16,7 +16,9 @@ namespace Post.Infrastructure.Persistences
         public DbSet<Ward> Wards { get; set; }
         public DbSet<Notification> Notification { get; set; }
         public DbSet<FakeNew> FakeNew { get; set; }
-        public PostDbContext(DbContextOptions<PostDbContext> options) : base(options)
+		public DbSet<Comment> Comment { get; set; }
+
+		public PostDbContext(DbContextOptions<PostDbContext> options) : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
