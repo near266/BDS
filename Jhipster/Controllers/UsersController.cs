@@ -77,6 +77,7 @@ namespace Jhipster.Controllers
         public async Task<ActionResult<User>> CreateUser([FromBody] UserDto userDto)
         {
             _log.LogDebug($"REST request to save User : {userDto}");
+            userDto.Avatar = _configuration.GetValue<string>("Avatar");
             if (!string.IsNullOrEmpty(userDto.Id))
                 throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement",
                     "idexists");
