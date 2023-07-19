@@ -43,12 +43,16 @@ namespace Post.Controller
 			return User.FindFirst(ClaimsTypeConst.Name)?.Value;
 		}
 		[HttpPost("/comment/view")]
+		[AllowAnonymous]
 		public async Task<IActionResult> ViewComment([FromBody] GetAllCommentQuery rq)
 		{
 			_logger.LogInformation($"REST request to view comment : {rq}");
 			try
-			{
+			{if(rq.UserId !=null)
+				{
+
 				rq.UserId = Guid.Parse (GetUserIdFromConext());
+				}
 				var value = await _mediator.Send(rq);
 				return Ok(value);
 			}
