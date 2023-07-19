@@ -15,6 +15,7 @@
     <None Remove="DTO\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Commands\CommentC\" />
     <Folder Include="Configurations\" />
     <Folder Include="Configurations\Mapper\" />
   </ItemGroup>
