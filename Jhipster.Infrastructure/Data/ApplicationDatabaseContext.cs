@@ -60,8 +60,10 @@ namespace Jhipster.Infrastructure.Data
         public DbSet<Notification> Notification { get; set; }
         public DbSet<FakeNew> FakeNew { get; set; }
         public DbSet<DeliveryData> DeliveryDatas { get; set; }
+		public DbSet<Comment> Comment { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+
+		protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             new SeedDataApplicationDatabaseContext(builder).Seed();
