@@ -87,7 +87,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             var sQuery = query.OrderByDescending(i => i.CreatedDate).Select(i=>new ComentDTO
 			{
 				BoughtPostId = i.BoughtPostId,
-				UserId= Userid.ToString(),
+				UserId= i.UserId,
 				LikeCount=i.LikeCount,
 				Content=i.Content,
 				CreatedDate=i.CreatedDate,
