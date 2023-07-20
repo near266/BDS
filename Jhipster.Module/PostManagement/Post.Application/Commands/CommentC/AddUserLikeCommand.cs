@@ -26,7 +26,7 @@ namespace Post.Application.Commands.CommentC
 
         public async Task<List<string>> Handle(AddUserLikeCommand request, CancellationToken cancellationToken)
         {
-            return await _repo.AddUserLike(request.Id,request.userId);
+            return await _repo.AddUserLike(request.Id,request.userId,cancellationToken);
         }
     }
 }

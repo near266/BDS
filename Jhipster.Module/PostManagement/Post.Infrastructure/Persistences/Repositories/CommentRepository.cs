@@ -14,6 +14,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Post.Infrastructure.Persistences.Repositories
@@ -28,23 +29,40 @@ namespace Post.Infrastructure.Persistences.Repositories
 			_databaseContext = databaseContext;
 			_mapper = mapper;
 		}
-
-        public async Task<List<string>> AddUserLike(Guid? Id, string? userId)
+        public async Task<int> CreateNotification(Notification rq, CancellationToken cancellationToken)
+        {
+            rq.IsSeen = false;
+            rq.CreatedDate = DateTime.Now;
+            await _databaseContext.Notification.AddAsync(rq);
+            return await _databaseContext.SaveChangesAsync(cancellationToken);
+        }
+        public async Task<List<string>> AddUserLike(Guid? Id, string? userId, CancellationToken cancellationToken)
         {
 			var qr =  await _databaseContext.Comment.Where(i=>i.Id.Equals(Id)).Select(i=>i.Rely).FirstOrDefaultAsync();
-			
-			
+            var u = await _databaseContext.Comment.Where(i => i.Id.Equals(Id)).Select(i => i.UserId).FirstOrDefaultAsync();
+
+
+            var username = await  _databaseContext.Customers.Where(i=>i.Id.ToString()==userId).Select(i=>i.CustomerName).FirstOrDefaultAsync();
                if (qr != null) 
                 {
 				if (qr.Contains(userId)==false)
-				{
+                {
 
-			 if (userId != null)
-				 {
-			  qr.Add(userId);
-				}
+                    if (userId == null)
+                    {
+                        return qr;
+                    }
+                    qr.Add(userId);
+                    var rqNotifi = new Notification();
+                    rqNotifi.Content = $"{username} đã thích bình luận của bạn";
+                    rqNotifi.UserId = u;
+                    await CreateNotification(rqNotifi, cancellationToken);
+
+
+
+                    return qr;
                 }
-				else
+                else
 				{
                     if (userId != null)
                     {
