@@ -42,13 +42,19 @@ namespace Post.Controller
 		{
 			return User.FindFirst(ClaimsTypeConst.Name)?.Value;
 		}
-		[Authorize(Roles = RolesConstants.USER)]
 		[HttpPost("/comment/view")]
+		[AllowAnonymous]
 		public async Task<IActionResult> ViewComment([FromBody] GetAllCommentQuery rq)
 		{
 			_logger.LogInformation($"REST request to view comment : {rq}");
 			try
 			{
+				if(rq.UserId != null)
+				{
+
+				rq.UserId = Guid.Parse (GetUserIdFromConext());
+				}
+				
 				var value = await _mediator.Send(rq);
 				return Ok(value);
 			}
@@ -58,7 +64,23 @@ namespace Post.Controller
 				return StatusCode(500, ex.Message);
 			}
 		}
-		[Authorize(Roles = RolesConstants.USER)]
+        //[HttpPost("/comment/Like")]
+        //public async Task<IActionResult> LikeComment([FromBody] GetAllCommentQuery rq)
+        //{
+        //    _logger.LogInformation($"REST request to view comment : {rq}");
+        //    try
+        //    {
+        //        rq.UserId = Guid.Parse(GetUserIdFromConext());
+        //        var value = await _mediator.Send(rq);
+        //        return Ok(value);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError($"REST request to view comment fail  {ex.Message}");
+        //        return StatusCode(500, ex.Message);
+        //    }
+        //}
+        [Authorize(Roles = RolesConstants.USER)]
 		[HttpPost("/comment/add")]
 		public async Task<IActionResult> AddComment([FromBody] AddCommentCommand rq)
 		{

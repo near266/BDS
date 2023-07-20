@@ -5,10 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Post.Application.Contracts;
 using Post.Domain.Entities;
+using Post.Shared.Dtos;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,9 +27,25 @@ namespace Post.Infrastructure.Persistences.Repositories
 			_databaseContext = databaseContext;
 			_mapper = mapper;
 		}
-		public async Task<int> CreateComment(Comment rq, CancellationToken cancellationToken)
+
+        public async Task<List<string>> AddLike(string? userId, string? postId, string? boughtId)
+        {
+			var qr = await _databaseContext.Comment.Where(i=>i.SalePostId==postId || i.BoughtPostId==boughtId).FirstOrDefaultAsync();
+		if(qr == null)
+			{
+				throw new ArgumentNullException("not found");
+			}
+			List<string> user = new List<string>();
+			user.Add(userId);
+			_mapper.Map(qr.UserId, user);
+			 await _databaseContext.SaveChangesAsync();
+			return user;
+		  
+        }
+
+        public async Task<int> CreateComment(Comment rq, CancellationToken cancellationToken)
 		{
-			rq.IsLike = 0;
+			rq.LikeCount = 0;
 			await _databaseContext.Comment.AddAsync(rq);
 			return await _databaseContext.SaveChangesAsync(cancellationToken);
 		}
@@ -43,9 +62,10 @@ namespace Post.Infrastructure.Persistences.Repositories
 			
 		}
 
-		public async Task<PagedList<Comment>> GetAllComment(string? Id, string? boughtpostId, string? salepostId, int Page, int PageSize)
+		public async Task<PagedList<ComentDTO>> GetAllComment(string? Id, string? boughtpostId, string? salepostId, int Page, int PageSize,Guid? Userid)
 		{
 			var query = _databaseContext.Comment.AsQueryable();
+
 			if (Id != null)
 			{
 				query = query.Where(i => i.Id.Equals(Id));
@@ -58,12 +78,31 @@ namespace Post.Infrastructure.Persistences.Repositories
 			{
 				query = query.Where(i => i.SalePostId.Equals(salepostId));
 			}
-			var sQuery = query.OrderByDescending(i => i.CreatedDate);
+
+		if(Userid == null)
+			{
+                query = query;
+
+            }
+            var sQuery = query.OrderByDescending(i => i.CreatedDate).Select(i=>new ComentDTO
+			{
+				BoughtPostId = i.BoughtPostId,
+				UserId= i.UserId,
+				LikeCount=i.LikeCount,
+				Content=i.Content,
+				CreatedDate=i.CreatedDate,
+				LastModifiedDate=i.LastModifiedDate,
+                Avatar = _databaseContext.Customers.Where(a=>a.Id.ToString()==i.UserId).Select(a=>a.Avatar).FirstOrDefault() ,
+				CustomerName= _databaseContext.Customers.Where(a=>a.Id.ToString() == i.UserId).Select(a=>a.CustomerName).FirstOrDefault(),
+
+
+			});
 			var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
 										.Take(PageSize)
 										.ToListAsync();
 			var reslist = await sQuery.ToListAsync();
-			return new PagedList<Comment>
+
+			return new PagedList<ComentDTO>
 			{
 				Data = sQuery1,
 				TotalCount = reslist.Count,
