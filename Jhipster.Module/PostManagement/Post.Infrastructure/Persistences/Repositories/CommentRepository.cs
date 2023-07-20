@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Jhipster.Crosscutting.Utilities;
 using Jhipster.Infrastructure.Data;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Post.Application.Contracts;
@@ -28,18 +29,33 @@ namespace Post.Infrastructure.Persistences.Repositories
 			_mapper = mapper;
 		}
 
-        public async Task<List<string>> AddLike(string? userId, string? postId, string? boughtId)
+        public async Task<List<string>> AddUserLike(Guid? Id, string? userId)
         {
-			var qr = await _databaseContext.Comment.Where(i=>i.SalePostId==postId || i.BoughtPostId==boughtId).FirstOrDefaultAsync();
-		if(qr == null)
-			{
-				throw new ArgumentNullException("not found");
-			}
-			List<string> user = new List<string>();
-			user.Add(userId);
-			_mapper.Map(qr.UserId, user);
-			 await _databaseContext.SaveChangesAsync();
-			return user;
+			var qr =  await _databaseContext.Comment.Where(i=>i.Id.Equals(Id)).Select(i=>i.Rely).FirstOrDefaultAsync();
+			
+			
+               if (qr != null) 
+                {
+				if (qr.Contains(userId)==false)
+				{
+
+			 if (userId != null)
+				 {
+			  qr.Add(userId);
+				}
+                }
+				else
+				{
+                    if (userId != null)
+                    {
+                        qr.Remove(userId);
+                    }
+                }
+            }
+			
+			
+		
+			return qr;
 		  
         }
 
@@ -86,6 +102,7 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             var sQuery = query.OrderByDescending(i => i.CreatedDate).Select(i=>new ComentDTO
 			{
+				Id=i.Id,
 				BoughtPostId = i.BoughtPostId,
 				UserId= i.UserId,
 				LikeCount=i.LikeCount,

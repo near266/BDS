@@ -8,6 +8,7 @@ namespace Post.Shared.Dtos
 {
     public class ComentDTO
     {
+        public Guid Id { get; set; }
         public string Content { get; set; }
         public int LikeCount { get; set; }
         public string? UserId { get; set; }
