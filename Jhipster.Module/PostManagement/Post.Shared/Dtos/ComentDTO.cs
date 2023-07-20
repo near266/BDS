@@ -16,6 +16,10 @@ namespace Post.Shared.Dtos
         public List<string>? Rely { get; set; }
         public string? CustomerName { get; set; }
         public string? Avatar { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime? LastModifiedDate { get; set; }
+
 
     }
 

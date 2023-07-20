@@ -74,7 +74,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 			}
 			if (salepostId != null)
 			{
-				query = query.Where(i => i.BoughtPostId.Equals(boughtpostId));
+				query = query.Where(i => i.SalePostId.Equals(salepostId));
 			}
 
 		if(Userid == null)
@@ -88,6 +88,8 @@ namespace Post.Infrastructure.Persistences.Repositories
 				UserId= Userid.ToString(),
 				LikeCount=i.LikeCount,
 				Content=i.Content,
+				CreatedDate=i.CreatedDate,
+				LastModifiedDate=i.LastModifiedDate,
                 Avatar = _databaseContext.Customers.Where(a=>a.Id.ToString()==i.UserId).Select(a=>a.Avatar).FirstOrDefault() ,
 				CustomerName= _databaseContext.Customers.Where(a=>a.Id.ToString() == i.UserId).Select(a=>a.CustomerName).FirstOrDefault(),
 
