@@ -37,7 +37,8 @@ namespace Post.Infrastructure.Persistences.Repositories
 			}
 			List<string> user = new List<string>();
 			user.Add(userId);
-			_mapper.Map(qr.UserId,user)
+			_mapper.Map(qr.UserId, user);
+			 await _databaseContext.SaveChangesAsync();
 			return user;
 		  
         }
