@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Query;
 using Post.Application.Contracts;
 using Post.Domain.Entities;
 using Post.Shared.Dtos;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 			}
 			List<string> user = new List<string>();
 			user.Add(userId);
-			
+			_mapper.Map(qr.UserId,user)
 			return user;
 		  
         }
