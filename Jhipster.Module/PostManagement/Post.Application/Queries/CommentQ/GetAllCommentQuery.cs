@@ -16,7 +16,7 @@ namespace Post.Application.Queries.CommentQ
 {
 	public class GetAllCommentQuery : IRequest<PagedList<ComentDTO>>
 	{
-		public string? Id { get; set; }
+		public Guid? Id { get; set; }
 		[JsonIgnore]
 		public Guid? UserId { get; set; }
 		public string? BoughtPostId { get; set; }

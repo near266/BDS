@@ -14,7 +14,7 @@ namespace Post.Application.Contracts
 		Task<int> CreateComment(Comment rq,CancellationToken cancellationToken);
 		Task<int> UpdateComment(Comment rq,CancellationToken cancellationToken);
 		Task<int> DeleteComment(Guid Id, CancellationToken cancellationToken);
-		Task<PagedList<ComentDTO>> GetAllComment(string? Id,string? boughtpostId,string? salepostId, int Page, int PageSize,Guid? Userid);
+		Task<PagedList<ComentDTO>> GetAllComment(Guid? Id,string? boughtpostId,string? salepostId, int Page, int PageSize,Guid? Userid);
 		Task<List<string>> AddUserLike( Guid? Id,string? userId);
 		
 	}

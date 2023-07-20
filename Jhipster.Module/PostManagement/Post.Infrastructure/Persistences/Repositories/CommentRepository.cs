@@ -78,7 +78,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 			
 		}
 
-		public async Task<PagedList<ComentDTO>> GetAllComment(string? Id, string? boughtpostId, string? salepostId, int Page, int PageSize,Guid? Userid)
+		public async Task<PagedList<ComentDTO>> GetAllComment(Guid? Id, string? boughtpostId, string? salepostId, int Page, int PageSize,Guid? Userid)
 		{
 			var query = _databaseContext.Comment.AsQueryable();
 
@@ -104,8 +104,10 @@ namespace Post.Infrastructure.Persistences.Repositories
 			{
 				Id=i.Id,
 				BoughtPostId = i.BoughtPostId,
+				SalePostId = i.SalePostId,
 				UserId= i.UserId,
-				LikeCount=i.LikeCount,
+				Rely=i.Rely,
+				LikeCount= i.Rely !=null ?  _databaseContext.Comment.Where(a=>a.Id ==i.Id&& i.Rely !=null).Select(a=>a.Rely).Count() : 0,
 				Content=i.Content,
 				CreatedDate=i.CreatedDate,
 				LastModifiedDate=i.LastModifiedDate,
