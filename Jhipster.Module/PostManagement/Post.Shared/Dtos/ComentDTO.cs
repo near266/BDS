@@ -26,8 +26,7 @@ namespace Post.Shared.Dtos
 
     public class LikeRequest
     {
-        public string? UserId { get; set; }
-        public string? postId { get; set; }
-        public string? boughtId { get; set; }
+        public List<string>? rely { get; set; }
+        public int? Like { get; set; }
     }
 }

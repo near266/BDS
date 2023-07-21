@@ -36,10 +36,11 @@ namespace Post.Infrastructure.Persistences.Repositories
             await _databaseContext.Notification.AddAsync(rq);
             return await _databaseContext.SaveChangesAsync(cancellationToken);
         }
-        public async Task<List<string>> AddUserLike(Guid? Id, string? userId, CancellationToken cancellationToken)
+        public async Task<LikeRequest> AddUserLike(Guid? Id, string? userId, CancellationToken cancellationToken)
         {
 			var qr =  await _databaseContext.Comment.Where(i=>i.Id.Equals(Id)).Select(i=>i.Rely).FirstOrDefaultAsync();
             var u = await _databaseContext.Comment.Where(i => i.Id.Equals(Id)).Select(i => i.UserId).FirstOrDefaultAsync();
+            var like = await _databaseContext.Comment.Where(i => i.Id.Equals(Id)).Select(i => i.LikeCount).FirstOrDefaultAsync();
 
 
             var username = await  _databaseContext.Customers.Where(i=>i.Id.ToString()==userId).Select(i=>i.CustomerName).FirstOrDefaultAsync();
@@ -51,7 +52,8 @@ namespace Post.Infrastructure.Persistences.Repositories
                     if (userId != null)
                     {
                     qr.Add(userId);
-				
+						like += 1;
+
                     var rqNotifi = new Notification();
                     rqNotifi.Content = $"{username} đã thích bình luận của bạn";
                     rqNotifi.UserId = u;
@@ -66,13 +68,20 @@ namespace Post.Infrastructure.Persistences.Repositories
                     if (userId != null)
                     {
                         qr.Remove(userId);
+                        like -= 1;
+
                     }
                 }
             }
-			
-			
-		
-			return qr;
+
+			var res = new LikeRequest
+			{
+				rely = qr,
+                 Like =like
+            };
+
+
+            return res;
 		  
         }
 
@@ -151,8 +160,6 @@ namespace Post.Infrastructure.Persistences.Repositories
 			if (check == null) throw new Exception("Fail");
 			else
 			{
-				check.LikeCount = check.Rely != null ? _databaseContext.Comment.Where(a => a.Id == check.Id && check.Rely != null).Select(a => a.Rely).Count() : 0;
-				rq.LikeCount=check.LikeCount;
 				_mapper.Map(rq, check);
 				return await _databaseContext.SaveChangesAsync(cancellationToken);
 			}
