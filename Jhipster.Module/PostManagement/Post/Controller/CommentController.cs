@@ -79,7 +79,6 @@ namespace Post.Controller
 				var up = new  UpdateCommentCommand
 				{
                     Id = rq.Id,
-					
 					Rely =value
 				};
 				await _mediator.Send(up);
@@ -120,14 +119,15 @@ namespace Post.Controller
 		}
 		[Authorize(Roles = RolesConstants.USER)]
 		[HttpPut("/comment/update")]
-		public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentCommand rq)
+		public async Task<IActionResult> UpdateComment([FromBody] UpdateContentCommand rq)
 		{
 			_logger.LogInformation($" REST request to update  comment  : {rq}");
 			try
 			{
-				rq.LastModifiedDate = DateTime.UtcNow;
-				rq.LastModifiedBy = GetUsernameFromContext();
 				var value = await _mediator.Send(rq);
+				//rq.LastModifiedDate = DateTime.UtcNow;
+				//rq.LastModifiedBy = GetUsernameFromContext();
+				//var value = await _mediator.Send(rq);
 				return Ok(value);
 			}
 			catch (Exception ex)

@@ -11,7 +11,13 @@ namespace Post.Application.DTO.CommentDTO
     {
         public bool IsLike { get; set; }
         public Guid? Id { get; set; }
-     
+
 
     }
+    public class AddLike {
+        public Guid? Id { get; set; }
+        public int LikeCount { get; set; }
+
+    }
+
 }

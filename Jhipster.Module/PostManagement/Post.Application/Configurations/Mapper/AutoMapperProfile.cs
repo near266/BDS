@@ -61,6 +61,7 @@ namespace Post.Application.Configurations.Mapper
 				.ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
 			CreateMap<Comment, AddCommentCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
 			CreateMap<Comment, UpdateCommentCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<Comment, UpdateCommentCommand>();
 			#endregion
 		}
 	}

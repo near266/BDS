@@ -48,19 +48,18 @@ namespace Post.Infrastructure.Persistences.Repositories
 				if (qr.Contains(userId)==false)
                 {
 
-                    if (userId == null)
+                    if (userId != null)
                     {
-                        return qr;
-                    }
                     qr.Add(userId);
+				
                     var rqNotifi = new Notification();
                     rqNotifi.Content = $"{username} đã thích bình luận của bạn";
                     rqNotifi.UserId = u;
                     await CreateNotification(rqNotifi, cancellationToken);
+                    }
 
 
 
-                    return qr;
                 }
                 else
 				{
@@ -125,7 +124,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 				SalePostId = i.SalePostId,
 				UserId= i.UserId,
 				Rely=i.Rely,
-				LikeCount= i.Rely !=null ?  _databaseContext.Comment.Where(a=>a.Id ==i.Id&& i.Rely !=null).Select(a=>a.Rely).Count() : 0,
+				LikeCount= i.LikeCount,
 				Content=i.Content,
 				CreatedDate=i.CreatedDate,
 				LastModifiedDate=i.LastModifiedDate,
@@ -152,9 +151,22 @@ namespace Post.Infrastructure.Persistences.Repositories
 			if (check == null) throw new Exception("Fail");
 			else
 			{
+				check.LikeCount = check.Rely != null ? _databaseContext.Comment.Where(a => a.Id == check.Id && check.Rely != null).Select(a => a.Rely).Count() : 0;
+				rq.LikeCount=check.LikeCount;
 				_mapper.Map(rq, check);
 				return await _databaseContext.SaveChangesAsync(cancellationToken);
 			}
 		}
-	}
+
+        public  async Task<int> UpdateContent(Guid Id, string? content)
+        {
+            var check = await _databaseContext.Comment.FirstOrDefaultAsync(i => i.Id == Id);
+            if (check == null) throw new Exception("Fail");
+			check.Content = content;
+			check.LastModifiedBy=check.CreatedBy;
+			check.LastModifiedDate = DateTime.UtcNow;
+			_databaseContext.Comment.Update(check);
+			return await _databaseContext.SaveChangesAsync();
+        }
+    }
 }
