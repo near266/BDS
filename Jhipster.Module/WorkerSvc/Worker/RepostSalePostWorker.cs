@@ -30,6 +30,8 @@ namespace Worker
             while (!stoppingToken.IsCancellationRequested)
             {
                 await RepostSale(stoppingToken);
+                await Task.Delay(3000, stoppingToken);
+
             }
 
         }
