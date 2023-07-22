@@ -326,7 +326,7 @@ namespace Jhipster.Controllers
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        [HttpDelete("Delete")]
+        [HttpPost("Delete")]
         [Authorize(Roles = RolesConstants.ADMIN)]
         public async Task<IActionResult> DeleteUser([FromBody] DeleteUser login)
         {
