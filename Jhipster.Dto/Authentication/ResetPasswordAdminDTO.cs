@@ -15,4 +15,8 @@ namespace Jhipster.Dto.Authentication
         public string NewPassword { get; set; }
         public string RePassword { get; set; }
     }
+    public class DeleteUser
+    {
+        public string login { get; set; }
+        }
 }
