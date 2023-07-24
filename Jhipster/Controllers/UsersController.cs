@@ -63,15 +63,21 @@ namespace Jhipster.Controllers
             _configuration = configuration;
         }
 
-        /// <summary>
-        /// Tạo tài khoản (admin)
-        /// </summary>
-        /// <param name="userDto"></param>
-        /// <returns></returns>
-        /// <exception cref="BadRequestAlertException"></exception>
-        /// <exception cref="LoginAlreadyUsedException"></exception>
-        /// <exception cref="EmailAlreadyUsedException"></exception>
-        [HttpPost]
+		private string? GetUsernameFromContext()
+		{
+			return User.FindFirst(ClaimsTypeConst.Name)?.Value;
+		}
+
+
+		/// <summary>
+		/// Tạo tài khoản (admin)
+		/// </summary>
+		/// <param name="userDto"></param>
+		/// <returns></returns>
+		/// <exception cref="BadRequestAlertException"></exception>
+		/// <exception cref="LoginAlreadyUsedException"></exception>
+		/// <exception cref="EmailAlreadyUsedException"></exception>
+		[HttpPost]
         [ValidateModel]
         [Authorize(Roles = RolesConstants.ADMIN)]
         public async Task<ActionResult<User>> CreateUser([FromBody] UserDto userDto)
@@ -94,6 +100,7 @@ namespace Jhipster.Controllers
                 var maxCode = await _mediator.Send(new GetMaxCodeQuery());
                 customer.CustomerCode = CodeGenerator.GenerateCode(maxCode);
                 customer.Id = Guid.Parse(newUser.Id);
+                customer.CreatedBy = GetUsernameFromContext();
                 customer.CreatedDate = DateTime.Now;
                 customer.Avatar = newUser.ImageUrl;
                 customer.Status = true;
