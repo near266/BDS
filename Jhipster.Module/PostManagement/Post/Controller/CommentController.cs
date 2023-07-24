@@ -1,4 +1,5 @@
 ﻿using Jhipster.Crosscutting.Constants;
+using Jhipster.Infrastructure.Migrations;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -64,23 +65,42 @@ namespace Post.Controller
 				return StatusCode(500, ex.Message);
 			}
 		}
-        //[HttpPost("/comment/Like")]
-        //public async Task<IActionResult> LikeComment([FromBody] GetAllCommentQuery rq)
-        //{
-        //    _logger.LogInformation($"REST request to view comment : {rq}");
-        //    try
-        //    {
-        //        rq.UserId = Guid.Parse(GetUserIdFromConext());
-        //        var value = await _mediator.Send(rq);
-        //        return Ok(value);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError($"REST request to view comment fail  {ex.Message}");
-        //        return StatusCode(500, ex.Message);
-        //    }
-        //}
-        [Authorize(Roles = RolesConstants.USER)]
+		[Authorize(Roles = RolesConstants.USER)]
+
+		[HttpPost("/comment/Like")]
+		public async Task<ActionResult<bool>> LikeComment([FromBody] AddUserLikeCommand rq)
+		{
+			_logger.LogInformation($"REST request to view comment : {rq}");
+			try
+			{
+				bool result = false;
+				rq.userId = GetUserIdFromConext();
+				var value = await _mediator.Send(rq);
+				var up = new UpdateCommentCommand
+				{
+					Id = rq.Id,
+					Rely = value.rely,
+					LikeCount=value.Like
+				};
+				await _mediator.Send(up);
+
+				if (value?.rely?.Count() != 0)
+				{
+					result = true;
+				}
+				else
+				{
+					result = false;
+				}
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError($"REST request to view comment fail  {ex.Message}");
+				return StatusCode(500, ex.Message);
+			}
+		}
+		[Authorize(Roles = RolesConstants.USER)]
 		[HttpPost("/comment/add")]
 		public async Task<IActionResult> AddComment([FromBody] AddCommentCommand rq)
 		{
@@ -101,14 +121,15 @@ namespace Post.Controller
 		}
 		[Authorize(Roles = RolesConstants.USER)]
 		[HttpPut("/comment/update")]
-		public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentCommand rq)
+		public async Task<IActionResult> UpdateComment([FromBody] UpdateContentCommand rq)
 		{
 			_logger.LogInformation($" REST request to update  comment  : {rq}");
 			try
 			{
-				rq.LastModifiedDate = DateTime.UtcNow;
-				rq.LastModifiedBy = GetUsernameFromContext();
 				var value = await _mediator.Send(rq);
+				//rq.LastModifiedDate = DateTime.UtcNow;
+				//rq.LastModifiedBy = GetUsernameFromContext();
+				//var value = await _mediator.Send(rq);
 				return Ok(value);
 			}
 			catch (Exception ex)

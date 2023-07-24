@@ -13,11 +13,15 @@ namespace Post.Application.Commands.CommentC
 {
 	public class UpdateCommentCommand : IRequest<int>
 	{
-		public Guid Id { get; set; }
-		public int? IsLike { get; set; }	
+		public Guid? Id { get; set; }
+        [JsonIgnore]
+        public int? LikeCount { get; set; }	
 		public string? Content { get; set; }
 		public string? BoughtPostId { get; set; }
 		public string? SalePostId { get; set; }
+        [JsonIgnore]
+
+        public List<string>? Rely {  get; set; }
 
 		[JsonIgnore]
         public string? LastModifiedBy { get; set; }

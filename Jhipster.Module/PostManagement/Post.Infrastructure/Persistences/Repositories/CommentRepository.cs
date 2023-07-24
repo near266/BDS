@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Jhipster.Crosscutting.Utilities;
 using Jhipster.Infrastructure.Data;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Post.Application.Contracts;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Post.Infrastructure.Persistences.Repositories
@@ -27,19 +29,59 @@ namespace Post.Infrastructure.Persistences.Repositories
 			_databaseContext = databaseContext;
 			_mapper = mapper;
 		}
-
-        public async Task<List<string>> AddLike(string? userId, string? postId, string? boughtId)
+        public async Task<int> CreateNotification(Notification rq, CancellationToken cancellationToken)
         {
-			var qr = await _databaseContext.Comment.Where(i=>i.SalePostId==postId || i.BoughtPostId==boughtId).FirstOrDefaultAsync();
-		if(qr == null)
+            rq.IsSeen = false;
+            rq.CreatedDate = DateTime.Now;
+            await _databaseContext.Notification.AddAsync(rq);
+            return await _databaseContext.SaveChangesAsync(cancellationToken);
+        }
+        public async Task<LikeRequest> AddUserLike(Guid? Id, string? userId, CancellationToken cancellationToken)
+        {
+			var qr =  await _databaseContext.Comment.Where(i=>i.Id.Equals(Id)).Select(i=>i.Rely).FirstOrDefaultAsync();
+            var u = await _databaseContext.Comment.Where(i => i.Id.Equals(Id)).Select(i => i.UserId).FirstOrDefaultAsync();
+            var like = await _databaseContext.Comment.Where(i => i.Id.Equals(Id)).Select(i => i.LikeCount).FirstOrDefaultAsync();
+
+
+            var username = await  _databaseContext.Customers.Where(i=>i.Id.ToString()==userId).Select(i=>i.CustomerName).FirstOrDefaultAsync();
+               if (qr != null) 
+                {
+				if (qr.Contains(userId)==false)
+                {
+
+                    if (userId != null)
+                    {
+                    qr.Add(userId);
+						like += 1;
+
+                    var rqNotifi = new Notification();
+                    rqNotifi.Content = $"{username} đã thích bình luận của bạn";
+                    rqNotifi.UserId = u;
+                    await CreateNotification(rqNotifi, cancellationToken);
+                    }
+
+
+
+                }
+                else
+				{
+                    if (userId != null)
+                    {
+                        qr.Remove(userId);
+                        like -= 1;
+
+                    }
+                }
+            }
+
+			var res = new LikeRequest
 			{
-				throw new ArgumentNullException("not found");
-			}
-			List<string> user = new List<string>();
-			user.Add(userId);
-			_mapper.Map(qr.UserId, user);
-			 await _databaseContext.SaveChangesAsync();
-			return user;
+				rely = qr,
+                 Like =like
+            };
+
+
+            return res;
 		  
         }
 
@@ -62,7 +104,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 			
 		}
 
-		public async Task<PagedList<ComentDTO>> GetAllComment(string? Id, string? boughtpostId, string? salepostId, int Page, int PageSize,Guid? Userid)
+		public async Task<PagedList<ComentDTO>> GetAllComment(Guid? Id, string? boughtpostId, string? salepostId, int Page, int PageSize,Guid? Userid)
 		{
 			var query = _databaseContext.Comment.AsQueryable();
 
@@ -86,9 +128,12 @@ namespace Post.Infrastructure.Persistences.Repositories
             }
             var sQuery = query.OrderByDescending(i => i.CreatedDate).Select(i=>new ComentDTO
 			{
+				Id=i.Id,
 				BoughtPostId = i.BoughtPostId,
+				SalePostId = i.SalePostId,
 				UserId= i.UserId,
-				LikeCount=i.LikeCount,
+				Rely=i.Rely,
+				LikeCount= i.LikeCount,
 				Content=i.Content,
 				CreatedDate=i.CreatedDate,
 				LastModifiedDate=i.LastModifiedDate,
@@ -119,5 +164,16 @@ namespace Post.Infrastructure.Persistences.Repositories
 				return await _databaseContext.SaveChangesAsync(cancellationToken);
 			}
 		}
-	}
+
+        public  async Task<int> UpdateContent(Guid Id, string? content)
+        {
+            var check = await _databaseContext.Comment.FirstOrDefaultAsync(i => i.Id == Id);
+            if (check == null) throw new Exception("Fail");
+			check.Content = content;
+			check.LastModifiedBy=check.CreatedBy;
+			check.LastModifiedDate = DateTime.UtcNow;
+			_databaseContext.Comment.Update(check);
+			return await _databaseContext.SaveChangesAsync();
+        }
+    }
 }

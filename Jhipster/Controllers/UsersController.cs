@@ -326,14 +326,14 @@ namespace Jhipster.Controllers
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        [HttpDelete("{login}")]
+        [HttpPost("Delete")]
         [Authorize(Roles = RolesConstants.ADMIN)]
-        public async Task<IActionResult> DeleteUser([FromRoute] string login)
+        public async Task<IActionResult> DeleteUser([FromBody] DeleteUser login)
         {
             _log.LogDebug($"REST request to delete User : {login}");
-            var UserId = await _context.Users.FirstOrDefaultAsync(i => i.Login == login);
+            var UserId = await _context.Users.Where(i => i.Login==login.login).FirstOrDefaultAsync();
             var Id = Guid.Parse(UserId.Id);
-            await _userService.DeleteUser(login);
+            await _userService.DeleteUser(login.login);
             var checkCus = await _context.Customers.FirstOrDefaultAsync(i => i.Id == Id);
             _context.Customers.Remove(checkCus);
             var checkWallet = await _context.Wallets.FirstOrDefaultAsync(i => i.CustomerId == Id);
