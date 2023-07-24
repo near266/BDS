@@ -1235,12 +1235,14 @@ namespace Post.Infrastructure.Persistences.Repositories
 				Title = i.Title,
 				Image = i.Image,
 				descriptionForList = i.descriptionForList,
+				LastModifiedBy= i.LastModifiedBy,
+				LastModifiedDate= i.LastModifiedDate,
 			});
 			if (!string.IsNullOrEmpty(title))
 			{
 				data = data.Where(i => i.Title.ToLower().Trim().Contains(title.ToLower().Trim()));
 			}
-			var value = data.ToList();
+			var value = data.ToList().OrderByDescending(i => i.CreatedDate);
 			var reponse = new PagedList<NewPoDTO>();
 			reponse.TotalCount = data.Count();
 			reponse.Data = value.Skip(PageSize * (Page - 1))
