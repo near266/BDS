@@ -19,7 +19,8 @@ namespace Wallet.Application.Configurations.Mapper
         public AutoMapperProfile()
         {
             //Customer
-            CreateMap<Customer, Customer>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
+            CreateMap<Customer, Customer>().ReverseMap().ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
+				.ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<Customer, AddCustomerCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
             CreateMap<Customer, UpdateCustomerCommand>().ReverseMap().ForAllMembers(x => x.Condition((source, target, sourceValue) => sourceValue != null));
 
