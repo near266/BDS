@@ -13,7 +13,7 @@ namespace Wallet.Application.Persistences
         Task<int> Add(DepositRequest rq);
         Task<int> Update(Guid id, int status, CancellationToken cancellationToken);
         // Task<int> Delete(Guid rq);
-        Task<PagedList<DepositRequest>> GetByAdmin(int Page, int PageSize,string? UserName, DateTime? DateTo,DateTime? DateFrom);
+        Task<PagedList<DepositRequest>> GetByAdmin(int Page, int PageSize,string? UserName, DateTime? createDate, DateTime? DateTo,DateTime? DateFrom);
         Task<List<DepositRequest>> GetByUser(Guid Id);
     }
 }
