@@ -21,6 +21,10 @@ using Post.Application.Queries.NewPostQ;
 using MimeKit.Cryptography;
 using Post.Application.Commands.NotificationC;
 using Post.Shared.Enums;
+using AutoMapper;
+using Post.Application.DTO;
+using Jhipster.Crosscutting.Utilities;
+using Wallet.Application.Queries.CustomerQ;
 
 namespace Post.Controller
 {
@@ -34,14 +38,15 @@ namespace Post.Controller
         private readonly IMediator _mediator;
         private readonly IPostDbContext _context;
         private readonly IDistributedCache _cache;
-
-        public PostController(ILogger<PostController> logger, IDistributedCache cache, IConfiguration configuration, IMediator mediator, IPostDbContext context)
+        private readonly IMapper _mapper;
+        public PostController(ILogger<PostController> logger, IMapper mapper, IDistributedCache cache, IConfiguration configuration, IMediator mediator, IPostDbContext context)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _context = context;
+            _mapper = mapper;
         }
 
 
@@ -179,7 +184,7 @@ namespace Post.Controller
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        [Authorize(Roles = RolesConstants.USER)]
+       // [Authorize(Roles = RolesConstants.USER)]
         [HttpPost("/boughtpost/search")]
         public async Task<IActionResult> SearchBoughtPost([FromBody] ViewAllBoughtPostQuery rq)
         {
@@ -196,7 +201,17 @@ namespace Post.Controller
                     rq.UserId = null;
                 }
                 var res = await _mediator.Send(rq);
-                return Ok(res);
+                var value = _mapper.Map<PagedList<BoughtPostAdminDTO>>(res);
+                foreach (var item in value.Data)
+                {
+                    var checkUser = new ViewDetailCustomerQuery()
+                    {
+                        Id=Guid.Parse(item.UserId)
+                    };
+                    var Cus = await _mediator.Send(checkUser);
+                    item.AddressUser = Cus.Address;
+                }
+                return Ok(value);
             }
             catch (Exception ex)
             {
@@ -297,11 +312,11 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to update sale post : {rq}");
             try
             {
-                
+
                 rq.LastModifiedDate = DateTime.Now;
                 rq.LastModifiedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
-               
+
                 return Ok(res);
             }
             catch (Exception ex)
@@ -609,24 +624,24 @@ namespace Post.Controller
                 return StatusCode(500, ex.Message);
             }
         }
-            [Authorize(Roles = RolesConstants.ADMIN)]
-            [HttpPost("/newpost/add")]
-            public async Task<IActionResult> AddNewPost([FromBody] AddNewPostCommand rq)
+        [Authorize(Roles = RolesConstants.ADMIN)]
+        [HttpPost("/newpost/add")]
+        public async Task<IActionResult> AddNewPost([FromBody] AddNewPostCommand rq)
+        {
+            _logger.LogInformation($"Rest request to add new post : {rq}");
+            try
             {
-                _logger.LogInformation($"Rest request to add new post : {rq}");
-                try
-                {
-                    rq.CreatedDate = DateTime.Now;
-                    rq.CreatedBy = GetUsernameFromContext();
-                    var res = await _mediator.Send(rq);
-                    return Ok(res);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"REST request to add new post fail:{ex.Message}");
-                    return StatusCode(500, ex.Message);
-                }
+                rq.CreatedDate = DateTime.Now;
+                rq.CreatedBy = GetUsernameFromContext();
+                var res = await _mediator.Send(rq);
+                return Ok(res);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"REST request to add new post fail:{ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
+        }
         /// <summary>
         /// Chỉnh sửa tin tức
         /// </summary>
@@ -955,9 +970,9 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to update admin bought");
             try
             {
-				rq.LastModifiedDate = DateTime.Now;
-				rq.LastModifiedBy = GetUsernameFromContext();
-				var result = await _mediator.Send(rq);
+                rq.LastModifiedDate = DateTime.Now;
+                rq.LastModifiedBy = GetUsernameFromContext();
+                var result = await _mediator.Send(rq);
                 return Ok(result);
             }
             catch (Exception ex)
