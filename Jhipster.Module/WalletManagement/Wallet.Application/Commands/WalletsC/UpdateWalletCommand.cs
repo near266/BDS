@@ -52,7 +52,7 @@ namespace Wallet.Application.Commands.WalletsC
                 CreatedDate = DateTime.Now,
                 Walletamount = rq.CusAmountPromotion,
             };
-            his.Point = rq.CusAmount / 1000;
+            his.Point = rq.Amount / 1000;
             his.Title = $"Nạp tiền vào tài khoản chính";
             var res = await _tRepository.Add(his, cancellationToken);
             return await _repo.Update(obj, cancellationToken);
