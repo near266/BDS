@@ -32,7 +32,7 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             return await _appcontext.SaveChangesAsync();
         }
 
-        public async Task<PagedList<DepositRequest>> GetByAdmin(int Page, int PageSize, string? UserName, DateTime? DateTo, DateTime? DateFrom)
+        public async Task<PagedList<DepositRequest>> GetByAdmin(int Page, int PageSize, string? UserName, DateTime? createDate, DateTime? DateTo, DateTime? DateFrom)
         {
             var value = new PagedList<DepositRequest>();
             var data = _context.DepositRequests
@@ -41,6 +41,12 @@ namespace Wallet.Infrastructure.Persistences.Repositories
             {
                 data = data.Where(i => i.Customer.CustomerName.Contains(UserName));
             }
+            if (createDate != null)
+            {
+				var StartCreateDate = new DateTime(createDate.Value.Year, createDate.Value.Month, createDate.Value.Day  , 0, 0, 0);
+				var EndCreateDate = new DateTime(createDate.Value.Year, createDate.Value.Month, createDate.Value.Day  , 23, 59, 59);
+				data = data.Where(i => i.CreatedDate >= StartCreateDate && i.CreatedDate <= EndCreateDate);
+			}
             if (DateFrom != null && DateTo != null)
             {
                 data = data.Where(i => i.CreatedDate >= DateFrom && i.CreatedDate <= DateTo);

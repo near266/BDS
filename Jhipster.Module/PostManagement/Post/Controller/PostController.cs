@@ -955,7 +955,9 @@ namespace Post.Controller
             _logger.LogInformation($"REST request to update admin bought");
             try
             {
-                var result = await _mediator.Send(rq);
+				rq.LastModifiedDate = DateTime.Now;
+				rq.LastModifiedBy = GetUsernameFromContext();
+				var result = await _mediator.Send(rq);
                 return Ok(result);
             }
             catch (Exception ex)

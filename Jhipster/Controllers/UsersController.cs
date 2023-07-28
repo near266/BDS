@@ -63,15 +63,21 @@ namespace Jhipster.Controllers
             _configuration = configuration;
         }
 
-        /// <summary>
-        /// Tạo tài khoản (admin)
-        /// </summary>
-        /// <param name="userDto"></param>
-        /// <returns></returns>
-        /// <exception cref="BadRequestAlertException"></exception>
-        /// <exception cref="LoginAlreadyUsedException"></exception>
-        /// <exception cref="EmailAlreadyUsedException"></exception>
-        [HttpPost]
+		private string? GetUsernameFromContext()
+		{
+			return User.FindFirst(ClaimsTypeConst.Name)?.Value;
+		}
+
+
+		/// <summary>
+		/// Tạo tài khoản (admin)
+		/// </summary>
+		/// <param name="userDto"></param>
+		/// <returns></returns>
+		/// <exception cref="BadRequestAlertException"></exception>
+		/// <exception cref="LoginAlreadyUsedException"></exception>
+		/// <exception cref="EmailAlreadyUsedException"></exception>
+		[HttpPost]
         [ValidateModel]
         [Authorize(Roles = RolesConstants.ADMIN)]
         public async Task<ActionResult<User>> CreateUser([FromBody] UserDto userDto)
@@ -94,6 +100,7 @@ namespace Jhipster.Controllers
                 var maxCode = await _mediator.Send(new GetMaxCodeQuery());
                 customer.CustomerCode = CodeGenerator.GenerateCode(maxCode);
                 customer.Id = Guid.Parse(newUser.Id);
+                customer.CreatedBy = GetUsernameFromContext();
                 customer.CreatedDate = DateTime.Now;
                 customer.Avatar = newUser.ImageUrl;
                 customer.Status = true;
@@ -326,14 +333,14 @@ namespace Jhipster.Controllers
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        [HttpDelete("Delete/{login}")]
+        [HttpPost("Delete")]
         [Authorize(Roles = RolesConstants.ADMIN)]
-        public async Task<IActionResult> DeleteUser([FromRoute] string login)
+        public async Task<IActionResult> DeleteUser([FromBody] DeleteUser login)
         {
             _log.LogDebug($"REST request to delete User : {login}");
-            var UserId = await _context.Users.FirstOrDefaultAsync(i => i.Login == login);
+            var UserId = await _context.Users.Where(i => i.Login==login.login).FirstOrDefaultAsync();
             var Id = Guid.Parse(UserId.Id);
-            await _userService.DeleteUser(login);
+            await _userService.DeleteUser(login.login);
             var checkCus = await _context.Customers.FirstOrDefaultAsync(i => i.Id == Id);
             _context.Customers.Remove(checkCus);
             var checkWallet = await _context.Wallets.FirstOrDefaultAsync(i => i.CustomerId == Id);

@@ -67,7 +67,7 @@ namespace Wallet.Controller
             _logger.LogInformation($"REST request to update customer : {rq}");
             try
             {
-                rq.LastModifiedDate = DateTime.UtcNow;
+                rq.LastModifiedDate = DateTime.Now;
                 rq.LastModifiedBy = GetUsernameFromContext();
                 var res = await _mediator.Send(rq);
                 return Ok(res);
