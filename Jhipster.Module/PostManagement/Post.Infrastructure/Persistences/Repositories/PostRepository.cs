@@ -226,11 +226,14 @@ namespace Post.Infrastructure.Persistences.Repositories
 				return await _context.SaveChangesAsync(cancellationToken);
 			}
 		}
-		public async Task<BoughtPost> ViewDetailBoughtPost(string id)
+		public async Task<BoughtDetail> ViewDetailBoughtPost(string id)
 		{
 			var res = await _context.BoughtPosts.FirstOrDefaultAsync(i => i.Id == id);
 			if (res == null) throw new ArgumentException("Can not find!");
-			return res;
+			var map = _mapper.Map<BoughtDetail>(res);
+			var cusId= await _databaseContext.Customers.FirstOrDefaultAsync(i=>i.Id.Equals(Guid.Parse(res.UserId)));
+			map.AddressUser = cusId.Address;
+			return map;
 		}
 		#endregion
 

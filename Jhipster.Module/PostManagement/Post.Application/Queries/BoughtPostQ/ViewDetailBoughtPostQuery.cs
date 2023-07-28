@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Post.Application.Contracts;
+using Post.Application.DTO.SalePostDtos;
 using Post.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Post.Application.Queries.BoughtPostQ
 {
-    public class ViewDetailBoughtPostQuery : IRequest<BoughtPost>
+    public class ViewDetailBoughtPostQuery : IRequest<BoughtDetail>
     {
         public string Id { get; set; }
     }
-    public class ViewDetailBoughtPostQueryHandler : IRequestHandler<ViewDetailBoughtPostQuery, BoughtPost>
+    public class ViewDetailBoughtPostQueryHandler : IRequestHandler<ViewDetailBoughtPostQuery, BoughtDetail>
     {
         private readonly IPostRepository _Repository;
         private readonly IMapper _mapper;
@@ -24,7 +25,7 @@ namespace Post.Application.Queries.BoughtPostQ
             _mapper = mapper;
         }
 
-        public async Task<BoughtPost> Handle(ViewDetailBoughtPostQuery request, CancellationToken cancellationToken)
+        public async Task<BoughtDetail> Handle(ViewDetailBoughtPostQuery request, CancellationToken cancellationToken)
         {
             return await _Repository.ViewDetailBoughtPost(request.Id);
         }

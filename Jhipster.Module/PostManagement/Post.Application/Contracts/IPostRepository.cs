@@ -18,7 +18,7 @@ namespace Post.Application.Contracts
         Task<PagedList<BoughtPost>> SearchBoughtPost(string? Id, string? userid, string? title, string? createBy, string? ward, string? region, int? status, DateTime? createDate, DateTime? fromDate, DateTime? toDate, int Page, int PageSize);
         Task<PagedList<SearchBoughtPostDTO>> GetShowingBoughtPost(string? userid, string? keyword, double? fromPrice, double? toPrice,
             string? region, int Page, int PageSize);
-        Task<BoughtPost> ViewDetailBoughtPost(string id);
+        Task<BoughtDetail> ViewDetailBoughtPost(string id);
         Task<List<BoughtPost>> GetRandomBoughtPost(int randomCount, string? region);
 
         #endregion
