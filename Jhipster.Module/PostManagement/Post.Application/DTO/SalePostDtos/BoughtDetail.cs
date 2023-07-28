@@ -39,6 +39,11 @@ namespace Post.Application.DTO.SalePostDtos
         public DateTime? ApprovalDate { get; set; }
         public DateTime? ChangeDate { get; set; }
         public string? AddressUser { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        [MaxLength(100)]
+        public string? LastModifiedBy { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
 
     }
 }
