@@ -50,11 +50,13 @@ namespace Post.Controller
 			_logger.LogInformation($"REST request to view comment : {rq}");
 			try
 			{
-				if(rq.UserId != null)
+				if(GetUserIdFromConext()!=null)
 				{
+                rq.UserId = Guid.Parse(GetUserIdFromConext());
 
-				rq.UserId = Guid.Parse (GetUserIdFromConext());
-				}
+                }
+             
+
 				
 				var value = await _mediator.Send(rq);
 				return Ok(value);

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Jhipster.Crosscutting.Utilities;
+using Jhipster.Domain;
 using Jhipster.Infrastructure.Data;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
@@ -103,10 +104,24 @@ namespace Post.Infrastructure.Persistences.Repositories
 			}
 
 		}
-
+		public  int CountRely(Guid Id, string? userid)
+		{
+			var cmt = _databaseContext.Comment.Where(i=>i.Id == Id).FirstOrDefault();
+			var res = cmt.Rely.Contains(userid);
+			if (res == false)
+			{
+				return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
 		public async Task<PagedList<ComentDTO>> GetAllComment(Guid? Id, string? boughtpostId, string? salepostId, int Page, int PageSize, Guid? Userid)
 		{
 			var query = _databaseContext.Comment.AsQueryable();
+			var check = 2;
+			string? UserC;
 
 			if (Id != null)
 			{
@@ -124,8 +139,18 @@ namespace Post.Infrastructure.Persistences.Repositories
 			if (Userid == null)
 			{
 				query = query;
+				check = 2;
+
 
 			}
+			if (Userid != null)
+			{
+				check = 4;
+
+                
+			}
+
+             
 			var sQuery = query.OrderByDescending(i => i.CreatedDate).Select(i => new ComentDTO
 			{
 				Id = i.Id,
@@ -139,10 +164,12 @@ namespace Post.Infrastructure.Persistences.Repositories
 				LastModifiedDate = i.LastModifiedDate,
 				Avatar = _databaseContext.Customers.Where(a => a.Id.ToString() == i.UserId).Select(a => a.Avatar).FirstOrDefault(),
 				CustomerName = _databaseContext.Customers.Where(a => a.Id.ToString() == i.UserId).Select(a => a.CustomerName).FirstOrDefault(),
+				IsLike = check==2? 2 : _databaseContext.Comment.Where(a=> a.Id == i.Id).FirstOrDefault().Rely.Contains(Userid.ToString())==false? 0 : 1,
 
 
-			});
-			var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
+
+            });
+            var sQuery1 = await sQuery.Skip(PageSize * (Page - 1))
 										.Take(PageSize)
 										.ToListAsync();
 			var reslist = await sQuery.ToListAsync();

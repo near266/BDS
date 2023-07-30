@@ -20,6 +20,7 @@ namespace Post.Shared.Dtos
         public DateTime CreatedDate { get; set; }
 
         public DateTime? LastModifiedDate { get; set; }
+        public int IsLike { get; set; }    
 
 
     }
