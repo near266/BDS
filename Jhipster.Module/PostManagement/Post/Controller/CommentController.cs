@@ -110,6 +110,7 @@ namespace Post.Controller
 			try
 			{
 				rq.UserId = GetUserIdFromConext();
+				
 				rq.CreatedBy = GetUsernameFromContext();
 				rq.CreatedDate = DateTime.Now;	
 				var res = await _mediator.Send(rq);

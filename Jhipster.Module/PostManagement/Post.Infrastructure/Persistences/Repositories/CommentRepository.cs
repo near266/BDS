@@ -89,6 +89,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 		public async Task<int> CreateComment(Comment rq, CancellationToken cancellationToken)
 		{
 			rq.LikeCount = 0;
+			rq.Rely=new List<string>();
 			await _databaseContext.Comment.AddAsync(rq);
 			return await _databaseContext.SaveChangesAsync(cancellationToken);
 		}
@@ -104,19 +105,7 @@ namespace Post.Infrastructure.Persistences.Repositories
 			}
 
 		}
-		public  int CountRely(Guid Id, string? userid)
-		{
-			var cmt = _databaseContext.Comment.Where(i=>i.Id == Id).FirstOrDefault();
-			var res = cmt.Rely.Contains(userid);
-			if (res == false)
-			{
-				return 1;
-			}
-			else
-			{
-				return 0;
-			}
-		}
+
 		public async Task<PagedList<ComentDTO>> GetAllComment(Guid? Id, string? boughtpostId, string? salepostId, int Page, int PageSize, Guid? Userid)
 		{
 			var query = _databaseContext.Comment.AsQueryable();
